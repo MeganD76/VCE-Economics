@@ -263,7 +263,8 @@
 </div>
 
 <script>
-let _apiKey = "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";
+let _apiKey = "";  // Key managed by Cloudflare Worker
+const WORKER_URL = "https://vce-marker.megan-dyring.workers.dev";
 
 function saveKey() {
   var val = document.getElementById("key-input").value.trim();
@@ -880,14 +881,9 @@ async function submitQ(qid, lessonIdx) {
   var prompt = "Question (" + q.marks + " marks): " + q.text.replace(/<[^>]+>/g,"") + "\n\nStudent Answer (Attempt " + attemptNum + "): " + answer;
 
   try {
-    var resp = await fetch("https://api.anthropic.com/v1/messages", {
+    var resp = await fetch(WORKER_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": getKey(),
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-access": "true"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1000,
