@@ -203,7 +203,6 @@
 
   /* PRINT / PDF */
 
-  @media print { #key-widget { display: none !important; } }
 
   @media print {
     #entry, #results, .tips-row, .tip-panel, .checklist, .confidence-row, .conf-label,
@@ -265,23 +264,6 @@
 <script>
 let _apiKey = "";  // Key managed by Cloudflare Worker
 const WORKER_URL = "https://vce-marker.megan-dyring.workers.dev";
-
-function saveKey() {
-  var val = document.getElementById("key-input").value.trim();
-  if (!val) { alert("Please paste your API key first."); return; }
-  if (!val.startsWith("sk-ant-")) { alert("That doesn\'t look like a valid Anthropic key — it should start with sk-ant-"); return; }
-  _apiKey = val;
-  document.getElementById("key-widget").classList.add("unlocked");
-  document.getElementById("key-input").value = "sk-...saved";
-  document.getElementById("key-input").disabled = true;
-  document.getElementById("key-save-btn").textContent = "&#10003; Saved";
-  document.getElementById("key-save-btn").style.background = "var(--green)";
-  document.getElementById("key-status").textContent = "";
-}
-
-function getKey() {
-  return _apiKey;
-}
 
 
 const SYSTEM = `You are an expert VCE Economics teacher marking Unit 3 AOS2 student responses for a Victorian secondary school. You have deep knowledge of the VCAA Economics Study Design and extensive experience marking student work.
@@ -854,8 +836,6 @@ async function submitQ(qid, lessonIdx) {
   var ta = document.getElementById("ta-" + qid);
   if (!ta || !ta.value.trim()) { alert("Please write your answer before submitting."); return; }
   var answer = ta.value.trim();
-
-  if (!getKey()) { alert("Please enter your API key in the top-right corner before submitting."); if (btn) { btn.disabled = false; btn.textContent = "\u{1F4AC} Submit for Marking"; } return; }
 
   var q = null;
   for (var i = 0; i < LESSONS.length; i++) {
