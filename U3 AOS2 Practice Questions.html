@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VCE Economics — U3 AOS2 Practice Questions</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+  :root {
+    --green: #2d6a4f; --green-light: #52b788; --green-pale: #d8f3dc;
+    --accent: #e76f51; --accent-pale: #fde8e0;
+    --navy: #1b2a41; --slate: #4a5568; --bg: #f7f9f7;
+    --card: #ffffff; --border: #e2e8f0;
+    --gold: #f4a261; --gold-pale: #fff3e0;
+    --purple: #7c3aed; --purple-pale: #ede9fe;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "DM Sans", sans-serif; background: var(--bg); color: var(--navy); min-height: 100vh; }
+
+  /* ENTRY */
+  #entry { min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--green) 100%); padding:24px; }
+  .entry-card { background:white; border-radius:20px; padding:48px; max-width:520px; width:100%;
+    text-align:center; box-shadow:0 24px 60px rgba(0,0,0,0.2); }
+  .entry-card .badge { display:inline-block; background:var(--green-pale); color:var(--green);
+    font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;
+    padding:6px 14px; border-radius:20px; margin-bottom:16px; }
+  .entry-card h1 { font-family:"DM Serif Display",serif; font-size:32px; color:var(--navy);
+    line-height:1.2; margin-bottom:8px; }
+  .entry-card p { color:var(--slate); font-size:15px; margin-bottom:32px; line-height:1.6; }
+  .entry-card input { width:100%; padding:14px 18px; border:2px solid var(--border);
+    border-radius:10px; font-size:16px; font-family:"DM Sans",sans-serif;
+    margin-bottom:16px; outline:none; transition:border 0.2s; }
+  .entry-card input:focus { border-color:var(--green-light); }
+  .btn-start { width:100%; padding:16px; background:var(--green); color:white; border:none;
+    border-radius:10px; font-size:16px; font-weight:600; font-family:"DM Sans",sans-serif;
+    cursor:pointer; transition:all 0.2s; }
+  .btn-start:hover { background:#1f4d38; transform:translateY(-1px); }
+
+  /* MAIN */
+  #main { display:none; max-width:960px; margin:0 auto; padding:24px 16px 80px; }
+  .top-bar { display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:28px; padding-bottom:16px; border-bottom:2px solid var(--border); flex-wrap:wrap; gap:12px; }
+  .top-bar h2 { font-family:"DM Serif Display",serif; font-size:22px; color:var(--navy); }
+  .top-bar .student-info { font-size:13px; color:var(--slate); }
+  .progress-wrap { background:var(--border); border-radius:99px; height:8px; flex:1; min-width:100px; margin:0 16px; }
+  .progress-fill { background:var(--green-light); height:8px; border-radius:99px; transition:width 0.4s; }
+
+  /* LESSON TABS */
+  .lesson-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px; }
+  .lesson-tab { padding:8px 16px; border-radius:8px; border:2px solid var(--border);
+    background:white; font-size:13px; font-weight:500; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+  .lesson-tab.active { border-color:var(--green); background:var(--green); color:white; }
+  .lesson-tab.has-attempt { border-color:var(--green-light); color:var(--green); background:var(--green-pale); }
+  .lesson-tab:hover:not(.active) { border-color:var(--green-light); }
+
+  /* LESSON HEADER */
+  .lesson-header { background:linear-gradient(135deg,var(--navy),var(--green));
+    color:white; border-radius:14px; padding:24px 28px; margin-bottom:20px; }
+  .lesson-header .lnum { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.1em; opacity:0.7; margin-bottom:4px; }
+  .lesson-header h3 { font-family:"DM Serif Display",serif; font-size:22px; margin-bottom:6px; }
+  .lesson-header p { opacity:0.85; font-size:14px; line-height:1.5; }
+
+  /* LEVEL TABS inside lesson */
+  .level-tabs { display:flex; gap:0; margin-bottom:0; border-radius:12px 12px 0 0; overflow:hidden; border:2px solid var(--border); border-bottom:none; }
+  .level-tab { flex:1; padding:14px 20px; background:#f8fafc; border:none; cursor:pointer;
+    font-family:"DM Sans",sans-serif; font-size:14px; font-weight:500; color:var(--slate);
+    transition:all 0.2s; border-right:2px solid var(--border); display:flex; align-items:center; gap:8px; justify-content:center; }
+  .level-tab:last-child { border-right:none; }
+  .level-tab.active { background:white; color:var(--navy); font-weight:600; }
+  .level-tab.attempted { color:var(--green); }
+  .level-tab .tab-badge { font-size:10px; padding:2px 8px; border-radius:20px; font-weight:600; }
+  .level-tab .tab-badge.l1 { background:var(--green-pale); color:var(--green); }
+  .level-tab .tab-badge.l2 { background:var(--accent-pale); color:var(--accent); }
+  .level-tab .tab-badge.attempted { background:var(--green-pale); color:var(--green); }
+  .level-panel { background:white; border:2px solid var(--border); border-radius:0 0 14px 14px; padding:24px; display:none; }
+  .level-panel.active { display:block; }
+
+  /* STRETCH NUDGE */
+  .stretch-nudge { background:var(--purple-pale); border-left:4px solid var(--purple);
+    border-radius:10px; padding:14px 18px; margin-bottom:20px; }
+  .stretch-nudge.l1-nudge { background:var(--gold-pale); border-left-color:var(--gold); }
+  .stretch-nudge strong { display:block; font-size:13px; font-weight:700; margin-bottom:4px; }
+  .stretch-nudge.l1-nudge strong { color:#92400e; }
+  .stretch-nudge strong { color:var(--purple); }
+  .stretch-nudge p { font-size:13px; line-height:1.5; }
+  .stretch-nudge.l1-nudge p { color:#92400e; }
+  .stretch-nudge p { color:#5b21b6; }
+
+  /* DATA BOX */
+  .data-box { background:var(--gold-pale); border-left:4px solid var(--gold);
+    border-radius:10px; padding:14px 18px; margin-bottom:18px; font-size:13px; }
+  .data-box strong { color:var(--navy); font-weight:600; display:block; margin-bottom:8px; }
+  .data-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:4px 16px; margin-top:6px; }
+  .data-item { font-size:12px; color:var(--slate); }
+  .data-item b { color:var(--navy); }
+
+  /* QUESTION */
+  .q-text { font-size:15px; line-height:1.7; color:var(--navy); margin-bottom:16px; }
+  .q-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
+  .q-marks-badge { background:var(--navy); color:white; font-size:12px; font-weight:600;
+    padding:4px 12px; border-radius:20px; }
+  .kk-tag { font-size:11px; background:#f1f5f9; color:var(--slate); padding:3px 10px; border-radius:20px; font-weight:500; }
+
+  /* TIPS */
+  .tips-row { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .tip-btn { font-size:12px; padding:6px 14px; border-radius:20px; border:1.5px solid;
+    cursor:pointer; font-family:"DM Sans",sans-serif; font-weight:500; transition:all 0.2s; background:transparent; }
+  .tip-btn.content { border-color:var(--green-light); color:var(--green); }
+  .tip-btn.content:hover, .tip-btn.content.open { background:var(--green-pale); }
+  .tip-btn.process { border-color:var(--gold); color:#b45309; }
+  .tip-btn.process:hover, .tip-btn.process.open { background:var(--gold-pale); }
+  .tip-panel { display:none; border-radius:10px; padding:14px 16px; margin-bottom:14px; font-size:13px; line-height:1.6; }
+  .tip-panel.content { background:var(--green-pale); color:#1a3d2b; border-left:3px solid var(--green-light); }
+  .tip-panel.process { background:var(--gold-pale); color:#7c4a03; border-left:3px solid var(--gold); }
+  .tip-panel.show { display:block; }
+
+  /* CHECKLIST */
+  .checklist { background:#f8fafc; border-radius:10px; padding:14px 16px; margin-bottom:14px; }
+  .checklist .cl-title { font-size:11px; font-weight:700; color:var(--slate); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px; }
+  .checklist label { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--slate); margin-bottom:7px; cursor:pointer; line-height:1.4; }
+  .checklist input[type=checkbox] { margin-top:2px; accent-color:var(--green); flex-shrink:0; }
+
+  /* CONFIDENCE */
+  .conf-label { font-size:12px; color:var(--slate); margin-bottom:8px; }
+  .confidence-row { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .conf-btn { padding:7px 16px; border-radius:20px; border:1.5px solid var(--border);
+    font-size:12px; font-weight:500; cursor:pointer; background:white;
+    font-family:"DM Sans",sans-serif; transition:all 0.15s; }
+  .conf-btn.selected { border-color:var(--green); background:var(--green-pale); color:var(--green); }
+
+  /* TEXTAREA */
+  .q-textarea { width:100%; min-height:130px; padding:12px 16px; border:2px solid var(--border);
+    border-radius:10px; font-family:"DM Sans",sans-serif; font-size:14px; line-height:1.6;
+    color:var(--navy); resize:vertical; outline:none; transition:border 0.2s; margin-bottom:8px; }
+  .q-textarea:focus { border-color:var(--green-light); }
+  .word-hint { font-size:12px; color:var(--slate); margin-bottom:12px; }
+
+  /* SUBMIT BTN */
+  .btn-submit { padding:12px 28px; background:var(--green); color:white; border:none;
+    border-radius:10px; font-size:14px; font-weight:600; font-family:"DM Sans",sans-serif;
+    cursor:pointer; transition:all 0.2s; }
+  .btn-submit:hover { background:#1f4d38; }
+  .btn-submit:disabled { background:#94a3b8; cursor:not-allowed; }
+
+  /* ATTEMPTS */
+  .attempts-container { margin-top:20px; }
+  .attempt-block { border:2px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:16px; }
+  .attempt-header { background:#f8fafc; padding:12px 18px; display:flex; align-items:center; gap:12px;
+    border-bottom:1px solid var(--border); flex-wrap:wrap; }
+  .attempt-num { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--slate); }
+  .attempt-score { font-size:14px; font-weight:700; padding:4px 12px; border-radius:20px; }
+  .attempt-score.high { background:var(--green-pale); color:var(--green); }
+  .attempt-score.mid { background:var(--gold-pale); color:#b45309; }
+  .attempt-score.low { background:var(--accent-pale); color:var(--accent); }
+  .attempt-answer { padding:16px 18px; font-size:14px; color:var(--navy); line-height:1.7;
+    border-bottom:1px solid var(--border); white-space:pre-wrap; background:white; }
+  .attempt-feedback { padding:16px 18px; background:#fafbfc; }
+  .fb-section { margin-bottom:12px; }
+  .fb-section h5 { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px; }
+  .fb-section h5.good { color:var(--green); }
+  .fb-section h5.improve { color:var(--accent); }
+  .fb-section h5.mistake { color:#b45309; }
+  .fb-section ul { padding-left:18px; }
+  .fb-section li { font-size:13px; color:var(--slate); line-height:1.6; margin-bottom:4px; }
+  .fb-encouragement { background:var(--green-pale); border-radius:8px; padding:10px 14px;
+    font-size:13px; color:var(--green); font-style:italic; margin-bottom:12px; }
+  .model-reveal-btn { padding:8px 18px; background:var(--navy); color:white; border:none;
+    border-radius:8px; font-size:13px; font-weight:500; font-family:"DM Sans",sans-serif; cursor:pointer; }
+  .model-answer { display:none; background:white; border:2px solid var(--green-light);
+    border-radius:10px; padding:14px; font-size:13px; color:var(--navy); line-height:1.7; margin-top:10px; }
+  .model-answer.show { display:block; }
+  .loading-msg { padding:20px; text-align:center; color:var(--slate); font-size:14px; font-style:italic; }
+
+  /* RETRY */
+  .retry-section { padding:16px 18px; background:var(--purple-pale); border-top:2px solid var(--border); }
+  .retry-section p { font-size:13px; color:#5b21b6; font-weight:600; margin-bottom:8px; }
+  .retry-section textarea { width:100%; height:70px; padding:10px; border:1.5px solid #c4b5fd;
+    border-radius:8px; font-family:"DM Sans",sans-serif; font-size:13px; color:var(--navy);
+    resize:vertical; outline:none; margin-bottom:10px; background:white; }
+  .retry-btn { padding:9px 22px; background:var(--purple); color:white; border:none;
+    border-radius:8px; font-size:13px; font-weight:600; font-family:"DM Sans",sans-serif; cursor:pointer; }
+  .retry-btn:hover { background:#6d28d9; }
+
+  /* RESULTS */
+  #results { display:none; max-width:800px; margin:0 auto; padding:40px 16px 80px; }
+  .results-header { background:linear-gradient(135deg,var(--navy),var(--green));
+    color:white; border-radius:20px; padding:36px; text-align:center; margin-bottom:28px; }
+  .results-header h2 { font-family:"DM Serif Display",serif; font-size:32px; margin-bottom:8px; }
+  .results-big-score { font-family:"DM Serif Display",serif; font-size:72px; margin:12px 0; line-height:1; }
+  .results-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; margin-bottom:28px; }
+  .results-kk-card { background:white; border-radius:12px; padding:20px; border:2px solid var(--border); }
+  .results-kk-card h4 { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--slate); margin-bottom:6px; }
+  .results-kk-card p { font-size:13px; color:var(--navy); line-height:1.4; }
+  .results-kk-card .kk-score { font-size:22px; font-weight:700; color:var(--green); margin-top:6px; }
+  .btn-pdf { padding:14px 32px; background:var(--accent); color:white; border:none;
+    border-radius:10px; font-size:15px; font-weight:600; font-family:"DM Sans",sans-serif;
+    cursor:pointer; display:block; margin:0 auto 12px; }
+  .btn-pdf:hover { background:#c85a3a; }
+  .btn-back { padding:11px 24px; background:white; color:var(--navy); border:2px solid var(--border);
+    border-radius:10px; font-size:14px; font-weight:500; font-family:"DM Sans",sans-serif;
+    cursor:pointer; display:block; margin:0 auto 12px; }
+
+  /* PRINT / PDF */
+
+  @media print { #key-widget { display: none !important; } }
+
+  @media print {
+    #entry, #results, .tips-row, .tip-panel, .checklist, .confidence-row, .conf-label,
+    .lesson-tabs, .progress-wrap, .top-bar, .btn-submit, .retry-section,
+    .model-reveal-btn, .stretch-nudge, .level-tabs, .btn-pdf, .btn-back { display:none !important; }
+    .level-panel { display:block !important; border:none !important; padding:0 !important; }
+    .model-answer { display:block !important; }
+    body { background:white; font-size:12px; }
+    #main { display:block !important; padding:0; }
+    .attempt-block { page-break-inside:avoid; margin-bottom:12px; }
+    .lesson-header { background:#1b2a41 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    h1.print-title { display:block !important; font-size:18px; margin-bottom:4px; }
+    .print-meta { display:block !important; font-size:12px; color:#666; margin-bottom:16px; }
+  }
+  h1.print-title, .print-meta { display:none; }
+</style>
+</head>
+<body>
+
+
+<div id="entry">
+  <div class="entry-card" id="entry-card-inner">
+    <div class="badge">VCE Economics Unit 3</div>
+    <h1>AOS2 Practice Questions</h1>
+    <p>Aggregate Demand, Aggregate Supply &amp; the Macroeconomy. Choose Level 1 or Level 2 — or challenge yourself with both.</p>
+    <input type="text" id="nameInput" placeholder="Enter your full name to begin..." autocomplete="off">
+    <button class="btn-start" onclick="start()">Start Practice &#8594;</button>
+  </div>
+</div>
+
+<div id="main">
+  <h1 class="print-title" id="printTitle"></h1>
+  <div class="print-meta" id="printMeta"></div>
+  <div class="top-bar">
+    <div>
+      <div class="student-info" id="topName"></div>
+      <h2>U3 AOS2 Practice</h2>
+    </div>
+    <div class="progress-wrap"><div class="progress-fill" id="progressBar" style="width:0%"></div></div>
+    <button onclick="showResults()" style="padding:8px 18px;background:var(--navy);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;">Results &#8594;</button>
+  </div>
+  <div class="lesson-tabs" id="lessonTabs"></div>
+  <div id="lessonContent"></div>
+</div>
+
+<div id="results">
+  <div class="results-header">
+    <p id="resultsName"></p>
+    <h2>Your Results</h2>
+    <div class="results-big-score" id="totalScore"></div>
+    <p id="totalLabel"></p>
+  </div>
+  <div class="results-grid" id="kkGrid"></div>
+  <button class="btn-pdf" onclick="downloadPDF()">&#8659; Download PDF for Submission</button>
+  <button class="btn-back" onclick="backToQuestions()">&#8592; Back to Questions</button>
+  <button class="btn-back" onclick="clearState();location.reload()">&#8635; Start Again</button>
+</div>
+
+<script>
+let _apiKey = "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";
+
+function saveKey() {
+  var val = document.getElementById("key-input").value.trim();
+  if (!val) { alert("Please paste your API key first."); return; }
+  if (!val.startsWith("sk-ant-")) { alert("That doesn\'t look like a valid Anthropic key — it should start with sk-ant-"); return; }
+  _apiKey = val;
+  document.getElementById("key-widget").classList.add("unlocked");
+  document.getElementById("key-input").value = "sk-...saved";
+  document.getElementById("key-input").disabled = true;
+  document.getElementById("key-save-btn").textContent = "&#10003; Saved";
+  document.getElementById("key-save-btn").style.background = "var(--green)";
+  document.getElementById("key-status").textContent = "";
+}
+
+function getKey() {
+  return _apiKey;
+}
+
+
+const SYSTEM = `You are an expert VCE Economics teacher marking Unit 3 AOS2 student responses for a Victorian secondary school. You have deep knowledge of the VCAA Economics Study Design and extensive experience marking student work.
+
+ALL feedback must address the student directly using you/your. Never say "the student". Be warm, specific, and rigorous — acknowledge genuine effort while being precise about gaps.
+
+FEEDBACK STYLE (from teacher's own feedback samples):
+- Lead with encouragement when the student has made a genuine attempt
+- Use the structure: What you did well → What to improve → Quick scaffold (if needed) → Model answer
+- Be specific — never say "good explanation" without naming what was good about it
+- When a student has the right idea but wrong direction (e.g. cause/effect reversed), acknowledge the good thinking and correct the direction
+- Avoid saying "positively or negatively" — say "increase or decrease"
+- When a student only addresses one side of a two-sided question, acknowledge their side and prompt for the other
+- A "scaffold" (step-by-step guide to a better answer) is especially helpful for students who are close but missing key steps
+- Use terms like "ceteris paribus", "willingness and ability to supply", "derived demand for labour", "aggregate demand", "aggregate supply" — never "demand/supply" alone
+
+CONTENT KNOWLEDGE — U3 AOS2:
+
+CIRCULAR FLOW MODEL: Five sectors — households, businesses, government, financial institutions, external sector. Financial institutions (banks, credit unions, super funds) are the FINANCIAL sector — NOT the business sector. A common student error is to describe what the business sector does instead of the financial sector. Financial institutions receive SAVINGS from households (leakage) and lend these funds to businesses for INVESTMENT (injection). This maintains the flow of income and supports production and economic growth. Key correction: if a student describes "factors of production" flowing to financial institutions, they have confused the financial sector with the business sector — point this out clearly and redirect.
+
+AGGREGATE DEMAND (AD): AD = C + I + G + (X-M). Total expenditure on final Australian-made goods and services. Must always refer to AD and AS — never just "demand" or "supply". Do not refer to individual people — use "average incomes" not "all people's incomes". Factors: disposable income, interest rates, consumer confidence, business confidence, exchange rate, overseas growth rates.
+
+EXCHANGE RATE — KEY TEACHING POINT: Depreciation of AUD is ALSO a supply-side factor because it makes imported inputs more expensive for firms, increasing production costs and reducing AS over time. However, the impact on AD (via net exports) is always LARGER than the AS impact. If a student only discusses one side (e.g. only import prices rising, only export boost), credit what they have and ask for the other side. 
+
+For living standards with depreciation:
+- MATERIAL: Two sides required. Imports more expensive → purchasing power falls → material LS may decrease. BUT exports cheaper → more jobs → higher incomes → material LS may increase. Students commonly only show the negative import side — always prompt for the export/employment channel too.
+- NON-MATERIAL: Employment increases → less stress, more job security, greater social participation → non-material LS improves. Rising cost of living may increase financial stress → non-material LS falls. Both sides valuable. Non-material LS is about WELLBEING, MENTAL HEALTH, STRESS LEVELS, SOCIAL INCLUSION — not just "how many goods are available" (that is material LS). A common error is students defining non-material LS as satisfaction from goods — correct this.
+- Do NOT accept "purchasing power" as a substitute for "disposable income" — they are distinct concepts.
+
+EFFICIENT ALLOCATION OF RESOURCES & AS: 
+- Efficient allocation = resources (land, labour, capital) used to maximise output and minimise waste
+- Types of efficiency to reward if mentioned: technical efficiency (max output per unit of input), allocative efficiency (producing what society wants most), dynamic efficiency, inter-temporal efficiency
+- Key VCE phrase: "businesses become more willing and able to supply" — reward this; penalise "more goods in the market" as imprecise
+- Common student error: reversing the causation — saying "an increase in AS leads to efficient resource allocation" — correct this clearly: it is EFFICIENT ALLOCATION that ENABLES the increase in AS, not the reverse
+- Link must go: efficiency improves → productivity rises → production costs fall → willingness and ability to supply increases → AS increases → productive capacity expands
+
+PRODUCTIVE CAPACITY & SSEG:
+- An increase in AS allows the economy to grow WITHOUT inflationary pressures — this is the key link to SSEG
+- SSEG = highest rate of growth possible, consistent with strong employment growth, without running into inflationary, environmental or external pressures — target 3–3.5% real GDP p.a.
+- Students must define SSEG with the target rate on first mention
+- Infrastructure investment boosts productive capacity via improved capital quality, reduces transport costs, improves efficiency — but students sometimes describe it only as a G injection into AD (correct but incomplete for this type of question — must also show the AS/productive capacity effect)
+
+INCOME TAX & LABOUR FORCE PARTICIPATION:
+- This is BOTH a demand-side effect (disposable income → C → AD) AND a supply-side effect (lower marginal tax rates reduce disincentive to work → more people enter workforce → LFPR increases → AS increases)
+- Structure the answer: participation rate FIRST (AS effect), then growth (AD effect), then unemployment
+- Common error: students answer in wrong order or skip the participation rate AS-channel entirely
+- The participation rate effect: people previously disincentivised by high marginal tax rates (e.g. second income earners, those weighing childcare costs against after-tax income) become more willing to work
+
+MONETARY POLICY / INTEREST RATES: RBA cash rate → commercial bank lending rates → C falls (mortgage holders lose discretionary income) + I falls (business borrowing more expensive) → AD falls → downward pressure on real GDP and GPL. Must show at least TWO AD components affected. Higher rates also attract foreign capital → AUD appreciates → (X-M) may fall.
+
+INFLATION TYPES:
+- Demand inflation: AD grows faster than AS → GPL rises (occurs near productive capacity)
+- Cost inflation: production costs rise → firms pass on via higher prices → AS falls (can occur at any time)
+- Must use AD and AS terminology — never just "demand" caused inflation
+
+GOAL DEFINITIONS (define on FIRST mention only):
+- SSEG: highest rate of growth possible, consistent with strong employment growth, without running into inflationary, environmental or external pressures — 3–3.5% real GDP p.a.
+- Price Stability: maintaining CPI within 2–3% on average over time (NOT "stability of currency value" in terms of exchange rate — a common student error)
+- Full Employment: achieving NAIRU — approximately 4–4.25% unemployment. Note: unemployment currently near or below NAIRU means it is TOO LOW — increases in unemployment toward 4–4.25% would actually HELP achieve both full employment and price stability. This is counterintuitive but important.
+- External Stability: sustainable current account deficit and manageable levels of net foreign liabilities
+
+COMMON STUDENT ERRORS TO WATCH FOR AND CORRECT:
+1. Confusing financial sector with business sector in circular flow
+2. Only showing one side of depreciation effects (just imports or just exports)
+3. Defining non-material living standards as "satisfaction from goods" — it is WELLBEING/QUALITY OF LIFE
+4. Reversing cause and effect: "AS increases leads to efficient allocation" (wrong — efficiency ENABLES AS increase)
+5. Saying "demand/supply" instead of "aggregate demand/aggregate supply"
+6. Saying things will happen absolutely ("will") rather than conditionally ("likely to", "should")
+7. Not using ceteris paribus in cause-effect chains
+8. Missing the target rate when defining macroeconomic goals
+9. Saying things are "positive or negative" when they should say "increase or decrease"
+10. Describing the business cycle phases instead of AD/AS factors when asked about factors
+11. Using "people" instead of aggregate concepts — e.g. say "average incomes" not "people's incomes"
+12. Only addressing the short-run AD effect of tax cuts — missing the AS/participation rate channel
+13. Infrastructure investment described only as a G injection (AD) without the productive capacity/AS effect
+14. Price stability goal confused with "stability of the AUD exchange rate" — completely different concepts
+
+MARKING RULES:
+1. Ceteris paribus / "all else remaining equal" required in cause-effect chains (3+ mark questions)
+2. Use "likely/should" not "will" — deduct if absent on 3+ mark questions
+3. Full goal definitions with target rate required on FIRST mention
+4. Both MATERIAL and NON-MATERIAL living standards required where asked — missing one = significant mark loss
+5. Purchasing power ≠ disposable income
+6. No circular reasoning — assertions without mechanisms score 0 for that point
+7. Full sentences — no arrows, symbols, dot points
+8. Describe trend = DUDDS (Direction, Units, Data, Dates, So-what)
+9. Must identify which AD component is affected (C, I, G, X-M)
+10. AS questions must link through to productive capacity
+11. For living standards: material = access to goods/services, income, purchasing power; non-material = health, environment, work-life balance, crime, stress, job security, social participation
+
+FEEDBACK JSON FORMAT — always return this exact structure:
+{
+  "score": <integer>,
+  "maxScore": <integer>,
+  "whatWorked": ["You correctly...", "Your explanation of... was strong because..."],
+  "improvements": ["Your answer would be stronger if you...", "You need to..."],
+  "commonMistakes": ["specific error found, or empty string if none"],
+  "modelAnswer": "Full A-grade model answer in complete sentences, properly structured, using correct VCE terminology",
+  "encouragement": "One direct, specific, encouraging sentence to the student — reference something specific they did"
+}
+
+Award middle marks for partial understanding. Never award full marks unless ALL criteria clearly met. Be rigorous but supportive — the goal is improvement, not just evaluation.`;
+
+const DATA_BOX_HTML = "<div class=\"data-box\"><strong>&#128200; Current Economic Data (2025-26)</strong><div class=\"data-grid\"><div class=\"data-item\"><b>Real GDP growth:</b> ~1.0% p.a. (target: 3-3.5%)</div><div class=\"data-item\"><b>CPI Inflation:</b> ~3.5% (target: 2-3%)</div><div class=\"data-item\"><b>Unemployment:</b> ~4.1% (NAIRU: ~4-4.25%)</div><div class=\"data-item\"><b>RBA Cash Rate:</b> 4.10%</div><div class=\"data-item\"><b>AUD/USD:</b> ~0.63 (from ~0.70 in 2022)</div><div class=\"data-item\"><b>Budget:</b> deficit ~-$28.5b (2025-26)</div></div></div>";
+
+const KK_MAP = {
+  "KK1": "Circular flow & AD factors",
+  "KK2": "Exchange rate & international competitiveness",
+  "KK3": "Productive efficiency & AS",
+  "KK4": "Productive capacity & long-run growth",
+  "KK5": "Balanced AD/AS & macroeconomic goals",
+  "KK6": "Fiscal/demand-side policy",
+  "KK7": "Monetary policy & interest rates"
+};
+
+const LESSONS = [
+  {
+    id: "L1",
+    title: "Lesson 1 — Circular Flow & Financial Institutions",
+    desc: "How financial institutions act as intermediaries between leakages (savings) and injections (investment) to influence the level of aggregate demand.",
+    showData: false,
+    qs: [
+      {
+        id: "L1a",
+        level: "Level 1",
+        marks: 3,
+        kk: ["KK1"],
+        text: "Explain the role of financial institutions in the five-sector circular flow model of income and how they influence the level of aggregate demand.<br><em>Note: This question uses the financial sector as the example — think about how you would adapt this answer for the government sector, external sector or household sector too.</em>",
+        hint: "&#128161; CONTENT TIP — Include: (1) Define financial institutions and their role as intermediaries in the circular flow. (2) Identify the leakage they handle (savings/S) and the injection they generate (investment/I). (3) Explain how lending decisions affect the Investment (I) component of AD = C+I+G+(X-M). Mention interest rates as the mechanism.",
+        process: "&#128295; PROCESS — Explain chain (3 marks):<br>&#9312; Define financial institutions + their role as intermediaries (savings &#8594; loans)<br>&#9313; Name the leakage (savings) and the injection (investment/lending) — link to circular flow<br>&#9314; Explain HOW this affects a component of AD (Investment, I) and therefore total AD<br>&#9888;&#65039; Common error: Don't just say 'they channel savings to investment' — explain WHY this changes AD and what happens to economic activity as a result."
+      },
+      {
+        id: "L1b",
+        level: "Level 2",
+        marks: 4,
+        kk: ["KK1"],
+        text: "The ABS reported that total household deposits in Australian financial institutions increased from $1.1 trillion in 2020 to $1.5 trillion in 2023.<br><br>Describe this trend and explain how financial institutions may influence the level of aggregate demand through their role in the circular flow model.",
+        hint: "&#128161; CONTENT TIP — Part 1 (Describe): Use DUDDS — Direction (increased), Units ($ trillion), Data ($1.1T to $1.5T), Dates (2020-2023), So-what (significant rise of $400 billion in savings). Part 2 (Explain): Financial institutions lend these deposits out &#8594; more funds available for investment lending &#8594; I component of AD rises. Ceteris paribus, rising savings + lending = more injections relative to leakages &#8594; AD increases.",
+        process: "&#128295; PROCESS — Describe + Explain (4 marks):<br>&#9312; DESCRIBE: Direction + Units + Data + Dates + So-what (DUDDS) — 1-2 marks<br>&#9313; DEFINE: What role do financial institutions play as intermediaries?<br>&#9314; MECHANISM: How do they convert these deposits into injections? (lending &#8594; lower interest rates &#8594; more borrowing &#8594; Investment rises)<br>&#9315; LINK to AD component (I) and final effect on AD &#8594; economic growth<br>&#9888;&#65039; Common error: Saying 'more savings is bad' without explaining the lending channel. Also: must use 'ceteris paribus' and 'likely/should'."
+      }
+    ]
+  },
+  {
+    id: "L2",
+    title: "Lesson 2 — Exchange Rate & Competitiveness",
+    desc: "How changes in the AUD exchange rate affect international competitiveness, aggregate demand, and living standards.",
+    showData: true,
+    qs: [
+      {
+        id: "L2a",
+        level: "Level 1",
+        marks: 3,
+        kk: ["KK2"],
+        text: "Explain how a depreciation of Australia's exchange rate may affect international competitiveness and economic growth.",
+        hint: "&#128161; CONTENT TIP — Define depreciation (fall in AUD value relative to other currencies). Then: depreciation &#8594; Australian exports become relatively cheaper for foreigners &#8594; X increases. Imports become relatively more expensive &#8594; M decreases. Net exports (X-M) increase &#8594; this is a component of AD &#8594; AD increases &#8594; real GDP increases (economic growth). Ceteris paribus.",
+        process: "&#128295; PROCESS — Explain chain (3 marks):<br>&#9312; Define depreciation of exchange rate<br>&#9313; Effect on exports (X) and imports (M) — use the word 'relatively'<br>&#9314; Link to AD component (X-M) &#8594; AD shift &#8594; real GDP / economic growth<br>&#9888;&#65039; Common error: Just saying 'it makes us more competitive' without explaining WHY (relatively cheaper for foreigners). Also: be careful with direction — depreciation INCREASES our competitiveness, don't reverse this."
+      },
+      {
+        id: "L2b",
+        level: "Level 2",
+        marks: 4,
+        kk: ["KK2"],
+        text: "The Australian dollar (AUD) has depreciated from approximately USD 0.70 in 2022 to approximately USD 0.63 in 2025.<br><br>Describe this trend and explain how this depreciation of the exchange rate may influence material and non-material living standards.",
+        hint: "&#128161; CONTENT TIP — Describe: DUDDS (depreciated / AUD-USD / 0.70 to 0.63 / 2022-2025 / significant fall of ~10%). Then for living standards: MATERIAL: imports more expensive &#8594; purchasing power of households falls (can afford fewer imported goods) &#8594; material living standards may fall. But if exporters benefit and employment rises, incomes rise &#8594; material may improve. NON-MATERIAL: if more employment, stress from unemployment falls &#8594; non-material improves. But higher import prices = cost of living pressures &#8594; stress increases. Both sides needed.",
+        process: "&#128295; PROCESS — Describe + Living Standards (4 marks):<br>&#9312; DESCRIBE the trend: DUDDS — direction, units, data points, dates, significance<br>&#9313; Define material living standards (access to goods/services, purchasing power)<br>&#9314; Explain how depreciation affects material LS (import prices &#8593; &#8594; purchasing power &#8595;, but employment &#8593; &#8594; incomes &#8593;)<br>&#9315; Define non-material living standards (health, environment, work-life balance, stress)<br>&#9316; Explain non-material effect (employment &#8593; = less stress; cost of living &#8593; = more financial stress)<br>&#9888;&#65039; Must address BOTH material AND non-material — omitting one loses significant marks."
+      }
+    ]
+  },
+  {
+    id: "L3",
+    title: "Lesson 3 — Productive Efficiency & Aggregate Supply",
+    desc: "How improvements in productive efficiency affect aggregate supply, productive capacity, and the achievement of macroeconomic goals.",
+    showData: false,
+    qs: [
+      {
+        id: "L3a",
+        level: "Level 1",
+        marks: 4,
+        kk: ["KK3"],
+        text: "Explain how improvements in productive efficiency may increase Australia's productive capacity and aggregate supply.",
+        hint: "&#128161; CONTENT TIP — Define productive efficiency (producing maximum output from given inputs at lowest possible average cost). Then: efficiency improvements &#8594; production costs fall &#8594; businesses are more willing and able to supply at every price level &#8594; AS increases (shifts right) &#8594; productive capacity (maximum real GDP) expands. Link to the AS components: quality/efficiency of resources. Use 'ceteris paribus'.",
+        process: "&#128295; PROCESS — Explain AS chain (4 marks):<br>&#9312; Define productive efficiency precisely<br>&#9313; Mechanism: HOW does efficiency improvement affect production costs?<br>&#9314; Link to businesses' willingness AND ability to supply (AS increases / shifts right)<br>&#9315; Link to productive capacity (maximum output economy can produce)<br>&#9316; Briefly note macroeconomic benefit (supports SSEG, low inflation)<br>&#9888;&#65039; Common error: Saying 'AS increases so growth increases' without explaining HOW. Must show the chain: efficiency &#8594; costs &#8594; supply willingness &#8594; AS shift &#8594; productive capacity."
+      },
+      {
+        id: "L3b",
+        level: "Level 2",
+        marks: 4,
+        kk: ["KK3", "KK4"],
+        text: "The Australian Government committed $7 billion to the North East Link infrastructure project in Melbourne.<br><br>Describe how investment in transport infrastructure can boost productive capacity and improve non-material living standards of Australians.",
+        hint: "&#128161; CONTENT TIP — Infrastructure investment: improves quality of capital resources &#8594; businesses can move goods/services more efficiently &#8594; reduces production costs &#8594; AS increases &#8594; productive capacity expands. For non-material living standards: reduced commute times &#8594; better work-life balance; reduced transport costs &#8594; less financial stress; improved connectivity &#8594; better access to healthcare, employment. May also reduce congestion &#8594; environmental quality improves.",
+        process: "&#128295; PROCESS — Describe mechanism + Non-material LS (4 marks):<br>&#9312; Identify the type of resource improved (capital/infrastructure quality)<br>&#9313; Mechanism: infrastructure &#8594; reduced production/transport costs &#8594; AS increases &#8594; productive capacity expands<br>&#9314; Define non-material living standards<br>&#9315; At least TWO specific non-material living standards effects (commute time, work-life balance, access to services, environmental quality, financial stress)<br>&#9888;&#65039; Common error: Conflating material and non-material. Non-material = quality-of-life indicators, NOT just income or purchasing power."
+      }
+    ]
+  },
+  {
+    id: "L4",
+    title: "Lesson 4 — Productive Capacity & Long-run Growth",
+    desc: "The relationship between productive capacity, aggregate supply, and Australia's long-term rate of strong and sustainable economic growth.",
+    showData: true,
+    qs: [
+      {
+        id: "L4a",
+        level: "Level 1",
+        marks: 3,
+        kk: ["KK4"],
+        text: "Explain how improvements in productive capacity may increase Australia's long-term rate of economic growth.",
+        hint: "&#128161; CONTENT TIP — Define productive capacity (maximum level of real GDP achievable when all resources are fully employed). Then: increased productive capacity &#8594; shifts AS right &#8594; economy can produce more output without hitting supply constraints &#8594; reduces inflation pressures at any given level of AD &#8594; allows real GDP to grow sustainably over time. This is the key to SSEG (3-3.5% p.a.) without triggering demand or cost inflation.",
+        process: "&#128295; PROCESS — Explain long-run growth chain (3 marks):<br>&#9312; Define productive capacity (not just 'potential output' — be precise)<br>&#9313; Mechanism: HOW does increased capacity allow more growth? (AS shifts right &#8594; economy can meet more AD without inflation)<br>&#9314; Link to SSEG goal — what target? Why is non-inflationary growth better long-run?<br>&#9888;&#65039; Common error: Mixing up short-run AD-driven growth vs long-run AS/capacity-driven growth. This question is about LONG-TERM — so focus on the supply side."
+      },
+      {
+        id: "L4b",
+        level: "Level 2",
+        marks: 4,
+        kk: ["KK4", "KK5"],
+        text: "Australia's real GDP grew by 2.1% in 2023, below the government's target rate for strong and sustainable economic growth.<br><br>Describe how an increase in aggregate supply may increase Australia's productive capacity and contribute to stronger long-term economic growth and the achievement of the goal of strong and sustainable economic growth (SSEG) and improved living standards.",
+        hint: "&#128161; CONTENT TIP — Describe: GDP grew 2.1% in 2023, below 3-3.5% SSEG target (under-performance). Then: AS increase &#8594; productive capacity expands &#8594; economy can sustain higher growth without inflationary pressures &#8594; real GDP growth can move toward 3-3.5% target. For living standards: more jobs (material LS), better wages (material), less unemployment stress (non-material). Define SSEG on first mention.",
+        process: "&#128295; PROCESS — Contextual analyse (4 marks):<br>&#9312; Reference data: 2.1% GDP growth, note it is below the SSEG target<br>&#9313; DEFINE SSEG with target rate (3-3.5% real GDP p.a.)<br>&#9314; Mechanism: AS increase &#8594; productive capacity &#8594; sustainable non-inflationary growth<br>&#9315; Link to SSEG achievement and living standards (material AND non-material)<br>&#9888;&#65039; Must define SSEG with the exact target. Must link AS to productive capacity explicitly, not just say 'AS increases so growth increases'."
+      }
+    ]
+  },
+  {
+    id: "L5",
+    title: "Lesson 5 — Balanced AD/AS Growth & Goals",
+    desc: "Why balanced growth in aggregate demand and aggregate supply is essential for achieving low inflation and sustainable economic growth simultaneously.",
+    showData: true,
+    qs: [
+      {
+        id: "L5a",
+        level: "Level 1",
+        marks: 3,
+        kk: ["KK5"],
+        text: "Explain why balanced growth in aggregate demand and aggregate supply is important for achieving low inflation and sustainable economic growth.",
+        hint: "&#128161; CONTENT TIP — If AD > AS: demand inflation (AD exceeds productive capacity &#8594; prices rise above 2-3% target). If AS > AD: deflationary pressures, risk of recession (prices fall, growth contracts). When both grow together at similar rates: price level remains stable (2-3%), real GDP grows steadily (3-3.5%), employment stays near NAIRU. Balanced growth = achieving multiple goals simultaneously. This is why SSEG specifies 'without running into inflationary pressures'.",
+        process: "&#128295; PROCESS — Explain balance (3 marks):<br>&#9312; Explain what happens when AD grows FASTER than AS (demand inflation &#8594; misses price stability goal)<br>&#9313; Explain what happens when AS grows FASTER than AD (deflation risk, lower growth &#8594; misses SSEG)<br>&#9314; Explain why BALANCE means both goals achieved simultaneously<br>&#9888;&#65039; Common error: Only explaining one side (e.g. only AD too high). Must show both sides to get full marks."
+      },
+      {
+        id: "L5b",
+        level: "Level 2",
+        marks: 4,
+        kk: ["KK3", "KK5"],
+        text: "Severe weather conditions have affected Australia throughout the summer, including floods in Queensland and NSW.<br><br>Outline the likely effect of these events on aggregate supply and inflation.",
+        hint: "&#128161; CONTENT TIP — Natural disasters (floods) = negative supply shock. Floods destroy productive capacity (farmland, infrastructure, capital) &#8594; quality and quantity of resources decreases &#8594; production costs rise (damaged equipment, supply chain disruption) &#8594; businesses less willing and able to supply &#8594; AS decreases (shifts left) &#8594; productive capacity falls. For inflation: AS decreases while AD unchanged &#8594; cost inflation (businesses pass on higher costs via higher prices) &#8594; CPI rises above 2-3% target &#8594; price stability harder to achieve.",
+        process: "&#128295; PROCESS — Outline supply shock (4 marks):<br>&#9312; Identify this as a negative supply-side shock / climatic condition affecting AS<br>&#9313; Mechanism: floods &#8594; resource destruction/disruption &#8594; production costs rise &#8594; AS decreases (shifts left)<br>&#9314; Productive capacity falls (economy's maximum output reduced)<br>&#9315; Inflation impact: cost inflation — AS falls but AD unchanged &#8594; GPL rises &#8594; risk of exceeding 2-3% CPI target<br>&#9888;&#65039; Be specific: this is COST inflation (supply-side), not demand inflation. Distinguish clearly."
+      }
+    ]
+  },
+  {
+    id: "L6",
+    title: "Lesson 6 — Income Tax & Aggregate Demand",
+    desc: "How changes in income tax affect household disposable income, consumption, labour force participation, and multiple macroeconomic goals.",
+    showData: true,
+    qs: [
+      {
+        id: "L6a",
+        level: "Level 1",
+        marks: 3,
+        kk: ["KK6"],
+        text: "Explain how a decrease in income taxes may influence household consumption and aggregate demand.",
+        hint: "&#128161; CONTENT TIP — Decrease in income tax &#8594; household disposable income (after-tax income) increases &#8594; households have more money available to spend &#8594; Consumption (C) — the largest component of AD — increases &#8594; AD = C+I+G+(X-M) increases (AD shifts right) &#8594; higher level of real GDP &#8594; short-term economic growth. Use 'ceteris paribus' and 'likely/should'.",
+        process: "&#128295; PROCESS — Explain AD chain (3 marks):<br>&#9312; Define 'income tax' and what 'decrease' means for households<br>&#9313; Effect on disposable income (define this: after-tax income)<br>&#9314; Link to Consumption (C) component of AD = C+I+G+(X-M)<br>&#9315; AD shift and effect on real GDP (economic growth)<br>&#9888;&#65039; Common error: Skipping the 'disposable income' step. Must show: tax falls &#8594; disposable income rises &#8594; consumption rises &#8594; AD rises. Also: use the AD equation explicitly."
+      },
+      {
+        id: "L6b",
+        level: "Level 2",
+        marks: 6,
+        kk: ["KK6", "KK5"],
+        text: "In the 2024-25 Federal Budget the government announced changes to Stage 3 income tax cuts, increasing disposable income for many households.<br><br>Explain how this change may influence:<br>&bull; Labour force participation<br>&bull; Economic growth<br>&bull; The unemployment rate.",
+        hint: "&#128161; CONTENT TIP — Structure answer in THREE parts. LABOUR FORCE PARTICIPATION: Lower marginal tax rates reduce disincentive to work &#8594; people previously deterred by high tax rates (e.g. second income earners, those weighing childcare costs against after-tax income) are now more likely to enter the workforce &#8594; labour force participation rate increases &#8594; this is also an AS effect (more labour quantity). ECONOMIC GROWTH: More disposable income &#8594; C rises &#8594; AD rises &#8594; real GDP grows (short-term AD effect). Also more workers &#8594; more productive capacity (AS effect). UNEMPLOYMENT: Higher AD &#8594; businesses notice rising demand &#8594; expand production &#8594; derived demand for labour increases &#8594; employment rises &#8594; unemployment rate falls.",
+        process: "&#128295; PROCESS — Three-part structured response (6 marks):<br>&#9312; Address each dot point in ORDER — participation, then growth, then unemployment<br>&#9313; PARTICIPATION: lower marginal tax &#8594; work disincentive reduced &#8594; more people enter workforce &#8594; LFPR rises<br>&#9314; GROWTH: disposable income &#8594; C &#8594; AD &#8594; real GDP &#8594; SSEG (define with target)<br>&#9315; UNEMPLOYMENT: AD &#8594; businesses expand &#8594; derived demand for labour &#8594; employment &#8593; &#8594; unemployment &#8595; toward NAIRU<br>&#9316; Use ceteris paribus AND likely/should throughout<br>&#9888;&#65039; Must answer ALL THREE dot points with equal depth. Missing one = max 4/6. No definition of SSEG or NAIRU = lose marks on those parts."
+      }
+    ]
+  },
+  {
+    id: "L7",
+    title: "Lesson 7 — Interest Rates & Monetary Policy",
+    desc: "The effect of RBA cash rate changes on aggregate demand, and the distinction between domestic and global demand-side factors.",
+    showData: true,
+    qs: [
+      {
+        id: "L7a",
+        level: "Level 1",
+        marks: 3,
+        kk: ["KK7"],
+        text: "As of March 2026, Australia's 'Big Four' banks — ANZ, CommBank, NAB, and Westpac — predict the RBA will hike the cash rate to 4.35% by May 2026 to combat persistent inflation.<br><br>Describe the impact this increase is likely to have on Aggregate Demand.",
+        hint: "&#128161; CONTENT TIP — RBA increases cash rate &#8594; commercial banks increase lending rates (mortgage rates, business loan rates) &#8594; two effects: (1) Consumption (C) falls: households with mortgages have less discretionary income &#8594; less spending on goods/services; (2) Investment (I) falls: borrowing more expensive for businesses &#8594; less business investment spending. Both C and I fall &#8594; AD = C+I+G+(X-M) decreases (AD shifts left) &#8594; downward pressure on real GDP growth and the general price level (GPL). Also: higher rates may attract foreign investment &#8594; AUD appreciates &#8594; (X-M) may fall too.",
+        process: "&#128295; PROCESS — Monetary policy transmission (3 marks):<br>&#9312; Cash rate rise &#8594; commercial lending rates rise (transmission mechanism)<br>&#9313; Effect on Consumption (C) — mortgage holders, discretionary income<br>&#9314; Effect on Investment (I) — business borrowing costs<br>&#9315; Combined: AD falls (specify at least TWO components) &#8594; effect on real GDP and GPL<br>&#9888;&#65039; Common error: Only linking to ONE component of AD. Must show at least two. Also: cash rate affects commercial rates — don't skip this transmission step."
+      },
+      {
+        id: "L7b",
+        level: "Level 2",
+        marks: 4,
+        kk: ["KK1", "KK7"],
+        text: "GBY — Explain one domestic demand-side factor and one global demand-side factor that may have influenced aggregate demand over the past two years.",
+        hint: "&#128161; CONTENT TIP — DOMESTIC factor example: RBA cash rate increases (2022-2024 from 0.1% to 4.35%) &#8594; higher interest rates &#8594; C and I fall &#8594; AD decreases &#8594; downward pressure on growth and inflation. OR: Stage 3 tax cuts &#8594; disposable income rises &#8594; C rises &#8594; AD increases. GLOBAL factor example: Slowdown in Chinese economic growth &#8594; reduced demand for Australian exports (iron ore, coal, LNG) &#8594; X falls &#8594; AD = C+I+G+(X-M) falls &#8594; downward pressure on economic growth. OR: US/global inflation and rate rises affecting business confidence and investment globally.",
+        process: "&#128295; PROCESS — Two-factor structured explain (4 marks):<br>&#9312; DOMESTIC factor: name it, describe what happened (with data if possible), link to AD component, final effect on AD<br>&#9313; GLOBAL factor: name it, describe what happened, link to AD component (likely X-M), final effect on AD<br>&#9314; Each factor should follow: Factor &#8594; Change in AD component &#8594; AD shift &#8594; Macroeconomic impact<br>&#9888;&#65039; Must have ONE domestic AND ONE global — two domestics or two globals = max 2/4. Use real examples from the past two years (2023-2025)."
+      }
+    ]
+  }
+];
+
+let sName = "";
+let attempts = {};   // attempts[qid] = [ {answer, score, feedback}, ... ]
+let confidences = {};
+let currentLesson = 0;
+let currentLevels = {};  // currentLevels[lessonId] = "a" or "b"
+
+
+// ── PERSISTENCE ──
+var SAVE_KEY = "aos2_practice_v2";
+
+function saveState() {
+  try {
+    var state = {
+      sName: sName,
+      attempts: attempts,
+      confidences: confidences,
+      currentLesson: currentLesson,
+      currentLevels: currentLevels
+    };
+    localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+  } catch(e) { /* storage unavailable */ }
+}
+
+function loadState() {
+  try {
+    var raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return false;
+    var state = JSON.parse(raw);
+    if (!state.sName) return false;
+    sName = state.sName;
+    attempts = state.attempts || {};
+    confidences = state.confidences || {};
+    currentLesson = state.currentLesson || 0;
+    currentLevels = state.currentLevels || {};
+    return true;
+  } catch(e) { return false; }
+}
+
+function clearState() {
+  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+}
+
+// Check for saved session on page load
+window.addEventListener("load", function() {
+  if (loadState()) {
+    // Pre-fill name and show resume banner
+    var nameInput = document.getElementById("nameInput");
+    if (nameInput) nameInput.value = sName;
+    showResumeBanner();
+  }
+});
+
+function showResumeBanner() {
+  var entry = document.getElementById("entry-card-inner");
+  if (!entry) return;
+  var attempted = Object.keys(attempts).filter(function(k) { return attempts[k] && attempts[k].length > 0; }).length;
+  var banner = document.createElement("div");
+  banner.style.cssText = "background:var(--green-pale);border:2px solid var(--green-light);border-radius:10px;padding:14px 16px;margin-bottom:20px;text-align:left;";
+  banner.innerHTML = "<div style=\"font-size:13px;font-weight:700;color:var(--green);margin-bottom:6px;\">&#128196; Session saved — welcome back, " + sName + "!</div>" +
+    "<div style=\"font-size:12px;color:#1a3d2b;\">You have " + attempted + " question" + (attempted !== 1 ? "s" : "") + " completed. Click <strong>Continue</strong> to pick up where you left off, or clear your progress below.</div>" +
+    "<div style=\"margin-top:10px;display:flex;gap:8px;\">" +
+    "<button onclick=\"resumeSession()\" style=\"padding:7px 18px;background:var(--green);color:white;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;\">Continue &#8594;</button>" +
+    "<button onclick=\"clearSession()\" style=\"padding:7px 18px;background:white;color:var(--slate);border:2px solid var(--border);border-radius:7px;font-size:13px;cursor:pointer;font-family:DM Sans,sans-serif;\">Start fresh</button>" +
+    "</div>";
+  entry.insertBefore(banner, entry.firstChild);
+}
+
+function resumeSession() {
+  document.getElementById("entry").style.display = "none";
+  document.getElementById("main").style.display = "block";
+  document.getElementById("topName").textContent = sName;
+  document.getElementById("printTitle").textContent = "VCE Economics — U3 AOS2 Practice";
+  document.getElementById("printMeta").textContent = "Student: " + sName + "   |   Date: " + new Date().toLocaleDateString("en-AU", {day:"numeric",month:"long",year:"numeric"});
+  buildTabs();
+  renderLesson(currentLesson);
+}
+
+function clearSession() {
+  clearState();
+  sName = ""; attempts = {}; confidences = {}; currentLesson = 0; currentLevels = {};
+  // Remove banner
+  location.reload();
+}
+
+function start() {
+  var n = document.getElementById("nameInput").value.trim();
+  if (!n) { alert("Please enter your name first."); return; }
+  sName = n;
+  document.getElementById("entry").style.display = "none";
+  document.getElementById("main").style.display = "block";
+  document.getElementById("topName").textContent = sName;
+  document.getElementById("printTitle").textContent = "VCE Economics — U3 AOS2 Practice";
+  document.getElementById("printMeta").textContent = "Student: " + sName + "   |   Date: " + new Date().toLocaleDateString("en-AU", {day:"numeric",month:"long",year:"numeric"});
+  buildTabs();
+  renderLesson(0);
+}
+
+function buildTabs() {
+  var html = "";
+  for (var i = 0; i < LESSONS.length; i++) {
+    var l = LESSONS[i];
+    var hasDone = false;
+    for (var j = 0; j < l.qs.length; j++) {
+      if (attempts[l.qs[j].id] && attempts[l.qs[j].id].length > 0) { hasDone = true; break; }
+    }
+    var cls = "lesson-tab" + (i === currentLesson ? " active" : "") + (hasDone ? " has-attempt" : "");
+    html += "<button class=\"" + cls + "\" id=\"ltab-" + i + "\" onclick=\"renderLesson(" + i + ")\">" + l.id + "</button>";
+  }
+  document.getElementById("lessonTabs").innerHTML = html;
+}
+
+function renderLesson(idx) {
+  currentLesson = idx;
+  var l = LESSONS[idx];
+  if (!currentLevels[l.id]) currentLevels[l.id] = "a";
+
+  var html = "<div class=\"lesson-header\"><div class=\"lnum\">" + l.id + "</div>";
+  html += "<h3>" + l.title.replace(/^L\d+ — /,"") + "</h3>";
+  html += "<p>" + l.desc + "</p></div>";
+  if (l.showData) html += DATA_BOX_HTML;
+
+  // Level tabs
+  var qa = l.qs[0];
+  var qb = l.qs[1];
+  var aAttempted = attempts[qa.id] && attempts[qa.id].length > 0;
+  var bAttempted = attempts[qb.id] && attempts[qb.id].length > 0;
+  var aActive = currentLevels[l.id] === "a";
+
+  html += "<div class=\"level-tabs\">";
+  html += "<button class=\"level-tab" + (aActive ? " active" : "") + (aAttempted ? " attempted" : "") + "\" onclick=\"switchLevel('" + l.id + "','a')\">";
+  html += "<span class=\"tab-badge l1\">Level 1</span> " + qa.marks + " marks";
+  if (aAttempted) html += " <span style=\"font-size:13px;color:var(--green)\">&#10003;</span>";
+  html += "</button>";
+  html += "<button class=\"level-tab" + (!aActive ? " active" : "") + (bAttempted ? " attempted" : "") + "\" onclick=\"switchLevel('" + l.id + "','b')\">";
+  html += "<span class=\"tab-badge l2\">Level 2</span> " + qb.marks + " marks";
+  if (bAttempted) html += " <span style=\"font-size:13px;color:var(--green)\">&#10003;</span>";
+  html += "</button>";
+  html += "</div>";
+
+  // Level 1 panel
+  html += "<div class=\"level-panel" + (aActive ? " active" : "") + "\" id=\"panel-" + l.id + "-a\">";
+  html += buildNudge("l1");
+  html += buildQPanel(qa, idx);
+  html += "</div>";
+
+  // Level 2 panel
+  html += "<div class=\"level-panel" + (!aActive ? " active" : "") + "\" id=\"panel-" + l.id + "-b\">";
+  html += buildNudge("l2");
+  html += buildQPanel(qb, idx);
+  html += "</div>";
+
+  document.getElementById("lessonContent").innerHTML = html;
+  buildTabs();
+  updateProgress();
+  saveState();
+  window.scrollTo({top:0,behavior:"smooth"});
+
+  // Restore any existing attempt displays
+  for (var j = 0; j < l.qs.length; j++) {
+    var q = l.qs[j];
+    if (attempts[q.id] && attempts[q.id].length > 0) {
+      renderAllAttempts(q.id, q.marks);
+    }
+  }
+}
+
+function buildNudge(level) {
+  if (level === "l1") {
+    return "<div class=\"stretch-nudge l1-nudge\">" +
+      "<strong>&#127919; Level 1 — Build your foundation</strong>" +
+      "<p>This question tests the core concept. It's a great place to start, but don't stop here — once you've got this, push yourself to attempt Level 2. Exam success comes from being able to handle the harder question.</p>" +
+      "</div>";
+  } else {
+    return "<div class=\"stretch-nudge\">" +
+      "<strong>&#128293; Level 2 — Stretch &amp; extend</strong>" +
+      "<p>This question applies the concept to real data and asks for deeper analysis. This is the type of question that separates good from excellent responses on the SAC and exam. Give it a go — you might surprise yourself.</p>" +
+      "</div>";
+  }
+}
+
+function buildQPanel(q, lessonIdx) {
+  var kkHtml = "";
+  for (var k = 0; k < q.kk.length; k++) {
+    kkHtml += "<span class=\"kk-tag\">" + KK_MAP[q.kk[k]] + "</span>";
+  }
+  var wordGuide = Math.round(q.marks * 40);
+  var checklistHtml = buildChecklist(q);
+  var confHtml = "";
+  if (q.marks >= 3) {
+    confHtml = "<p class=\"conf-label\">How confident are you? (optional)</p><div class=\"confidence-row\">";
+    var opts = ["Not sure","Somewhat confident","Very confident"];
+    for (var i = 0; i < opts.length; i++) {
+      confHtml += "<button class=\"conf-btn\" id=\"conf-" + q.id + "-" + i + "\" onclick=\"setConf('" + q.id + "'," + i + ")\">" + opts[i] + "</button>";
+    }
+    confHtml += "</div>";
+  }
+
+  var html = "<div class=\"q-meta\">";
+  html += "<span class=\"q-marks-badge\">" + q.marks + " marks</span>";
+  html += kkHtml + "</div>";
+  html += "<div class=\"q-text\">" + q.text + "</div>";
+  html += "<div class=\"tips-row\">";
+  html += "<button class=\"tip-btn content\" onclick=\"toggleTip('hint-" + q.id + "',this)\">&#128161; Content Tip</button>";
+  html += "<button class=\"tip-btn process\" onclick=\"toggleTip('proc-" + q.id + "',this)\">&#128295; Process Guide</button>";
+  html += "</div>";
+  html += "<div class=\"tip-panel content\" id=\"hint-" + q.id + "\">" + q.hint + "</div>";
+  html += "<div class=\"tip-panel process\" id=\"proc-" + q.id + "\">" + q.process + "</div>";
+  html += "<div class=\"checklist\"><div class=\"cl-title\">&#9989; Before You Submit</div>" + checklistHtml + "</div>";
+  html += confHtml;
+  html += "<textarea class=\"q-textarea\" id=\"ta-" + q.id + "\" placeholder=\"Write your answer here in full sentences...\"></textarea>";
+  html += "<div class=\"word-hint\">Aim for ~" + wordGuide + " words &nbsp;|&nbsp; Full sentences only &nbsp;|&nbsp; No arrows or bullet points</div>";
+  html += "<button class=\"btn-submit\" id=\"btn-" + q.id + "\" onclick=\"submitQ('" + q.id + "'," + lessonIdx + ")\">&#129520; Submit for Marking</button>";
+  html += "<div class=\"attempts-container\" id=\"att-" + q.id + "\"></div>";
+  return html;
+}
+
+function buildChecklist(q) {
+  var items = [];
+  items.push("I have written in full sentences (no arrows or symbols)");
+  items.push("I have used \'likely/should\' not \'will\' in cause-effect analysis");
+  if (q.marks >= 3) items.push("I have used \'all else remaining equal\' or \'ceteris paribus\'");
+  if (q.text.indexOf("trend") !== -1 || q.text.indexOf("Describe") !== -1) {
+    items.push("My trend description uses DUDDS: Direction, Units, Data, Dates, So-what");
+  }
+  if (q.text.indexOf("living standard") !== -1) {
+    items.push("I have addressed BOTH material AND non-material living standards");
+  }
+  if (q.kk.indexOf("KK5") !== -1 || q.text.indexOf("goal") !== -1 || q.text.indexOf("SSEG") !== -1) {
+    items.push("I have defined the goal with its target rate (SSEG 3-3.5% | CPI 2-3% | NAIRU 4-4.25%)");
+  }
+  if (q.marks >= 4) items.push("I have explained the mechanism, not just stated the outcome");
+  if (q.text.indexOf("&bull;") !== -1) items.push("I have addressed ALL dot points with equal depth");
+  var html = "";
+  for (var i = 0; i < items.length; i++) {
+    html += "<label><input type=\"checkbox\"> " + items[i] + "</label>";
+  }
+  return html;
+}
+
+function switchLevel(lessonId, level) {
+  currentLevels[lessonId] = level;
+  var panels = ["a","b"];
+  for (var i = 0; i < panels.length; i++) {
+    var p = document.getElementById("panel-" + lessonId + "-" + panels[i]);
+    if (p) p.className = "level-panel" + (panels[i] === level ? " active" : "");
+  }
+  // update level tab styles
+  renderLesson(currentLesson);
+}
+
+function toggleTip(id, btn) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  if (el.classList.contains("show")) {
+    el.classList.remove("show"); btn.classList.remove("open");
+  } else {
+    el.classList.add("show"); btn.classList.add("open");
+  }
+}
+
+function setConf(qid, idx) {
+  confidences[qid] = idx;
+  for (var i = 0; i < 3; i++) {
+    var b = document.getElementById("conf-" + qid + "-" + i);
+    if (b) b.className = "conf-btn" + (i === idx ? " selected" : "");
+  }
+}
+
+async function submitQ(qid, lessonIdx) {
+  var ta = document.getElementById("ta-" + qid);
+  if (!ta || !ta.value.trim()) { alert("Please write your answer before submitting."); return; }
+  var answer = ta.value.trim();
+
+  if (!getKey()) { alert("Please enter your API key in the top-right corner before submitting."); if (btn) { btn.disabled = false; btn.textContent = "\u{1F4AC} Submit for Marking"; } return; }
+
+  var q = null;
+  for (var i = 0; i < LESSONS.length; i++) {
+    for (var j = 0; j < LESSONS[i].qs.length; j++) {
+      if (LESSONS[i].qs[j].id === qid) { q = LESSONS[i].qs[j]; break; }
+    }
+  }
+  if (!q) return;
+
+  var btn = document.getElementById("btn-" + qid);
+  if (btn) { btn.disabled = true; btn.textContent = "Marking..."; }
+
+  var attDiv = document.getElementById("att-" + qid);
+  if (attDiv) {
+    var loadDiv = document.createElement("div");
+    loadDiv.className = "loading-msg";
+    loadDiv.id = "loading-" + qid;
+    loadDiv.textContent = "&#129302; Analysing your response...";
+    attDiv.appendChild(loadDiv);
+  }
+
+  var attemptNum = attempts[qid] ? attempts[qid].length + 1 : 1;
+  var prompt = "Question (" + q.marks + " marks): " + q.text.replace(/<[^>]+>/g,"") + "\n\nStudent Answer (Attempt " + attemptNum + "): " + answer;
+
+  try {
+    var resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": getKey(),
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        system: SYSTEM,
+        messages: [
+          { role: "user", content: prompt + "\n\nRespond ONLY with valid JSON in the specified format. No markdown backticks." }
+        ]
+      })
+    });
+    var data = await resp.json();
+    if (!resp.ok) {
+      var errMsg = data.error ? data.error.message : ("HTTP " + resp.status);
+      throw new Error("API error: " + errMsg);
+    }
+    var raw = data.content && data.content[0] ? data.content[0].text : "{}";
+    if (raw.charAt(0) !== "{") { var s = raw.indexOf("{"); if (s !== -1) raw = raw.substring(s); }
+    var parsed = JSON.parse(raw);
+
+    if (!attempts[qid]) attempts[qid] = [];
+    attempts[qid].push({ answer: answer, score: parsed.score, feedback: parsed });
+
+    var loadEl = document.getElementById("loading-" + qid);
+    if (loadEl) loadEl.remove();
+
+    renderAllAttempts(qid, q.marks);
+    updateProgress();
+    buildTabs();
+    saveState();
+
+    if (btn) { btn.style.display = "none"; }
+    if (ta) { ta.style.display = "none"; }
+    var wh = ta ? ta.nextElementSibling : null;
+    if (wh && wh.className === "word-hint") wh.style.display = "none";
+
+  } catch(e) {
+    var loadEl2 = document.getElementById("loading-" + qid);
+    if (loadEl2) loadEl2.innerHTML = "&#9888;&#65039; Error: " + e.message + " — please screenshot this and tell your teacher.";
+    if (btn) { btn.disabled = false; btn.textContent = "Submit for Marking"; }
+    console.error("Marking error:", e);
+  }
+}
+
+function renderAllAttempts(qid, maxScore) {
+  var attDiv = document.getElementById("att-" + qid);
+  if (!attDiv || !attempts[qid]) return;
+  var html = "";
+  var list = attempts[qid];
+
+  for (var i = 0; i < list.length; i++) {
+    var a = list[i];
+    var pct = maxScore > 0 ? a.score / maxScore : 0;
+    var scCls = pct >= 0.75 ? "high" : (pct >= 0.5 ? "mid" : "low");
+    var isLast = i === list.length - 1;
+    var attId = qid + "-" + i;
+
+    html += "<div class=\"attempt-block\">";
+    html += "<div class=\"attempt-header\">";
+    html += "<span class=\"attempt-num\">Attempt " + (i+1) + "</span>";
+    html += "<span class=\"attempt-score " + scCls + "\">" + a.score + "/" + maxScore + " — " + scoreLabel(pct) + "</span>";
+    html += "</div>";
+    html += "<div class=\"attempt-answer\">" + escHtml(a.answer) + "</div>";
+
+    // Feedback
+    var fb = a.feedback;
+    html += "<div class=\"attempt-feedback\">";
+    if (fb.encouragement) html += "<div class=\"fb-encouragement\">" + fb.encouragement + "</div>";
+    if (fb.whatWorked && fb.whatWorked.length) {
+      html += "<div class=\"fb-section\"><h5 class=\"good\">&#9989; What You Did Well</h5><ul>";
+      for (var w = 0; w < fb.whatWorked.length; w++) html += "<li>" + fb.whatWorked[w] + "</li>";
+      html += "</ul></div>";
+    }
+    if (fb.improvements && fb.improvements.length) {
+      html += "<div class=\"fb-section\"><h5 class=\"improve\">&#128295; What To Improve</h5><ul>";
+      for (var im = 0; im < fb.improvements.length; im++) html += "<li>" + fb.improvements[im] + "</li>";
+      html += "</ul></div>";
+    }
+    if (fb.commonMistakes && fb.commonMistakes.length && fb.commonMistakes[0]) {
+      html += "<div class=\"fb-section\"><h5 class=\"mistake\">&#9888;&#65039; Common Mistake Found</h5><ul>";
+      for (var cm = 0; cm < fb.commonMistakes.length; cm++) {
+        if (fb.commonMistakes[cm]) html += "<li>" + fb.commonMistakes[cm] + "</li>";
+      }
+      html += "</ul></div>";
+    }
+    html += "<button class=\"model-reveal-btn\" onclick=\"toggleModel('" + attId + "')\">&#128196; Show / Hide Model Answer</button>";
+    html += "<div class=\"model-answer\" id=\"model-" + attId + "\">" + (fb.modelAnswer || "") + "</div>";
+    html += "</div>";
+
+    // Retry only on last attempt if score < max
+    if (isLast && a.score < maxScore) {
+      html += "<div class=\"retry-section\">";
+      html += "<p>&#128260; Reflection before retry — what specific step will you add or improve?</p>";
+      html += "<textarea id=\"reflect-" + qid + "\" placeholder=\"e.g. I forgot ceteris paribus and didn't define the goal with the target rate...\"></textarea>";
+      html += "<button class=\"retry-btn\" onclick=\"retryQ('" + qid + "')\">&#128260; Retry This Question</button>";
+      html += "</div>";
+    }
+
+    html += "</div>";
+  }
+  attDiv.innerHTML = html;
+}
+
+function toggleModel(attId) {
+  var el = document.getElementById("model-" + attId);
+  if (el) el.classList.toggle("show");
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function retryQ(qid) {
+  var reflect = document.getElementById("reflect-" + qid);
+  if (!reflect || !reflect.value.trim()) {
+    alert("Please write your reflection first before retrying.");
+    return;
+  }
+  // Show textarea and submit button again
+  var ta = document.getElementById("ta-" + qid);
+  var btn = document.getElementById("btn-" + qid);
+  saveState();
+  if (ta) { ta.value = ""; ta.style.display = "block"; }
+  if (btn) { btn.style.display = "inline-block"; btn.disabled = false; btn.textContent = "&#129520; Submit Retry"; }
+  var wh = ta ? ta.nextElementSibling : null;
+  if (wh && wh.className === "word-hint") wh.style.display = "block";
+  // Remove retry section from display until new submit
+  renderAllAttempts(qid, getMaxScore(qid));
+}
+
+function getMaxScore(qid) {
+  for (var i = 0; i < LESSONS.length; i++) {
+    for (var j = 0; j < LESSONS[i].qs.length; j++) {
+      if (LESSONS[i].qs[j].id === qid) return LESSONS[i].qs[j].marks;
+    }
+  }
+  return 0;
+}
+
+function scoreLabel(pct) {
+  if (pct >= 0.9) return "Excellent";
+  if (pct >= 0.75) return "Strong";
+  if (pct >= 0.5) return "Good start";
+  if (pct >= 0.25) return "Partial";
+  return "Developing";
+}
+
+function updateProgress() {
+  var total = 0; var done = 0;
+  for (var i = 0; i < LESSONS.length; i++) {
+    for (var j = 0; j < LESSONS[i].qs.length; j++) {
+      total++;
+      var qid = LESSONS[i].qs[j].id;
+      if (attempts[qid] && attempts[qid].length > 0) done++;
+    }
+  }
+  var bar = document.getElementById("progressBar");
+  if (bar) bar.style.width = (total > 0 ? Math.round((done/total)*100) : 0) + "%";
+}
+
+function showResults() {
+  document.getElementById("main").style.display = "none";
+  document.getElementById("results").style.display = "block";
+  buildResults();
+}
+
+function backToQuestions() {
+  document.getElementById("results").style.display = "none";
+  document.getElementById("main").style.display = "block";
+}
+
+function buildResults() {
+  document.getElementById("resultsName").textContent = sName;
+  var totalE = 0; var totalP = 0;
+  var kkE = {}; var kkP = {};
+  for (var i = 0; i < LESSONS.length; i++) {
+    for (var j = 0; j < LESSONS[i].qs.length; j++) {
+      var q = LESSONS[i].qs[j];
+      totalP += q.marks;
+      for (var k = 0; k < q.kk.length; k++) {
+        kkP[q.kk[k]] = (kkP[q.kk[k]] || 0) + q.marks;
+      }
+      if (attempts[q.id] && attempts[q.id].length > 0) {
+        var best = 0;
+        for (var a = 0; a < attempts[q.id].length; a++) {
+          if (attempts[q.id][a].score > best) best = attempts[q.id][a].score;
+        }
+        totalE += best;
+        for (var k2 = 0; k2 < q.kk.length; k2++) {
+          kkE[q.kk[k2]] = (kkE[q.kk[k2]] || 0) + best;
+        }
+      }
+    }
+  }
+  var pct = totalP > 0 ? Math.round((totalE/totalP)*100) : 0;
+  document.getElementById("totalScore").textContent = totalE + "/" + totalP;
+  document.getElementById("totalLabel").textContent = pct + "% (best attempts)";
+  var html = "";
+  for (var kk in kkP) {
+    var s = kkE[kk] || 0; var m = kkP[kk];
+    var kpct = m > 0 ? Math.round((s/m)*100) : 0;
+    html += "<div class=\"results-kk-card\"><h4>" + kk + "</h4><p>" + KK_MAP[kk] + "</p><div class=\"kk-score\">" + s + "/" + m + " (" + kpct + "%)</div></div>";
+  }
+  document.getElementById("kkGrid").innerHTML = html;
+}
+
+function downloadPDF() {
+  // Build a printable page with all attempts
+  var printWin = window.open("","_blank");
+  var d = new Date().toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"});
+  var body = "<html><head><title>VCE Economics AOS2 — " + sName + "</title>";
+  body += "<style>body{font-family:Arial,sans-serif;font-size:12px;color:#111;max-width:800px;margin:0 auto;padding:20px;}";
+  body += "h1{font-size:18px;margin-bottom:4px;}h2{font-size:15px;margin:16px 0 8px;border-bottom:2px solid #2d6a4f;padding-bottom:4px;color:#1b2a41;}";
+  body += "h3{font-size:13px;margin:12px 0 6px;color:#2d6a4f;}";
+  body += ".meta{font-size:11px;color:#666;margin-bottom:20px;}";
+  body += ".q-text{background:#f8fafc;border-left:3px solid #2d6a4f;padding:10px;margin-bottom:10px;font-size:12px;line-height:1.6;}";
+  body += ".attempt{border:1px solid #e2e8f0;border-radius:6px;margin-bottom:12px;overflow:hidden;}";
+  body += ".att-head{background:#f1f5f9;padding:8px 12px;font-weight:bold;font-size:12px;display:flex;gap:12px;}";
+  body += ".score-hi{color:#2d6a4f;} .score-mid{color:#b45309;} .score-lo{color:#e76f51;}";
+  body += ".att-answer{padding:10px 12px;white-space:pre-wrap;font-size:12px;line-height:1.6;border-top:1px solid #e2e8f0;}";
+  body += ".fb{padding:10px 12px;background:#fafafa;border-top:1px solid #e2e8f0;font-size:11px;}";
+  body += ".fb-good{color:#2d6a4f;font-weight:bold;} .fb-imp{color:#e76f51;font-weight:bold;}";
+  body += "ul{padding-left:16px;margin:4px 0;} li{margin-bottom:3px;}";
+  body += ".page-break{page-break-before:always;}";
+  body += "</style></head><body>";
+  body += "<h1>VCE Economics — Unit 3 AOS2 Practice</h1>";
+  body += "<div class=\"meta\">Student: <b>" + sName + "</b> &nbsp;|&nbsp; Date: " + d + "</div>";
+
+  for (var i = 0; i < LESSONS.length; i++) {
+    var l = LESSONS[i];
+    var lessonHasAttempt = false;
+    for (var j = 0; j < l.qs.length; j++) {
+      if (attempts[l.qs[j].id] && attempts[l.qs[j].id].length > 0) { lessonHasAttempt = true; break; }
+    }
+    if (!lessonHasAttempt) continue;
+
+    body += (i > 0 ? "<div class=\"page-break\"></div>" : "");
+    body += "<h2>" + l.title + "</h2>";
+
+    for (var j = 0; j < l.qs.length; j++) {
+      var q = l.qs[j];
+      if (!attempts[q.id] || attempts[q.id].length === 0) continue;
+      body += "<h3>" + (j === 0 ? "Level 1" : "Level 2") + " (" + q.marks + " marks)</h3>";
+      body += "<div class=\"q-text\">" + q.text.replace(/<br>/g,"\n").replace(/<[^>]+>/g,"") + "</div>";
+      for (var a = 0; a < attempts[q.id].length; a++) {
+        var att = attempts[q.id][a];
+        var pct = q.marks > 0 ? att.score / q.marks : 0;
+        var scCls = pct >= 0.75 ? "score-hi" : (pct >= 0.5 ? "score-mid" : "score-lo");
+        body += "<div class=\"attempt\">";
+        body += "<div class=\"att-head\"><span>Attempt " + (a+1) + "</span><span class=\"" + scCls + "\">" + att.score + "/" + q.marks + " — " + scoreLabel(pct) + "</span></div>";
+        body += "<div class=\"att-answer\">" + att.answer.replace(/</g,"&lt;").replace(/>/g,"&gt;") + "</div>";
+        body += "</div>";
+      }
+    }
+  }
+  body += "</body></html>";
+  printWin.document.write(body);
+  printWin.document.close();
+  printWin.print();
+}
+</script>
+</body>
+</html>
