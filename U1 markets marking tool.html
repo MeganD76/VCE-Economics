@@ -1017,48 +1017,18 @@ async function markC(qId){
   btn.disabled=true;btn.textContent='Marking…';fb.style.display='block';
   fb.innerHTML=`<div style="background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:1.2rem;text-align:center;margin-top:.5rem;"><div style="display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:.5rem;"></div><p style="font-size:.85rem;color:var(--muted);">Marking your answer…</p></div><style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
   const WORKER_URL = 'https://vce-marker.megan-dyring.workers.dev';
-  const systemPrompt=`You are an experienced VCE Economics teacher marking Unit 3 student responses. You mark STRICTLY and CONSERVATIVELY. Your default should be to NOT award a mark unless the student has clearly and explicitly met the criterion.
-
-CRITICAL MARKING RULES — apply these without exception:
-1. Vague or implied answers do NOT earn marks. The student must explicitly state what is required. If you have to infer or assume the student meant something, do NOT award the mark.
-2. For relative prices questions, students must explicitly name BOTH parts of each criterion. For example, if a criterion requires "curve shift AND shortage", awarding the mark requires the student to have named BOTH the shift AND the shortage — not just one.
-3. "Demand increases" or "price rises" alone is NEVER sufficient. Students must name the specific factor, identify it as a demand or supply factor, state the direction of the shift, AND name the resulting shortage or surplus.
-4. "Price signals" mentioned without "upward pressure on price" being stated first is NOT sufficient for the pressure/signal criterion.
-5. "Profit making opportunity" or "producers respond" alone is NOT sufficient — students must explicitly link the price signal TO profit-motivated producers.
-6. For resource reallocation: the student MUST state the DIRECTION (towards or away from the market). If direction is clear, award the mark even if they have not named specific resource types (land, labour, capital) — instead note naming resource types as a suggested improvement in the feedback.
-7. When in doubt, do NOT award the mark. It is better to give useful corrective feedback than to reward an incomplete answer.
-8. The overall_comment must name SPECIFICALLY what was missing in each unawarded criterion — not generic encouragement.`;
-  const userPrompt=`Mark this VCE Economics response worth ${q.marks} marks. Mark STRICTLY — only award a mark if the student has EXPLICITLY and CLEARLY met every part of the criterion. Do not award marks for vague, implied, or partially correct responses.
-
-QUESTION TYPE: ${q.title}
-SCENARIO: ${q.scenario}
-TASK: ${q.task}
-
-MARKING CRITERIA (${q.marks} criteria, 1 mark each):
-${criteriaText}
-
-STUDENT'S ANSWER:
-"""
-${answer}
-"""
-
-STRICT MARKING REMINDERS before you score:
-- Has the student explicitly named the factor AND the curve shift AND the shortage/surplus? If any part is missing, do NOT award criterion 2.
-- Has the student explicitly stated upward/downward PRESSURE on price AND named price SIGNALS AND profit-MOTIVATED producers? If any part is missing, do NOT award criterion 3.
-- Has the student stated the DIRECTION of resource reallocation (towards or away from the market)? If yes, award the mark even without specific resource types — but suggest naming land/labour/capital as an improvement in the feedback.
-- If you are considering awarding a mark for a vague answer, DO NOT. Only award marks for clear, explicit responses.
-
-Respond with ONLY valid JSON, no other text:
-{
-  "criteria_results": [
-    {"awarded": true_or_false, "feedback": "one specific sentence — if awarded, state exactly what the student wrote that earned it; if not awarded, state precisely what was missing or too vague"},
-    ... one entry per criterion in order
-  ],
-  "score": number,
-  "overall_comment": "2-3 sentences. Be specific about what was missing. Name the exact step they need to add. Encourage them to try again."
-}`;
-  try{
-    const response=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:q.model,max_tokens:1000,system:systemPrompt,messages:[{role:'user',content:userPrompt}]})});
+  const systemPrompt=`You are a strict VCE Economics teacher. Mark CONSERVATIVELY. Only award marks for explicit, clear responses. Vague answers score zero. Respond with valid JSON only.`;
+  const shortCriteria = q.criteria.map((c,i)=>`${i+1}. ${c.substring(0,100)}`).join('\n');
+  const userPrompt=`Mark this VCE Economics answer. ${q.marks} marks, 1 per criterion. STRICT only.
+TASK: ${q.task.substring(0,150)}
+CRITERIA:\n${shortCriteria}
+RULES: Award only if explicit. Need: relative prices defined; factor+shift+shortage named; upward pressure+price signal+profit motive present; reallocation direction stated.
+ANSWER: ${answer.substring(0,600)}
+JSON: {"criteria_results":[{"awarded":true/false,"feedback":"one sentence"}],"score":number,"overall_comment":"2 sentences"}`;  try{
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 25000);
+    const response=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:q.model,max_tokens:1000,system:systemPrompt,messages:[{role:'user',content:userPrompt}]}),signal:controller.signal});
+    clearTimeout(timeout);
     const data=await response.json();
     if(data.error)throw new Error(data.error.message);
     const raw=data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
@@ -1066,7 +1036,8 @@ Respond with ONLY valid JSON, no other text:
     const result=JSON.parse(jsonMatch?jsonMatch[0]:raw);
     renderCFeedback(qId,result,q);
   }catch(err){
-    fb.innerHTML=`<div style="background:var(--fail-bg);border:1px solid var(--fail-bd);border-radius:8px;padding:1rem;font-size:.85rem;color:#9f1239;margin-top:.5rem;"><strong>Marking unavailable</strong> — ${err.message.includes('YOUR_API_KEY')?'API key not set. Ask your teacher to activate marking.':'Could not connect to marking service. Please try again.'}</div>`;
+    const msg = err.name==='AbortError' ? 'Request timed out — the marking service took too long. Please try again.' : err.message.includes('YOUR_API_KEY') ? 'API key not set. Ask your teacher to activate marking.' : 'Could not connect to marking service. Please try again.';
+    fb.innerHTML=`<div style="background:var(--fail-bg);border:1px solid var(--fail-bd);border-radius:8px;padding:1rem;font-size:.85rem;color:#9f1239;margin-top:.5rem;"><strong>Marking unavailable</strong> — ${msg}</div>`;
   }
   btn.disabled=false;btn.textContent='✓ Mark Again';
 }
