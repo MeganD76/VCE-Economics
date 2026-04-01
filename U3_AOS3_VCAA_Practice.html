@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U3 AOS3 — VCAA Exam Practice</title>
+<style>
+:root{
+  --navy:#0f2040;--teal:#1a6b6b;--teal-l:#2a9d8f;
+  --gold:#e9c46a;--gold-d:#c9a227;
+  --red:#c0392b;--redl:#fdecea;
+  --amber:#e07b20;--amberl:#fef3e2;
+  --green:#1a7a4a;--greenl:#e8f7ef;
+  --bg:#f4f6f9;--white:#fff;--border:#dde3ec;
+  --text:#1a2332;--muted:#7a8599
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ENTRY */
+#entry{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+.entry-card{background:var(--white);border-radius:20px;padding:2.8rem;max-width:560px;width:100%;box-shadow:0 6px 32px rgba(15,32,64,.12)}
+.vcaa-badge{display:inline-block;background:var(--navy);color:var(--gold);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.38rem 1rem;border-radius:20px;margin-bottom:1.4rem}
+.entry-card h1{font-size:1.8rem;font-weight:900;line-height:1.2;margin-bottom:.6rem;color:var(--navy)}
+.entry-card p{color:var(--muted);font-size:.92rem;margin-bottom:1.5rem;line-height:1.65}
+.exam-info{background:#f0f4ff;border:1.5px solid #c7d4f0;border-radius:10px;padding:.9rem 1.1rem;margin-bottom:1.4rem;font-size:.85rem;color:var(--navy);line-height:1.65}
+.exam-info strong{display:block;font-size:.76rem;text-transform:uppercase;letter-spacing:.07em;color:#3a5aad;margin-bottom:.35rem}
+.fg label{display:block;font-weight:600;font-size:.88rem;margin-bottom:.4rem;color:var(--navy)}
+.fg input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:10px;font-size:1rem;outline:none;transition:border .2s;margin-bottom:1rem;font-family:inherit}
+.fg input:focus{border-color:var(--teal)}
+.btn-start{background:var(--navy);color:var(--gold);border:none;padding:.9rem 2rem;border-radius:12px;font-size:1rem;font-weight:800;cursor:pointer;width:100%;transition:all .2s;letter-spacing:.03em}
+.btn-start:hover{background:#1a3060}
+
+/* MAIN */
+#main{display:none;max-width:860px;margin:0 auto;padding:1rem 1rem 5rem}
+.top-bar{background:var(--bg);position:sticky;top:0;z-index:20;padding:.75rem 0;border-bottom:2px solid var(--border);margin-bottom:1.5rem}
+.tbi{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.tbi h2{font-size:1rem;font-weight:800;color:var(--navy)}
+.tbi p{font-size:.77rem;color:var(--muted)}
+.score-pill{background:var(--navy);color:var(--gold);font-weight:800;font-size:.85rem;padding:.3rem .9rem;border-radius:20px;white-space:nowrap}
+
+/* YEAR GROUPS */
+.year-block{margin-bottom:2.5rem}
+.year-hdr{background:var(--navy);color:#fff;border-radius:12px 12px 0 0;padding:.85rem 1.4rem;display:flex;justify-content:space-between;align-items:center}
+.year-hdr h3{font-size:.95rem;font-weight:800;letter-spacing:.03em}
+.year-hdr span{font-size:.75rem;opacity:.7;background:rgba(255,255,255,.1);padding:.2rem .65rem;border-radius:12px}
+.year-body{background:var(--white);border-radius:0 0 12px 12px;border:2px solid var(--navy);border-top:none}
+
+/* QUESTIONS */
+.q-wrap{padding:1.4rem;border-bottom:1px solid var(--border)}
+.q-wrap:last-child{border-bottom:none}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:.4rem}
+.q-num{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--teal)}
+.q-marks-badge{background:var(--navy);color:#fff;font-size:.72rem;font-weight:700;padding:.2rem .65rem;border-radius:12px}
+.q-text{font-size:.97rem;font-weight:700;line-height:1.55;margin-bottom:.85rem;color:var(--navy)}
+.stimulus{background:#f8f6f0;border-left:4px solid var(--gold-d);border-radius:0 8px 8px 0;padding:.9rem 1.1rem;margin-bottom:1rem;font-size:.86rem;line-height:1.7;color:var(--navy)}
+.stimulus strong{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--gold-d);margin-bottom:.4rem}
+.stimulus table{width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.85rem}
+.stimulus th{background:var(--navy);color:#fff;padding:.4rem .7rem;text-align:left;font-weight:600}
+.stimulus td{padding:.35rem .7rem;border-bottom:1px solid var(--border)}
+.stimulus tr:nth-child(even) td{background:rgba(0,0,0,.025)}
+
+/* REMINDER TIP — minimal, just a nudge */
+.reminder-btn{display:inline-flex;align-items:center;gap:.4rem;background:none;border:1.5px dashed var(--gold-d);color:var(--gold-d);font-family:inherit;font-size:.76rem;font-weight:700;padding:.35rem .8rem;border-radius:8px;cursor:pointer;transition:all .2s;margin-bottom:.75rem}
+.reminder-btn:hover{background:#fef9e7}
+.reminder-box{display:none;background:#fefce8;border:1.5px solid var(--gold);border-radius:8px;padding:.7rem .95rem;font-size:.8rem;color:#7a5c00;line-height:1.65;margin-bottom:.75rem}
+.reminder-box.open{display:block}
+
+textarea{width:100%;padding:.8rem 1rem;border:1.5px solid var(--border);border-radius:10px;font-size:.9rem;font-family:inherit;outline:none;resize:vertical;min-height:130px;transition:border .2s;line-height:1.6;color:var(--text)}
+textarea:focus{border-color:var(--teal)}
+textarea:disabled{background:#f5f5f5;color:var(--muted)}
+.qa{display:flex;gap:.7rem;margin-top:.75rem;flex-wrap:wrap;align-items:center}
+.btn-submit{background:var(--teal);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:9px;font-size:.85rem;font-weight:700;cursor:pointer;transition:background .2s;font-family:inherit}
+.btn-submit:hover{background:var(--teal-l)}
+.btn-submit:disabled{background:var(--muted);cursor:not-allowed}
+.wc{font-size:.74rem;color:var(--muted);margin-left:auto}
+
+/* FEEDBACK */
+.fb-wrap{margin-top:1rem;border-radius:12px;overflow:hidden;border:2px solid var(--border)}
+.fb-loading{padding:1.2rem;text-align:center;color:var(--teal);font-size:.88rem;font-weight:600}
+.sp{display:inline-block;width:16px;height:16px;border:2.5px solid #c8e6e3;border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;margin-right:.45rem;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fb-hdr{padding:.85rem 1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.4rem;border-bottom:2px solid rgba(0,0,0,.07)}
+.fb-score{font-size:1.2rem;font-weight:900}
+.fb-grade{font-size:.75rem;font-weight:700;opacity:.85}
+.fb-enc{font-size:.78rem;font-style:italic;max-width:260px;text-align:right;opacity:.8}
+.s-low{background:var(--redl)}.s-low .fb-score{color:var(--red)}
+.s-mid{background:var(--amberl)}.s-mid .fb-score{color:var(--amber)}
+.s-good{background:var(--greenl)}.s-good .fb-score{color:var(--green)}
+.s-top{background:#eef2ff}.s-top .fb-score{color:#3a5aad}
+.fb-body{padding:1rem 1.2rem;font-size:.86rem;line-height:1.75}
+.fb-sec{margin-bottom:.9rem}.fb-sec:last-child{margin-bottom:0}
+.fb-sec h4{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem}
+.fb-sec ul{padding-left:1.1rem}.fb-sec li{margin-bottom:.22rem}
+.fb-well h4{color:var(--green)}.fb-imp h4{color:var(--amber)}.fb-warn h4{color:var(--red)}.fb-mod h4{color:var(--teal)}
+.model-btn{display:inline-flex;align-items:center;gap:.35rem;background:none;border:2px solid var(--teal);color:var(--teal);font-family:inherit;font-size:.79rem;font-weight:700;padding:.38rem .85rem;border-radius:8px;cursor:pointer;transition:all .2s;margin-top:.3rem}
+.model-btn:hover{background:var(--teal);color:#fff}
+.model-answer{display:none;background:#f0faf8;border-left:3px solid var(--teal-l);border-radius:6px;padding:.8rem 1rem;font-size:.83rem;color:#0a3d35;line-height:1.75;margin-top:.6rem;white-space:pre-wrap}
+.model-answer.open{display:block}
+
+/* RESULTS */
+#results{display:none;max-width:860px;margin:0 auto;padding:1rem 1rem 4rem}
+.r-hdr{background:var(--navy);color:#fff;border-radius:16px;padding:2rem;margin-bottom:1.5rem;text-align:center}
+.r-hdr h2{font-size:1.8rem;font-weight:900;margin-bottom:.3rem}
+.r-score-disp{font-size:3.5rem;font-weight:900;color:var(--gold);margin:.7rem 0 .2rem}
+.r-score-disp span{font-size:1.4rem;opacity:.7}
+.r-card{background:var(--white);border-radius:12px;padding:1.4rem;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:1.2rem}
+.r-card h3{font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.9rem}
+.r-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid var(--bg);font-size:.84rem}
+.r-row:last-child{border:none}
+.sc-pill{font-weight:700;font-size:.79rem;padding:.18rem .55rem;border-radius:12px;white-space:nowrap}
+.dl-bar{text-align:center;padding:1.5rem 0}
+.btn-dl{background:var(--navy);color:var(--gold);border:none;padding:.8rem 2rem;border-radius:12px;font-size:.95rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:.45rem;margin:.25rem;transition:all .2s}
+.btn-dl:hover{background:#1a3060}
+.btn-dl.sec{background:var(--muted)}
+.btn-dl.sec:hover{background:#5a6578}
+
+@media print{
+  .no-print{display:none!important}
+  body{background:#fff}
+  .year-block{break-inside:avoid}
+  .top-bar{position:static}
+  .model-answer{display:block!important}
+  .reminder-box{display:block!important}
+  #entry,#main{display:none!important}
+  #results{display:block!important;padding:0;max-width:100%}
+  .r-hdr{background:var(--navy)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div id="entry">
+  <div class="entry-card">
+    <span class="vcaa-badge">VCAA Exam Practice &middot; U3 AOS3</span>
+    <h1>Australia &amp; the World Economy</h1>
+    <p>Real VCAA exam questions from 2017&ndash;2024, filtered to AOS3 content only. No scaffolding, no hints — just exam conditions. A reminder is available if needed.</p>
+    <div class="exam-info">
+      <strong>&#128196; About this tool</strong>
+      15 questions &nbsp;&bull;&nbsp; 49 marks total &nbsp;&bull;&nbsp; Years 2017&ndash;2024<br>
+      Questions are presented exactly as they appeared in VCAA exams. You will receive AI feedback marked against the official VCAA marking guide. A minimal reminder is available for each question &mdash; use it only if you are stuck.
+    </div>
+    <div class="fg">
+      <label for="sname">Your full name</label>
+      <input type="text" id="sname" placeholder="e.g. Jordan Smith">
+    </div>
+    <button class="btn-start" onclick="start()">Begin Exam Practice &rarr;</button>
+  </div>
+</div>
+
+<div id="main">
+  <div class="top-bar no-print">
+    <div class="tbi">
+      <div><h2>VCAA Exam Practice &mdash; U3 AOS3</h2><p id="top-student"></p></div>
+      <span class="score-pill" id="top-score">0 marks earned</span>
+    </div>
+  </div>
+  <div id="questions"></div>
+  <div class="dl-bar no-print">
+    <button class="btn-dl" onclick="showResults()">&#128202; View Results</button>
+    <button class="btn-dl sec" onclick="window.print()">&#11015; Download / Print</button>
+  </div>
+</div>
+
+<div id="results">
+  <div class="r-hdr">
+    <p id="r-date" style="opacity:.5;font-size:.78rem;margin-bottom:.35rem"></p>
+    <h2 id="r-name"></h2>
+    <p style="opacity:.7;font-size:.88rem">VCAA Exam Practice &mdash; U3 AOS3</p>
+    <div class="r-score-disp" id="r-score">&mdash;</div>
+    <p id="r-sub" style="opacity:.7;font-size:.85rem"></p>
+  </div>
+  <div id="r-by-year"></div>
+  <div id="r-summary"></div>
+  <div class="dl-bar no-print">
+    <button class="btn-dl" onclick="window.print()">&#11015; Download PDF for Submission</button>
+    <button class="btn-dl sec" onclick="backToMain()">&#8592; Back to Questions</button>
+  </div>
+  <div id="r-detail"></div>
+</div>
+
+<script>
+const WORKER_URL = "https://vce-marker.megan-dyring.workers.dev";
+
+const SYSTEM = `You are an expert VCE Economics teacher marking Unit 3 AOS3 responses against official VCAA marking guides. You mark exactly as VCAA would. All feedback must address the student directly using "you/your" — never refer to "the student".
+
+STRICT MARKING RULES:
+1. "All else remaining equal" or ceteris paribus required in cause-effect analysis. Use "likely/should" not "will"
+2. Must specify BOP sub-account (BOMT, BOGS, Primary Income, Secondary Income) — never just "current account"  
+3. Terms of Trade = INDEX measuring RATIO — NEVER "value of the ToT" — deduct mark immediately. Reward students who distinguish SOURCE of ToT change: (a) higher export prices → demand inflation; (b) lower import prices → supply-side cost benefits. Award additional credit where students distinguish the SOURCE of a ToT change: (a) ToT rises due to higher export prices → demand inflation, higher export income; (b) ToT rises due to lower import prices → lower production costs, supply-side benefits, reduced cost inflation. Both pathways are valid and students who identify the distinction show deeper understanding
+4. Interest rates MUST be RELATIVE when comparing across countries
+5. NFL = NFD + NFE — both must be mentioned where relevant. Common error: students define NFE as only "foreign-owned Australian assets" without subtracting Australian-owned foreign assets — this is incomplete. CAD funded by borrowing OR selling equity
+6. Both MATERIAL and NON-MATERIAL living standards required where asked. Purchasing power ≠ disposable income
+7. Goal definitions required on first mention: SSEG = "highest growth rate possible, consistent with strong employment growth, without running into inflationary, environmental or external pressures (3-3.5% real GDP p.a.)"; Price Stability = CPI 2-3%; Full Employment = NAIRU ~4-4.25%
+8. No circular reasoning. Full sentences only — no arrows or symbols
+9. Structural factors ≠ exchange rates / commodity prices / overseas growth (VCAA 2024 Examiner Report). Valid structural language: savings-investment gap, low productivity, high Real Unit Labour Costs (RULCs)
+10. Explain rather than assert — chains of causation required
+
+Return ONLY valid JSON, no markdown:
+{"score":<number>,"maxScore":<number>,"whatWorked":["You correctly..."],"improvements":["Your answer would be stronger if you..."],"commonMistakes":["specific VCAA-noted error if found, else empty array"],"modelAnswer":"Full model answer in VCAA style — full sentences, precise terminology","encouragement":"One sentence directly to the student"}`;
+
+const DATA = "AUD/USD: ~0.63 (from ~0.70 in 2022) | Current Account: ~-2.8% of GDP | Terms of Trade: ~115 index points (from ~140 in 2022) | CPI: ~3.5% | Unemployment: ~4.1% | Real GDP growth: ~1.0% p.a. | RBA Cash Rate: 4.10%";
+
+const YEARS = [
+{year:"2024",qs:[
+  {id:"y24q1",year:2024,qref:"Q5a",marks:2,
+   text:"With reference to the data in the table, explain one <strong>structural</strong> influence on Australia's current account balance that has contributed to the change shown.",
+   stimulus:"<strong>&#128202; Stimulus — Current Account Balance</strong><br>June 2023: +$7,782 million (surplus)<br>September 2023: &minus;$158 million (deficit)",
+   reminder:"Structural = persistent, inherent feature of the economy. NOT exchange rates, commodity prices or overseas growth. Think: savings-investment gap OR low productivity / high unit labour costs. Must reference the data and use credits/debits language.",
+   guide:"2 marks: (1) Identify a valid structural factor — savings-investment gap (Australia's investment needs exceed domestic savings → must borrow overseas → interest payments = primary income debits) OR high relative production costs/low productivity (→ lower IC → fewer export credits on BOGS). (1) Mechanism linked to specific sub-account using credits/debits language AND meaningful reference to the data (CA moving from +$7,782m to -$158m). DEDUCT: citing exchange rates, overseas growth, commodity prices or ToT as structural (these are CYCLICAL per VCAA 2024).",
+   kk:"KK3"},
+  {id:"y24q2",year:2024,qref:"Q5b",marks:2,
+   text:"An Australian cotton farm is sold to a foreign buyer.<br>Describe <strong>two</strong> separate transactions on the balance of payments that would result from this sale.",
+   stimulus:null,
+   reminder:"Think about two separate events: the sale itself (which account? which sub-account? credit or debit?) and the ongoing income flows once a foreigner owns the farm (which account? which sub-account?). Wages paid to Australian workers by the foreign owner do NOT appear on the BOP — not a cross-border transaction.",
+   guide:"2 marks (1 mark per transaction): Transaction 1: Sale of the farm = credit on net direct investment sub-account of the CAFA (foreign entity purchasing Australian asset = capital inflow). Transaction 2: Profits/dividends flowing back to the foreign owner = debit on net primary income sub-account of the CA. Must name main account AND sub-account AND credit/debit for each. DEDUCT: wages to Australian workers (not a BOP transaction). DEDUCT: using CA+CAFA=0 logic to auto-generate second entry.",
+   kk:"KK2"}
+]},
+{year:"2023",qs:[
+  {id:"y23q1",year:2023,qref:"Q2b",marks:2,
+   text:"Outline <strong>one factor</strong> that would account for the downward trend in the Australian dollar against the US dollar since January 2022.",
+   stimulus:"<strong>&#128202; Stimulus</strong><br>AUD/USD fell from approximately US$0.75 in January 2022 to approximately US$0.63 by late 2023.",
+   reminder:"Supply and demand for AUD framework. Depreciation = demand for AUD fell OR supply of AUD rose. Must explain the mechanism — name the factor, explain how it changed demand/supply for AUD, then state the outcome.",
+   guide:"2 marks: (1) Identify a valid factor — falling Terms of Trade / lower commodity prices reducing export demand → less demand for AUD; OR US Federal Reserve raising interest rates more aggressively than RBA → capital outflow from Australia → less demand for AUD; OR weaker global demand for Australian exports. (1) Mechanism clearly linked to reduced demand for AUD or increased supply of AUD → depreciation. Must use demand/supply for AUD language.",
+   kk:"KK6"},
+  {id:"y23q2",year:2023,qref:"Q2c",marks:4,
+   text:"With reference to the chart showing the AUD/USD trend since January 2022, explain how the depreciation of the Australian dollar is likely to have affected the achievement of <strong>one domestic macroeconomic goal</strong> AND <strong>living standards</strong>.",
+   stimulus:"<strong>&#128202; Stimulus</strong><br>AUD/USD fell from approximately US$0.75 (January 2022) to approximately US$0.63 (late 2023).",
+   reminder:"Choose ONE goal — name it with its target. Depreciation has both AD effects (cheaper exports → more net exports) and AS effects (imported inputs more expensive → cost inflation). Both material AND non-material living standards required.",
+   guide:"4 marks: (1) Name goal with definition and target (e.g. Price Stability = CPI 2-3% on average over time). (1) Depreciation mechanism linking to that goal — e.g. imports more expensive → cost-push inflation → harder to achieve price stability; OR cheaper exports → net exports rise → AD increases → closer to SSEG. (1) Material living standards — mechanism (e.g. higher import prices → lower purchasing power → reduced access to goods). (1) Non-material living standards — mechanism (e.g. financial stress from higher cost of living; OR improved employment in export sectors → wellbeing). Must address BOTH material AND non-material.",
+   kk:"KK6,KK9"},
+  {id:"y23q3",year:2023,qref:"Q5b",marks:4,
+   text:"Explain how an increase in <strong>skilled migration</strong> might affect Australia's productivity and international competitiveness.",
+   stimulus:null,
+   reminder:"Two-part answer: productivity first, then international competitiveness. For productivity: more skilled workers → higher quality of human capital → more output per input. For IC: link from productivity → lower unit labour costs → more price competitive. Must complete the chain all the way to IC.",
+   guide:"4 marks: (1) Skilled migration increases the quality and/or quantity of human capital in the workforce. (1) Higher quality human capital → greater productivity (more output per unit of input) → lower unit labour costs for firms. (1) Define international competitiveness — ability of Australian producers to compete, survive, expand and flourish against foreign rivals on both price and non-price factors (quality, innovation, reliability). (1) Lower unit labour costs → can produce at lower prices → improved price competitiveness → more competitive in export markets. Must link through the full chain from migration → productivity → IC.",
+   kk:"KK8"}
+]},
+{year:"2022",qs:[
+  {id:"y22q1",year:2022,qref:"Q1f",marks:4,
+   text:"Considering the <strong>exchange rate transmission mechanism</strong>, explain how the stance of monetary policy may have affected the achievement of <strong>one</strong> of the Australian Government's domestic macroeconomic goals.",
+   stimulus:"<strong>&#128202; Context</strong><br>The RBA raised the cash rate 13 times between May 2022 and November 2023, from 0.10% to 4.35%.",
+   reminder:"Exchange rate transmission: higher rates → capital inflow → AUD appreciates. Then: appreciated AUD → cheaper imports → lower inflation; but also → exports less competitive → lower net exports → lower AD. Must choose ONE goal and name it with its target.",
+   guide:"4 marks: (1) Contractionary monetary policy (higher cash rate) → higher relative Australian interest rates → capital inflow as investors seek higher returns → demand for AUD increases → AUD appreciates. (1) Appreciated AUD → imports cheaper in AUD → reduces cost-push and demand inflation → assists achievement of price stability (CPI 2-3%). OR: appreciated AUD → exports more expensive → net exports fall → AD decreases → puts downward pressure on economic growth → moves away from SSEG (3-3.5%). (1) Named goal with definition and target. (1) Link from exchange rate movement through to goal achievement with ceteris paribus.",
+   kk:"KK6,KK9"},
+  {id:"y22q2",year:2022,qref:"Q3d",marks:4,
+   text:"Explain how <strong>trade liberalisation</strong> is likely to affect Australia's inflation rate and living standards.",
+   stimulus:null,
+   reminder:"Define trade liberalisation first. Two separate parts: inflation (lower import prices → lower costs → lower inflation; but also import competition may force domestic efficiency) and living standards (both material and non-material required).",
+   guide:"4 marks: (1) Define trade liberalisation — government policies that promote free trade / reduce barriers (cutting tariffs, subsidies, quotas, trade agreements). Mechanism: lower tariffs → cheaper imports → reduces cost of production and consumer prices → downward pressure on inflation (CPI 2-3% target). (1) Efficiency gains from increased competition → productivity improvements → lower unit costs → further downward pressure on prices → assists price stability. (1) Material living standards: cheaper imported goods → increased purchasing power → greater access to goods and services → improved material LS. Increased employment in export industries → higher incomes. (1) Non-material living standards: greater variety of goods → improved quality of life. BUT structural unemployment in import-competing industries → reduced non-material LS for affected workers. Must address BOTH material AND non-material.",
+   kk:"KK8,KK9"}
+]},
+{year:"2021",qs:[
+  {id:"y21q1",year:2021,qref:"Q4a",marks:2,
+   text:"With reference to the graph, explain the <strong>trend</strong> in the current account balance over the past two years.",
+   stimulus:"<strong>&#128202; Stimulus — Australia's Current Account Balance (% of nominal GDP)</strong><br>The current account balance improved from approximately &minus;2% of GDP (early 2019) to approximately +3% of GDP (mid-2021), moving from a deficit to a surplus.",
+   reminder:"DUDDS: Direction + Units + Data (start and end figures) + Date + So-what. Direction = improved/moved to surplus. Units = % of nominal GDP. Use the data provided.",
+   guide:"2 marks: (1) DUDDS — direction: improved/moved from deficit to surplus. Units: % of nominal GDP. Data: from approximately -2% (2019) to +3% (2021). (1) So-what: credits increased relative to debits — likely due to strong commodity export prices (ToT improvement) and reduced import demand during COVID travel restrictions. Full DUDDS not strictly required but direction + data + explanation of direction earns both marks.",
+   kk:"KK2,KK3"},
+  {id:"y21q2",year:2021,qref:"Q4b",marks:2,
+   text:"Explain how the current account balance over the past two years would have affected the <strong>balance on the capital and financial account</strong>.",
+   stimulus:null,
+   reminder:"BOP must always equal zero: Current Account + CAFA = 0. So they always move in OPPOSITE directions. A CA surplus = CAFA deficit.",
+   guide:"2 marks: (1) The BOP must always equal zero (CA + CAFA = 0). Therefore a current account surplus must be offset by a capital and financial account deficit. (1) The CA surplus means Australia earned more from overseas than it spent → Australia was a net investor overseas → more capital flowing out than in → CAFA deficit. Must state the BOP identity. Must NOT say CA and CAFA move in the same direction.",
+   kk:"KK2"},
+  {id:"y21q3",year:2021,qref:"Q4c",marks:4,
+   text:"With reference to the graph, explain how the performance in the <strong>trade balance</strong> over the past two years might have affected both:<br>&bull; the achievement of the goal of strong and sustainable economic growth<br>&bull; Australia's living standards.",
+   stimulus:"<strong>&#128202; Stimulus</strong><br>Australia's trade balance improved from approximately +1.5% of GDP (early 2019) to approximately +4% of GDP (mid-2021).",
+   reminder:"Trade balance = exports minus imports. A larger surplus = net exports (X-M) rise = positive contribution to AD. Must define SSEG with its target. Both material AND non-material living standards required. Use the data.",
+   guide:"4 marks: (1) Trade balance improved (from ~1.5% to ~4% of GDP) → net exports (X-M) contribution to AD increased → AD sent signals to suppliers to increase production → real GDP growth supported → assists achievement of SSEG (highest growth rate possible, consistent with strong employment, without inflationary/environmental/external pressures — 3-3.5% real GDP p.a.). (1) Data used and linked to SSEG. (1) Material living standards: higher export income → higher business revenue → increased employment and wages → higher incomes → greater purchasing power and access to goods and services. (1) Non-material: increased employment → improved job security and wellbeing → higher non-material LS. Must address BOTH. Must define SSEG.",
+   kk:"KK9"},
+  {id:"y21q4",year:2021,qref:"Q4d",marks:3,
+   text:"Explain how a change in <strong>one structural factor</strong> might result in an improvement in the current account balance.",
+   stimulus:null,
+   reminder:"Structural = long-term, persistent, not cyclical. Valid factors: improved productivity / reduced unit labour costs → better IC → more export credits on BOGS. OR increased national savings → smaller savings-investment gap → less need to borrow → lower primary income debits. Must explain how the factor leads to more credits OR fewer debits on a specific sub-account.",
+   guide:"3 marks: (1) Identify a valid structural factor — improved productivity growth (→ lower unit labour costs); OR improvement in savings-investment gap (→ less overseas borrowing); OR shift to higher value-added exports (structural change in export mix). (1) Mechanism — how does this structurally improve the CA? e.g. higher productivity → lower unit costs → improved IC → more competitive exports → higher export credits on BOMT/BOGS relative to debits. (1) Link to specific CA sub-account using credits/debits language — e.g. higher export credits on BOGS improve the CA balance. DEDUCT: any factor citing exchange rates, commodity prices or overseas growth as structural.",
+   kk:"KK3"}
+]},
+{year:"2018",qs:[
+  {id:"y18q1",year:2018,qref:"Q3a",marks:3,
+   text:"Referring to the graph, outline <strong>one factor</strong> that might explain the trend in Australia's current account balance during 2017 and 2018.",
+   stimulus:"<strong>&#128202; Stimulus — Australia's Current Account Balance</strong><br>The graph shows Australia's current account balance and trade balance as a % of nominal GDP (2007-2018). During 2017-2018, the current account deficit narrowed from approximately &minus;3.5% to approximately &minus;2% of GDP, driven by an improving trade balance.",
+   reminder:"The trend is an improvement (narrowing deficit). DUDDS for the trend first, then one factor. Factor must be linked to the graph data. Credits/debits language required.",
+   guide:"3 marks: (1) Trend — current account deficit narrowed/improved from approximately -3.5% to -2% of GDP during 2017-2018, driven by an improving trade balance (trade balance moved from deficit toward surplus). (1) One valid factor — e.g. improvement in Australia's terms of trade (higher global commodity prices for iron ore/coal 2017-18 → higher export credits on BOMT → trade balance improved → CA narrowed); OR strong Chinese economic growth increasing demand for Australian commodity exports. (1) Mechanism clearly linking factor to credits/debits on specific sub-account and to the improvement in the CA balance.",
+   kk:"KK2,KK3"},
+  {id:"y18q2",year:2018,qref:"Q3b",marks:4,
+   text:"Discuss one likely effect of <strong>trade liberalisation</strong> on Australia's <strong>international competitiveness</strong> and <strong>living standards</strong>.",
+   stimulus:null,
+   reminder:"Discuss = positive AND negative effects + evaluative conclusion. Two required parts: (1) trade liberalisation → IC, and (2) IC → living standards. Must address both material and non-material LS. Evaluative conclusion required.",
+   guide:"4 marks: (1) Define trade liberalisation and positive effect on IC — reduced barriers → exposure to global competition → firms must improve efficiency/productivity → lower unit costs → improved IC; OR access to cheaper imported inputs → lower production costs → improved price competitiveness. (1) Negative/short-term effect — import competition may harm domestic industries (particularly manufacturing) → structural unemployment → workers displaced → reduced IC in some sectors short-term. (1) Living standards link (material): improved IC → more competitive exports → higher export revenue → higher employment and incomes → improved material LS; BUT structural unemployment in harmed industries → lower incomes → lower material LS. (1) Non-material + evaluative conclusion: job insecurity in affected industries → lower non-material LS; but overall improved productivity and living standards long-run. Must have evaluative conclusion. No negatives = max 2/4.",
+   kk:"KK8,KK9"}
+]},
+{year:"2017",qs:[
+  {id:"y17q1",year:2017,qref:"Q5a",marks:3,
+   text:"Explain how a <strong>depreciation of the Australian dollar</strong> is likely to affect Australia's current account balance.",
+   stimulus:null,
+   reminder:"Two effects needed: BOGS and Primary Income. BOGS: cheaper exports / dearer imports → credits rise relative to debits → improves. Primary Income: two directions — depreciaton increases debits (foreign debt costs more AUD) but also increases credits (overseas investments worth more AUD). Must use ceteris paribus.",
+   guide:"3 marks: (1) Depreciation makes Australian exports cheaper for overseas buyers → demand for exports increases → export credits on BOMT/BOGS rise. Imports become more expensive in AUD → import demand falls → import debits on BOGS fall. All else remaining equal, BOGS likely improves → CA balance improves. (1) Primary income — depreciation increases debits: interest payments on foreign-currency debt require more AUD to service → primary income debits rise. (1) Primary income — depreciation also increases credits: income from Australian overseas investments worth more AUD when converted back → primary income credits rise. Net effect on primary income ambiguous — overall CA effect depends on relative magnitudes. Must use credits/debits language. Must acknowledge both directions of primary income effect for full marks.",
+   kk:"KK6,KK2"},
+  {id:"y17q2",year:2017,qref:"Q5b",marks:6,
+   text:"Explain how <strong>trade liberalisation</strong> is likely to affect the achievement of <strong>two</strong> of Australia's domestic macroeconomic goals.",
+   stimulus:null,
+   reminder:"Define trade liberalisation. Choose two goals — define each with their target on first mention. For each: mechanism → impact on goal. Must address SSEG, Price Stability or Full Employment. Long-run vs short-run distinction will help.",
+   guide:"6 marks (3 per goal): Goal 1 (e.g. SSEG): (1) Define SSEG = highest growth rate possible, consistent with strong employment, without inflationary/environmental/external pressures (3-3.5% real GDP p.a.). Define trade liberalisation. (1) Short-run: import competition → some inefficient industries close → structural unemployment → reduced growth below SSEG target. (1) Long-run: resources reallocated to comparative advantage → productivity gains → lower costs → AS increases → higher productive capacity → sustainable growth without inflation → assists SSEG. Goal 2 (e.g. Price Stability): (1) Define price stability = CPI 2-3% on average over time. (1) Lower import prices from reduced tariffs → cheaper consumer and intermediate goods → downward pressure on CPI → assists price stability. (1) Efficiency gains from competition → lower production costs → lower inflation → assists price stability long-run. Alternatively Full Employment (both short-term job losses and long-run job creation in export industries). Must define both goals with targets.",
+   kk:"KK8,KK9"}
+]}
+];
+
+let sName = "", scores = {}, answers = {}, feedbacks = {};
+
+function start() {
+  var n = document.getElementById("sname").value.trim();
+  if (!n) { alert("Please enter your name first."); return; }
+  sName = n;
+  document.getElementById("entry").style.display = "none";
+  document.getElementById("main").style.display = "block";
+  document.getElementById("top-student").textContent = sName;
+  render();
+}
+
+function backToMain() {
+  document.getElementById("results").style.display = "none";
+  document.getElementById("main").style.display = "block";
+}
+
+function render() {
+  var html = "";
+  for (var yi = 0; yi < YEARS.length; yi++) {
+    var Y = YEARS[yi];
+    var totalMarks = 0;
+    for (var qi = 0; qi < Y.qs.length; qi++) totalMarks += Y.qs[qi].marks;
+    html += "<div class=\"year-block\">";
+    html += "<div class=\"year-hdr\">";
+    html += "<h3>" + Y.year + " VCAA Economics Examination</h3>";
+    html += "<span>" + Y.qs.length + " question" + (Y.qs.length!==1?"s":"") + " &bull; " + totalMarks + " marks</span>";
+    html += "</div><div class=\"year-body\">";
+    for (var qi = 0; qi < Y.qs.length; qi++) {
+      var q = Y.qs[qi];
+      var stimHtml = "";
+      if (q.stimulus) {
+        stimHtml = "<div class=\"stimulus\">" + q.stimulus + "</div>";
+      }
+      html += "<div class=\"q-wrap\">";
+      html += "<div class=\"q-meta\">";
+      html += "<span class=\"q-num\">Question " + q.qref + " &mdash; " + Y.year + " VCAA</span>";
+      html += "<span class=\"q-marks-badge\">" + q.marks + " mark" + (q.marks!==1?"s":"") + "</span>";
+      html += "</div>";
+      html += stimHtml;
+      html += "<div class=\"q-text\">" + q.text + "</div>";
+      html += "<button class=\"reminder-btn no-print\" id=\"rbtn-" + q.id + "\" onclick=\"toggleReminder('" + q.id + "')\">&#128161; Reminder</button>";
+      html += "<div class=\"reminder-box\" id=\"rbox-" + q.id + "\">" + q.reminder + "</div>";
+      html += "<textarea id=\"ta-" + q.id + "\" placeholder=\"Write your answer here...\" oninput=\"wc('" + q.id + "')\"></textarea>";
+      html += "<div class=\"qa\">";
+      html += "<button class=\"btn-submit\" id=\"btn-" + q.id + "\" onclick=\"markQ('" + q.id + "')\">Submit for Marking</button>";
+      html += "<span class=\"wc\" id=\"wc-" + q.id + "\">0 words</span>";
+      html += "</div><div id=\"fb-" + q.id + "\"></div></div>";
+    }
+    html += "</div></div>";
+  }
+  document.getElementById("questions").innerHTML = html;
+}
+
+function toggleReminder(id) {
+  var box = document.getElementById("rbox-" + id);
+  var btn = document.getElementById("rbtn-" + id);
+  if (!box || !btn) return;
+  if (box.classList.contains("open")) {
+    box.classList.remove("open");
+    btn.textContent = "\u{1F4A1} Reminder";
+  } else {
+    box.classList.add("open");
+    btn.textContent = "\u{1F4A1} Hide Reminder";
+  }
+}
+
+function wc(id) {
+  var v = document.getElementById("ta-" + id).value.trim();
+  var w = v ? v.split(/\s+/).length : 0;
+  document.getElementById("wc-" + id).textContent = w + " word" + (w !== 1 ? "s" : "");
+}
+
+function updateScore() {
+  var t = 0;
+  for (var k in scores) t += scores[k].e;
+  document.getElementById("top-score").textContent = t + " mark" + (t !== 1 ? "s" : "") + " earned";
+}
+
+function toggleModel(mid) {
+  var box = document.getElementById("mbox-" + mid);
+  var btn = document.getElementById("mbtn-" + mid);
+  if (!box || !btn) return;
+  if (box.classList.contains("open")) {
+    box.classList.remove("open");
+    btn.textContent = "Click to reveal model answer";
+  } else {
+    box.classList.add("open");
+    btn.textContent = "Hide model answer";
+  }
+}
+
+async function markQ(id) {
+  var ans = document.getElementById("ta-" + id).value.trim();
+  if (!ans) { alert("Write an answer first!"); return; }
+  var q = null;
+  for (var yi = 0; yi < YEARS.length; yi++) {
+    for (var qi = 0; qi < YEARS[yi].qs.length; qi++) {
+      if (YEARS[yi].qs[qi].id === id) { q = YEARS[yi].qs[qi]; break; }
+    }
+    if (q) break;
+  }
+  if (!q) return;
+  var btn = document.getElementById("btn-" + id);
+  var fbEl = document.getElementById("fb-" + id);
+  btn.disabled = true; btn.textContent = "Marking...";
+  document.getElementById("ta-" + id).disabled = true;
+  fbEl.innerHTML = "<div class=\"fb-wrap\"><div class=\"fb-loading\"><span class=\"sp\"></span>Marking your response...</div></div>";
+  var prompt = "VCAA EXAM QUESTION (" + q.year + ", " + q.qref + ", " + q.marks + " marks): " + q.text.replace(/<[^>]+>/g, "") + "\nOFFICIAL MARKING GUIDE: " + q.guide + "\nSTUDENT: " + sName + "\nANSWER: " + ans + "\nMark strictly against the VCAA guide. Address student as you/your. Return only valid JSON.";
+  try {
+    var resp = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, system: SYSTEM, messages: [{ role: "user", content: prompt }] })
+    });
+    if (!resp.ok) { var e = await resp.json(); throw new Error(e.error && e.error.message ? e.error.message : "API error " + resp.status); }
+    var data = await resp.json();
+    var raw = data.content[0].text.trim();
+    var jsonStart = raw.indexOf("{");
+    var jsonEnd = raw.lastIndexOf("}");
+    if (jsonStart > -1 && jsonEnd > -1) raw = raw.substring(jsonStart, jsonEnd + 1);
+    var f = JSON.parse(raw);
+    scores[id] = { e: f.score, m: f.maxScore || q.marks };
+    answers[id] = ans;
+    feedbacks[id] = f;
+    updateScore();
+    var pct = Math.round((f.score / (f.maxScore || q.marks)) * 100);
+    var grade = pct >= 90 ? "Excellent" : pct >= 75 ? "Good" : pct >= 50 ? "Satisfactory" : "Needs Work";
+    var cls = pct >= 80 ? "s-top" : pct >= 60 ? "s-good" : pct >= 40 ? "s-mid" : "s-low";
+    var mid = id + "_" + Date.now();
+    var wl = (f.whatWorked || []).map(function(p) { return "<li>" + p + "</li>"; }).join("");
+    var im = (f.improvements || []).map(function(p) { return "<li>" + p + "</li>"; }).join("");
+    var cm = f.commonMistakes && f.commonMistakes.length ? "<div class=\"fb-sec fb-warn\"><h4>&#9888;&#65039; VCAA Common Error</h4><ul>" + f.commonMistakes.map(function(p) { return "<li>" + p + "</li>"; }).join("") + "</ul></div>" : "";
+    fbEl.innerHTML = "<div class=\"fb-wrap\">" +
+      "<div class=\"fb-hdr " + cls + "\">" +
+        "<div><div class=\"fb-score\">" + f.score + " / " + (f.maxScore || q.marks) + "</div><div class=\"fb-grade\">" + grade + " &middot; " + pct + "%</div></div>" +
+        "<div class=\"fb-enc\">" + (f.encouragement || "") + "</div>" +
+      "</div>" +
+      "<div class=\"fb-body\">" +
+        "<div class=\"fb-sec fb-well\"><h4>&#9989; What's Working Well</h4><ul>" + wl + "</ul></div>" +
+        "<div class=\"fb-sec fb-imp\"><h4>&#128295; What To Improve</h4><ul>" + im + "</ul></div>" +
+        cm +
+        "<div class=\"fb-sec fb-mod\"><h4>&#128221; Model Answer</h4>" +
+          "<button class=\"model-btn no-print\" id=\"mbtn-" + mid + "\" onclick=\"toggleModel('" + mid + "')\">Click to reveal model answer</button>" +
+          "<div class=\"model-answer\" id=\"mbox-" + mid + "\">" + (f.modelAnswer || "") + "</div>" +
+        "</div>" +
+      "</div></div>";
+    btn.textContent = "\u2705 Marked";
+  } catch (err) {
+    fbEl.innerHTML = "<div class=\"fb-wrap\"><div class=\"fb-loading\" style=\"color:var(--red)\">&#9888;&#65039; " + err.message + "</div></div>";
+    btn.disabled = false; btn.textContent = "Submit for Marking";
+    document.getElementById("ta-" + id).disabled = false;
+  }
+}
+
+function showResults() {
+  buildResults();
+  document.getElementById("main").style.display = "none";
+  document.getElementById("results").style.display = "block";
+}
+
+function buildResults() {
+  document.getElementById("r-name").textContent = sName;
+  document.getElementById("r-date").textContent = new Date().toLocaleDateString("en-AU", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  var totalM = 0, earned = 0, att = 0;
+  for (var yi = 0; yi < YEARS.length; yi++) {
+    for (var qi = 0; qi < YEARS[yi].qs.length; qi++) {
+      totalM += YEARS[yi].qs[qi].marks;
+      if (scores[YEARS[yi].qs[qi].id]) { earned += scores[YEARS[yi].qs[qi].id].e; att++; }
+    }
+  }
+  document.getElementById("r-score").innerHTML = earned + "<span>/" + totalM + "</span>";
+  document.getElementById("r-sub").textContent = att + " of 15 questions submitted for marking";
+
+  // By year breakdown
+  var byYearHtml = "<div class=\"r-card\"><h3>&#128197; Score by Exam Year</h3>";
+  for (var yi = 0; yi < YEARS.length; yi++) {
+    var Y = YEARS[yi]; var ye = 0; var yt = 0;
+    for (var qi = 0; qi < Y.qs.length; qi++) {
+      yt += Y.qs[qi].marks;
+      if (scores[Y.qs[qi].id]) ye += scores[Y.qs[qi].id].e;
+    }
+    var pct = yt > 0 ? Math.round((ye / yt) * 100) : null;
+    var col = pct === null ? "#94a3b8" : pct >= 75 ? "#1a7a4a" : pct >= 50 ? "#e07b20" : "#c0392b";
+    var bg = pct === null ? "#f1f5f9" : pct >= 75 ? "#e8f7ef" : pct >= 50 ? "#fef3e2" : "#fdecea";
+    byYearHtml += "<div class=\"r-row\">";
+    byYearHtml += "<span><strong>" + Y.year + "</strong></span>";
+    byYearHtml += "<span class=\"sc-pill\" style=\"background:" + bg + ";color:" + col + "\">" + ye + "/" + yt + "</span>";
+    byYearHtml += "</div>";
+  }
+  byYearHtml += "</div>";
+  document.getElementById("r-by-year").innerHTML = byYearHtml;
+
+  // Question summary
+  var qHtml = "<div class=\"r-card\"><h3>&#128203; Question Summary</h3>";
+  for (var yi = 0; yi < YEARS.length; yi++) {
+    for (var qi = 0; qi < YEARS[yi].qs.length; qi++) {
+      var q = YEARS[yi].qs[qi];
+      var s = scores[q.id];
+      var pct = s ? Math.round((s.e / s.m) * 100) : null;
+      var col = pct === null ? "#94a3b8" : pct >= 75 ? "#1a7a4a" : pct >= 50 ? "#e07b20" : "#c0392b";
+      var bg = pct === null ? "#f1f5f9" : pct >= 75 ? "#e8f7ef" : pct >= 50 ? "#fef3e2" : "#fdecea";
+      qHtml += "<div class=\"r-row\">";
+      qHtml += "<span>" + YEARS[yi].year + " " + q.qref + " <span style=\"color:var(--muted);font-size:.75rem\">&mdash; " + q.marks + " marks</span></span>";
+      qHtml += "<span class=\"sc-pill\" style=\"background:" + bg + ";color:" + col + "\">" + (s ? s.e + "/" + s.m : "Not submitted") + "</span>";
+      qHtml += "</div>";
+    }
+  }
+  qHtml += "</div>";
+  document.getElementById("r-summary").innerHTML = qHtml;
+
+  // Full detail
+  var detHtml = "<h3 style=\"margin-bottom:1.25rem;font-size:1.05rem;font-weight:800\">Full Responses &amp; Feedback</h3>";
+  for (var yi = 0; yi < YEARS.length; yi++) {
+    for (var qi = 0; qi < YEARS[yi].qs.length; qi++) {
+      var q = YEARS[yi].qs[qi];
+      var fb = feedbacks[q.id]; var s = scores[q.id];
+      var pct = s ? Math.round((s.e / s.m) * 100) : null;
+      var col = pct === null ? "#94a3b8" : pct >= 75 ? "#1a7a4a" : pct >= 50 ? "#e07b20" : "#c0392b";
+      var bg = pct === null ? "#f1f5f9" : pct >= 75 ? "#e8f7ef" : pct >= 50 ? "#fef3e2" : "#fdecea";
+      detHtml += "<div style=\"background:#fff;border-radius:12px;padding:1.4rem;margin-bottom:1.2rem;box-shadow:0 2px 8px rgba(0,0,0,.06)\">";
+      detHtml += "<div style=\"display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem\">";
+      detHtml += "<strong>" + YEARS[yi].year + " VCAA &mdash; " + q.qref + "</strong>";
+      detHtml += "<span style=\"font-weight:700;font-size:.82rem;padding:.2rem .6rem;border-radius:10px;background:" + bg + ";color:" + col + "\">" + (s ? s.e + "/" + s.m : "Not submitted") + "</span>";
+      detHtml += "</div>";
+      detHtml += "<div style=\"font-size:.88rem;color:#555;margin-bottom:.6rem\">" + q.text.replace(/<[^>]+>/g, "") + "</div>";
+      detHtml += "<div style=\"background:#f5f5f0;padding:.85rem;border-radius:8px;font-size:.88rem;margin-bottom:.6rem;white-space:pre-wrap\">" + (answers[q.id] || "(No answer submitted)") + "</div>";
+      if (fb) {
+        detHtml += "<div style=\"font-size:.84rem;padding:.65rem;background:#e8f7ef;border-radius:8px;margin-bottom:.35rem\"><strong style=\"color:#1a7a4a\">&#9989; Well done:</strong> " + (fb.whatWorked || []).join(" ") + "</div>";
+        detHtml += "<div style=\"font-size:.84rem;padding:.65rem;background:#fef3e2;border-radius:8px;margin-bottom:.35rem\"><strong style=\"color:#e07b20\">&#128295; To improve:</strong> " + (fb.improvements || []).join(" ") + "</div>";
+        if (fb.commonMistakes && fb.commonMistakes.length) {
+          detHtml += "<div style=\"font-size:.84rem;padding:.65rem;background:#fdecea;border-radius:8px;margin-bottom:.35rem\"><strong style=\"color:#c0392b\">&#9888;&#65039; VCAA error:</strong> " + fb.commonMistakes.join(" ") + "</div>";
+        }
+        detHtml += "<div style=\"font-size:.84rem;padding:.65rem;background:#f0faf8;border-radius:8px\"><strong style=\"color:#1a6b6b\">&#128221; Model answer:</strong><br><br>" + (fb.modelAnswer || "") + "</div>";
+      } else {
+        detHtml += "<p style=\"color:#94a3b8;font-size:.84rem\">Not submitted for marking.</p>";
+      }
+      detHtml += "</div>";
+    }
+  }
+  document.getElementById("r-detail").innerHTML = detHtml;
+}
+</script>
+</body>
+</html>

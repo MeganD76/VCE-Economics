@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U3 AOS3 – Practice Questions</title>
+<style>
+:root{
+  --red:#e74c3c;--redl:#fdf0ef;
+  --amber:#e67e22;--amberl:#fef5e7;
+  --green:#27ae60;--greenl:#eafaf1;
+  --purple:#7c3aed;--purplel:#f5f3ff;
+  --gray:#64748b;--bg:#f1f5f9;--white:#fff;
+  --border:#e2e8f0;--text:#1e293b;--muted:#94a3b8
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+#entry{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+.entry-card{background:var(--white);border-radius:24px;padding:2.8rem;max-width:540px;width:100%;box-shadow:0 8px 40px rgba(124,58,237,.12)}
+.badge{background:var(--purple);color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem 1rem;border-radius:20px;display:inline-block;margin-bottom:1.4rem}
+.entry-card h1{font-size:1.75rem;font-weight:900;line-height:1.2;margin-bottom:.6rem}
+.intro{color:var(--gray);font-size:.92rem;margin-bottom:.5rem;line-height:1.65}
+.tip-box-entry{background:var(--purplel);border-left:3px solid var(--purple);border-radius:8px;padding:.8rem 1rem;font-size:.85rem;color:#5b21b6;margin-bottom:1.4rem;line-height:1.6}
+.fg label{display:block;font-weight:600;font-size:.88rem;margin-bottom:.4rem}
+.fg input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:10px;font-size:1rem;outline:none;transition:border .2s;margin-bottom:1rem}
+.fg input:focus{border-color:var(--purple)}
+.btn-primary{background:var(--purple);color:#fff;border:none;padding:.9rem 2rem;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;transition:background .2s}
+.btn-primary:hover{background:#6d28d9}
+#main{display:none;max-width:920px;margin:0 auto;padding:1rem 1rem 5rem}
+.top-bar{background:var(--bg);position:sticky;top:0;z-index:20;padding:.8rem 0;border-bottom:2px solid var(--border);margin-bottom:1.5rem}
+.tbi{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.tbi h2{font-size:1.05rem;font-weight:800}
+.tbi p{font-size:.78rem;color:var(--gray)}
+.score-pill{background:var(--purplel);color:var(--purple);font-weight:800;font-size:.88rem;padding:.3rem .9rem;border-radius:20px;white-space:nowrap}
+.lesson-block{margin-bottom:2.5rem}
+.lh{background:var(--purple);color:#fff;border-radius:14px 14px 0 0;padding:1rem 1.4rem}
+.lh h3{font-size:1rem;font-weight:800}
+.lh p{font-size:.8rem;opacity:.82;margin-top:.15rem}
+.lb{background:var(--white);border-radius:0 0 14px 14px;border:2px solid var(--purple);border-top:none;overflow:hidden}
+.tab-bar{display:flex;border-bottom:2px solid var(--border);background:#f8fafc;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:100px;padding:.65rem .8rem;border:none;background:transparent;font-size:.79rem;font-weight:700;cursor:pointer;color:var(--gray);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
+.tab-btn.active{color:var(--purple);border-bottom-color:var(--purple);background:var(--white)}
+.tab-panel{display:none;padding:1.4rem}
+.tab-panel.active{display:block}
+.data-box{background:#fffbeb;border:2px solid #fbbf24;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.84rem;color:#78350f;line-height:1.75}
+.data-box strong{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#92400e;margin-bottom:.35rem}
+.q-label{font-size:.7rem;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem}
+.q-text{font-size:.96rem;font-weight:700;line-height:1.55;margin-bottom:.2rem}
+.q-marks{font-size:.76rem;color:var(--muted);font-weight:600;margin-bottom:.9rem}
+.tip-btn-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:.7rem}
+.tip-btn{display:inline-flex;align-items:center;gap:.4rem;border:1.5px dashed;font-family:inherit;font-size:.79rem;font-weight:700;padding:.42rem .85rem;border-radius:8px;cursor:pointer;transition:all .2s;background:transparent}
+.tip-btn.content{border-color:var(--purple);color:#5b21b6}
+.tip-btn.content:hover,.tip-btn.content.open{background:var(--purplel)}
+.tip-btn.process{border-color:#f97316;color:#c2410c}
+.tip-btn.process:hover,.tip-btn.process.open{background:#fff7ed}
+.tip-content{display:none;background:var(--purplel);border-left:3px solid var(--purple);border-radius:8px;padding:.75rem 1rem;font-size:.82rem;color:#5b21b6;margin-bottom:.75rem;line-height:1.7}
+.tip-process{display:none;background:#fff7ed;border-left:3px solid #f97316;border-radius:8px;padding:.75rem 1rem;font-size:.82rem;color:#7c2d12;margin-bottom:.75rem;line-height:1.7}
+.tip-content.open,.tip-process.open{display:block}
+.self-check{background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.85rem 1rem;margin:.75rem 0}
+.self-check-title{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#166534;margin-bottom:.5rem}
+.self-check label{display:flex;align-items:flex-start;gap:.5rem;font-size:.8rem;color:#14532d;margin-bottom:.3rem;cursor:pointer;line-height:1.45}
+.self-check input[type=checkbox]{margin-top:.15rem;flex-shrink:0;accent-color:#16a34a}
+.conf-box{background:#eff6ff;border:1.5px solid #93c5fd;border-radius:10px;padding:.85rem 1.1rem;margin-bottom:.9rem}
+.conf-title{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#1d4ed8;margin-bottom:.5rem}
+.conf-btns{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem}
+.conf-btn{padding:.35rem .85rem;border-radius:8px;border:1.5px solid #93c5fd;background:#fff;font-size:.79rem;font-weight:600;cursor:pointer;color:#1d4ed8;transition:all .2s}
+.conf-msg{font-size:.79rem;font-style:italic;min-height:1.2rem;color:#1e3a8a}
+textarea{width:100%;padding:.8rem 1rem;border:1.5px solid var(--border);border-radius:10px;font-size:.88rem;font-family:inherit;outline:none;resize:vertical;min-height:115px;transition:border .2s;line-height:1.6}
+textarea:focus{border-color:var(--purple)}
+textarea:disabled{background:#f8fafc;color:var(--gray)}
+.qa{display:flex;gap:.7rem;margin-top:.8rem;flex-wrap:wrap;align-items:center}
+.btn-mark{background:var(--purple);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:9px;font-size:.84rem;font-weight:700;cursor:pointer;transition:background .2s}
+.btn-mark:hover{background:#6d28d9}
+.btn-mark:disabled{background:var(--muted);cursor:not-allowed}
+.btn-clear{background:transparent;color:var(--gray);border:1.5px solid var(--border);padding:.6rem 1rem;border-radius:9px;font-size:.84rem;font-weight:600;cursor:pointer}
+.btn-retry{background:#fff;color:var(--purple);border:2px solid var(--purple);padding:.65rem 1.4rem;border-radius:9px;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;margin-top:1rem;display:inline-flex;align-items:center;gap:.4rem}
+.btn-retry:hover{background:var(--purplel)}
+.wc{font-size:.74rem;color:var(--muted);margin-left:auto}
+.fb-wrap{margin-top:1rem;border-radius:12px;overflow:hidden;border:2px solid var(--border)}
+.fb-load{padding:1.2rem;text-align:center;color:var(--purple);font-size:.88rem;font-weight:600}
+.sp{display:inline-block;width:18px;height:18px;border:3px solid var(--purplel);border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite;margin-right:.5rem;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fb-top{padding:.9rem 1.3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-bottom:2px solid rgba(0,0,0,.07)}
+.fb-score{font-size:1.2rem;font-weight:900}
+.fb-grade{font-size:.76rem;font-weight:700;opacity:.85}
+.fb-enc{font-size:.8rem;font-style:italic;max-width:270px;text-align:right;opacity:.8}
+.s-low{background:var(--redl)}.s-low .fb-score{color:var(--red)}
+.s-mid{background:var(--amberl)}.s-mid .fb-score{color:var(--amber)}
+.s-good{background:var(--greenl)}.s-good .fb-score{color:var(--green)}
+.s-top{background:var(--purplel)}.s-top .fb-score{color:var(--purple)}
+.fb-body{padding:1.1rem 1.3rem;font-size:.86rem;line-height:1.75}
+.fb-sec{margin-bottom:1rem}.fb-sec:last-child{margin-bottom:0}
+.fb-sec h4{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
+.fb-sec ul{padding-left:1.1rem}.fb-sec li{margin-bottom:.25rem}
+.fb-well h4{color:var(--green)}.fb-imp h4{color:var(--amber)}.fb-warn h4{color:var(--red)}.fb-mod h4{color:var(--purple)}
+.model-btn{display:inline-flex;align-items:center;gap:.4rem;background:none;border:2px solid var(--purple);color:var(--purple);font-family:inherit;font-size:.8rem;font-weight:700;padding:.4rem .9rem;border-radius:8px;cursor:pointer;transition:all .2s;margin-top:.2rem}
+.model-btn:hover{background:var(--purple);color:#fff}
+.model-answer{display:none;background:var(--purplel);border-left:3px solid var(--purple);border-radius:6px;padding:.8rem 1rem;font-size:.83rem;color:#3b0764;line-height:1.75;font-style:italic;white-space:pre-wrap;margin-top:.6rem}
+.model-answer.open{display:block}
+.reflect-box{background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.85rem}
+.reflect-title{font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#166534;margin-bottom:.4rem}
+.reflect-sub{font-size:.82rem;color:#166534;margin-bottom:.5rem}
+.dl-bar{text-align:center;padding:1.5rem 0 2rem}
+.btn-dl{background:var(--purple);color:#fff;border:none;padding:.8rem 2rem;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .2s;display:inline-flex;align-items:center;gap:.5rem;margin:.25rem}
+.btn-dl:hover{background:#6d28d9}
+.btn-dl.gray{background:#64748b}
+.btn-dl.gray:hover{background:#475569}
+#results{display:none;max-width:920px;margin:0 auto;padding:1rem 1rem 4rem}
+.r-hdr{background:#1e293b;color:#fff;border-radius:16px;padding:2rem;margin-bottom:1.5rem;text-align:center}
+.r-hdr h2{font-size:1.8rem;font-weight:900;margin-bottom:.3rem}
+.r-score{font-size:3.5rem;font-weight:900;color:#e9c46a;margin:.75rem 0 .2rem}
+.r-score span{font-size:1.4rem;opacity:.7}
+.kk-card{background:#fff;border-radius:14px;padding:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:1.25rem}
+.kk-card h3{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--gray);margin-bottom:1.1rem}
+.kk-row{margin-bottom:.85rem}
+.kk-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem;flex-wrap:wrap;gap:.3rem}
+.kk-badge{font-size:.72rem;font-weight:800;padding:.15rem .55rem;border-radius:12px;margin-right:.4rem}
+.kk-bar-bg{height:7px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.kk-bar-fill{height:100%;border-radius:4px}
+.focus-box{background:#fef2f2;border:1.5px solid #fca5a5;border-radius:10px;padding:1rem 1.1rem;margin-top:1rem}
+.strong-box{background:#eafaf1;border:1.5px solid #86efac;border-radius:10px;padding:.85rem 1.1rem;margin-top:.75rem}
+.q-summary-card{background:#fff;border-radius:14px;padding:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:1.25rem}
+.q-summary-card h3{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--gray);margin-bottom:1rem}
+.q-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid var(--bg);font-size:.83rem}
+.q-row:last-child{border:none}
+.sc-pill{font-weight:700;font-size:.8rem;padding:.18rem .55rem;border-radius:12px;white-space:nowrap}
+@media print{
+  .no-print{display:none!important}
+  body{background:#fff}
+  .lesson-block{break-inside:avoid}
+  .top-bar{position:static}
+  .model-answer{display:block!important}
+  .tip-content,.tip-process{display:block!important}
+  #entry,#main{display:none!important}
+  #results{display:block!important;padding:0;max-width:100%}
+  .r-hdr{background:#1e293b!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div id="entry">
+  <div class="entry-card">
+    <span class="badge">VCE Economics &middot; Unit 3 AOS3</span>
+    <h1>Practice Questions</h1>
+    <p class="intro">Australia&rsquo;s External Stability &mdash; work through each lesson&rsquo;s questions at your own pace. Get instant AI feedback marked to your teacher&rsquo;s standard.</p>
+    <div class="tip-box-entry">
+      Two types of tips are available for each question: <strong>Content Tips</strong> (what to include) and <strong>Process Tips</strong> (how to structure your answer). Try without them first, then reveal if you need a nudge. Use the self-check list before submitting. You can clear and retry as many times as you like.
+    </div>
+    <div class="fg">
+      <label for="sname">Your full name</label>
+      <input type="text" id="sname" placeholder="e.g. Jordan Smith"/>
+    </div>
+    <button class="btn-primary" onclick="start()">Start Practising &rarr;</button>
+  </div>
+</div>
+
+<div id="main">
+  <div class="top-bar no-print">
+    <div class="tbi">
+      <div><h2>U3 AOS3 &mdash; Australia&rsquo;s External Stability</h2><p id="top-student"></p></div>
+      <span class="score-pill" id="top-score">0 marks earned</span>
+    </div>
+  </div>
+  <div id="lessons"></div>
+  <div class="dl-bar no-print">
+    <button class="btn-dl" onclick="showResults()">&#128202; View Results &amp; KK Summary</button>
+    <button class="btn-dl gray" onclick="window.print()">&#11015; Download / Print</button>
+  </div>
+</div>
+
+<div id="results">
+  <div class="r-hdr">
+    <p id="r-date" style="opacity:.5;font-size:.78rem;margin-bottom:.35rem"></p>
+    <h2 id="r-name"></h2>
+    <p style="opacity:.7;font-size:.88rem">U3 AOS3 &mdash; Australia&rsquo;s External Stability</p>
+    <div class="r-score" id="r-score">&mdash;</div>
+    <p id="r-sub" style="opacity:.7;font-size:.85rem"></p>
+  </div>
+  <div id="r-kk"></div>
+  <div id="r-qs"></div>
+  <div class="dl-bar no-print">
+    <button class="btn-dl" onclick="window.print()">&#11015; Download PDF for Submission</button>
+    <button class="btn-dl gray" onclick="backToMain()">&#8592; Back to Questions</button>
+  </div>
+  <div id="r-detail"></div>
+</div>
+
+<script>
+const WORKER_URL = "https://vce-marker.megan-dyring.workers.dev";
+
+const SYSTEM = `You are an expert VCE Economics teacher marking Unit 3 AOS3 (Australia's External Stability) student responses. Your marking is based directly on the teacher's own slides, past SAC feedback, revision booklet answers, SAC tips slides, exchange rate practice slides, and the 2024 VCAA Economics Examiner's Report. Mark exactly as this teacher would, applying all of the following knowledge and rules.
+
+IMPORTANT: All feedback must be written in second person, speaking DIRECTLY to the student using "you" and "your". Never refer to "the student" — always say "you did well", "your answer", "you need to", etc.
+
+=== CONTENT KNOWLEDGE BASE ===
+
+GAINS FROM INTERNATIONAL TRADE (KK1):
+- Lower prices: trade allows countries to import goods more cheaply than producing locally — consumers benefit through cheaper goods and greater purchasing power
+- Greater choice: access to wider range of goods/services not produced locally — consumers enjoy greater variety
+- Access to resources: countries import inputs they lack domestically (e.g. crude oil, machinery for mining)
+- Economies of scale: trade opens larger markets allowing firms to lower per-unit costs as output grows (fixed costs spread over greater volume)
+- Increased competition and efficiency: exposure to global competitors encourages innovation and efficiency — consumers gain better quality/lower prices; producers become more efficient or specialise
+- Absolute cost advantage = cheapest producer; Comparative cost advantage = lower opportunity cost
+- Trade liberalisation = any government policy promoting free trade/reducing barriers: cutting tariffs, reducing subsidies, abolishing quotas, signing trade agreements (bilateral/multilateral)
+
+BALANCE OF PAYMENTS (KK2):
+- BOP = annual statistical record of money value of different types of financial transactions between Australia and rest of world
+- Credits = money IN to Australia (AUD demanded); Debits = money OUT of Australia (AUD supplied)
+- BOP always = 0: Current Account + CAFA = 0
+- Current Account = transactions of CURRENT nature, NO future obligation (goods, services, primary income, secondary income)
+- CAFA = transactions creating FUTURE OBLIGATION (loans, equity investment, etc.)
+- CA components: Net Goods (BOMT), Net Services, Net Primary Income (wages, salaries, interest, dividends, profits), Net Secondary Income (one-way transfers — foreign aid, pensions, gifts — nothing exchanged in return)
+- Net Goods + Net Services = BOGS
+- CAFA: Capital transfers + Financial account (Direct investment, Portfolio investment, Financial derivatives, Other investments, Reserve assets)
+- Financial account records how Australia FINANCES its current account deficits
+
+CYCLICAL vs STRUCTURAL (KK3):
+- Cyclical = tied to economic cycle, DEMAND-SIDE, reverses when cycle turns
+- Structural = persists REGARDLESS of cycle, NOT AD-related, requires policy to fix
+- IMPORTANT from 2024 VCAA Examiner Report: Structural factors CANNOT be exchange rates, overseas economic growth, fluctuations in commodity prices and the terms of trade or one-off climatic conditions.
+
+NET FOREIGN LIABILITIES (KK5):
+- NFL = Net Foreign Debt (NFD) + Net Foreign Equity (NFE) — MUST have BOTH
+- NFD = total owed to foreign lenders minus what foreigners owe Australia — includes loans/borrowings, EXCLUDES equity
+- NFE = value of foreign ownership of Australian assets MINUS Australian ownership of foreign assets. IMPORTANT: A common student error is to define NFE as only 'foreign-owned Australian assets' without subtracting Australian-owned foreign assets — this is incomplete and should not receive full marks
+- Large CADs do NOT necessarily increase NFD — may sell equity instead
+- Self-reinforcing: Higher CAD → Higher NFL → Higher CAD (via primary income debits)
+
+EXCHANGE RATE (KK6):
+- Australia has a FLOATING exchange rate
+- DEMAND for AUD = credits on BOP; SUPPLY of AUD = debits on BOP
+- Factors: relative interest rates (RELATIVE is critical), commodity prices/ToT, relative inflation, foreign investment, export/import demand, speculation, credit ratings
+- Depreciation: AD increases (net exports rise); AS decreases (imported inputs more expensive); positive demand outweighs negative supply overall
+- Use "likely/should" not "will"
+
+TERMS OF TRADE (KK7):
+- ToT = RATIO of average export prices to average import prices, expressed as an INDEX
+- NEVER "value of ToT" — it is an INDEX measuring a RATIO
+- Measurement: Export Price Index divided by Import Price Index × 100
+- SSEG target = 3-3.5% real GDP p.a.; Price Stability = CPI 2-3%; Full Employment = NAIRU ~4-4.25%
+
+INTERNATIONAL COMPETITIVENESS (KK8):
+- Ability of Australian producers to compete, survive, expand and flourish against foreign rivals, capturing a growing share of global sales and incomes — assessed on both price AND non-price factors (quality, innovation, reliability)
+- Factors: production costs, productivity, natural resources, exchange rates, relative inflation rates
+- Trade liberalisation: short-term = structural unemployment; long-term = productivity gains, lower costs, higher AS
+
+IMPACTS ON GOALS AND LIVING STANDARDS (KK9):
+- SSEG = highest growth rate possible, consistent with strong employment growth, without running into inflationary, environmental or external pressures (3-3.5% real GDP p.a.)
+- Material living standards = access to goods/services, income, purchasing power (NOT same as disposable income)
+- Non-material living standards = stress, wellbeing, job satisfaction, quality of life
+
+=== STRICT MARKING RULES ===
+1. TRENDS require DUDDS: Direction, Units, Data, Date, So-what
+2. "All else remaining equal" or "ceteris paribus" REQUIRED in cause-effect analysis — use "likely/should" not "will"
+3. MUST specify sub-account: BOMT, BOGS, Primary Income, Secondary Income
+4. ToT is an INDEX measuring a RATIO — NEVER "value of ToT" — deduct mark immediately. Award credit where students distinguish the SOURCE of a ToT change: (a) higher export prices → demand inflation, higher export income; (b) lower import prices → lower production costs, supply-side benefits, reduced cost inflation
+5. Interest rates MUST be RELATIVE
+6. NFL = NFD + NFE — must have BOTH; CAD funded by "borrowing OR selling equity"
+7. Both MATERIAL and NON-MATERIAL living standards required where asked. Purchasing power ≠ disposable income
+8. Full goal definitions required on first mention in a question
+9. NEVER circular reasoning
+10. "Discuss" = BOTH positive AND negative with evaluative conclusion
+11. Credits/debits language required throughout
+12. Structural factors = PERSISTENT, inherent — exchange rates, commodity prices, overseas growth = CYCLICAL not structural. Valid structural factor language includes: savings-investment gap, low productivity, high Real Unit Labour Costs (RULCs), low international competitiveness
+13. Full sentences required — arrows and symbols will not receive full marks
+14. Explain, do not assert
+
+=== FEEDBACK FORMAT ===
+Return ONLY valid JSON, no markdown. ALL text must address the student directly using "you/your":
+{
+  "score": <number>,
+  "maxScore": <number>,
+  "whatWorked": ["specific point referencing what you actually wrote — use 'you' language e.g. 'You correctly identified...'"],
+  "improvements": ["specific actionable improvement using 'you' language e.g. 'You need to include...' or 'Your answer would be stronger if you...'"],
+  "commonMistakes": ["specific VCAA or teacher-noted mistake found in your response — empty array [] if none"],
+  "modelAnswer": "Full A-grade model answer in full sentences with precise terminology",
+  "encouragement": "One sentence speaking directly to the student using 'you' — e.g. 'You showed a strong grasp of...'"
+}`;
+
+const DATA = `<strong>📊 Current Economic Data (2025) — reference these in your answers:</strong>
+AUD/USD: ~0.63 (depreciated from ~0.70 in 2022) &nbsp;|&nbsp; Current Account: ~–2.8% of GDP (worsened from –0.1% in 2023)
+Terms of Trade Index: ~115 index points (fallen from peak of ~140 in 2022) &nbsp;|&nbsp; CPI Inflation: ~3.5% (above 2–3% target)
+Unemployment: ~4.1% (within full employment band 4–4.25%) &nbsp;|&nbsp; Real GDP growth: ~1.0% p.a. (below 3–3.5% target)
+RBA Cash Rate: 4.10% &nbsp;|&nbsp; US Fed Rate: ~4.5% &nbsp;|&nbsp; Major trading partners: China (largest), Japan, South Korea, USA`;
+
+const KK_MAP = {
+  "KK1": "the gains from international trade, including lower prices, greater choice, access to resources, economies of scale, and increased competition and efficiency",
+  "KK2": "the balance of payments and its components",
+  "KK3": "cyclical and structural influences on Australia's current account balance",
+  "KK5": "the composition and cause of net foreign debt and net foreign equities",
+  "KK6": "the exchange rate, its meaning and measurement and the factors affecting its value",
+  "KK7": "the terms of trade, its meaning and measurement and the factors that may affect it",
+  "KK8": "international competitiveness and the factors that may affect it",
+  "KK9": "the effect of movements in the terms of trade and the exchange rate, and changes in international competitiveness on domestic macroeconomic goals and living standards"
+};
+
+const LESSONS = [
+{id:"L1",title:"Lesson 1 — International Trade",desc:"Gains from trade and effects on living standards",qs:[
+  {id:"L1a",level:"Level 1 (4 marks)",marks:4,kk:["KK1"],
+   text:"Explain two ways international trade can improve Australia's living standards.",
+   hint:"From your notes: gains from trade include — economies of scale (fixed costs spread over more units), increased competition and efficiency, access to resources, greater consumer choice, lower prices/purchasing power, specialisation/comparative advantage. For EACH way: name it clearly → explain the MECHANISM → link specifically to material OR non-material living standards.",
+   process:"🔧 PROCESS — Explain × 2 structure:<br>① Name the gain from trade clearly<br>② Explain the mechanism: HOW does it lower costs / increase choice / etc?<br>③ Link specifically to living standards: material (purchasing power, access to goods) or non-material (quality of life)?<br>④ Repeat for your second gain — make sure it's a different mechanism<br>⚠️ Don't just name the gain and say 'this improves living standards' — explain the chain",
+   guide:`2 marks for TWO distinct mechanisms clearly explained (1 mark each): economies of scale, increased competition/efficiency, access to resources, greater consumer choice, lower prices, trade liberalisation. 2 marks for living standards links: material (lower prices → increased purchasing power → greater access to goods/services) and non-material (greater variety → improved quality of life). Note: purchasing power = what income can buy — NOT same as disposable income. Only one mechanism = max 2/4.`},
+  {id:"L1b",level:"Level 2 (6 marks)",marks:6,kk:["KK1"],
+   text:"Analyse the relationship between international trade and living standards in Australia, using one recent example (2023–2025).",
+   hint:"Analyse = in-depth account identifying components AND their implications (both positive and negative). Use a specific 2023–2025 example (e.g. China resuming trade 2023 — lifting bans on coal, barley, wine; or iron ore demand changes). Link to both material AND non-material living standards. Evaluative conclusion required.",
+   process:"🔧 PROCESS — Analyse = both sides + conclusion:<br>① Positive effect: trade → mechanism → material LS<br>② Negative effect: import competition → mechanism → material OR non-material LS<br>③ Specific 2023–25 example: name the country/commodity/event → how did it affect a specific group?<br>④ Evaluative conclusion: 'Overall, the gains from trade likely outweigh the costs because...' — must make a judgement, not just list both sides",
+   guide:`2 marks (positive): Trade → lower prices, greater choice, economies of scale → increased material LS. Export income → higher employment → higher incomes → material LS. 2 marks (negative): Import competition → business closures, structural unemployment → lower material LS; long-term unemployment → non-material LS worsens. 1 mark: Specific recent example (e.g. China resuming trade 2023). 1 mark: Evaluative conclusion weighing net impact. Max 4/6 if no current example. Must address BOTH material AND non-material.`}
+]},
+{id:"L2",title:"Lesson 2 — Balance of Payments",desc:"BOP structure and impacts of global changes",qs:[
+  {id:"L2a",level:"Level 1 (3 marks)",marks:3,kk:["KK2"],
+   text:"Define the Current Account and identify its four components.",
+   hint:"Definition must include: transactions of CURRENT nature, NO future obligation, between Australia and rest of world. Four components: Net Goods (BOMT), Net Services, Net Primary Income (wages/salaries/interest/dividends/profits), Net Secondary Income (one-way transfers — nothing exchanged in return, e.g. foreign aid, pensions). Note: Net Goods + Net Services = BOGS.",
+   process:"🔧 PROCESS — Define + list structure:<br>① Write a precise definition including: transactions of CURRENT nature + NO future obligation + between Australia and rest of world<br>② List all 4 components using correct sub-account names: BOMT, Net Services, Net Primary Income, Net Secondary Income<br>③ Add one example per component to show understanding<br>⚠️ Don't confuse Net Secondary Income (one-way transfers, nothing exchanged) with Primary Income (payment for factor services)",
+   guide:`1 mark: Accurate definition — records receipts and payments of CURRENT nature between Australia and rest of world with NO future obligations. Must have BOTH "current nature" AND "no future obligation." 2 marks: All four components correctly identified (1 mark for 2–3 correct): 1. Net Goods/BOMT, 2. Net Services, 3. Net Primary Income, 4. Net Secondary Income (one-way transfers — nothing exchanged in return).`},
+  {id:"L2b",level:"Level 2 (3 marks)",marks:3,kk:["KK2","KK6"],
+   text:"Explain one way a decline in economic growth of Australia's major trading partners may affect either: Australia's current account balance OR the value of the Australian dollar.",
+   hint:"Choose ONE pathway only. Current account: slower growth in China/Japan → less demand for iron ore/coal/LNG → fall in export credits on BOMT/BOGS → worsens current account balance. AUD: less demand for Aust exports → overseas buyers need less AUD → demand for AUD falls → AUD depreciates. Must name a specific trading partner. Use 'likely' not 'will'.",
+   process:"🔧 PROCESS — Choose ONE pathway, explain the chain:<br>① Pick EITHER: current account balance OR AUD — not both<br>② Name a specific trading partner (China, Japan, Korea, USA)<br>③ Chain: slower growth → less demand for [specific export] → [credits/debits on specific sub-account] → outcome<br>④ Use 'likely/should' not 'will'<br>⚠️ Must name the sub-account (BOMT or BOGS) — 'current account worsens' alone = insufficient",
+   guide:`1 mark: Name specific major trading partner; identify mechanism (slower growth reduces demand for Australian commodity exports). 1 mark: Link to BOMT/BOGS credits/debits OR reduced demand for AUD in forex market. 1 mark: Final outcome with correct terminology — worsening CAB (specify sub-account, use credits/debits) OR depreciation of AUD. Must NOT say "current account worsens" without specifying sub-account.`},
+  {id:"L2d",level:"★ 2024 VCAA Q5b (2 marks)",marks:2,kk:["KK2"],
+   text:"An Australian cotton farm is sold to a foreign buyer.\n\nDescribe <strong>two</strong> separate transactions on the balance of payments that would result from this sale.",
+   hint:"Think carefully about what actually happens in this transaction. The sale itself goes onto the CAFA (a foreign entity is buying an Australian asset = capital inflow = credit). Then think: once a foreigner owns the farm, what ongoing payment flows will occur? The profits/dividends flowing back to the foreign owner = primary income debits on the CA. The 2024 VCAA Examiner noted: many students incorrectly said the BOP must balance (CA + CAFA = 0) and tried to create an automatic offset — this is wrong. Each transaction must be identified separately. Wages paid by a foreign owner to Australian workers = NOT a cross-border transaction = does NOT go on BOP.",
+   process:"🔧 PROCESS — Two separate transactions, one each:<br>① Transaction 1: The sale itself → CAFA → net direct investment sub-account → is it a credit or debit?<br>② Transaction 2: Ongoing income flows from the farm → CA → net primary income sub-account → credit or debit?<br>⚠️ Wages paid by a foreign owner to Australian workers = NOT a cross-border BOP transaction<br>⚠️ Don't use CA + CAFA = 0 to auto-generate the second entry — identify each transaction independently",
+   guide:`VCAA 2024 Q5b — 2 marks (1 mark per transaction): Transaction 1: The sale of the farm to a foreign buyer = credit on the net direct investment sub-account of the Capital and Financial Account (CAFA). Foreign entity purchasing an Australian asset = capital inflow = credit on CAFA. Transaction 2: The profits/dividends generated by the farm flowing back to the foreign owner overseas = debit on the net primary income sub-account of the Current Account (CA). Ongoing profit/dividend payments to the foreign owner = primary income debits increasing relative to credits = worsens CA balance. From examiner: "High-scoring responses highlighted the main account impacted for each transaction, identified the sub-account (net direct investment and net primary income) and referred to the change in credits/debits." DEDUCT: stating wages paid to Australian workers affect BOP (not a cross-border transaction). DEDUCT: arguing CA + CAFA = 0 therefore a CAFA credit automatically creates a CA debit (incorrect — ignore double-entry accounting).`},
+  {id:"L2c",level:"Data Practice (6 marks)",marks:6,kk:["KK2","KK3"],
+   text:"Using the current economic data provided:\na) Describe the trend in the current account balance over the past two years. (2 marks)\nb) Explain one reason for this trend. (2 marks)\nc) Explain how this trend would affect the capital and financial account. (2 marks)",
+   hint:"a) DUDDS: Direction = DETERIORATED/WORSENED. Units = % of GDP. Data = –0.1% to –2.8%. b) One reason — e.g. falling ToT reducing export credits on BOGS, rising import volumes, widening primary income deficit. c) BOP = 0 (CA + CAFA = 0), so larger CAD → larger CAFA surplus needed → more capital inflows (foreign investment or borrowing increases).",
+   process:"🔧 PROCESS — Three-part answer, treat each separately:<br>① Part a) DUDDS: Direction + Units (% of GDP) + Data (start/end) + Date + So-what<br>② Part b) ONE reason → mechanism → sub-account → credits/debits direction → outcome<br>③ Part c) State the BOP identity (CA + CAFA = 0) → explain what a larger CAD requires → name the inflow types (borrowing = NFD, selling assets = NFE)<br>⚠️ CA and CAFA always move in OPPOSITE directions — never the same direction",
+   guide:`a) 2 marks: Direction = deteriorated/worsened; Data with units = from ~–0.1% to ~–2.8% of GDP. DUDDS required. b) 2 marks: Identify valid reason + explain mechanism through to credits/debits in specific sub-account. c) 2 marks: BOP must equal zero (CA + CAFA = 0) → larger CAD offset by larger CAFA surplus → more capital inflows via borrowing (NFD) or asset sales (NFE). NEVER accept "CA and CAFA move in same direction."`}
+]},
+{id:"L3",title:"Lesson 3 — Cyclical & Structural Factors",desc:"What drives changes in the Current Account",qs:[
+  {id:"L3a",level:"Level 1 (3 marks)",marks:3,kk:["KK3"],
+   text:"Distinguish a cyclical deterioration from a structural deterioration of the Current Account Deficit (CAD).",
+   hint:"From slides and VCAA report: Cyclical = tied to economic cycle, demand-side, REVERSES when cycle turns. Structural = PERSISTS regardless of cycle. CRITICAL: exchange rates, commodity prices, overseas growth = CYCLICAL per VCAA 2024, NOT structural. True structural = savings-investment gap, low productivity, high wages relative to trading partners.",
+   process:"🔧 PROCESS — Distinguish = define both + clear contrast:<br>① Define cyclical: linked to economic cycle, demand-side, reverses when cycle turns<br>② Define structural: persistent, supply-side, does NOT reverse automatically, requires policy<br>③ State the key distinction explicitly in a sentence<br>⚠️ CRITICAL SELF-CHECK before submitting: have you used exchange rates, commodity prices or overseas growth as a structural factor? If yes — those are CYCLICAL, move them",
+   guide:`1 mark: Cyclical — linked to short-term changes in economic activity/AD; during boom savings-investment gap grows, imports rise; REVERSES with cycle. 1 mark: Structural — PERSISTS regardless of cycle; caused by inherent supply-side features: savings-investment gap (insufficient domestic savings → must borrow overseas → ongoing primary income obligations); low productivity/high production costs. CRITICAL: exchange rates, overseas growth, commodity prices, ToT = CYCLICAL not structural (VCAA 2024). 1 mark: Clear distinction — cyclical is temporary/demand-driven/reverses; structural is persistent/supply-driven/requires policy.`},
+  {id:"L3b",level:"Level 2 (3 marks)",marks:3,kk:["KK3"],
+   text:"Explain one recent cyclical factor (2023–2025) affecting Australia's current account balance.",
+   hint:"Must be specifically CYCLICAL — linked to level of economic activity, demand-side, will reverse with cycle. E.g. slowdown in Chinese economic growth (property sector crisis) reducing demand for iron ore/coal. VCAA: commodity prices and overseas growth = cyclical, NOT structural. Must be from 2023–2025 and include data.",
+   process:"🔧 PROCESS — 3-step cyclical chain:<br>① Identify + define the factor — be specific (e.g. 'slowdown in Chinese economic growth due to the property sector crisis from 2023')<br>② Mechanism: how does this change reduce/increase trade flows?<br>③ Sub-account link: 'this reduced export credits on the BOMT/BOGS relative to import debits, worsening the CAB'<br>⚠️ Ask yourself: does this factor reverse when the economic cycle turns? Yes = cyclical ✓. No = structural (wrong question)",
+   guide:`1 mark: Identify a specific valid CYCLICAL factor from 2023–2025 (e.g. Chinese growth slowdown reducing demand for Australian commodities). MUST be cyclical per VCAA definition. 1 mark: Explain mechanism (e.g. lower Chinese growth → less steel/construction → less demand for iron ore → lower export volumes/prices). 1 mark: Link to specific sub-account using credits/debits language (reduced export credits on BOMT/BOGS → worsens CAB). DEDUCT: citing exchange rates, ToT, or overseas growth as structural.`},
+  {id:"L3c",level:"★ 2024 VCAA Q5a (2 marks)",marks:2,kk:["KK3"],
+   text:"With reference to the data below, explain one structural influence on Australia's current account balance that has contributed to the change shown.\n\n<em>Current account balance: +$7,782 million (June 2023) → –$158 million (September 2023)</em>",
+   hint:"CRITICAL: This question asks for a STRUCTURAL factor — not cyclical. From the 2024 VCAA Examiner's Report, 57% of students scored zero on this question because they gave cyclical factors instead. Structural = inherent, persistent, NOT exchange rates, commodity prices, overseas growth or the ToT. Valid structural factors: (1) savings-investment gap — Australia's investment needs exceed domestic savings → must borrow from overseas → ongoing interest payments = primary income debits; (2) high relative production costs / low productivity compared to trading partners → lower international competitiveness → reduced export credits on BOGS. Must make reference to the data and use credits/debits language.",
+   process:"🔧 PROCESS — VCAA 2024 style, data + structural factor:<br>① Reference the data in your first sentence: 'As shown by the CA moving from +$7,782m to –$158m...'<br>② Name your structural factor — self-check: does it persist regardless of the business cycle?<br>③ Mechanism: how does this reduce credits relative to debits?<br>④ Name the specific sub-account affected<br>⚠️ Self-check: exchange rates, commodity prices, overseas growth, ToT = NOT structural. Savings-investment gap, low productivity/high wages = structural ✓",
+   guide:`VCAA 2024 Q5a — 2 marks: (1) Demonstrate understanding of one structural factor that would decrease the CA balance. Valid: savings-investment gap (Australia lacks domestic savings to fund investment → borrows from overseas → interest payments recorded as net primary income debits increase relative to credits → moves CA into deficit); OR high relative costs/low productivity vs trading partners (→ lower international competitiveness → fewer export credits on BOGS relative to import debits → worsens CA). (1) Link the structural factor to specific sub-account using credits/debits language AND make meaningful reference to the data (CA moving from +$7,782m to –$158m). DEDUCT immediately: any factor citing exchange rates, overseas growth, commodity prices or ToT as structural (these are CYCLICAL per 2024 VCAA Examiner Report). Note from examiner: "many responses did not identify a relevant structural influence while other responses referred to cyclical influences." Also common error: confusing CA balance with budget balance.`}
+]},
+{id:"L4",title:"Lesson 4 — Net Foreign Liabilities",desc:"NFL, NFD, NFE and their relationship to the CAD",qs:[
+  {id:"L4a",level:"Level 1 (3 marks)",marks:3,kk:["KK5"],
+   text:"Explain the relationship between a Current Account Deficit and gross (or net) foreign liabilities.",
+   hint:"From slides: Higher CAD → Higher NFL → Higher CAD (self-reinforcing). CAD does NOT necessarily increase NFD — may sell equity instead. Chain: CAD (debits > credits) → funded via CAFA surplus → capital inflows as either borrowing (NFD) OR selling equity (NFE) → increases NFL → creates obligations (interest on NFD + dividends/profits on NFE) → debits on Primary Income → deeper CAD.",
+   process:"🔧 PROCESS — Show causation in BOTH directions:<br>① Define NFL = NFD + NFE (must include both components)<br>② Direction 1: CAD → finances via CAFA surplus → borrowing (NFD) OR selling equity (NFE) → NFL increases<br>③ Direction 2: higher NFL → interest (NFD) + dividends/profits (NFE) → debits on primary income → deepens CAD<br>⚠️ Never say 'we have to borrow' — always say 'borrow OR sell equity'<br>⚠️ If you only mention debt and not equity you are missing NFE",
+   guide:`1 mark: Define NFL correctly — NFD (owed to foreign lenders, excludes equity) PLUS NFE (foreign ownership of Australian assets minus Australian ownership of foreign assets). Must have BOTH. 1 mark: Causal chain — CAD funded via CAFA surplus → capital inflows as either borrowing (NFD) OR selling equity (NFE) → both increase NFL. Note: "may sell assets instead of borrowing." 1 mark: Self-reinforcing — higher NFL → interest (NFD) AND dividend/profit (NFE) payments overseas → increases Primary Income debits → deepens CAD. Must say "borrow OR sell equity" not just "borrow."`},
+  {id:"L4b",level:"Level 2 (2 marks)",marks:2,kk:["KK5"],
+   text:"Explain how an increase in NFL will impact on the Current Account Balance.",
+   hint:"NFL increase → higher interest payments (on NFD) AND higher dividend/profit payments (on NFE) flowing overseas → increases DEBITS on Net PRIMARY INCOME section of current account → worsens/deepens current account deficit. MUST name Primary Income specifically. Must include both interest AND dividends/profits.",
+   process:"🔧 PROCESS — Tight 2-step chain:<br>① What does higher NFL generate? Interest on NFD AND dividends/profits on NFE flowing overseas<br>② Where do these appear? As DEBITS on the NET PRIMARY INCOME sub-account of the CA<br>③ Outcome: primary income debits rise relative to credits → deepens the CAD<br>⚠️ Must say PRIMARY INCOME specifically — 'worsens current account' alone earns 0 for this step<br>⚠️ Must mention BOTH interest (NFD) AND dividends/profits (NFE)",
+   guide:`1 mark: Increased NFL generates higher interest payments (NFD component) AND dividend/profit payments (NFE component) flowing overseas. 1 mark: Link specifically to NET PRIMARY INCOME — increases debits relative to credits → worsens/deepens CAD. MUST mention PRIMARY INCOME. MUST include BOTH interest (NFD) AND dividends/profits (NFE).`}
+]},
+{id:"L5",title:"Lesson 5 — Terms of Trade",desc:"ToT measurement, causes and effects on goals and living standards",qs:[
+  {id:"L5a",level:"Option 1 (3 marks)",marks:3,kk:["KK7"],
+   text:"Describe the trend in Australia's Terms of Trade over the past two years and explain one factor influencing this trend.",
+   hint:"DUDDS for the trend. ToT = INDEX (NEVER 'value'!) measuring RATIO of export prices to import prices. Recent trend: FALLEN from ~140 index points (2022) to ~115 (2025). Factor: e.g. slowdown in Chinese/global growth reducing demand for iron ore/coal → lower commodity prices → export prices fall relative to import prices. From SAC tips: demand is the biggest cause of ToT changes.",
+   process:"🔧 PROCESS — Trend then factor, two separate tasks:<br>① DUDDS: Direction (fallen/deteriorated) → Units (INDEX POINTS) → Data (140→115) → Date (2022–25) → So-what (Australia receives fewer imports per unit of exports sold)<br>② Factor: name it → mechanism → export prices fall relative to import prices → XPI/MPI ratio falls → ToT index falls<br>⚠️ CRITICAL: NEVER write 'the value of the Terms of Trade' — it is an INDEX measuring a RATIO<br>⚠️ 'Deteriorated' or 'fallen' — not 'decreased' (ambiguous with a deficit)",
+   guide:`2 marks (trend — DUDDS): Direction = fallen/deteriorated. Units = INDEX POINTS (deduct 1 mark immediately if "value of ToT" written). Data = from ~140 index points (2022) to ~115 (2025). Description = export prices fallen relative to import prices. 1 mark: Valid factor — slowdown in global/Chinese growth reducing demand for Australian commodity exports → lower commodity prices → export prices fall relative to import prices → ToT deteriorates.`},
+  {id:"L5b",level:"Option 2 (4 marks)",marks:4,kk:["KK7","KK9"],
+   text:"Explain how an improvement in the Terms of Trade can affect: the current account balance AND Australia's living standards.",
+   hint:"ToT improvement = export prices rise relative to import prices. CAB: assuming volume stays same (all else remaining equal REQUIRED) → credits rise relative to debits on BOGS → CAB improves. Living standards: higher export prices → higher profits → higher AD → material LS. If from lower import prices → lower production costs → AS increases → lower inflation → material LS. Non-material too.",
+   process:"🔧 PROCESS — Current account then living standards, two separate chains:<br>① CA: 'all else remaining equal' REQUIRED → credits rise on BOGS relative to debits → state CAB direction<br>② Material LS: higher export income → mechanism → purchasing power / access to goods<br>③ Non-material LS: employment security / financial stress / quality of life dimension<br>⚠️ 'All else remaining equal' is not optional — without it you lose the CA mark<br>⚠️ Purchasing power = what your income can buy (affected by inflation) ≠ disposable income",
+   guide:`2 marks (CA): (1) Improvement in ToT means export prices rise relative to import prices — "all else remaining equal" REQUIRED — credits rise relative to debits on BOGS. (1) Improves CAB — must include "all else remaining equal," credits/debits language, specify BOGS. NEVER "value of ToT." 2 marks (LS): (1) Higher export prices → higher export profits → higher factor incomes → higher AD → higher employment → improved material LS (greater purchasing power). Lower import prices → lower production costs → AS increases → lower inflation → purchasing power. (1) Non-material — higher employment/income security → reduced financial stress. Note: purchasing power ≠ disposable income.`}
+]},
+{id:"L6",title:"Lesson 6 — Exchange Rate",desc:"AUD factors, depreciation effects on goals and current account",qs:[
+  {id:"L6a",level:"Option 1 (4 marks)",marks:4,kk:["KK6"],
+   text:"Explain how a depreciation of the Australian dollar is likely to impact Aggregate Demand and Aggregate Supply.",
+   hint:"From slides: depreciation = 1 AUD buys LESS foreign currency. AD: cheaper exports → more IC → more export demand → net exports (X-M) rise → AD increases (shift right). AS: imported capital AND intermediate inputs more expensive → higher production costs → AS decreases (shift left). From slides: 'positive demand will outweigh negative supply.' Use 'likely/should' not 'will'.",
+   process:"🔧 PROCESS — AD chain then AS chain, both required:<br>① AD: depreciation → exports cheaper for overseas buyers → import-competing firms more competitive → net exports (X–M) rise → AD shifts right<br>② AS: depreciation → imported CAPITAL goods more expensive AND imported INTERMEDIATE goods more expensive → production costs rise → AS shifts left → cost inflation risk<br>③ Overall: positive AD effect outweighs negative AS effect; but with inflation at 3.5% the AS shift is particularly concerning<br>⚠️ Must name BOTH capital AND intermediate imports for full AS marks",
+   guide:`2 marks (AD): (1) Depreciation makes exports cheaper for overseas buyers → import-competing businesses more competitive → export demand rises. (1) Net exports (X–M) rise → AD increases/shifts right. Use "likely/should." Reference net exports as AD component. 2 marks (AS): (1) Depreciation makes imported inputs more expensive — both CAPITAL imports AND INTERMEDIATE imports — increases production costs. (1) Higher costs → AS likely decreases/shifts left → potential cost-push inflation. Must reference BOTH capital AND intermediate imports. Current context: inflation already 3.5% makes leftward AS shift particularly concerning.`},
+  {id:"L6b",level:"Option 2 (4 marks)",marks:4,kk:["KK6","KK2"],
+   text:"Explain how a depreciation of the Australian dollar affects the current account balance, with reference to net goods and services AND net primary income.",
+   hint:"BOGS: depreciation → cheaper exports / dearer imports → credits rise relative to debits → BOGS likely improves (all else remaining equal). Primary Income — TWO effects: (1) depreciation INCREASES debits (need MORE AUD to service foreign-currency debt); (2) depreciation INCREASES credits (foreign investment income worth MORE AUD). Both effects needed for full marks.",
+   process:"🔧 PROCESS — BOGS first, then Primary Income (both directions):<br>① BOGS: exports cheaper/imports dearer → credits rise relative to debits → 'all else remaining equal' REQUIRED → state outcome<br>② Primary Income — TWO effects (both needed for full marks):<br>   → Debits INCREASE: foreign-currency debt costs more AUD to service<br>   → Credits INCREASE: Australian overseas investments worth more AUD when converted back<br>③ Net effect on primary income = ambiguous — state this<br>⚠️ Only giving one direction of the Primary Income effect = lose a mark",
+   guide:`2 marks (BOGS): (1) Depreciation makes exports cheaper → IC increases → export demand rises; imports more expensive → import demand falls. (1) Credits rise relative to debits on BOGS — "all else remaining equal" this should improve CAB. Must say "all else remaining equal," use credits/debits, specify BOGS. 2 marks (Primary Income): BOTH effects required: (1) Depreciation INCREASES debits — interest on foreign-currency debt requires MORE AUD → increases primary income debits. (1) Depreciation INCREASES credits — income from Australian investment overseas worth MORE AUD → increases primary income credits. Net effect ambiguous. Must acknowledge BOTH directions.`}
+]},
+{id:"L7",title:"Lesson 7 — International Competitiveness",desc:"Factors affecting competitiveness and living standards",qs:[
+  {id:"L7a",level:"Level 1 (3 marks)",marks:3,kk:["KK8"],
+   text:"Explain one way trade liberalisation can improve Australia's international competitiveness.",
+   hint:"Trade liberalisation = any government policy promoting free trade/reducing barriers (cutting tariffs, reducing subsidies, abolishing quotas, signing trade agreements). From slides: exposure to global competition → firms must improve efficiency/productivity to survive → lower production costs → more competitive. Also: access to cheaper imported inputs → lower costs → more competitive. Must be a complete causal chain.",
+   process:"🔧 PROCESS — Define → Mechanism → Competitiveness link, 3 clear steps:<br>① Define trade liberalisation: any government policy reducing barriers (tariffs, subsidies, quotas, trade agreements)<br>② Mechanism: how specifically does this reduce costs OR raise productivity? Explain the causal chain<br>③ Competitiveness link: lower costs/higher productivity → can sell at lower prices OR higher quality → more competitive globally<br>⚠️ 'Trade liberalisation makes firms more competitive' = circular = 0 marks<br>⚠️ Complete the chain all the way to the international competitiveness outcome",
+   guide:`1 mark: Define trade liberalisation — any government policy that promotes free trade or reduces barriers (cutting tariffs, subsidies, quotas, trade agreements). 1 mark: ONE specific mechanism — exposure to global competition forces productivity/technology investment; OR cheaper imported inputs reduce costs; OR economies of scale; OR specialisation in comparative advantage. 1 mark: Complete causal chain → lower production costs/higher productivity → able to sell at lower prices OR higher quality → more competitive in global markets → improved export performance. "Competition makes firms more competitive" = circular = 0.`},
+  {id:"L7b",level:"Level 2 (4 marks)",marks:4,kk:["KK8","KK9"],
+   text:"Discuss how improved international competitiveness can impact Australia's living standards.",
+   hint:"Discuss = BOTH positive AND negative + evaluative conclusion. Positive: lower prices (material LS), more exports → higher AD → employment/income (material LS). From 2024 VCAA: trade liberalisation short-term = structural unemployment → lower LS; long-term = resources reallocated to comparative advantage → higher productivity → lower inflation → sustainable growth. Non-material both ways.",
+   process:"🔧 PROCESS — Discuss = two sides + evaluative conclusion:<br>① Positive: mechanism → material LS (purchasing power / employment / income)<br>② Positive: non-material LS dimension (job security, wellbeing)<br>③ Negative: mechanism (import competition → job losses) → material LS impact<br>④ Negative: non-material LS (structural unemployment → stress, mental health outcomes)<br>⑤ Evaluative conclusion: 'Overall...' — must make a judgement weighing net impact<br>⚠️ No negative effects = maximum 2/4 | No evaluative conclusion = maximum 3/4",
+   guide:`2 marks (positive): (1) Improved competitiveness → lower domestic prices/productivity gains → increased purchasing power → improved material LS; OR increased export competitiveness → higher AD → employment/income → material LS. (1) Productivity gains → expands productive capacity → higher growth without inflation. Employment security → improved non-material LS. 2 marks (negative + conclusion): (1) Increased competition → domestic industry harm → job losses especially manufacturing → lower material LS; structural unemployment → lower non-material LS (VCAA: short-term resource reallocation). (1) Evaluative conclusion — must make a judgement. Must address BOTH material AND non-material. No negatives = max 2/4. No evaluative conclusion = max 3/4.`}
+]},
+{id:"L8",title:"Lesson 8 — Impact on Macroeconomic Goals",desc:"How external factors affect Australia's economic goals",qs:[
+  {id:"L8a",level:"Question 1 (4 marks)",marks:4,kk:["KK9","KK7"],
+   text:"With reference to the current economic data, explain how the trade balance over the past two years may have affected economic growth AND Australia's living standards.",
+   hint:"Trade balance has DETERIORATED (CA from –0.1% to –2.8% of GDP; ToT from 140 to 115 index points). Net exports = component of AD. Smaller surplus → less net export contribution to AD → less upward pressure on GDP growth. CURRENT CONTEXT: growth at 1.0% (below 3–3.5% target), inflation 3.5% (above target). Link to both material AND non-material LS using specific data.",
+   process:"🔧 PROCESS — Data question, must reference figures throughout:<br>① Opening: reference the data (CA from –0.1% to –2.8% of GDP, ToT from 140→115)<br>② Economic growth: deterioration → net exports fall → AD impact → link to SSEG (define with 3–3.5% target)<br>③ Nuance: with inflation at 3.5% already, weaker AD may help sustainability — this earns the top mark<br>④ Material LS: purchasing power / employment / income impact<br>⑤ Non-material LS: financial stress / wellbeing dimension<br>⚠️ Purchasing power ≠ disposable income",
+   guide:`2 marks (economic growth): (1) With reference to data — deterioration in trade balance reduces net exports contribution to AD. (1) GDP growth slowed to ~1.0% (below SSEG target of 3–3.5% — FULL DEFINITION: highest growth rate possible, consistent with strong employment, without inflationary/environmental/external pressures). Context: moderation in AD may help reduce inflationary pressure — nuanced point earns full marks. Must use specific data. 2 marks (living standards): (1) Lower export income/weaker AD → may slow employment → lower wages/income → reduced material LS (less purchasing power). (1) Non-material — financial stress/uncertainty (negative); OR reduced inflation eases cost-of-living (positive). Must address BOTH material AND non-material. Note: purchasing power ≠ disposable income.`},
+  {id:"L8b",level:"Question 2 — Extended (6 marks)",marks:6,kk:["KK9","KK2","KK6"],
+   text:"Analyse how sustained trade surpluses could impact Australia's ability to achieve its macroeconomic goals.",
+   hint:"Analyse = depth + implications. Trade surplus = X > M = positive net exports contribution to AD. Current context ESSENTIAL: GDP growth 1.0% (below 3–3.5%), inflation 3.5% (above 2–3%), unemployment 4.1% (within 4–4.25%). Goals: SSEG (surplus helps growth but inflation risk at capacity); Price Stability (higher AD → demand inflation, already above target); Full Employment (more jobs in export sector); External Stability (improves CA, reduces NFL growth). Evaluative conclusion needed.",
+   process:"🔧 PROCESS — Extended analyse, work through each goal systematically:<br>① Open with current context: GDP 1.0%, inflation 3.5%, unemployment 4.1%<br>② SSEG: positive mechanism (surplus → AD → growth) + qualification (near-NAIRU, inflation risk)<br>③ Price Stability: surplus → AD pressure → demand inflation → already above 2–3% target<br>④ Full Employment: export expansion → derived demand for labour → unemployment falls toward NAIRU<br>⑤ External Stability: surplus → CAD reduces → NFL slows → primary income debits ease<br>⑥ Evaluative conclusion: weigh net benefit in current economic context<br>⚠️ Max 4/6 without current data | Define each goal on first mention only",
+   guide:`2 marks (SSEG + context): (1) Sustained surplus → positive net exports → increases AD → higher GDP → progress toward SSEG (FULL DEFINITION required). (1) BUT current context: inflation 3.5% above 2–3% band, unemployment 4.1% near NAIRU — limited spare capacity → increased AD more likely to generate demand inflation than real output → may make SSEG LESS sustainable. Must have both positive mechanism AND current-context qualification. 2 marks (Price Stability + Full Employment): (1) Higher AD → more pressure on capacity → demand-pull inflation → with inflation already 3.5%, harder to achieve price stability (CPI 2–3%). (1) Export expansion → firms require more labour → higher derived demand for labour → reduced unemployment → closer to full employment (NAIRU 4–4.25%). 1 mark (External Stability): Surplus improves CA → reduces CAD/increases CAS → slows NFL growth → reduces primary income debits over time → easier to meet foreign obligations. 1 mark (Evaluative conclusion): Must reference current economic conditions. Max 4/6 if no current context used.`}
+]}
+];
+
+let sName = "", scores = {}, answers = {}, feedbacks = {};
+
+function start() {
+  var n = document.getElementById("sname").value.trim();
+  if (!n) { alert("Please enter your name first."); return; }
+  sName = n;
+  document.getElementById("entry").style.display = "none";
+  document.getElementById("main").style.display = "block";
+  document.getElementById("top-student").textContent = sName;
+  render();
+}
+
+function backToMain() {
+  document.getElementById("results").style.display = "none";
+  document.getElementById("main").style.display = "block";
+}
+
+function render() {
+  var html = "";
+  for (var li = 0; li < LESSONS.length; li++) {
+    var L = LESSONS[li];
+    html += "<div class=\"lesson-block\"><div class=\"lh\"><h3>" + L.title + "</h3><p>" + L.desc + "</p></div><div class=\"lb\">";
+    if (L.qs.length > 1) {
+      html += "<div class=\"tab-bar\">";
+      for (var ti = 0; ti < L.qs.length; ti++) {
+        html += "<button class=\"tab-btn" + (ti===0?" active":"") + "\" onclick=\"switchTab('" + L.id + "'," + ti + ")\">" + L.qs[ti].level + "</button>";
+      }
+      html += "</div>";
+    }
+    for (var qi = 0; qi < L.qs.length; qi++) {
+      var q = L.qs[qi];
+      var showData = (L.id==="L2"||L.id==="L5"||L.id==="L6"||L.id==="L8");
+      var isHard = q.level.toLowerCase().indexOf("level 2") > -1 || q.level.toLowerCase().indexOf("extended") > -1;
+      
+      var confHtml = "";
+      if (isHard) {
+        confHtml = "<div class=\"conf-box\">" +
+          "<div class=\"conf-title\">&#127919; Before you start &mdash; quick self-check</div>" +
+          "<p style=\"font-size:.82rem;color:#1e3a8a;margin-bottom:.6rem\">You don\'t have to do Level 1 first &mdash; but take 10 seconds to honestly rate your confidence:</p>" +
+          "<div class=\"conf-btns\">" +
+          "<button class=\"conf-btn\" onclick=\"setConf('" + q.id + "','low')\">&#128556; Not confident &mdash; I\'ll try Level 1 first</button>" +
+          "<button class=\"conf-btn\" onclick=\"setConf('" + q.id + "','mid')\">&#129300; Somewhat confident &mdash; I\'ll give this a go</button>" +
+          "<button class=\"conf-btn\" onclick=\"setConf('" + q.id + "','high')\">&#128170; Confident &mdash; ready to attempt</button>" +
+          "</div><div class=\"conf-msg\" id=\"conf-msg-" + q.id + "\"></div></div>";
+      }
+      
+      var checkHtml = buildChecklist(q);
+      
+      html += "<div class=\"tab-panel" + (qi===0?" active":"") + "\" id=\"pnl-" + L.id + "-" + qi + "\">";
+      if (showData) html += "<div class=\"data-box\">" + DATA + "</div>";
+      html += confHtml;
+      html += "<div class=\"q-label\">" + q.level + "</div>";
+      html += "<div class=\"q-text\">" + q.text.replace(/\n/g,"<br>") + "</div>";
+      html += "<div class=\"q-marks\">" + q.marks + " mark" + (q.marks!==1?"s":"") + "</div>";
+      html += "<div class=\"tip-btn-row\">";
+      html += "<button class=\"tip-btn content\" id=\"ctbtn-" + q.id + "\" onclick=\"toggleTip('" + q.id + "','content')\">&#128203; Content Tips</button>";
+      html += "<button class=\"tip-btn process\" id=\"ptbtn-" + q.id + "\" onclick=\"toggleTip('" + q.id + "','process')\">&#128295; Process Tips</button>";
+      html += "</div>";
+      html += "<div class=\"tip-content\" id=\"tc-" + q.id + "\"><strong>What to include:</strong><br>" + q.hint + "</div>";
+      html += "<div class=\"tip-process\" id=\"tp-" + q.id + "\">" + (q.process||"") + "</div>";
+      html += "<textarea id=\"ta-" + q.id + "\" placeholder=\"Write your answer here...\" oninput=\"wc('" + q.id + "')\"></textarea>";
+      html += "<div class=\"self-check\"><div class=\"self-check-title\">&#9989; Self-check before submitting</div>" + checkHtml + "</div>";
+      html += "<div class=\"qa\">";
+      html += "<button class=\"btn-mark\" id=\"btn-" + q.id + "\" onclick=\"markQ('" + q.id + "')\">Get AI Feedback</button>";
+      html += "<button class=\"btn-clear no-print\" onclick=\"clr('" + q.id + "')\">Clear &amp; Retry</button>";
+      html += "<span class=\"wc\" id=\"wc-" + q.id + "\">0 words</span>";
+      html += "</div>";
+      html += "<div id=\"fb-" + q.id + "\"></div>";
+      html += "</div>";
+    }
+    html += "</div></div>";
+  }
+  document.getElementById("lessons").innerHTML = html;
+}
+
+function buildChecklist(q) {
+  var items = [
+    "I have written in full sentences (no arrows or symbols)",
+    "I have used &ldquo;likely/should&rdquo; not &ldquo;will&rdquo; in cause-effect analysis"
+  ];
+  var kk = q.kk || [];
+  var hasExternal = kk.some(function(k){return k==="KK2"||k==="KK3"||k==="KK5"||k==="KK6"||k==="KK7"||k==="KK9";});
+  if (hasExternal) {
+    items.push("I have named the specific BOP sub-account (BOMT, BOGS, Primary Income, Secondary Income)");
+    items.push("I have used credits/debits language to explain relationships");
+  }
+  if (kk.indexOf("KK7") > -1) items.push("I have NOT written &ldquo;value of the Terms of Trade&rdquo; &mdash; it is an INDEX measuring a RATIO");
+  if (kk.indexOf("KK6") > -1) items.push("I have described interest rates as RELATIVE (compared to other countries)");
+  if (kk.indexOf("KK5") > -1) {
+    items.push("I have included BOTH Net Foreign Debt AND Net Foreign Equity (NFL = NFD + NFE)");
+    items.push("I have said Australia finances its CAD by borrowing OR selling equity");
+  }
+  if (q.marks >= 3) items.push("I have used &ldquo;all else remaining equal&rdquo; or &ldquo;ceteris paribus&rdquo;");
+  var textLower = q.text.toLowerCase();
+  if (q.marks >= 4 && (textLower.indexOf("living standard") > -1 || textLower.indexOf("goal") > -1)) {
+    items.push("I have addressed BOTH material AND non-material living standards");
+    items.push("I have not confused purchasing power with disposable income");
+  }
+  if (textLower.indexOf("discuss") > -1) items.push("I have included BOTH positive AND negative effects plus an evaluative conclusion");
+  if (textLower.indexOf("analyse") > -1 || q.marks >= 5) {
+    items.push("I have included current economic data (GDP 1.0%, inflation 3.5%, unemployment 4.1%)");
+    items.push("I have defined each macroeconomic goal on its first mention (with the target rate)");
+  }
+  if (textLower.indexOf("trend") > -1 || textLower.indexOf("describe the") > -1) {
+    items.push("My trend description uses DUDDS: Direction, Units, Data, Date, So-what");
+  }
+  var out = "";
+  for (var i = 0; i < items.length; i++) {
+    out += "<label><input type=\"checkbox\"> " + items[i] + "</label>";
+  }
+  return out;
+}
+
+function toggleTip(id, type) {
+  var isContent = (type === "content");
+  var box = document.getElementById(isContent ? "tc-"+id : "tp-"+id);
+  var btn = document.getElementById(isContent ? "ctbtn-"+id : "ptbtn-"+id);
+  if (!box || !btn) return;
+  if (box.classList.contains("open")) {
+    box.classList.remove("open");
+    btn.classList.remove("open");
+    btn.textContent = isContent ? "\u{1F4CB} Content Tips" : "\u{1F527} Process Tips";
+  } else {
+    box.classList.add("open");
+    btn.classList.add("open");
+    btn.textContent = isContent ? "\u{1F4CB} Hide Content Tips" : "\u{1F527} Hide Process Tips";
+  }
+}
+
+function setConf(id, level) {
+  var msgs = {
+    low: "Good self-awareness. Head to Level 1 in this lesson first, then come back.",
+    mid: "That\'s fine \u2014 use the Process Tips to help structure your answer.",
+    high: "Great \u2014 go for it. Try without the tips first."
+  };
+  var cols = { low:"#dc2626", mid:"#d97706", high:"#16a34a" };
+  var msg = document.getElementById("conf-msg-"+id);
+  if (msg) { msg.textContent = msgs[level]; msg.style.color = cols[level]; }
+  var btns = document.querySelectorAll("#pnl-" + getQPanel(id) + " .conf-btn");
+}
+
+function getQPanel(qid) {
+  for (var li = 0; li < LESSONS.length; li++) {
+    var L = LESSONS[li];
+    for (var qi = 0; qi < L.qs.length; qi++) {
+      if (L.qs[qi].id === qid) return L.id + "-" + qi;
+    }
+  }
+  return "";
+}
+
+function switchTab(lid, idx) {
+  var L = null;
+  for (var i = 0; i < LESSONS.length; i++) { if (LESSONS[i].id === lid) { L = LESSONS[i]; break; } }
+  if (!L) return;
+  for (var i = 0; i < L.qs.length; i++) {
+    var p = document.getElementById("pnl-"+lid+"-"+i);
+    if (p) p.className = "tab-panel" + (i===idx?" active":"");
+  }
+  var allBtns = document.querySelectorAll(".tab-btn");
+  allBtns.forEach(function(b) {
+    if (b.getAttribute("onclick") && b.getAttribute("onclick").indexOf("'"+lid+"'") > -1) {
+      var m = b.getAttribute("onclick").match(/,([0-9]+)\)/);
+      if (m) b.className = "tab-btn" + (parseInt(m[1])===idx?" active":"");
+    }
+  });
+}
+
+function wc(id) {
+  var v = document.getElementById("ta-"+id).value.trim();
+  var w = v ? v.split(/\s+/).length : 0;
+  document.getElementById("wc-"+id).textContent = w + " word" + (w!==1?"s":"");
+}
+
+function clr(id) {
+  var ta = document.getElementById("ta-"+id);
+  if (ta) { ta.value = ""; ta.disabled = false; }
+  var fb = document.getElementById("fb-"+id);
+  if (fb) fb.innerHTML = "";
+  var btn = document.getElementById("btn-"+id);
+  if (btn) { btn.disabled = false; btn.textContent = "Get AI Feedback"; }
+  var wcel = document.getElementById("wc-"+id);
+  if (wcel) wcel.textContent = "0 words";
+  var tc = document.getElementById("tc-"+id);
+  var tp = document.getElementById("tp-"+id);
+  var ctb = document.getElementById("ctbtn-"+id);
+  var ptb = document.getElementById("ptbtn-"+id);
+  if (tc) tc.classList.remove("open");
+  if (tp) tp.classList.remove("open");
+  if (ctb) { ctb.classList.remove("open"); ctb.textContent = "\u{1F4CB} Content Tips"; }
+  if (ptb) { ptb.classList.remove("open"); ptb.textContent = "\u{1F527} Process Tips"; }
+  delete scores[id];
+  delete answers[id];
+  delete feedbacks[id];
+  updateScore();
+}
+
+function updateScore() {
+  var t = 0;
+  for (var k in scores) t += scores[k].e;
+  document.getElementById("top-score").textContent = t + " mark" + (t!==1?"s":"") + " earned";
+}
+
+function toggleModel(mid) {
+  var box = document.getElementById("mbox-"+mid);
+  var btn = document.getElementById("mbtn-"+mid);
+  if (!box || !btn) return;
+  if (box.classList.contains("open")) {
+    box.classList.remove("open");
+    btn.textContent = "Click to reveal model answer";
+  } else {
+    box.classList.add("open");
+    btn.textContent = "Hide model answer";
+  }
+}
+
+async function markQ(id) {
+  var ans = document.getElementById("ta-"+id).value.trim();
+  if (!ans) { alert("Write an answer first!"); return; }
+  var q = null;
+  for (var li = 0; li < LESSONS.length; li++) {
+    for (var qi = 0; qi < LESSONS[li].qs.length; qi++) {
+      if (LESSONS[li].qs[qi].id === id) { q = LESSONS[li].qs[qi]; break; }
+    }
+    if (q) break;
+  }
+  if (!q) return;
+  var btn = document.getElementById("btn-"+id);
+  var fbEl = document.getElementById("fb-"+id);
+  btn.disabled = true; btn.textContent = "Marking...";
+  document.getElementById("ta-"+id).disabled = true;
+  fbEl.innerHTML = "<div class=\"fb-wrap\"><div class=\"fb-load\"><span class=\"sp\"></span>Marking your response...</div></div>";
+  var prompt = "QUESTION: " + q.text + "\nMARKS AVAILABLE: " + q.marks + "\nMARKING GUIDE: " + q.guide + "\nSTUDENT NAME: " + sName + "\nANSWER: " + ans + "\nAddress the student directly as you/your. Return only valid JSON, no markdown.";
+  try {
+    var resp = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model:"claude-sonnet-4-20250514", max_tokens:1000, system:SYSTEM, messages:[{role:"user",content:prompt}] })
+    });
+    if (!resp.ok) { var e = await resp.json(); throw new Error(e.error && e.error.message ? e.error.message : "API error " + resp.status); }
+    var data = await resp.json();
+    var raw = data.content[0].text.trim();
+    if (raw.startsWith("{") === false) {
+      var jsonStart = raw.indexOf("{");
+      var jsonEnd = raw.lastIndexOf("}");
+      if (jsonStart > -1 && jsonEnd > -1) raw = raw.substring(jsonStart, jsonEnd+1);
+    }
+    var f = JSON.parse(raw);
+    scores[id] = {e: f.score, m: f.maxScore || q.marks};
+    answers[id] = ans;
+    feedbacks[id] = f;
+    updateScore();
+    var pct = Math.round((f.score / (f.maxScore || q.marks)) * 100);
+    var grade = pct>=90?"Excellent":pct>=75?"Good":pct>=50?"Satisfactory":"Needs More Work";
+    var cls = pct>=80?"s-top":pct>=60?"s-good":pct>=40?"s-mid":"s-low";
+    var mid = id + "_" + Date.now();
+    var wl = (f.whatWorked||[]).map(function(p){return "<li>"+p+"</li>";}).join("");
+    var im = (f.improvements||[]).map(function(p){return "<li>"+p+"</li>";}).join("");
+    var cm = f.commonMistakes && f.commonMistakes.length ? "<div class=\"fb-sec fb-warn\"><h4>&#9888;&#65039; Common Mistake Detected</h4><ul>" + f.commonMistakes.map(function(p){return "<li>"+p+"</li>";}).join("") + "</ul></div>" : "";
+    fbEl.innerHTML = "<div class=\"fb-wrap\">" +
+      "<div class=\"fb-top " + cls + "\">" +
+        "<div><div class=\"fb-score\">" + f.score + " / " + (f.maxScore||q.marks) + "</div><div class=\"fb-grade\">" + grade + " &middot; " + pct + "%</div></div>" +
+        "<div class=\"fb-enc\">" + (f.encouragement||"") + "</div>" +
+      "</div>" +
+      "<div class=\"fb-body\">" +
+        "<div class=\"fb-sec fb-well\"><h4>&#9989; What&rsquo;s Working Well</h4><ul>" + wl + "</ul></div>" +
+        "<div class=\"fb-sec fb-imp\"><h4>&#128295; What To Improve</h4><ul>" + im + "</ul></div>" +
+        cm +
+        "<div class=\"fb-sec fb-mod\"><h4>&#128221; Model Answer</h4>" +
+          "<button class=\"model-btn no-print\" id=\"mbtn-" + mid + "\" onclick=\"toggleModel('" + mid + "')\">Click to reveal model answer</button>" +
+          "<div class=\"model-answer\" id=\"mbox-" + mid + "\">" + (f.modelAnswer||"") + "</div>" +
+        "</div>" +
+      "</div>" +
+      "<div class=\"no-print\" style=\"padding:.5rem 1.3rem 1.3rem\">" +
+        "<div class=\"reflect-box\">" +
+          "<div class=\"reflect-title\">&#9999;&#65039; Before you retry &mdash; reflect first</div>" +
+          "<div class=\"reflect-sub\">Write one sentence: what will you do differently in your next attempt?</div>" +
+          "<textarea id=\"ref-" + id + "\" style=\"min-height:60px;font-size:.82rem;border-color:#86efac\" placeholder=\"e.g. I&rsquo;ll make sure to specify the sub-account and use credits/debits language...\"></textarea>" +
+        "</div>" +
+        "<button class=\"btn-retry\" onclick=\"clr('" + id + "')\">&#8629; Clear &amp; Try Again</button>" +
+      "</div>" +
+    "</div>";
+    btn.textContent = "\u2705 Marked";
+  } catch(err) {
+    fbEl.innerHTML = "<div class=\"fb-wrap\"><div class=\"fb-load\" style=\"color:var(--red)\">\u26A0\uFE0F " + err.message + "</div></div>";
+    btn.disabled = false; btn.textContent = "Get AI Feedback";
+    document.getElementById("ta-"+id).disabled = false;
+  }
+}
+
+function showResults() {
+  buildResults();
+  document.getElementById("main").style.display = "none";
+  document.getElementById("results").style.display = "block";
+}
+
+function buildResults() {
+  document.getElementById("r-name").textContent = sName;
+  document.getElementById("r-date").textContent = new Date().toLocaleDateString("en-AU", {weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  var totalM = 0, earned = 0, att = 0;
+  for (var li = 0; li < LESSONS.length; li++) {
+    for (var qi = 0; qi < LESSONS[li].qs.length; qi++) {
+      var q = LESSONS[li].qs[qi];
+      totalM += q.marks;
+      if (scores[q.id]) { earned += scores[q.id].e; att++; }
+    }
+  }
+  document.getElementById("r-score").innerHTML = earned + "<span>/" + totalM + "</span>";
+  document.getElementById("r-sub").textContent = att + " question" + (att!==1?"s":"") + " submitted for marking";
+  
+  // KK breakdown
+  var kkData = {};
+  for (var li = 0; li < LESSONS.length; li++) {
+    for (var qi = 0; qi < LESSONS[li].qs.length; qi++) {
+      var q = LESSONS[li].qs[qi];
+      if (!scores[q.id]) continue;
+      var kks = q.kk || [];
+      for (var ki = 0; ki < kks.length; ki++) {
+        var kk = kks[ki];
+        if (!kkData[kk]) kkData[kk] = {e:0, t:0};
+        kkData[kk].e += scores[q.id].e;
+        kkData[kk].t += q.marks;
+      }
+    }
+  }
+  var kkKeys = Object.keys(kkData).sort();
+  var needsFocus = [], solid = [];
+  for (var i = 0; i < kkKeys.length; i++) {
+    var d = kkData[kkKeys[i]];
+    if (d.t > 0) {
+      if (d.e/d.t < 0.6) needsFocus.push(kkKeys[i]);
+      else if (d.e/d.t >= 0.75) solid.push(kkKeys[i]);
+    }
+  }
+  
+  var kkHtml = "<div class=\"kk-card\">";
+  kkHtml += "<h3>&#128218; Performance by Key Knowledge Area</h3>";
+  if (kkKeys.length === 0) {
+    kkHtml += "<p style=\"color:var(--muted);font-size:.88rem\">Submit at least one question to see your Key Knowledge breakdown.</p>";
+  } else {
+    for (var i = 0; i < kkKeys.length; i++) {
+      var kk = kkKeys[i];
+      var d = kkData[kk];
+      var pct = d.t > 0 ? Math.round((d.e/d.t)*100) : 0;
+      var col = pct>=75?"#27ae60":pct>=50?"#e67e22":"#e74c3c";
+      var bg = pct>=75?"#eafaf1":pct>=50?"#fef5e7":"#fdf0ef";
+      kkHtml += "<div class=\"kk-row\">";
+      kkHtml += "<div class=\"kk-label-row\">";
+      kkHtml += "<div><span class=\"kk-badge\" style=\"background:" + bg + ";color:" + col + "\">" + kk + "</span><span style=\"font-size:.82rem\">" + (KK_MAP[kk]||kk) + "</span></div>";
+      kkHtml += "<span style=\"font-size:.8rem;font-weight:700;color:" + col + ";white-space:nowrap\">" + d.e + "/" + d.t + " (" + pct + "%)</span>";
+      kkHtml += "</div>";
+      kkHtml += "<div class=\"kk-bar-bg\"><div class=\"kk-bar-fill\" style=\"width:" + pct + "%;background:" + col + "\"></div></div>";
+      kkHtml += "</div>";
+    }
+  }
+  if (needsFocus.length > 0) {
+    kkHtml += "<div class=\"focus-box\"><div style=\"font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#e74c3c;margin-bottom:.5rem\">&#9888;&#65039; Priority Revision Areas</div>";
+    kkHtml += "<ul style=\"padding-left:1.1rem;font-size:.85rem;color:#7f1d1d\">";
+    for (var i = 0; i < needsFocus.length; i++) {
+      kkHtml += "<li style=\"margin-bottom:.3rem\"><strong>" + needsFocus[i] + ":</strong> " + (KK_MAP[needsFocus[i]]||needsFocus[i]) + "</li>";
+    }
+    kkHtml += "</ul><p style=\"font-size:.8rem;color:#991b1b;margin-top:.6rem\">Return to your notes and revision booklet for these areas, then retry the relevant questions.</p></div>";
+  }
+  if (solid.length > 0) {
+    kkHtml += "<div class=\"strong-box\"><div style=\"font-size:.76rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#27ae60;margin-bottom:.35rem\">&#9989; Strong Areas</div>";
+    kkHtml += "<p style=\"font-size:.83rem;color:#14532d\">" + solid.map(function(k){return "<strong>"+k+"</strong>";}).join(", ") + " &mdash; you\'re demonstrating solid understanding here. Keep consolidating with harder questions.</p></div>";
+  }
+  kkHtml += "</div>";
+  document.getElementById("r-kk").innerHTML = kkHtml;
+  
+  // Question summary
+  var qHtml = "<div class=\"q-summary-card\"><h3>&#128203; Question Summary</h3>";
+  for (var li = 0; li < LESSONS.length; li++) {
+    for (var qi = 0; qi < LESSONS[li].qs.length; qi++) {
+      var q = LESSONS[li].qs[qi];
+      var s = scores[q.id];
+      var pct = s ? Math.round((s.e/s.m)*100) : null;
+      var col = pct===null?"#94a3b8":pct>=75?"#27ae60":pct>=50?"#e67e22":"#e74c3c";
+      var bg = pct===null?"#f1f5f9":pct>=75?"#eafaf1":pct>=50?"#fef5e7":"#fdf0ef";
+      qHtml += "<div class=\"q-row\">";
+      qHtml += "<span>" + q.level + " <span style=\"color:var(--muted);font-size:.75rem\">&mdash; " + LESSONS[li].title + "</span></span>";
+      qHtml += "<span class=\"sc-pill\" style=\"background:" + bg + ";color:" + col + "\">" + (s ? s.e+"/"+s.m : "Not submitted") + "</span>";
+      qHtml += "</div>";
+    }
+  }
+  qHtml += "</div>";
+  document.getElementById("r-qs").innerHTML = qHtml;
+  
+  // Full detail
+  var detHtml = "<h3 style=\"margin-bottom:1.25rem;font-size:1.05rem;font-weight:800\">Full Responses &amp; Feedback</h3>";
+  for (var li = 0; li < LESSONS.length; li++) {
+    for (var qi = 0; qi < LESSONS[li].qs.length; qi++) {
+      var q = LESSONS[li].qs[qi];
+      var fb = feedbacks[q.id];
+      var s = scores[q.id];
+      var pct = s ? Math.round((s.e/s.m)*100) : null;
+      var col = pct===null?"#94a3b8":pct>=75?"#27ae60":pct>=50?"#e67e22":"#e74c3c";
+      var bg = pct===null?"#f1f5f9":pct>=75?"#eafaf1":pct>=50?"#fef5e7":"#fdf0ef";
+      var refEl = document.getElementById("ref-"+q.id);
+      var refl = refEl ? refEl.value : "";
+      var confEl = document.getElementById("conf-msg-"+q.id);
+      var conf = confEl ? confEl.textContent : "";
+      var kks = (q.kk||[]).map(function(k){return "<span style=\"background:#f5f3ff;color:#7c3aed;font-size:.7rem;font-weight:700;padding:.1rem .45rem;border-radius:8px;margin-right:.3rem\">"+k+"</span>";}).join("");
+      detHtml += "<div style=\"background:#fff;border-radius:14px;padding:1.5rem;margin-bottom:1.25rem;box-shadow:0 2px 10px rgba(0,0,0,.06)\">";
+      detHtml += "<div style=\"display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem\">";
+      detHtml += "<strong>" + q.level + "</strong>";
+      detHtml += "<span style=\"font-weight:700;font-size:.82rem;padding:.2rem .6rem;border-radius:12px;background:"+bg+";color:"+col+"\">"+( s ? s.e+"/"+s.m : "Not submitted")+"</span>";
+      detHtml += "</div>";
+      if (kks) detHtml += "<div style=\"margin-bottom:.5rem\">" + kks + "</div>";
+      detHtml += "<div style=\"font-size:.88rem;color:#555;margin-bottom:.65rem\">" + q.text.replace(/<[^>]+>/g,"") + "</div>";
+      detHtml += "<div style=\"background:#f5f5f0;padding:.9rem;border-radius:8px;font-size:.88rem;margin-bottom:.65rem;white-space:pre-wrap\">" + (answers[q.id]||"(No answer submitted)") + "</div>";
+      if (conf) detHtml += "<div style=\"background:#eff6ff;border:1px solid #93c5fd;border-radius:8px;padding:.5rem .85rem;font-size:.8rem;color:#1e3a8a;margin-bottom:.4rem\"><strong>Self-assessed confidence:</strong> " + conf + "</div>";
+      if (refl) detHtml += "<div style=\"background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:.6rem .9rem;font-size:.82rem;color:#166534;margin-bottom:.5rem\"><strong>Reflection before retry:</strong> " + refl + "</div>";
+      if (fb) {
+        detHtml += "<div style=\"font-size:.85rem;padding:.7rem;background:#eafaf1;border-radius:8px;margin-bottom:.4rem\"><strong style=\"color:#27ae60\">&#9989; Well done:</strong> " + (fb.whatWorked||[]).join(" ") + "</div>";
+        detHtml += "<div style=\"font-size:.85rem;padding:.7rem;background:#fef5e7;border-radius:8px;margin-bottom:.4rem\"><strong style=\"color:#e67e22\">&#128295; To improve:</strong> " + (fb.improvements||[]).join(" ") + "</div>";
+        if (fb.commonMistakes && fb.commonMistakes.length) {
+          detHtml += "<div style=\"font-size:.85rem;padding:.7rem;background:#fdf0ef;border-radius:8px;margin-bottom:.4rem\"><strong style=\"color:#e74c3c\">&#9888;&#65039; Mistake:</strong> " + fb.commonMistakes.join(" ") + "</div>";
+        }
+        detHtml += "<div style=\"font-size:.85rem;padding:.7rem;background:#f5f3ff;border-radius:8px\"><strong style=\"color:#7c3aed\">&#128221; Model answer:</strong><br><br>" + (fb.modelAnswer||"") + "</div>";
+      } else {
+        detHtml += "<p style=\"color:#94a3b8;font-size:.85rem\">Not submitted for marking.</p>";
+      }
+      detHtml += "</div>";
+    }
+  }
+  document.getElementById("r-detail").innerHTML = detHtml;
+}
+</script>
+</body>
+</html>
