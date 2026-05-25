@@ -1070,7 +1070,7 @@ function submitPlan(){
       if(printDiv)printDiv.style.display="block";
     } else {
       status.className="submit-status fail";
-      status.textContent="&#x274C; Couldn\'t save right now. Show your teacher this screen as confirmation.";
+      status.innerHTML="&#x274C; Couldn\'t save right now. Show your teacher this screen as confirmation.";
       btn.disabled=false;
     }
   });
