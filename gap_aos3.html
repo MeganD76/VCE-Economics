@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U3 AOS3 — GAP Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0d9488;--primaryl:#f0fdfa;--primaryd:#0f766e;
+  --red:#dc2626;--redl:#fef2f2;
+  --amber:#d97706;--amberl:#fffbeb;
+  --green:#16a34a;--greenl:#f0fdf4;
+  --purple:#7c3aed;--purplel:#f5f3ff;
+  --blue:#2563eb;--bluel:#eff6ff;
+  --gray:#64748b;--bg:#fafafa;--white:#ffffff;
+  --border:#e2e8f0;--text:#1e293b;--muted:#94a3b8;
+}
+body{font-family:"DM Sans",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+/* SCREENS */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+/* ENTRY SCREEN */
+#screen-entry{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;min-height:100vh}
+.entry-card{background:var(--white);border:1px solid var(--border);border-radius:1rem;padding:2.5rem;max-width:540px;width:100%;box-shadow:0 4px 24px rgba(0,0,0,.07)}
+.aos-badge{display:inline-block;background:var(--primary);color:#fff;font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:999px;letter-spacing:.05em;margin-bottom:1rem}
+.entry-card h1{font-family:"DM Serif Display",serif;font-size:1.9rem;color:var(--text);margin-bottom:.5rem;line-height:1.15}
+.entry-card p{color:var(--gray);font-size:.9rem;line-height:1.6;margin-bottom:1.5rem}
+.tip-box{background:var(--bluel);border:1px solid #bfdbfe;border-radius:.5rem;padding:1rem 1.2rem;margin-bottom:1.5rem;font-size:.85rem;color:#1e40af;line-height:1.6}
+.tip-box strong{display:block;margin-bottom:.3rem}
+label{display:block;font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
+input[type=text]{width:100%;padding:.7rem 1rem;border:1.5px solid var(--border);border-radius:.5rem;font-family:"DM Sans",sans-serif;font-size:.95rem;color:var(--text);transition:border-color .15s}
+input[type=text]:focus{outline:none;border-color:var(--primary)}
+.btn-primary{display:block;width:100%;padding:.85rem;background:var(--primary);color:#fff;border:none;border-radius:.5rem;font-family:"DM Sans",sans-serif;font-size:1rem;font-weight:600;cursor:pointer;margin-top:1.2rem;transition:background .15s}
+.btn-primary:hover{background:var(--primaryd)}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed}
+.teacher-link{display:block;text-align:center;margin-top:1rem;font-size:.78rem;color:var(--muted);cursor:pointer;text-decoration:none}
+.teacher-link:hover{color:var(--gray)}
+/* SURVEY SCREEN */
+#screen-survey{padding-bottom:90px}
+.survey-sticky{position:sticky;top:0;z-index:20;background:var(--white);border-bottom:1px solid var(--border);padding:.7rem 1.2rem}
+.survey-sticky-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:1rem}
+.prog-text{font-size:.8rem;color:var(--gray);white-space:nowrap;flex-shrink:0}
+.prog-bar{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:var(--primary);border-radius:3px;transition:width .3s}
+.survey-body{max-width:860px;margin:0 auto;padding:1.5rem 1.2rem}
+/* KK CARD */
+.kk-card{background:var(--white);border:2px solid var(--border);border-radius:.75rem;margin-bottom:1.2rem;overflow:hidden;transition:border-color .2s}
+.kk-card.all-rated{border-color:#16a34a}
+.kk-header{background:#fafafa;padding:1rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:.8rem}
+.kk-num{font-family:"DM Serif Display",serif;font-size:1.8rem;color:var(--primary);line-height:1;flex-shrink:0;min-width:2.2rem}
+.kk-meta{flex:1}
+.kk-cat{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.2rem}
+.kk-title{font-size:.88rem;color:var(--text);line-height:1.4}
+.kk-prog-pill{font-size:.72rem;background:var(--border);color:var(--gray);border-radius:999px;padding:2px 8px;white-space:nowrap;flex-shrink:0;margin-top:.15rem}
+/* SUB ROW */
+.sub-row{padding:.8rem 1.2rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:.8rem;transition:background .15s}
+.sub-row:last-child{border-bottom:none}
+.sub-row.rated-1{background:var(--redl)}
+.sub-row.rated-2{background:var(--amberl)}
+.sub-row.rated-3{background:var(--greenl)}
+.sub-row.rated-4{background:var(--primaryl)}
+.type-badge{font-size:.65rem;font-weight:600;padding:2px 6px;border-radius:3px;white-space:nowrap;flex-shrink:0}
+.type-badge.definition{background:#fce7f3;color:#9d174d}
+.type-badge.content{background:#dbeafe;color:#1e40af}
+.type-badge.application{background:#d1fae5;color:#065f46}
+.type-badge.eval{background:#ede9fe;color:#5b21b6}
+.sub-label{flex:1;font-size:.85rem;line-height:1.4}
+.rating-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:.3rem;flex-shrink:0;width:360px}
+.rating-btn{padding:.35rem .25rem;border:1.5px solid var(--border);border-radius:.4rem;background:var(--white);font-size:.68rem;font-weight:500;cursor:pointer;text-align:center;line-height:1.3;transition:all .15s;white-space:normal;word-break:break-word}
+.rating-btn:hover{border-color:var(--gray)}
+.rating-btn.sel-1{border-color:var(--red);background:var(--redl);color:var(--red)}
+.rating-btn.sel-2{border-color:var(--amber);background:var(--amberl);color:var(--amber)}
+.rating-btn.sel-3{border-color:var(--green);background:var(--greenl);color:var(--green)}
+.rating-btn.sel-4{border-color:var(--primary);background:var(--primaryl);color:var(--primary)}
+/* FIXED BOTTOM BAR */
+.fixed-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);padding:.8rem 1.2rem;z-index:30}
+.fixed-bar-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.fixed-bar-text{font-size:.82rem;color:var(--muted)}
+.btn-generate{padding:.7rem 1.6rem;background:var(--primary);color:#fff;border:none;border-radius:.5rem;font-family:"DM Sans",sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-generate:hover:not(:disabled){background:var(--primaryd)}
+.btn-generate:disabled{opacity:.4;cursor:not-allowed}
+/* RESULTS SCREEN */
+#screen-results{padding:0}
+.results-header{background:var(--primary);color:#fff;padding:2rem 1.5rem 1.5rem}
+.results-header-inner{max-width:860px;margin:0 auto}
+.results-header h2{font-family:"DM Serif Display",serif;font-size:1.8rem;margin-bottom:.3rem}
+.results-header p{opacity:.85;font-size:.9rem}
+.results-body{max-width:860px;margin:0 auto;padding:1.5rem 1.2rem 3rem}
+/* SUMMARY TILES */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:1.8rem}
+.tile{background:var(--white);border:1px solid var(--border);border-radius:.75rem;padding:1rem;text-align:center}
+.tile-count{font-family:"DM Serif Display",serif;font-size:2rem;line-height:1}
+.tile-label{font-size:.72rem;color:var(--gray);margin-top:.3rem}
+.tile.t1 .tile-count{color:var(--red)}
+.tile.t2 .tile-count{color:var(--amber)}
+.tile.t3 .tile-count{color:var(--green)}
+.tile.t4 .tile-count{color:var(--primary)}
+/* SECTIONS */
+.section-heading{font-family:"DM Serif Display",serif;font-size:1.2rem;color:var(--text);margin-bottom:.8rem}
+/* PRIORITY BOX */
+.priority-box{background:var(--amberl);border:1px solid #fbbf24;border-radius:.75rem;padding:1.2rem;margin-bottom:1.8rem}
+.priority-box-title{font-size:.85rem;font-weight:600;color:#92400e;margin-bottom:.8rem}
+.weak-kk-row{border-bottom:1px solid #fde68a;padding:.6rem 0;cursor:pointer}
+.weak-kk-row:last-child{border-bottom:none}
+.weak-kk-toggle{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.weak-kk-name{font-size:.85rem;font-weight:600;color:var(--text)}
+.weak-kk-count{font-size:.75rem;padding:2px 8px;border-radius:999px}
+.weak-kk-count.urgent{background:var(--redl);color:var(--red)}
+.weak-kk-count.needs{background:var(--amberl);color:var(--amber)}
+.weak-kk-chevron{font-size:.8rem;color:var(--muted);transition:transform .2s}
+.weak-kk-chevron.open{transform:rotate(180deg)}
+.weak-kk-subs{padding-top:.5rem;display:none}
+.weak-kk-subs.open{display:block}
+.weak-sub-item{display:flex;align-items:center;gap:.5rem;padding:.3rem 0;font-size:.82rem}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot.r1{background:var(--red)}
+.dot.r2{background:var(--amber)}
+/* FULL BREAKDOWN */
+.breakdown-card{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--border);border-radius:.75rem;margin-bottom:.8rem;overflow:hidden}
+.breakdown-card.bl-red{border-left-color:var(--red)}
+.breakdown-card.bl-amber{border-left-color:var(--amber)}
+.breakdown-card.bl-green{border-left-color:var(--green)}
+.breakdown-card.bl-primary{border-left-color:var(--primary)}
+.breakdown-header{display:flex;align-items:center;gap:.8rem;padding:.9rem 1rem;cursor:pointer}
+.breakdown-kk-num{font-family:"DM Serif Display",serif;font-size:1.2rem;color:var(--primary);min-width:1.8rem}
+.breakdown-meta{flex:1}
+.breakdown-cat{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.breakdown-title{font-size:.82rem;color:var(--text);line-height:1.3}
+.avg-pill{font-size:.72rem;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.avg-pill.p1{background:var(--redl);color:var(--red)}
+.avg-pill.p2{background:var(--amberl);color:var(--amber)}
+.avg-pill.p3{background:var(--greenl);color:var(--green)}
+.avg-pill.p4{background:var(--primaryl);color:var(--primary)}
+.breakdown-subs{padding:.5rem 1rem .8rem;display:none;border-top:1px solid #f1f5f9}
+.breakdown-subs.open{display:block}
+.bd-sub-row{display:flex;align-items:center;gap:.5rem;padding:.3rem 0;font-size:.82rem}
+/* REVISION PLAN */
+.rev-section{margin-top:2rem}
+.foundations-alert{background:var(--amberl);border:1px solid #fbbf24;border-radius:.75rem;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.85rem;color:#92400e;line-height:1.6}
+.rev-kk-card{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--border);border-radius:.75rem;margin-bottom:.9rem;padding:1.1rem}
+.rev-urgent{border-left-color:var(--red)}
+.rev-needs{border-left-color:var(--amber)}
+.rev-cons{border-left-color:var(--green)}
+.rev-strong{border-left-color:var(--primary)}
+.rev-kk-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.6rem}
+.rev-hub-rec{background:#f8fafc;border-radius:.5rem;border:1px solid var(--border);padding:.8rem 1rem;margin-bottom:.6rem}
+.rev-hub-rec-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+.rev-hub-rec-name{font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.2rem}
+.rev-hub-rec-note{font-size:.78rem;color:var(--gray);line-height:1.4}
+.rev-supp{font-size:.8rem;color:var(--gray);line-height:1.6;margin-top:.4rem}
+.rev-supp strong{color:var(--text)}
+/* BADGE TABS */
+.badge-tab{display:inline-block;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;margin-right:.3rem}
+.badge-tab-game{background:#dcfce7;color:#14532d}
+.badge-tab-practice{background:#ede9fe;color:#4c1d95}
+.badge-tab-both{background:#fef9c3;color:#713f12}
+/* PLAN SCREEN */
+#screen-plan{padding-bottom:3rem}
+.plan-header{background:var(--primary);color:#fff;padding:2rem 1.5rem 1.5rem}
+.plan-header-inner{max-width:700px;margin:0 auto}
+.plan-header h2{font-family:"DM Serif Display",serif;font-size:1.7rem;margin-bottom:.3rem}
+.plan-header p{opacity:.85;font-size:.88rem;line-height:1.5}
+.plan-body{max-width:700px;margin:0 auto;padding:1.5rem 1.2rem}
+.plan-section{background:var(--white);border:1px solid var(--border);border-radius:.75rem;padding:1.2rem 1.4rem;margin-bottom:1.2rem}
+.plan-q{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.8rem;line-height:1.4}
+.plan-options{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.3rem}
+.plan-opt{padding:.45rem .9rem;border:1.5px solid var(--border);border-radius:.4rem;font-size:.82rem;cursor:pointer;background:var(--white);transition:all .15s}
+.plan-opt:hover{border-color:var(--primary);background:var(--primaryl)}
+.plan-opt.selected{border-color:var(--primary);background:var(--primaryl);color:var(--primaryd);font-weight:600}
+.plan-opts-multi{display:flex;flex-wrap:wrap;gap:.5rem}
+.plan-checkbox{display:flex;align-items:center;gap:.5rem;padding:.4rem .8rem;border:1.5px solid var(--border);border-radius:.4rem;font-size:.82rem;cursor:pointer;background:var(--white);transition:all .15s}
+.plan-checkbox input{width:14px;height:14px;cursor:pointer;accent-color:var(--primary)}
+.plan-checkbox:hover{border-color:var(--primary)}
+.plan-checkbox.checked{border-color:var(--primary);background:var(--primaryl)}
+textarea.plan-textarea{width:100%;min-height:80px;padding:.7rem;border:1.5px solid var(--border);border-radius:.5rem;font-family:"DM Sans",sans-serif;font-size:.85rem;color:var(--text);resize:vertical;line-height:1.5}
+textarea.plan-textarea:focus{outline:none;border-color:var(--primary)}
+.plan-note{font-size:.78rem;color:var(--muted);margin-top:.4rem;font-style:italic}
+.submit-status{margin-top:1.2rem;padding:.8rem 1rem;border-radius:.5rem;font-size:.85rem;text-align:center}
+.submit-status.pending{background:var(--amberl);color:#92400e}
+.submit-status.success{background:var(--greenl);color:#14532d}
+.submit-status.fail{background:var(--redl);color:var(--red)}
+.btn-submit{padding:.8rem 2rem;background:var(--primary);color:#fff;border:none;border-radius:.5rem;font-family:"DM Sans",sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;margin-top:1rem;transition:background .15s}
+.btn-submit:hover:not(:disabled){background:var(--primaryd)}
+.btn-submit:disabled{opacity:.4;cursor:not-allowed}
+/* FOOTER BTNS */
+.footer-btns{display:flex;gap:.8rem;margin-top:1.5rem;flex-wrap:wrap}
+.btn-outline{padding:.65rem 1.3rem;border:1.5px solid var(--border);border-radius:.5rem;background:var(--white);font-family:"DM Sans",sans-serif;font-size:.88rem;color:var(--text);cursor:pointer;transition:all .15s}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+/* DASHBOARD */
+#screen-dashboard{padding:0}
+.dash-sticky{position:sticky;top:0;z-index:30;background:#1e293b;color:#fff;padding:.7rem 1.2rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.dash-title{font-family:"DM Serif Display",serif;font-size:1rem;margin-right:.5rem}
+.dash-chip{font-size:.72rem;background:rgba(255,255,255,.15);padding:3px 8px;border-radius:3px}
+.dash-spacer{flex:1}
+.btn-dash{padding:.4rem .9rem;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:.4rem;font-family:"DM Sans",sans-serif;font-size:.78rem;cursor:pointer}
+.btn-dash:hover{background:rgba(255,255,255,.1)}
+.btn-dash-danger{border-color:#dc2626;color:#fca5a5}
+.btn-dash-danger:hover{background:rgba(220,38,38,.2)}
+.dash-body{max-width:980px;margin:0 auto;padding:1.5rem 1.2rem}
+.dash-tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;margin-bottom:1.5rem}
+.dash-tile{background:var(--white);border:1px solid var(--border);border-radius:.6rem;padding:.9rem;text-align:center}
+.dash-tile-val{font-family:"DM Serif Display",serif;font-size:1.6rem;line-height:1}
+.dash-tile-lbl{font-size:.68rem;color:var(--gray);margin-top:.25rem}
+.dash-tile.dt1 .dash-tile-val{color:var(--red)}
+.dash-tile.dt2 .dash-tile-val{color:var(--amber)}
+.dash-tile.dt3 .dash-tile-val{color:var(--green)}
+.dash-tile.dt4 .dash-tile-val{color:var(--primary)}
+.dash-section-h{font-size:.88rem;font-weight:600;color:var(--text);margin:.8rem 0 .5rem}
+.dash-priority{background:var(--white);border:1px solid var(--border);border-radius:.6rem;overflow:hidden;margin-bottom:1.2rem}
+.dash-priority-row{display:flex;align-items:center;padding:.7rem 1rem;border-bottom:1px solid #f1f5f9;gap:.8rem}
+.dash-priority-row:last-child{border-bottom:none}
+.dash-pr-num{font-family:"DM Serif Display",serif;font-size:1rem;color:var(--primary);min-width:1.6rem}
+.dash-pr-name{flex:1;font-size:.82rem;font-weight:600}
+.dash-pr-avg{font-size:.75rem;padding:2px 7px;border-radius:999px}
+.dash-pr-pct{font-size:.75rem;color:var(--red);font-weight:600;margin-left:auto}
+/* sub question stacked bar */
+.sub-q-row{background:var(--white);border:1px solid var(--border);border-radius:.6rem;margin-bottom:.6rem;overflow:hidden}
+.sub-q-header{display:flex;align-items:center;gap:.7rem;padding:.7rem .9rem;cursor:pointer;border-bottom:1px solid #f1f5f9}
+.sub-q-label{flex:1;font-size:.8rem}
+.sub-q-avg{font-size:.72rem;color:var(--gray)}
+.stacked-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:0 .9rem .7rem}
+.sb-seg{height:100%;transition:width .4s}
+.sb-1{background:var(--red)}
+.sb-2{background:var(--amber)}
+.sb-3{background:var(--green)}
+.sb-4{background:var(--primary)}
+.warn-flag{font-size:.7rem;color:var(--red);font-weight:600;margin-left:.4rem}
+/* student table */
+.student-table{width:100%;border-collapse:collapse;font-size:.8rem}
+.student-table th{text-align:left;padding:.5rem .8rem;background:#f8fafc;border-bottom:1px solid var(--border);color:var(--gray);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.04em}
+.student-table td{padding:.6rem .8rem;border-bottom:1px solid #f1f5f9}
+.student-table tr:last-child td{border-bottom:none}
+.btn-del{padding:2px 7px;border:1px solid var(--red);background:transparent;color:var(--red);border-radius:3px;font-size:.7rem;cursor:pointer}
+/* PIN MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem}
+.modal-box{background:var(--white);border-radius:.75rem;padding:1.8rem;width:100%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.modal-box h3{font-family:"DM Serif Display",serif;font-size:1.3rem;margin-bottom:.8rem}
+.modal-input{width:100%;padding:.65rem .9rem;border:1.5px solid var(--border);border-radius:.4rem;font-size:.95rem;font-family:"DM Sans",sans-serif;margin-bottom:.5rem}
+.modal-input:focus{outline:none;border-color:var(--primary)}
+.modal-error{font-size:.8rem;color:var(--red);margin-bottom:.6rem;min-height:1.1em}
+.modal-btns{display:flex;gap:.6rem;justify-content:flex-end}
+.btn-cancel{padding:.55rem 1.1rem;border:1.5px solid var(--border);background:var(--white);border-radius:.4rem;cursor:pointer;font-size:.88rem}
+.btn-enter{padding:.55rem 1.2rem;background:var(--primary);color:#fff;border:none;border-radius:.4rem;cursor:pointer;font-size:.88rem;font-weight:600}
+.all-strong-box{background:var(--greenl);border:1px solid #86efac;border-radius:.75rem;padding:1.2rem;color:#14532d;font-size:.88rem;line-height:1.6}
+@media(max-width:600px){
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .rating-btns{grid-template-columns:repeat(2,1fr);width:100%}
+  .sub-row{flex-direction:column;align-items:flex-start}
+  .dash-tiles{grid-template-columns:repeat(3,1fr)}
+}
+/* PRINT STYLES */
+.print-only{display:none}
+@media print{
+  .survey-sticky,.fixed-bar,.dash-sticky,.plan-header,.results-header,.footer-btns,.btn-primary,.btn-outline,.btn-submit,#plan-submit-btn,#plan-print-btn,.no-print{display:none!important}
+  .screen{display:none!important}
+  #screen-results,#screen-plan{display:block!important}
+  .print-only{display:block!important}
+  body{background:#fff}
+  .results-body,.plan-body{padding:.5rem}
+  .kk-card,.breakdown-card,.rev-kk-card,.plan-section{break-inside:avoid}
+  .plan-section{border:1px solid #e2e8f0;border-radius:.5rem;padding:.8rem;margin-bottom:.6rem}
+  .tiles,.priority-box,.breakdown-card,.rev-section{display:none!important}
+  .print-checklist{margin-top:1.5rem;display:block!important}
+  .print-checklist-title{font-family:"DM Serif Display",serif;font-size:1.4rem;color:#0d9488;margin-bottom:.3rem}
+  .print-checklist-sub{font-size:.8rem;color:#64748b;margin-bottom:1rem}
+  .print-task-card{border:1px solid #e2e8f0;border-left:4px solid #e2e8f0;border-radius:.5rem;padding:.8rem 1rem;margin-bottom:.7rem;break-inside:avoid}
+  .print-task-card.urgent{border-left-color:#dc2626}
+  .print-task-card.needs{border-left-color:#d97706}
+  .print-task-card.good{border-left-color:#16a34a}
+  .print-task-card.strong{border-left-color:#0d9488}
+  .print-task-kk{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#64748b;margin-bottom:.2rem}
+  .print-task-check{display:flex;align-items:flex-start;gap:.5rem;margin-top:.5rem}
+  .print-checkbox{width:14px;height:14px;border:1.5px solid #94a3b8;border-radius:2px;flex-shrink:0;margin-top:2px}
+  .print-checkbox-label{font-size:.78rem;color:#475569}
+  .print-header{margin-bottom:1rem;padding-bottom:.8rem;border-bottom:2px solid #0d9488}
+  .print-header h2{font-family:"DM Serif Display",serif;font-size:1.6rem;color:#0d9488}
+  .print-header p{font-size:.8rem;color:#64748b}
+}
+</style>
+</head>
+<body>
+<!-- PIN MODAL -->
+<div class="modal-overlay" id="pin-modal" style="display:none">
+  <div class="modal-box">
+    <h3>&#x1F512; Teacher Access</h3>
+    <input type="password" class="modal-input" id="pin-input" placeholder="Enter PIN" />
+    <div class="modal-error" id="pin-error"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closePinModal()">Cancel</button>
+      <button class="btn-enter" onclick="checkPin()">Enter Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENTRY SCREEN -->
+<div class="screen active" id="screen-entry">
+  <div id="screen-entry-inner">
+    <div class="entry-card">
+      <span class="aos-badge">U3 AOS3</span>
+      <h1>SAC GAP Analysis</h1>
+      <p>Rate your confidence on every key knowledge item. You&#x2019;ll get a personalised feedback report, revision plan, and a short planning activity to help you study smarter before the SAC.</p>
+      <div class="tip-box">
+        <strong>&#x1F4A1; How to use this</strong>
+        Be honest &#x2014; your ratings are only useful if they reflect what you genuinely know. Think about each item before rating it. This typically takes 8&#x2013;12 minutes.
+      </div>
+      <label for="student-name">Your first name</label>
+      <input type="text" id="student-name" placeholder="e.g. Alex" autocomplete="given-name" oninput="toggleStart()" onkeydown="if(event.key==='Enter')startSurvey()" />
+      <button class="btn-primary" id="start-btn" disabled onclick="startSurvey()">Start GAP Analysis &#x2192;</button>
+      <a class="teacher-link" onclick="openPinModal()">&#x1F512; Teacher Dashboard</a>
+    </div>
+  </div>
+</div>
+
+<!-- SURVEY SCREEN -->
+<div class="screen" id="screen-survey">
+  <div class="survey-sticky">
+    <div class="survey-sticky-inner">
+      <span class="prog-text" id="prog-text">0 of 0 rated</span>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="survey-body" id="survey-cards"></div>
+  <div class="fixed-bar">
+    <div class="fixed-bar-inner">
+      <span class="fixed-bar-text" id="fixed-bar-msg">Rate all items to generate your report</span>
+      <button class="btn-generate" id="gen-btn" disabled onclick="generateReport()">Generate My Feedback Report &#x2192;</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div class="screen" id="screen-results">
+  <div class="results-header">
+    <div class="results-header-inner">
+      <h2 id="results-name-heading">GAP Analysis Report</h2>
+      <p>U3 AOS3 &middot; Personalised study plan</p>
+    </div>
+  </div>
+  <div class="results-body" id="results-body"></div>
+</div>
+
+<!-- PLAN SCREEN -->
+<div class="screen" id="screen-plan">
+  <div class="plan-header">
+    <div class="plan-header-inner">
+      <h2>&#x1F3AF; Your SAC Plan</h2>
+      <p>You&#x2019;ve just assessed your knowledge. Now use those results to build a concrete study plan for the SAC. Complete all questions below, then submit.</p>
+    </div>
+  </div>
+  <div class="plan-body" id="plan-body"></div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="screen" id="screen-dashboard">
+  <div class="dash-sticky">
+    <span class="dash-title">&#x1F4CA; U3 AOS3 &#x2014; Teacher Dashboard</span>
+    <span class="dash-chip" id="d-student-count">0 students</span>
+    <span class="dash-chip" id="d-last-updated"></span>
+    <span class="dash-chip" id="d-refresh-countdown"></span>
+    <div class="dash-spacer"></div>
+    <button class="btn-dash" onclick="refreshDashboard()">&#x21BB; Refresh</button>
+    <button class="btn-dash" onclick="window.print()">&#x1F5A8; Print</button>
+    <button class="btn-dash btn-dash-danger" onclick="clearAll()">&#x2715; Clear All</button>
+    <button class="btn-dash" onclick="showScreen('screen-entry')">&#x2190; Exit</button>
+  </div>
+  <div class="dash-body" id="dash-body">Loading...</div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+var WORKER_URL  = "https://vce-marker.megan-dyring.workers.dev";
+var GITHUB_OWNER = "MeganD76";
+var GITHUB_REPO  = "VCE-Economics";
+var GITHUB_FILE  = "gap-aos3-data.json";
+var TEACHER_PIN  = "1234";
+var AUTO_REFRESH = 30;
+
+// ============================================================
+// KKS DATA
+// ============================================================
+var KKS = [
+  {
+    id:1, cat:"Gains from Trade",
+    title:"The gains from international trade, including lower prices, greater choice, access to resources, economies of scale, and increased competition and efficiency",
+    subs:[
+      {id:"1a",label:"I can explain how international trade leads to lower prices for consumers",type:"application"},
+      {id:"1b",label:"I can explain how international trade leads to greater choice for consumers",type:"application"},
+      {id:"1c",label:"I can explain how international trade provides greater access to resources for businesses and government",type:"application"},
+      {id:"1d",label:"I can explain how international trade allows businesses to achieve economies of scale",type:"application"},
+      {id:"1e",label:"I can explain how international trade increases competition and efficiency in the domestic economy",type:"application"},
+      {id:"1f",label:"I can explain how the gains from international trade improve both material and non-material living standards",type:"eval"}
+    ]
+  },
+  {
+    id:2, cat:"Balance of Payments",
+    title:"The balance of payments and its components \u2014 Current Account and Capital & Financial Account",
+    subs:[
+      {id:"2a",label:"I can explain what the Balance of Payments measures",type:"definition"},
+      {id:"2b",label:"I can explain the difference between a credit and a debit on the Balance of Payments",type:"definition"},
+      {id:"2c",label:"I can name the two main accounts of the BOP and the sub-components of the Current Account",type:"content"},
+      {id:"2d",label:"I can explain what the Balance on Goods and Services measures",type:"content"},
+      {id:"2e",label:"I can explain what the Primary Income component measures",type:"content"},
+      {id:"2f",label:"I can explain what the Secondary Income component measures",type:"content"},
+      {id:"2g",label:"I can explain what the Capital and Financial Account measures and identify its sub-components",type:"content"},
+      {id:"2h",label:"I can distinguish between direct investment and portfolio investment",type:"definition"},
+      {id:"2i",label:"I can explain the relationship between the Current Account and the Capital and Financial Account",type:"application"}
+    ]
+  },
+  {
+    id:3, cat:"Cyclical & Structural CAD",
+    title:"Cyclical and structural influences on Australia\u2019s current account balance",
+    subs:[
+      {id:"3a",label:"I can distinguish between a cyclical and a structural influence on the Current Account balance",type:"definition"},
+      {id:"3b",label:"I can explain why Australia has historically run a Current Account Deficit",type:"content"},
+      {id:"3c",label:"I can explain the structural causes of Australia\u2019s CAD",type:"content"},
+      {id:"3d",label:"I can explain the cyclical causes of the CAD",type:"content"},
+      {id:"3e",label:"I can explain how changes in domestic economic growth affect the CAD",type:"application"},
+      {id:"3f",label:"I can explain what is meant by the sustainability of the Current Account and how we assess it",type:"eval"},
+      {id:"3g",label:"I can describe the current state of Australia\u2019s Current Account position",type:"content"},
+      {id:"3h",label:"I can distinguish between a cyclical deterioration and a structural deterioration of the CAD",type:"eval"}
+    ]
+  },
+  {
+    id:4, cat:"Net Foreign Liabilities",
+    title:"The composition and cause of net foreign debt and net foreign equity",
+    subs:[
+      {id:"4a",label:"I can define Net Foreign Liabilities and identify its two components",type:"definition"},
+      {id:"4b",label:"I can distinguish between Net Foreign Debt and Net Foreign Equity and explain what is included in each",type:"definition"},
+      {id:"4c",label:"I can explain why Australia has a large Net Foreign Debt and identify who is primarily responsible for it",type:"content"},
+      {id:"4d",label:"I can explain Australia\u2019s Net Foreign Equity position and why it is in deficit",type:"content"},
+      {id:"4e",label:"I can explain the relationship between the Current Account balance and Net Foreign Liabilities",type:"application"},
+      {id:"4f",label:"I can explain why a large CAD does not necessarily mean Net Foreign Liabilities will increase",type:"eval"}
+    ]
+  },
+  {
+    id:5, cat:"Exchange Rates",
+    title:"The exchange rate: its meaning, measurement, and the factors affecting its value",
+    subs:[
+      {id:"5a",label:"I can define the exchange rate and explain how it is measured",type:"definition"},
+      {id:"5b",label:"I can explain how relative interest rates affect the value of the AUD",type:"application"},
+      {id:"5c",label:"I can explain how commodity prices affect the value of the AUD",type:"application"},
+      {id:"5d",label:"I can explain how demand for Australian exports affects the AUD",type:"application"},
+      {id:"5e",label:"I can explain how Australian demand for imports affects the AUD",type:"application"},
+      {id:"5f",label:"I can explain how foreign investment flows into or out of Australia affect the AUD",type:"application"},
+      {id:"5g",label:"I can explain how relative inflation rates affect the value of the AUD",type:"application"},
+      {id:"5h",label:"I can explain how credit ratings and speculative activity affect the AUD",type:"content"},
+      {id:"5i",label:"I can explain how a change in the value of the AUD affects the Balance on Goods and Services",type:"application"}
+    ]
+  },
+  {
+    id:6, cat:"Terms of Trade",
+    title:"The terms of trade: meaning, measurement, and factors that may affect it",
+    subs:[
+      {id:"6a",label:"I can define the Terms of Trade and explain how it is calculated",type:"definition"},
+      {id:"6b",label:"I can explain what is meant by an improvement in the Terms of Trade",type:"definition"},
+      {id:"6c",label:"I can explain what is meant by a deterioration in the Terms of Trade",type:"definition"},
+      {id:"6d",label:"I can explain how changes in commodity prices affect the Terms of Trade",type:"application"},
+      {id:"6e",label:"I can explain how changes in production costs in trading partner countries affect the Terms of Trade",type:"application"},
+      {id:"6f",label:"I can explain how a rise in the Terms of Trade affects the demand for the AUD",type:"application"},
+      {id:"6g",label:"I can explain how a fall in the Terms of Trade affects the demand for the AUD",type:"application"},
+      {id:"6h",label:"I can explain how a change in the Terms of Trade affects credits and debits in the Current Account",type:"application"}
+    ]
+  },
+  {
+    id:7, cat:"International Competitiveness",
+    title:"International competitiveness and the factors that may affect it",
+    subs:[
+      {id:"7a",label:"I can define international competitiveness",type:"definition"},
+      {id:"7b",label:"I can explain how productivity affects Australia\u2019s international competitiveness",type:"application"},
+      {id:"7c",label:"I can explain how Australia\u2019s natural resource endowment affects its international competitiveness",type:"content"},
+      {id:"7d",label:"I can explain how a change in the AUD affects Australia\u2019s international competitiveness",type:"application"},
+      {id:"7e",label:"I can explain how relative inflation rates and production costs affect international competitiveness",type:"application"}
+    ]
+  },
+  {
+    id:8, cat:"Current Conditions",
+    title:"Current trends in the exchange rate, terms of trade, and international competitiveness, and their effects on macroeconomic goals",
+    subs:[
+      {id:"8a",label:"I can describe the recent trend in Australia\u2019s Terms of Trade and explain the key drivers",type:"content"},
+      {id:"8b",label:"I can describe the recent trend in the Australian dollar and explain the key factors driving it",type:"content"},
+      {id:"8c",label:"I can describe Australia\u2019s current level of international competitiveness and the key factors affecting it",type:"content"},
+      {id:"8d",label:"I can explain how the current Terms of Trade trend is affecting the goal of SSEG",type:"application"},
+      {id:"8e",label:"I can explain how the current Terms of Trade trend is affecting the goal of price stability",type:"application"},
+      {id:"8f",label:"I can explain how the current Terms of Trade trend is affecting the goal of full employment",type:"application"},
+      {id:"8g",label:"I can explain how the current AUD trend is affecting the goal of SSEG",type:"application"},
+      {id:"8h",label:"I can explain how the current AUD trend is affecting the goal of price stability",type:"application"},
+      {id:"8i",label:"I can explain how the current AUD trend is affecting the goal of full employment",type:"application"},
+      {id:"8j",label:"I can explain how changes in international competitiveness affect the goal of SSEG",type:"application"},
+      {id:"8k",label:"I can explain how changes in international competitiveness affect the goal of price stability",type:"application"},
+      {id:"8l",label:"I can explain how changes in international competitiveness affect the goal of full employment",type:"application"},
+      {id:"8m",label:"I can evaluate the combined current impact of the AUD, ToT and international competitiveness on Australia\u2019s macroeconomic goals and living standards",type:"eval"}
+    ]
+  }
+];
+
+var ALL_SUB_IDS = [];
+for(var _k=0;_k<KKS.length;_k++){
+  for(var _s=0;_s<KKS[_k].subs.length;_s++){
+    ALL_SUB_IDS.push(KKS[_k].subs[_s].id);
+  }
+}
+var TOTAL_SUBS = ALL_SUB_IDS.length;
+
+// FOUNDATIONAL KKs
+var FOUNDATIONAL_KKS = [1,2,3,4];
+
+// ROUTING: f=foundational, c=consolidation, e=extension
+var ROUTING = {
+  1:{
+    f:{tab:"game",name:"Game 1: Gains from Trade",note:"Covers the core gains from trade — recall all 6 gains and trace the mechanism for each."},
+    c:{tab:"practice",name:"Pre-SAC Practice Tool — Factor Recall",note:"Use the Factor Recall tab to check you can identify all gains from trade factors."},
+    e:{tab:"practice",name:"Pre-SAC Practice Tool — Chain Builder",note:"Work through the Chain Builder to practise writing full causal chains for each gain."}
+  },
+  2:{
+    f:{tab:"game",name:"Game 2: Balance of Payments",note:"Covers the structure of the BOP — components, credits, debits, and what each sub-account measures."},
+    c:{tab:"practice",name:"Pre-SAC Practice Tool — Factor Matcher",note:"Use the Factor Matcher to match BOP transactions to the correct sub-account."},
+    e:{tab:"practice",name:"Pre-SAC Practice Tool — Chain Builder",note:"Practise writing chains that trace how specific transactions flow through the BOP."}
+  },
+  3:{
+    f:{tab:"game",name:"Game 3: Structural & Cyclical Influences",note:"Covers the distinction between cyclical and structural causes of the CAD with worked examples."},
+    c:{tab:"practice",name:"Pre-SAC Practice Tool — Factor Recall",note:"Check you can correctly classify each factor as cyclical or structural without prompting."},
+    e:{tab:"practice",name:"Pre-SAC Practice Tool — Chain Builder",note:"Write full chains tracing how business cycle changes feed through to the CAD."}
+  },
+  4:{
+    f:{tab:"game",name:"Game 4: Net Foreign Debt & Equity",note:"Covers the NFD/NFE distinction, what drives each, and why Australia runs a net deficit on equity."},
+    c:{tab:"practice",name:"Pre-SAC Practice Tool — Factor Recall",note:"Practise defining NFL, NFD, and NFE from memory with correct examples."},
+    e:{tab:"practice",name:"Pre-SAC Practice Tool — Chain Builder",note:"Trace the chain from CAD to increased NFL through both NFD and NFE pathways."}
+  },
+  5:{
+    f:{tab:"game",name:"Game 6: Exchange Rates",note:"Covers the factors that affect the AUD and supply/demand for the dollar — go back and work through each factor."},
+    c:{tab:"practice",name:"Pre-SAC Practice Tool — Factor Matcher",note:"Match each exchange rate driver to whether it affects supply or demand for the AUD."},
+    e:{tab:"practice",name:"Pre-SAC Practice Tool — Chain Builder",note:"Write full chains for each exchange rate factor and trace the effect on the BOGS."}
+  },
+  6:{
+    f:{tab:"game",name:"Game 5: Terms of Trade",note:"Covers the ToT calculation, what causes it to rise or fall, and current trends — revisit the full game."},
+    c:{tab:"practice",name:"Pre-SAC Practice Tool — Trend Describer",note:"Use the Trend Describer to practise describing the ToT trend using all four DUDD elements."},
+    e:{tab:"practice",name:"Pre-SAC Practice Tool — Chain Builder",note:"Write full chains tracing how a ToT change flows through to the AUD and the Current Account."}
+  },
+  7:{
+    f:{tab:"game",name:"Game 7: International Competitiveness",note:"Covers all five factors affecting IC — revisit to check you can explain each from scratch."},
+    c:{tab:"practice",name:"Pre-SAC Practice Tool — Factor Recall",note:"Complete the Factor Recall section for international competitiveness factors."},
+    e:{tab:"practice",name:"Pre-SAC Practice Tool — Chain Builder",note:"Write chains showing how each IC factor flows through to each macroeconomic goal."}
+  },
+  8:{
+    f:{tab:"both",name:"Games 5, 6 & 7 + Pre-SAC Practice Tool",note:"Go back to the ToT, exchange rate, and IC games to rebuild your recall of current data, then use the Practice Tool to link current conditions to each macroeconomic goal."},
+    c:{tab:"practice",name:"Pre-SAC Practice Tool — Chain Builder",note:"Work through chains connecting the current ToT deterioration, recent AUD movements, and IC factors to each macroeconomic goal. Focus on using current data in your chains."},
+    e:{tab:"practice",name:"Pre-SAC Practice Tool — Data Selection",note:"Use the Data Selection activity to practise selecting and applying the most relevant current data when explaining macroeconomic goal impacts."}
+  }
+};
+
+// SUPP tasks per KK and band
+var SUPP = {
+  1:{
+    1:"Write out all 6 gains from trade from memory — for each one, write the full causal sequence in 2-3 steps without notes. Check against your summary booklet.",
+    2:"Create a mind map linking all 6 gains to living standards improvements. For each gain, write a one-sentence real-world Australian example.",
+    3:"Write a PEEL paragraph for this question: ‘Analyse how international trade contributes to improved living standards in Australia.’ Aim for at least 4 gains.",
+    4:"Write the same PEEL paragraph ‘cold’ (no notes, timed 8 minutes). Focus on precise language and specific examples."
+  },
+  2:{
+    1:"Draw the BOP structure from memory: two main accounts, all sub-components, and one example transaction for each. Don’t check notes until you’re finished.",
+    2:"Practise identifying whether 5 different transactions are credits or debits, and which sub-account they belong to. Use the booklet to create your own transactions.",
+    3:"Write a practice question answer: ‘Explain TWO transactions that would result from the sale of an Australian mining company to a US investor.’",
+    4:"Attempt this without notes: trace every sub-account impact of a single complex scenario (e.g. a Japanese company buys an Australian cattle station)."
+  },
+  3:{
+    1:"Write the definitions of structural CAD and cyclical CAD from memory. List two causes of each without notes.",
+    2:"Create a two-column comparison: for each structural cause, write the corresponding cyclical equivalent. Explain the key difference between them.",
+    3:"Write a full explanation of how the savings-investment gap creates Australia’s structural CAD, including the connection to primary income debits.",
+    4:"Practise evaluating: ‘To what extent is Australia’s current account surplus structural or cyclical in nature?’ Use current data."
+  },
+  4:{
+    1:"Write definitions of NFL, NFD, and NFE from memory. Draw a simple diagram showing how CAD leads to increased NFL.",
+    2:"Explain in writing: why does Australia run a net equity deficit? What does it mean to be a ‘net buyer of equity’?",
+    3:"Write the chain: CAD → financial account surplus → increased NFL → distinguish between the NFD and NFE pathways.",
+    4:"Practise the evaluation question: ‘Why does a large CAD not necessarily mean Australia’s NFD will increase?’ Use the asset sale pathway."
+  },
+  5:{
+    1:"List all 7 factors that affect the AUD from memory. For each, state whether it primarily affects supply or demand for AUD.",
+    2:"For each factor, write a 2-step causal chain (factor → effect on supply/demand → effect on AUD value). Check accuracy against your notes.",
+    3:"Write a full chain for the most complex factor: relative interest rates → capital flows → AUD → BOGS → goal of SSEG.",
+    4:"Attempt a mixed scenario: ‘Australia’s RBA raises interest rates while commodity prices fall. What is the net effect on the AUD? Justify.’"
+  },
+  6:{
+    1:"Write the ToT formula from memory. Practise calculating ToT if export prices rise 10% and import prices rise 5%. What is the direction of change?",
+    2:"List 3 causes of an improvement in the ToT and 3 causes of a deterioration. For each, write a 2-step chain.",
+    3:"Describe Australia’s current ToT trend using specific data. Link the current trend to the demand for AUD using a 3-step chain.",
+    4:"Practise writing: ‘Evaluate the impact of the recent fall in iron ore prices on Australia’s Terms of Trade and Current Account.’"
+  },
+  7:{
+    1:"List all 5 factors affecting international competitiveness from memory. For each, state whether it increases or decreases IC.",
+    2:"For each factor, write a 2-step chain showing how it affects IC. Focus on precision: distinguish between cost competitiveness and non-price competitiveness.",
+    3:"Write a 3-step chain: improved IC → increased export volumes → effect on BOGS → effect on aggregate demand → effect on SSEG.",
+    4:"Practise this evaluation: ‘To what extent has Australia’s international competitiveness improved in recent years? Refer to specific factors.’"
+  },
+  8:{
+    1:"Without looking at your notes, write down the current direction of: (a) Australia’s Terms of Trade, (b) the AUD, (c) Australia’s international competitiveness. Then write one key driver for each. Check against your summary booklet.",
+    2:"Create a 3×3 grid: rows = three macroeconomic goals, columns = ToT, AUD, IC. Fill in the direction of the current impact for each combination using today’s conditions. Add one chain for the three cells you are least confident about.",
+    3:"Write a practice exam response: ‘Using current economic conditions, explain how recent movements in the Australian dollar and the Terms of Trade are affecting Australia’s macroeconomic goals.’",
+    4:"Write a full evaluation paragraph using current ABS/RBA data. Explain the combined impact of recent ToT deterioration, AUD movements, and IC trends on Australia’s macroeconomic goals and living standards. Include specific figures."
+  }
+};
+
+// ============================================================
+// STATE
+// ============================================================
+var studentName = "";
+var ratings = {};
+var planData = {};
+var refreshTimer = null;
+var refreshCountdown = AUTO_REFRESH;
+
+// ============================================================
+// HELPERS
+// ============================================================
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active")});
+  document.getElementById(id).classList.add("active");
+}
+function toggleStart(){
+  var v = document.getElementById("student-name").value.trim();
+  document.getElementById("start-btn").disabled = v.length < 1;
+}
+function getRatingCounts(){
+  var c={1:0,2:0,3:0,4:0};
+  for(var id in ratings){c[ratings[id]]++;}
+  return c;
+}
+function getKKAvg(kk){
+  var total=0,n=0;
+  for(var s=0;s<kk.subs.length;s++){
+    var v=ratings[kk.subs[s].id];
+    if(v){total+=v;n++;}
+  }
+  return n>0?total/n:0;
+}
+function avgPillClass(avg){
+  if(avg<2)return "p1";if(avg<2.75)return "p2";if(avg<3.5)return "p3";return "p4";
+}
+function blClass(avg){
+  if(avg<2)return "bl-red";if(avg<2.75)return "bl-amber";if(avg<3.5)return "bl-green";return "bl-primary";
+}
+function revClass(avg){
+  if(avg<2)return "rev-urgent";if(avg<2.75)return "rev-needs";if(avg<3.5)return "rev-cons";return "rev-strong";
+}
+function tabBadgeHtml(tab){
+  if(tab==="game")return "<span class=\"badge-tab badge-tab-game\">Game</span>";
+  if(tab==="practice")return "<span class=\"badge-tab badge-tab-practice\">Practice Tool</span>";
+  return "<span class=\"badge-tab badge-tab-both\">Game + Practice</span>";
+}
+
+// ============================================================
+// SURVEY BUILD
+// ============================================================
+function startSurvey(){
+  studentName = document.getElementById("student-name").value.trim();
+  if(!studentName)return;
+  document.getElementById("results-name-heading").textContent = studentName + "’s GAP Analysis Report";
+  buildSurveyCards();
+  showScreen("screen-survey");
+  updateProgress();
+}
+function buildSurveyCards(){
+  var html="";
+  for(var k=0;k<KKS.length;k++){
+    var kk=KKS[k];
+    html+="<div class=\"kk-card\" id=\"kkcard-"+kk.id+"\">";
+    html+="<div class=\"kk-header\">";
+    html+="<div class=\"kk-num\">"+kk.id+"</div>";
+    html+="<div class=\"kk-meta\">";
+    html+="<div class=\"kk-cat\">"+kk.cat+"</div>";
+    html+="<div class=\"kk-title\">"+kk.title+"</div>";
+    html+="</div>";
+    html+="<div class=\"kk-prog-pill\" id=\"kkpill-"+kk.id+"\">0 of "+kk.subs.length+" rated</div>";
+    html+="</div>";
+    for(var s=0;s<kk.subs.length;s++){
+      var sub=kk.subs[s];
+      html+="<div class=\"sub-row\" id=\"row-"+sub.id+"\">";
+      html+="<span class=\"type-badge "+sub.type+"\">"+sub.type+"</span>";
+      html+="<span class=\"sub-label\">"+sub.label+"</span>";
+      html+="<div class=\"rating-btns\">";
+      html+="<button class=\"rating-btn\" onclick=\"rate('"+sub.id+"',1)\">&#x1F6A8; Don\'t remember</button>";
+      html+="<button class=\"rating-btn\" onclick=\"rate('"+sub.id+"',2)\">&#x26A0;&#xFE0F; Basic knowledge</button>";
+      html+="<button class=\"rating-btn\" onclick=\"rate('"+sub.id+"',3)\">&#x2705; Good knowledge</button>";
+      html+="<button class=\"rating-btn\" onclick=\"rate('"+sub.id+"',4)\">&#x2B50; Could teach it!</button>";
+      html+="</div></div>";
+    }
+    html+="</div>";
+  }
+  document.getElementById("survey-cards").innerHTML=html;
+}
+function rate(subId,val){
+  ratings[subId]=val;
+  // update row bg
+  var row=document.getElementById("row-"+subId);
+  if(row){
+    row.className="sub-row rated-"+val;
+    // update buttons
+    var btns=row.querySelectorAll(".rating-btn");
+    for(var b=0;b<btns.length;b++){
+      btns[b].className="rating-btn"+(b+1===val?" sel-"+val:"");
+    }
+  }
+  updateProgress();
+}
+function updateProgress(){
+  var rated=Object.keys(ratings).length;
+  var pct=TOTAL_SUBS>0?Math.round(rated/TOTAL_SUBS*100):0;
+  document.getElementById("prog-text").textContent=rated+" of "+TOTAL_SUBS+" rated";
+  document.getElementById("prog-fill").style.width=pct+"%";
+  // kk pills
+  for(var k=0;k<KKS.length;k++){
+    var kk=KKS[k];
+    var ratedInKK=0;
+    for(var s=0;s<kk.subs.length;s++){if(ratings[kk.subs[s].id])ratedInKK++;}
+    var pill=document.getElementById("kkpill-"+kk.id);
+    var card=document.getElementById("kkcard-"+kk.id);
+    if(pill)pill.textContent=ratedInKK+" of "+kk.subs.length+" rated";
+    if(card){
+      if(ratedInKK===kk.subs.length)card.classList.add("all-rated");
+      else card.classList.remove("all-rated");
+    }
+  }
+  var allDone=rated===TOTAL_SUBS;
+  document.getElementById("gen-btn").disabled=!allDone;
+  document.getElementById("fixed-bar-msg").textContent=allDone?"Ready! Generate your personalised report.":"Rate all "+TOTAL_SUBS+" items to generate your report";
+}
+
+// ============================================================
+// GENERATE REPORT
+// ============================================================
+function generateReport(){
+  buildResultsScreen();
+  showScreen("screen-results");
+  saveSubmission();
+}
+function buildResultsScreen(){
+  var counts=getRatingCounts();
+  var html="";
+  // tiles
+  html+="<div class=\"tiles\">";
+  html+="<div class=\"tile t1\"><div class=\"tile-count\">"+counts[1]+"</div><div class=\"tile-label\">&#x1F6A8; Not Studied</div></div>";
+  html+="<div class=\"tile t2\"><div class=\"tile-count\">"+counts[2]+"</div><div class=\"tile-label\">&#x26A0;&#xFE0F; Basic Knowledge</div></div>";
+  html+="<div class=\"tile t3\"><div class=\"tile-count\">"+counts[3]+"</div><div class=\"tile-label\">&#x2705; Good Knowledge</div></div>";
+  html+="<div class=\"tile t4\"><div class=\"tile-count\">"+counts[4]+"</div><div class=\"tile-label\">&#x2B50; Expert</div></div>";
+  html+="</div>";
+  // priority box
+  var weakKKs=[];
+  for(var k=0;k<KKS.length;k++){
+    var kk=KKS[k];
+    var urgent=0,needs=0;
+    var weakSubs=[];
+    for(var s=0;s<kk.subs.length;s++){
+      var v=ratings[kk.subs[s].id]||0;
+      if(v<=2){
+        if(v===1)urgent++;else needs++;
+        weakSubs.push({label:kk.subs[s].label,type:kk.subs[s].type,r:v});
+      }
+    }
+    if(weakSubs.length>0)weakKKs.push({kk:kk,urgent:urgent,needs:needs,weakSubs:weakSubs});
+  }
+  if(weakKKs.length===0){
+    html+="<div class=\"all-strong-box\">&#x1F389; <strong>Strong across all areas!</strong> Head to the Pre-SAC Practice Tool and work through the Chain Builder and Data Selection tasks to extend your understanding. Focus on writing precise, well-linked causal chains using current data.</div>";
+  } else {
+    html+="<div class=\"section-heading\">&#x26A0;&#xFE0F; What You Need to Work On</div>";
+    html+="<div class=\"priority-box\">";
+    html+="<div class=\"priority-box-title\">Focus your revision on these areas &#x2014; tap any row to see the specific items:</div>";
+    for(var w=0;w<weakKKs.length;w++){
+      var wk=weakKKs[w];
+      var countLabel=wk.weakSubs.length+" item"+(wk.weakSubs.length>1?"s":"");
+      if(wk.urgent>0)countLabel+=" ("+wk.urgent+" urgent)";
+      var countClass=wk.urgent>0?"urgent":"needs";
+      html+="<div class=\"weak-kk-row\" onclick=\"toggleWeakKK("+w+")\">";
+      html+="<div class=\"weak-kk-toggle\">";
+      html+="<span class=\"weak-kk-name\">KK"+wk.kk.id+" &#x2014; "+wk.kk.cat+"</span>";
+      html+="<span class=\"weak-kk-count "+countClass+"\">"+countLabel+"</span>";
+      html+="<span class=\"weak-kk-chevron\" id=\"chevron-"+w+"\">&#x25BC;</span>";
+      html+="</div>";
+      html+="<div class=\"weak-kk-subs\" id=\"wksubs-"+w+"\">";
+      for(var ws=0;ws<wk.weakSubs.length;ws++){
+        var dotCls=wk.weakSubs[ws].r===1?"r1":"r2";
+        html+="<div class=\"weak-sub-item\"><span class=\"dot "+dotCls+"\"></span><span class=\"type-badge "+wk.weakSubs[ws].type+"\">"+wk.weakSubs[ws].type+"</span><span>"+wk.weakSubs[ws].label+"</span></div>";
+      }
+      html+="</div></div>";
+    }
+    html+="</div>";
+  }
+  // full breakdown
+  html+="<div class=\"section-heading\" style=\"margin-top:1.5rem\">&#x1F4CB; Full Knowledge Breakdown</div>";
+  html+="<p style=\"font-size:.82rem;color:var(--muted);margin-bottom:.8rem\">All "+KKS.length+" KK areas sorted weakest first. Tap any card to see your ratings.</p>";
+  // sort by avg
+  var sorted=[];
+  for(var k=0;k<KKS.length;k++)sorted.push({kk:KKS[k],avg:getKKAvg(KKS[k])});
+  sorted.sort(function(a,b){return a.avg-b.avg});
+  for(var i=0;i<sorted.length;i++){
+    var sk=sorted[i];
+    var bc=blClass(sk.avg);
+    var ac=avgPillClass(sk.avg);
+    html+="<div class=\"breakdown-card "+bc+"\">";
+    html+="<div class=\"breakdown-header\" onclick=\"toggleBreakdown('bd"+i+"')\">";
+    html+="<span class=\"breakdown-kk-num\">"+sk.kk.id+"</span>";
+    html+="<div class=\"breakdown-meta\">";
+    html+="<div class=\"breakdown-cat\">"+sk.kk.cat+"</div>";
+    html+="<div class=\"breakdown-title\">"+sk.kk.title+"</div>";
+    html+="</div>";
+    html+="<span class=\"avg-pill "+ac+"\">avg "+sk.avg.toFixed(1)+"</span>";
+    html+="</div>";
+    html+="<div class=\"breakdown-subs\" id=\"bd"+i+"\">";
+    for(var s=0;s<sk.kk.subs.length;s++){
+      var sub=sk.kk.subs[s];
+      var rv=ratings[sub.id]||0;
+      var dotStyle="";
+      if(rv===1)dotStyle="background:var(--red)";
+      else if(rv===2)dotStyle="background:var(--amber)";
+      else if(rv===3)dotStyle="background:var(--green)";
+      else if(rv===4)dotStyle="background:var(--primary)";
+      html+="<div class=\"bd-sub-row\"><span class=\"dot\" style=\""+dotStyle+"\"></span><span class=\"type-badge "+sub.type+"\">"+sub.type+"</span><span style=\"font-size:.82rem\">"+sub.label+"</span></div>";
+    }
+    html+="</div></div>";
+  }
+  // revision plan
+  html+="<div class=\"rev-section\">";
+  html+="<div class=\"section-heading\">&#x1F4DA; Your Revision Plan</div>";
+  // foundations alert
+  var weakFoundational=0;
+  for(var f=0;f<FOUNDATIONAL_KKS.length;f++){
+    for(var k=0;k<KKS.length;k++){
+      if(KKS[k].id===FOUNDATIONAL_KKS[f]){
+        if(getKKAvg(KKS[k])<2.5)weakFoundational++;
+        break;
+      }
+    }
+  }
+  if(weakFoundational>=2){
+    html+="<div class=\"foundations-alert\">&#x26A0; <strong>Foundational areas need attention first.</strong> Your GAP Analysis shows several core knowledge areas (Gains from Trade, Balance of Payments, CAD influences, and Net Foreign Liabilities) need work. Start with the Games for these KKs before moving to the applied topics &#x2014; a strong foundation makes everything else much more approachable.</div>";
+  }
+  // rev cards, sorted weakest first
+  var revSorted=[];
+  for(var k=0;k<KKS.length;k++)revSorted.push({kk:KKS[k],avg:getKKAvg(KKS[k])});
+  revSorted.sort(function(a,b){return a.avg-b.avg});
+  for(var i=0;i<revSorted.length;i++){
+    var rk=revSorted[i];
+    var rc=revClass(rk.avg);
+    var ac=avgPillClass(rk.avg);
+    var rt=ROUTING[rk.kk.id];
+    var band=rk.avg<2?"1":rk.avg<2.75?"2":rk.avg<3.5?"3":"4";
+    var recKey=band==="1"||band==="2"?"f":band==="3"?"c":"e";
+    var rec=rt[recKey];
+    var suppText=SUPP[rk.kk.id][parseInt(band)];
+    html+="<div class=\"rev-kk-card "+rc+"\">";
+    html+="<div class=\"rev-kk-title\">KK"+rk.kk.id+" &#x2014; "+rk.kk.cat+" <span class=\"avg-pill "+ac+"\" style=\"margin-left:.4rem\">avg "+rk.avg.toFixed(1)+"</span></div>";
+    html+="<div class=\"rev-hub-rec\">";
+    html+=tabBadgeHtml(rec.tab);
+    html+="<div class=\"rev-hub-rec-name\" style=\"margin-top:.3rem\">"+rec.name+"</div>";
+    html+="<div class=\"rev-hub-rec-note\">"+rec.note+"</div>";
+    html+="</div>";
+    html+="<div class=\"rev-supp\"><strong>Also try:</strong> "+suppText+"</div>";
+    html+="</div>";
+  }
+  html+="</div>";
+  // footer
+  html+=buildPrintChecklist();
+  html+="<div class=\"footer-btns\">";
+  html+="<button class=\"btn-outline\" onclick=\"restartSurvey()\">&#x2190; Start Again</button>";
+  html+="<button class=\"btn-primary\" style=\"width:auto;padding:.65rem 1.4rem\" onclick=\"goToPlan()\">&#x1F3AF; Build My Study Plan &#x2192;</button>";
+  html+="</div>";
+  document.getElementById("results-body").innerHTML=html;
+}
+function toggleWeakKK(i){
+  var subs=document.getElementById("wksubs-"+i);
+  var chev=document.getElementById("chevron-"+i);
+  if(!subs)return;
+  subs.classList.toggle("open");
+  if(chev)chev.classList.toggle("open");
+}
+function toggleBreakdown(id){
+  var el=document.getElementById(id);
+  if(el)el.classList.toggle("open");
+}
+
+// ============================================================
+// PLAN SCREEN
+// ============================================================
+function buildPrintChecklist(){
+  var html="<div class=\"print-checklist print-only\">";
+  html+="<div class=\"print-header\">";
+  html+="<h2>&#x1F4CB; "+studentName+"&rsquo;s Revision Task List &mdash; U3 AOS3</h2>";
+  html+="<p>Printed "+new Date().toLocaleDateString("en-AU",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+" &middot; Work through these tasks in order &mdash; urgent items first. Tick each off as you complete it.</p>";
+  html+="</div>";
+  // Sort KKs weakest first
+  var sorted=[];
+  for(var k=0;k<KKS.length;k++)sorted.push({kk:KKS[k],avg:getKKAvg(KKS[k])});
+  sorted.sort(function(a,b){return a.avg-b.avg});
+  for(var i=0;i<sorted.length;i++){
+    var rk=sorted[i];
+    var avg=rk.avg;
+    var band=avg<2?"1":avg<2.75?"2":avg<3.5?"3":"4";
+    var cardClass=avg<2?"urgent":avg<2.75?"needs":avg<3.5?"good":"strong";
+    var bandLabel=avg<2?"&#x1F6A8; Urgent &mdash; revise first":avg<2.75?"&#x26A0;&#xFE0F; Needs work":avg<3.5?"&#x2705; Consolidate":"&#x2B50; Stretch";
+    var suppText=SUPP[rk.kk.id][parseInt(band)];
+    var rt=ROUTING[rk.kk.id];
+    var recKey=band==="1"||band==="2"?"f":band==="3"?"c":"e";
+    var rec=rt[recKey];
+    html+="<div class=\"print-task-card "+cardClass+"\">";
+    html+="<div class=\"print-task-kk\">KK"+rk.kk.id+" &mdash; "+rk.kk.cat+" &nbsp;|&nbsp; avg "+avg.toFixed(1)+" &nbsp;|&nbsp; "+bandLabel+"</div>";
+    // Revision hub recommendation
+    html+="<div class=\"print-task-check\"><div class=\"print-checkbox\"></div><span class=\"print-checkbox-label\"><strong>Revision Hub:</strong> "+rec.name+" &mdash; "+rec.note+"</span></div>";
+    // The main task
+    html+="<div class=\"print-task-check\"><div class=\"print-checkbox\"></div><span class=\"print-checkbox-label\"><strong>Practice task:</strong> "+suppText+"</span></div>";
+    html+="</div>";
+  }
+  // Weak sub-questions checklist
+  var weakSubs=[];
+  for(var k=0;k<KKS.length;k++){
+    for(var s=0;s<KKS[k].subs.length;s++){
+      var v=ratings[KKS[k].subs[s].id]||0;
+      if(v<=2)weakSubs.push({kk:KKS[k],sub:KKS[k].subs[s],r:v});
+    }
+  }
+  if(weakSubs.length>0){
+    html+="<div style=\"margin-top:1.2rem;page-break-before:always\">";
+    html+="<div class=\"print-checklist-title\">&#x26A0;&#xFE0F; Specific Items to Revisit</div>";
+    html+="<div class=\"print-checklist-sub\">These are the specific knowledge items you rated as Band 1 or Band 2. Work through each one &mdash; tick when you feel confident.</div>";
+    for(var i=0;i<weakSubs.length;i++){
+      var ws=weakSubs[i];
+      var borderCol=ws.r===1?"#dc2626":"#d97706";
+      html+="<div style=\"display:flex;align-items:flex-start;gap:.6rem;padding:.5rem 0;border-bottom:1px solid #f1f5f9\">";
+      html+="<div style=\"width:14px;height:14px;border:1.5px solid "+borderCol+";border-radius:2px;flex-shrink:0;margin-top:2px\"></div>";
+      html+="<span style=\"font-size:.78rem;color:#1e293b\"><strong>KK"+ws.kk.id+"</strong> &mdash; "+ws.sub.label+"</span>";
+      html+="</div>";
+    }
+    html+="</div>";
+  }
+  html+="</div>";
+  return html;
+}
+
+function goToPlan(){
+  buildPlanScreen();
+  showScreen("screen-plan");
+}
+function buildPlanScreen(){
+  var counts=getRatingCounts();
+  var totalWeak=counts[1]+counts[2];
+  var pct=Math.round((totalWeak/TOTAL_SUBS)*100);
+  var html="";
+  html+="<div class=\"plan-section\">";
+  html+="<p style=\"font-size:.85rem;color:var(--muted);margin-bottom:1rem\">Based on your GAP analysis: <strong>"+totalWeak+" of "+TOTAL_SUBS+" items</strong> need work ("+pct+"% of content). Use this information to answer the questions below honestly.</p>";
+  html+="</div>";
+  // Q1 current estimate
+  html+="<div class=\"plan-section\">";
+  html+="<div class=\"plan-q\">1. If you took the SAC right now, approximately what score would you achieve?</div>";
+  html+="<div class=\"plan-options\" id=\"plan-q1\">";
+  var grades=["Below 40%","40–50%","51–55%","56–60%","61–65%","66–70%","71–75%","76–80%","81–85%","86–90%","91%+"];
+  for(var i=0;i<grades.length;i++){
+    html+="<button class=\"plan-opt\" onclick=\"selectPlanOpt(\'plan-q1\',this,\'current_grade\',\'"+grades[i]+"\')\">"+grades[i]+"</button>";
+  }
+  html+="</div></div>";
+  // Q2 target
+  html+="<div class=\"plan-section\">";
+  html+="<div class=\"plan-q\">2. What score do you want to achieve on this SAC?</div>";
+  html+="<div class=\"plan-options\" id=\"plan-q2\">";
+  var grades2=["40–50%","51–55%","56–60%","61–65%","66–70%","71–75%","76–80%","81–85%","86–90%","91%+"];
+  for(var i=0;i<grades2.length;i++){
+    html+="<button class=\"plan-opt\" onclick=\"selectPlanOpt(\'plan-q2\',this,\'target_grade\',\'"+grades2[i]+"\')\">"+grades2[i]+"</button>";
+  }
+  html+="</div></div>";
+  // Q3 hours
+  html+="<div class=\"plan-section\">";
+  html+="<div class=\"plan-q\">3. Thinking about the gap between your current estimate and your target &#x2014; how many hours of study do you think you will need?</div>";
+  html+="<div class=\"plan-options\" id=\"plan-q3\">";
+  var hours=["1–2 hours","3–4 hours","5–6 hours","7–8 hours","8+ hours"];
+  for(var i=0;i<hours.length;i++){
+    html+="<button class=\"plan-opt\" onclick=\"selectPlanOpt(\'plan-q3\',this,\'hours\',\'"+hours[i]+"\')\">"+hours[i]+"</button>";
+  }
+  html+="</div></div>";
+  // Q4 strategies
+  html+="<div class=\"plan-section\">";
+  html+="<div class=\"plan-q\">4. From your revision resources, identify TWO strategies you will use. Select both below.</div>";
+  var strats=["Practice exam questions","Pre-SAC Practice Tool (Chain Builder)","Pre-SAC Practice Tool (Data Selection)","Games (Game 1–7)","Re-reading summary booklet","Quizlet / flashcard recall","Writing responses from memory (blank page)","Reviewing previous SAC feedback","Mind maps / visual summaries","Teach-back (explain it out loud)"];
+  html+="<div class=\"plan-opts-multi\" id=\"plan-q4\">";
+  for(var i=0;i<strats.length;i++){
+    html+="<label class=\"plan-checkbox\" id=\"strat-"+i+"\">";
+    html+="<input type=\"checkbox\" onchange=\"toggleStrat("+i+",\'"+strats[i]+"\',this)\" />";
+    html+=strats[i];
+    html+="</label>";
+  }
+  html+="</div>";
+  html+="<p class=\"plan-note\">Select exactly 2 strategies that you will commit to using.</p>";
+  html+="</div>";
+  // Q5 previous SAC feedback
+  html+="<div class=\"plan-section\">";
+  html+="<div class=\"plan-q\">5. Looking at your previous SAC feedback, which areas do you need to improve?</div>";
+  var areas=["Overall content knowledge","Increasing depth in responses","Including specific examples","Improving response structure","Limiting response to what is asked","Defining key terms accurately","Working out what is being asked","Responding to the task word correctly","Linking to macroeconomic goals with target rates","Explaining what a macroeconomic goal is before applying it","Stating the target rate when referring to a goal","Using causal language precisely","Writing full chains rather than listing points","Distinguishing between short-run and long-run impacts"];
+  html+="<div class=\"plan-opts-multi\" id=\"plan-q5\">";
+  for(var i=0;i<areas.length;i++){
+    html+="<label class=\"plan-checkbox\" id=\"area-"+i+"\">";
+    html+="<input type=\"checkbox\" onchange=\"toggleArea("+i+",\'"+areas[i]+"\',this)\" />";
+    html+=areas[i];
+    html+="</label>";
+  }
+  html+="</div></div>";
+  // Q6 open response
+  html+="<div class=\"plan-section\">";
+  html+="<div class=\"plan-q\">6. Based on your answers above, write TWO specific things you will do during revision to address your identified weaknesses. Explain how each activity will help.</div>";
+  html+="<textarea class=\"plan-textarea\" id=\"plan-q6\" placeholder=\"e.g. 1. I will use the Chain Builder in the Practice Tool for KK8 because I struggle to connect ToT changes to the goal of SSEG...\" oninput=\"planData.open_response=this.value\"></textarea>";
+  html+="</div>";
+  // SUBMIT
+  html+="<div style=\"text-align:center\">";
+  html+="<p style=\"font-size:.82rem;color:var(--muted);margin-bottom:.5rem\">Submitting saves your GAP analysis and plan to your teacher\'s dashboard.</p>";
+  html+="<button class=\"btn-submit\" id=\"plan-submit-btn\" onclick=\"submitPlan()\">&#x2705; Submit My Plan</button>";
+  html+="<div id=\"plan-status\"></div>";
+  html+="<div id=\"plan-print-btn\" style=\"display:none;margin-top:1rem\">";
+  html+="<button class=\"btn-outline\" onclick=\"window.print()\">&#x1F5A8; Print Report + Revision Checklist</button>";
+  html+="<p style=\"font-size:.75rem;color:var(--muted);margin-top:.4rem\">Prints your GAP analysis report, personalised revision task list, and study plan in one go.</p>";
+  html+="</div>";
+  html+="</div>";
+  document.getElementById("plan-body").innerHTML=html;
+}
+function selectPlanOpt(groupId,btn,key,val){
+  var group=document.getElementById(groupId);
+  if(!group)return;
+  group.querySelectorAll(".plan-opt").forEach(function(b){b.classList.remove("selected")});
+  btn.classList.add("selected");
+  planData[key]=val;
+}
+var selectedStrats=[];
+function toggleStrat(i,val,cb){
+  var lbl=document.getElementById("strat-"+i);
+  if(cb.checked){
+    if(!lbl.classList.contains("checked")){
+      lbl.classList.add("checked");
+      if(selectedStrats.indexOf(val)===-1)selectedStrats.push(val);
+    }
+  } else {
+    lbl.classList.remove("checked");
+    var idx=selectedStrats.indexOf(val);
+    if(idx>-1)selectedStrats.splice(idx,1);
+  }
+  planData.strategies=selectedStrats.slice();
+}
+var selectedAreas=[];
+function toggleArea(i,val,cb){
+  var lbl=document.getElementById("area-"+i);
+  if(cb.checked){
+    lbl.classList.add("checked");
+    if(selectedAreas.indexOf(val)===-1)selectedAreas.push(val);
+  } else {
+    lbl.classList.remove("checked");
+    var idx=selectedAreas.indexOf(val);
+    if(idx>-1)selectedAreas.splice(idx,1);
+  }
+  planData.improvement_areas=selectedAreas.slice();
+}
+function submitPlan(){
+  var btn=document.getElementById("plan-submit-btn");
+  var status=document.getElementById("plan-status");
+  btn.disabled=true;
+  status.className="submit-status pending";
+  status.textContent="Saving your plan...";
+  saveSubmissionWithPlan(function(ok){
+    if(ok){
+      status.className="submit-status success";
+      status.innerHTML="&#x2705; Saved! Your teacher can see your GAP analysis and study plan.";
+      var printDiv=document.getElementById("plan-print-btn");
+      if(printDiv)printDiv.style.display="block";
+    } else {
+      status.className="submit-status fail";
+      status.textContent="&#x274C; Couldn\'t save right now. Show your teacher this screen as confirmation.";
+      btn.disabled=false;
+    }
+  });
+}
+
+// ============================================================
+// GITHUB STORAGE
+// ============================================================
+async function ghRead(){
+  var params=new URLSearchParams({owner:GITHUB_OWNER,repo:GITHUB_REPO,file:GITHUB_FILE});
+  var res=await fetch(WORKER_URL+"/gap-read?"+params);
+  if(!res.ok)throw new Error("Read failed: "+res.status+" — check Worker routes are updated");
+  var json=await res.json();
+  // File not yet created returns empty array sentinel
+  if(!json.content||json.content==="W10=")return{data:[],sha:json.sha||null};
+  try{
+    var decoded=atob(json.content.replace(/\n/g,""));
+    return{data:JSON.parse(decoded),sha:json.sha};
+  }catch(e){return{data:[],sha:json.sha};}
+}
+async function ghWrite(data,sha){
+  var res=await fetch(WORKER_URL+"/gap-write",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({owner:GITHUB_OWNER,repo:GITHUB_REPO,file:GITHUB_FILE,content:JSON.stringify(data),sha:sha})
+  });
+  if(!res.ok)throw new Error("Write failed: "+res.status+" — check Worker GITHUB_TOKEN secret");
+}
+async function saveSubmission(){
+  try{
+    var result=await ghRead();
+    var arr=result.data;
+    if(!Array.isArray(arr))arr=[];
+    arr=arr.filter(function(s){return s.name!==studentName});
+    arr.push({name:studentName,submittedAt:new Date().toISOString(),ratings:JSON.parse(JSON.stringify(ratings)),plan:null});
+    await ghWrite(arr,result.sha);
+  } catch(e){console.warn("Save failed",e);}
+}
+async function saveSubmissionWithPlan(cb){
+  try{
+    var result=await ghRead();
+    var arr=result.data;
+    if(!Array.isArray(arr))arr=[];
+    var idx=-1;
+    for(var i=0;i<arr.length;i++){if(arr[i].name===studentName){idx=i;break;}}
+    var submission={name:studentName,submittedAt:new Date().toISOString(),ratings:JSON.parse(JSON.stringify(ratings)),plan:JSON.parse(JSON.stringify(planData))};
+    if(idx>-1)arr[idx]=submission;else arr.push(submission);
+    await ghWrite(arr,result.sha);
+    if(cb)cb(true);
+  } catch(e){console.warn("Save failed",e);if(cb)cb(false);}
+}
+
+// ============================================================
+// RESTART
+// ============================================================
+function restartSurvey(){
+  ratings={};
+  planData={};
+  selectedStrats=[];
+  selectedAreas=[];
+  document.getElementById("student-name").value="";
+  document.getElementById("start-btn").disabled=true;
+  showScreen("screen-entry");
+}
+
+// ============================================================
+// PIN + DASHBOARD
+// ============================================================
+function openPinModal(){
+  document.getElementById("pin-modal").style.display="flex";
+  document.getElementById("pin-input").value="";
+  document.getElementById("pin-error").textContent="";
+  setTimeout(function(){document.getElementById("pin-input").focus();},100);
+}
+function closePinModal(){document.getElementById("pin-modal").style.display="none"}
+function checkPin(){
+  var entered=document.getElementById("pin-input").value.trim();
+  if(entered===TEACHER_PIN){
+    closePinModal();
+    // Switch screen first unconditionally
+    document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active")});
+    var dash=document.getElementById("screen-dashboard");
+    if(dash){dash.classList.add("active");}else{alert("Dashboard screen not found — check HTML.");}
+    document.getElementById("dash-body").innerHTML="<p style='color:var(--muted);padding:1rem'>Loading submissions...</p>";
+    refreshDashboard();
+    startAutoRefresh();
+  } else {
+    document.getElementById("pin-error").textContent="Incorrect PIN. Please try again.";
+  }
+}
+document.getElementById("pin-input").addEventListener("keydown",function(e){if(e.key==="Enter")checkPin()});
+function startAutoRefresh(){
+  if(refreshTimer)clearInterval(refreshTimer);
+  refreshCountdown=AUTO_REFRESH;
+  refreshTimer=setInterval(function(){
+    refreshCountdown--;
+    var el=document.getElementById("d-refresh-countdown");
+    if(el)el.textContent="Auto-refresh in "+refreshCountdown+"s";
+    if(refreshCountdown<=0){refreshCountdown=AUTO_REFRESH;refreshDashboard();}
+  },1000);
+}
+async function refreshDashboard(){
+  refreshCountdown=AUTO_REFRESH;
+  try{
+    var result=await ghRead();
+    var arr=result.data;
+    if(!Array.isArray(arr))arr=[];
+    renderDashboard(arr);
+    var el=document.getElementById("d-last-updated");
+    if(el)el.textContent="Updated "+new Date().toLocaleTimeString();
+  } catch(e){
+    var body=document.getElementById("dash-body");
+    if(body)body.innerHTML="<div style='padding:1.5rem'><p style='color:var(--red);font-weight:600'>Could not load data: "+e.message+"</p><p style='font-size:.82rem;color:var(--muted);margin-top:.5rem'>Check that your Cloudflare Worker has the /gap-read route and that GITHUB_TOKEN is set.</p></div>";
+  }
+}
+async function clearAll(){
+  if(!confirm("Delete ALL student submissions? This cannot be undone."))return;
+  try{
+    var result=await ghRead();
+    await ghWrite([],result.sha);
+    refreshDashboard();
+  } catch(e){alert("Error: "+e.message);}
+}
+async function deleteStudent(name){
+  if(!confirm("Delete submission for "+name+"?"))return;
+  try{
+    var result=await ghRead();
+    var arr=result.data.filter(function(s){return s.name!==name});
+    await ghWrite(arr,result.sha);
+    refreshDashboard();
+  } catch(e){alert("Error: "+e.message);}
+}
+function renderDashboard(arr){
+  document.getElementById("d-student-count").textContent=arr.length+" student"+(arr.length!==1?"s":"");
+  if(arr.length===0){document.getElementById("dash-body").innerHTML="<p style=\"color:var(--muted);padding:2rem\">No submissions yet.</p>";return;}
+  var allRatings={};
+  for(var id=0;id<ALL_SUB_IDS.length;id++)allRatings[ALL_SUB_IDS[id]]=[];
+  for(var s=0;s<arr.length;s++){
+    var sr=arr[s].ratings||{};
+    for(var id in sr){if(allRatings[id])allRatings[id].push(sr[id]);}
+  }
+  // class totals
+  var classCounts={1:0,2:0,3:0,4:0};
+  for(var s=0;s<arr.length;s++){
+    var sr=arr[s].ratings||{};
+    for(var id in sr){classCounts[sr[id]]++;}
+  }
+  var html="";
+  // tiles
+  html+="<div class=\"dash-tiles\">";
+  html+="<div class=\"dash-tile\"><div class=\"dash-tile-val\">"+arr.length+"</div><div class=\"dash-tile-lbl\">Students</div></div>";
+  html+="<div class=\"dash-tile dt1\"><div class=\"dash-tile-val\">"+classCounts[1]+"</div><div class=\"dash-tile-lbl\">Not studied</div></div>";
+  html+="<div class=\"dash-tile dt2\"><div class=\"dash-tile-val\">"+classCounts[2]+"</div><div class=\"dash-tile-lbl\">Basic</div></div>";
+  html+="<div class=\"dash-tile dt3\"><div class=\"dash-tile-val\">"+classCounts[3]+"</div><div class=\"dash-tile-lbl\">Good</div></div>";
+  html+="<div class=\"dash-tile dt4\"><div class=\"dash-tile-val\">"+classCounts[4]+"</div><div class=\"dash-tile-lbl\">Expert</div></div>";
+  html+="</div>";
+  // class priorities
+  var kkAvgs=[];
+  for(var k=0;k<KKS.length;k++){
+    var kk=KKS[k];
+    var total=0,n=0;
+    for(var s2=0;s2<kk.subs.length;s2++){
+      var subRatings=allRatings[kk.subs[s2].id]||[];
+      for(var r=0;r<subRatings.length;r++){total+=subRatings[r];n++;}
+    }
+    var avg2=n>0?total/n:0;
+    var weakPct=0;
+    if(arr.length>0){
+      var weakCount=0;
+      for(var s=0;s<arr.length;s++){
+        var hasWeak=false;
+        for(var s2=0;s2<kk.subs.length;s2++){
+          var rv=(arr[s].ratings||{})[kk.subs[s2].id]||0;
+          if(rv<=2){hasWeak=true;break;}
+        }
+        if(hasWeak)weakCount++;
+      }
+      weakPct=Math.round(weakCount/arr.length*100);
+    }
+    kkAvgs.push({kk:kk,avg:avg2,weakPct:weakPct});
+  }
+  kkAvgs.sort(function(a,b){return a.avg-b.avg});
+  var priorities=kkAvgs.filter(function(x){return x.avg<2.5});
+  if(priorities.length>0){
+    html+="<div class=\"dash-section-h\">Class Priority Areas (avg &lt; 2.5)</div>";
+    html+="<div class=\"dash-priority\">";
+    for(var p=0;p<priorities.length;p++){
+      var pk=priorities[p];
+      var pac=avgPillClass(pk.avg);
+      html+="<div class=\"dash-priority-row\">";
+      html+="<span class=\"dash-pr-num\">"+pk.kk.id+"</span>";
+      html+="<span class=\"dash-pr-name\">"+pk.kk.cat+"</span>";
+      html+="<span class=\"avg-pill "+pac+"\">avg "+pk.avg.toFixed(1)+"</span>";
+      html+="<span class=\"dash-pr-pct\">"+pk.weakPct+"% struggling</span>";
+      html+="</div>";
+    }
+    html+="</div>";
+  }
+  // top 10 weakest sub-questions
+  var subAvgs=[];
+  for(var id=0;id<ALL_SUB_IDS.length;id++){
+    var sid=ALL_SUB_IDS[id];
+    var rats=allRatings[sid]||[];
+    var tot=0;
+    for(var r=0;r<rats.length;r++)tot+=rats[r];
+    var avgS=rats.length>0?tot/rats.length:0;
+    var weakN=rats.filter(function(v){return v<=2}).length;
+    var weakPctS=rats.length>0?Math.round(weakN/rats.length*100):0;
+    // find label
+    var lbl="",typ="";
+    for(var k=0;k<KKS.length;k++){
+      for(var s=0;s<KKS[k].subs.length;s++){
+        if(KKS[k].subs[s].id===sid){lbl=KKS[k].subs[s].label;typ=KKS[k].subs[s].type;break;}
+      }
+      if(lbl)break;
+    }
+    subAvgs.push({id:sid,avg:avgS,weakPct:weakPctS,label:lbl,type:typ,rats:rats});
+  }
+  subAvgs.sort(function(a,b){return a.avg-b.avg});
+  var top10=subAvgs.slice(0,10);
+  html+="<div class=\"dash-section-h\">Top 10 Weakest Sub-Questions</div>";
+  for(var i=0;i<top10.length;i++){
+    var sq=top10[i];
+    var n=arr.length;
+    var c1=sq.rats.filter(function(v){return v===1}).length;
+    var c2=sq.rats.filter(function(v){return v===2}).length;
+    var c3=sq.rats.filter(function(v){return v===3}).length;
+    var c4=sq.rats.filter(function(v){return v===4}).length;
+    var w1=n>0?Math.round(c1/n*100):0;
+    var w2=n>0?Math.round(c2/n*100):0;
+    var w3=n>0?Math.round(c3/n*100):0;
+    var w4=n>0?Math.round(c4/n*100):0;
+    html+="<div class=\"sub-q-row\">";
+    html+="<div class=\"sub-q-header\">";
+    html+="<span class=\"type-badge "+sq.type+"\">"+sq.type+"</span>";
+    html+="<span class=\"sub-q-label\">"+sq.label+"</span>";
+    html+="<span class=\"sub-q-avg\">avg "+sq.avg.toFixed(1)+"</span>";
+    if(sq.weakPct>=60)html+="<span class=\"warn-flag\">&#x26A0; "+sq.weakPct+"% struggling</span>";
+    html+="</div>";
+    html+="<div class=\"stacked-bar\">";
+    html+="<div class=\"sb-seg sb-1\" style=\"width:"+w1+"%\"></div>";
+    html+="<div class=\"sb-seg sb-2\" style=\"width:"+w2+"%\"></div>";
+    html+="<div class=\"sb-seg sb-3\" style=\"width:"+w3+"%\"></div>";
+    html+="<div class=\"sb-seg sb-4\" style=\"width:"+w4+"%\"></div>";
+    html+="</div></div>";
+  }
+  // full KK breakdown (accordion)
+  html+="<div class=\"dash-section-h\">Full KK Breakdown</div>";
+  for(var k=0;k<kkAvgs.length;k++){
+    var dkk=kkAvgs[k];
+    var ac2=avgPillClass(dkk.avg);
+    html+="<div class=\"sub-q-row\">";
+    html+="<div class=\"sub-q-header\" onclick=\"this.nextElementSibling.style.display=this.nextElementSibling.style.display===\'none\'?\'block\':\'none\';\">";
+    html+="<span style=\"font-family:\'DM Serif Display\',serif;font-size:1rem;color:var(--primary);min-width:1.8rem\">"+dkk.kk.id+"</span>";
+    html+="<span class=\"sub-q-label\" style=\"font-weight:600\">"+dkk.kk.cat+"</span>";
+    html+="<span class=\"avg-pill "+ac2+"\">avg "+dkk.avg.toFixed(1)+"</span>";
+    html+="<span style=\"font-size:.75rem;color:var(--red);font-weight:600\">"+dkk.weakPct+"% struggling</span>";
+    html+="</div>";
+    html+="<div style=\"display:none;padding:.5rem .9rem\">";
+    for(var s=0;s<dkk.kk.subs.length;s++){
+      var dsub=dkk.kk.subs[s];
+      var drats=allRatings[dsub.id]||[];
+      var dtot=0;
+      for(var r=0;r<drats.length;r++)dtot+=drats[r];
+      var davg=drats.length>0?dtot/drats.length:0;
+      var dn=arr.length;
+      var dc1=drats.filter(function(v){return v===1}).length;
+      var dc2=drats.filter(function(v){return v===2}).length;
+      var dc3=drats.filter(function(v){return v===3}).length;
+      var dc4=drats.filter(function(v){return v===4}).length;
+      var dw1=dn>0?Math.round(dc1/dn*100):0;
+      var dw2=dn>0?Math.round(dc2/dn*100):0;
+      var dw3=dn>0?Math.round(dc3/dn*100):0;
+      var dw4=dn>0?Math.round(dc4/dn*100):0;
+      html+="<div style=\"margin-bottom:.5rem\">";
+      html+="<div style=\"display:flex;align-items:center;gap:.5rem;margin-bottom:.2rem\">";
+      html+="<span class=\"type-badge "+dsub.type+"\">"+dsub.type+"</span>";
+      html+="<span style=\"font-size:.78rem;flex:1\">"+dsub.label+"</span>";
+      html+="<span style=\"font-size:.7rem;color:var(--muted)\">avg "+davg.toFixed(1)+"</span>";
+      html+="</div>";
+      html+="<div class=\"stacked-bar\" style=\"margin:0\">";
+      html+="<div class=\"sb-seg sb-1\" style=\"width:"+dw1+"%\"></div>";
+      html+="<div class=\"sb-seg sb-2\" style=\"width:"+dw2+"%\"></div>";
+      html+="<div class=\"sb-seg sb-3\" style=\"width:"+dw3+"%\"></div>";
+      html+="<div class=\"sb-seg sb-4\" style=\"width:"+dw4+"%\"></div>";
+      html+="</div></div>";
+    }
+    html+="</div></div>";
+  }
+  // student table
+  html+="<div class=\"dash-section-h\">Individual Students</div>";
+  var sorted2=arr.slice().sort(function(a,b){
+    var aA=0,bA=0,an=0,bn=0;
+    var ar=a.ratings||{},br=b.ratings||{};
+    for(var id in ar){aA+=ar[id];an++;}
+    for(var id in br){bA+=br[id];bn++;}
+    var aAvg=an>0?aA/an:0,bAvg=bn>0?bA/bn:0;
+    return aAvg-bAvg;
+  });
+  html+="<table class=\"student-table\"><thead><tr>";
+  html+="<th>Name</th><th>Submitted</th><th>Avg</th><th>&#x1F6A8;</th><th>&#x26A0;</th><th>&#x2705;</th><th>&#x2B50;</th><th>Weakest KK</th><th>Plan?</th><th></th>";
+  html+="</tr></thead><tbody>";
+  for(var s=0;s<sorted2.length;s++){
+    var st=sorted2[s];
+    var sr=st.ratings||{};
+    var sc={1:0,2:0,3:0,4:0},stot=0,sn=0;
+    for(var id in sr){sc[sr[id]]++;stot+=sr[id];sn++;}
+    var savg=sn>0?stot/sn:0;
+    var sdt=st.submittedAt?new Date(st.submittedAt).toLocaleString("en-AU",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}):"";
+    // weakest kk
+    var sWeakKK="";var sMinAvg=99;
+    for(var k=0;k<KKS.length;k++){
+      var kka=0,kkn=0;
+      for(var s2=0;s2<KKS[k].subs.length;s2++){
+        var rv=(sr[KKS[k].subs[s2].id])||0;
+        if(rv){kka+=rv;kkn++;}
+      }
+      var kkavg2=kkn>0?kka/kkn:0;
+      if(kkavg2<sMinAvg){sMinAvg=kkavg2;sWeakKK="KK"+KKS[k].id+" "+KKS[k].cat;}
+    }
+    var hasPlan=st.plan&&(st.plan.current_grade||st.plan.target_grade)?"&#x2705;":"&#x2014;";
+    html+="<tr>";
+    html+="<td><strong>"+st.name+"</strong></td>";
+    html+="<td>"+sdt+"</td>";
+    html+="<td><span class=\"avg-pill "+avgPillClass(savg)+"\">"+savg.toFixed(1)+"</span></td>";
+    html+="<td>"+sc[1]+"</td><td>"+sc[2]+"</td><td>"+sc[3]+"</td><td>"+sc[4]+"</td>";
+    html+="<td style=\"font-size:.75rem\">"+sWeakKK+"</td>";
+    html+="<td>"+hasPlan+"</td>";
+    html+="<td><button class=\"btn-del\" onclick=\"deleteStudent(\'"+st.name+"\')\">&#x2715;</button></td>";
+    html+="</tr>";
+  }
+  html+="</tbody></table>";
+  document.getElementById("dash-body").innerHTML=html;
+}
+</script>
+</body>
+</html>
