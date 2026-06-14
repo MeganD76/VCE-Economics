@@ -32,7 +32,7 @@ h1,h2,h3{font-family:'Playfair Display',serif;}
 .btn.ghost{background:transparent;color:var(--primary-mid);border:1.5px solid var(--primary-light);}
 .btn:disabled{opacity:.45;cursor:not-allowed;}
 .btn-sm{padding:7px 14px;font-size:13.5px;}
-input[type=text],input[type=password]{font-family:'Source Sans 3',sans-serif;font-size:16px;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;width:100%;max-width:340px;}
+input[type=text],input[type=password],input[type=number]{font-family:'Source Sans 3',sans-serif;font-size:16px;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;width:100%;max-width:340px;}
 .tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px;}
 .tile{background:var(--white);border:1px solid var(--border);border-radius:15px;padding:20px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;}
 .tile:hover{transform:translateY(-2px);}
@@ -49,21 +49,17 @@ input[type=text],input[type=password]{font-family:'Source Sans 3',sans-serif;fon
 .nav{background:var(--primary-mid);color:#fff;border-radius:12px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:8px;}
 .nav .score{font-weight:700;color:var(--accent);}
 .nav .sname{font-size:14px;color:#d9cfeb;}
-.dots{display:flex;gap:5px;flex-wrap:wrap;}
-.dot{width:16px;height:4px;border-radius:2px;background:rgba(255,255,255,.25);}
-.dot.on{background:var(--accent);}
 .acard{background:var(--white);border:1px solid var(--border);border-radius:15px;padding:18px 20px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer;box-shadow:var(--shadow);}
 .acard:hover{border-color:var(--primary-light);}
 .acard h3{font-size:17px;color:var(--primary);}
 .acard .tdesc{font-size:13.5px;color:var(--text-sec);}
 .opt{display:block;width:100%;text-align:left;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin:8px 0;font-size:15px;font-family:'Source Sans 3',sans-serif;cursor:pointer;transition:border-color .15s;}
 .opt:hover:not(:disabled){border-color:var(--primary-light);}
-.opt.sel{border-color:var(--primary-mid);background:#f3eefb;}
 .opt.ok{border-color:var(--green);background:var(--green-pale);}
 .opt.bad{border-color:var(--red);background:var(--red-pale);}
 .opt:disabled{cursor:default;color:var(--text);opacity:1;}
 .fb{border-left:4px solid var(--primary-light);background:#f6f2fc;border-radius:0 10px 10px 0;padding:12px 14px;font-size:14.5px;margin:10px 0;}
-.tip{border-left:4px solid var(--amber);background:var(--amber-pale);border-radius:0 10px 10px 0;padding:12px 14px;font-size:14px;margin:10px 0;}
+.tip{border-left:4px solid var(--amber);background:var(--amber-pale);border-radius:0 8px 8px 0;padding:12px 14px;font-size:14px;margin:10px 0;}
 .rule{border:1.5px solid var(--amber);background:var(--amber-pale);border-radius:10px;padding:12px 14px;font-size:14px;margin:12px 0;}
 .qhead{font-weight:700;font-size:16px;margin:18px 0 4px;}
 .qhead:first-child{margin-top:0;}
@@ -71,7 +67,6 @@ input[type=text],input[type=password]{font-family:'Source Sans 3',sans-serif;fon
 .chainstep{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin:8px 0;font-size:15px;}
 .resp{font-style:italic;background:#f6f2fc;border-radius:10px;padding:14px 16px;margin:10px 0;font-size:15px;}
 .snap{background:var(--accent-pale);border:1.5px solid var(--accent);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:14.5px;}
-.snap b{color:var(--primary);}
 .blank{display:inline-block;min-width:90px;border-bottom:2px dashed var(--primary-light);text-align:center;font-weight:700;color:var(--primary-mid);padding:0 6px;}
 .blank.ok{color:var(--green);border-color:var(--green);}
 .blank.bad{color:var(--red);border-color:var(--red);}
@@ -79,8 +74,8 @@ input[type=text],input[type=password]{font-family:'Source Sans 3',sans-serif;fon
 .save-toast.show{display:flex;}
 .tl-wrap{overflow-x:auto;}
 .backlink{display:inline-block;margin-bottom:14px;color:var(--primary-mid);font-weight:600;cursor:pointer;font-size:14.5px;}
-table.tch{width:100%;border-collapse:collapse;font-size:13.5px;}
-table.tch th,table.tch td{border:1px solid var(--border);padding:7px 9px;text-align:left;vertical-align:top;}
+table.tch{width:100%;border-collapse:collapse;font-size:13px;}
+table.tch th,table.tch td{border:1px solid var(--border);padding:6px 7px;text-align:left;vertical-align:top;}
 table.tch th{background:#f3eefb;color:var(--primary);}
 .kdot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;}
 .selfcheck li{margin:7px 0 7px 18px;font-size:15px;}
@@ -98,17 +93,49 @@ table.tch th{background:#f3eefb;color:var(--primary);}
 .obj-exp.ok{background:var(--green-pale);}
 .obj-exp.bad{background:var(--red-pale);}
 @media(max-width:600px){.obj-cols{grid-template-columns:1fr;}}
-@media(max-width:560px){.hero h1{font-size:26px;}.wrap{padding:0 16px 50px;}}
+/* corridor visual */
+.corridor{position:relative;height:54px;background:linear-gradient(to right,var(--green-pale),var(--accent-pale),var(--red-pale));border-radius:10px;border:1px solid var(--border);margin:30px 0 28px;}
+.cmark{position:absolute;top:-22px;font-size:11px;font-weight:700;transform:translateX(-50%);white-space:nowrap;color:var(--text-sec);}
+.cmark.t{color:var(--primary);}
+.cline{position:absolute;top:0;bottom:0;width:2px;background:var(--text-sec);}
+.cline.t{background:var(--primary);}
+/* calc table */
+table.calc{width:100%;border-collapse:collapse;font-size:14.5px;margin:10px 0;}
+table.calc th,table.calc td{border:1px solid var(--border);padding:8px;text-align:center;}
+table.calc th{background:#f3eefb;color:var(--primary);font-size:13px;}
+.calc-in{width:80px;padding:7px;border:1.5px solid var(--border);border-radius:8px;font-size:14.5px;text-align:center;}
+.calc-in.ok{border-color:var(--green);background:var(--green-pale);}
+.calc-in.bad{border-color:var(--red);background:var(--red-pale);}
+/* comparison table */
+table.comp{width:100%;border-collapse:collapse;font-size:14px;margin:10px 0;}
+table.comp th,table.comp td{border:1px solid var(--border);padding:8px 10px;text-align:left;}
+table.comp th{background:#f3eefb;color:var(--primary);font-size:13px;}
+/* drift bar */
+.driftbar{display:flex;gap:10px;margin:14px 0;}
+.driftseg{flex:1;padding:16px 10px;border-radius:12px;border:2px solid var(--border);text-align:center;font-weight:700;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-size:14px;}
+.driftseg.floor{background:var(--green-pale);}
+.driftseg.target{background:var(--accent-pale);}
+.driftseg.ceiling{background:var(--red-pale);}
+.driftseg.ok{border-color:var(--green);box-shadow:0 0 0 2px var(--green);}
+.driftseg.bad{border-color:var(--red);box-shadow:0 0 0 2px var(--red);}
+.driftseg:disabled{cursor:default;}
+.driftseg small{display:block;font-weight:400;font-size:12px;margin-top:4px;}
+@media(max-width:560px){.hero h1{font-size:26px;}.wrap{padding:0 16px 50px;}.driftbar{flex-direction:column;}}
 </style>
 </head>
 <body>
 <div id="app"></div>
-<div class="save-toast" id="saveTst">✓ Progress saved</div>
+<div class="save-toast" id="saveTst">Progress saved</div>
 <script>
 var RES_URL='https://vce-results.megan-dyring.workers.dev';
-var LS_KEY='u4_aos1_hub_v1';
+var LS_KEY='u4_aos1_hub_v2';
 
-var S={screen:'home',name:'',act:0,ans:{},obj:{placed:{},checked:false},tl:{},dual:{},chain:{},spot:{marks:{},gap1:{},gap2:{}},cond:{},synced:{}};
+/* ================= STATE ================= */
+var S={
+  screen:'home', name:'', lesson:1, act:0,
+  ans:{}, obj:{placed:{},checked:false}, tl:{}, dual:{}, chain:{}, spot:{marks:{},gap1:{},gap2:{}}, cond:{},
+  l2ans:{}, l2calc:{}, l2chain:{}, l2comp:{}, l2drift:{}, l2spot:{marks:{},gap:{}}, l2sort:{placed:{},checked:false}
+};
 
 function saveState(){
   try{
@@ -125,211 +152,457 @@ function loadState(){
 }
 loadState();
 
-var KK_MAP={adpol:'AD policies & business cycle',mpdef:'Nature & objectives of monetary policy',infl:'Inflation target & measurement',stance:'Stance of monetary policy'};
+/* ================= KK MAP (all lessons) ================= */
+var KK_MAP={
+  adpol:'AD policies & business cycle',
+  mpdef:'Nature & objectives of MP',
+  infl:'Inflation target & measurement',
+  stance:'Stance of monetary policy',
+  cashrate:'Cash rate & ES balances',
+  corridor:'The corridor (ES rate & lending rate)',
+  repo:'The weekly OMO',
+  liquidity:'System liquidity & rate drift',
+  transmission:'Flow-through to other rates'
+};
 
-/* ===== MCQ DATA — options balanced in length, correct answers rotated ===== */
+/* ============================================================
+   LESSON 1 DATA
+   ============================================================ */
 var MCQ=[
-  {q:"Which of the following best defines aggregate demand policies?",
-   opts:["Policies that permanently expand the economy's productive capacity by improving technology",
-         "Policies used to stabilise economic activity by influencing the level of aggregate demand",
-         "Policies that directly regulate the prices businesses can charge consumers",
-         "Policies focused on growing government revenue through new taxes"],
-   a:1,kk:'adpol',
-   fb:"AD policies work by altering the level of AD to counter the business cycle — stimulating AD in downturns and restraining it in booms. Expanding productive capacity is the role of aggregate supply (AS) policies, which operate over the longer run.",
-   tip:"Exam tip: always link AD policies to their purpose — stabilising the business cycle. Simply saying 'helps the economy' won't earn marks."},
-  {q:"Which of the following is NOT one of the RBA's three statutory objectives under the Reserve Bank Act 1959?",
-   opts:["The stability of the Australian dollar exchange rate",
-         "The stability of the currency of Australia",
-         "The maintenance of full employment in Australia",
-         "The economic prosperity and welfare of the people of Australia"],
-   a:0,kk:'mpdef',
-   fb:"'Stability of the currency' means price stability — preserving the purchasing power of money — not fixing the exchange rate. The AUD has floated freely since 1983 and the RBA does not target its value. This is one of the most common errors flagged in VCAA examiner reports.",
-   tip:"Exam tip: never write 'stability of the exchange rate' as an RBA objective — it costs marks every time."},
-  {q:"The RBA's inflation target is best described as:",
-   opts:["Keeping the cash rate between 2% and 3% at all times",
-         "Holding CPI at exactly 2.5% every quarter regardless of conditions",
-         "Keeping consumer price inflation at 2–3% on average over time",
-         "Reducing inflation to zero over a five-year planning horizon"],
-   a:2,kk:'infl',
-   fb:"The target is a flexible band — 2–3% on average over time — not a fixed point. The 'on average over time' wording matters: inflation can sit outside the band temporarily without the target being abandoned.",
-   tip:"Exam tip: quote the full target — '2–3% on average over time' — on first mention in any exam answer. Dropping 'on average over time' loses marks."},
-  {q:"Which statement about headline and underlying inflation is correct?",
-   opts:["The RBA targets underlying inflation; headline is used only for international comparisons",
-         "Underlying inflation strips out volatile price changes so the RBA can better forecast where headline CPI is heading",
-         "Headline and underlying measures always move in the same direction by the same amount",
-         "Underlying inflation includes commodity prices, while headline excludes them"],
-   a:1,kk:'infl',
-   fb:"The 2–3% target is quoted in headline CPI terms, but headline is distorted by temporary, one-off price moves. Underlying measures strip out the most extreme price changes, giving the RBA a cleaner signal of where inflation is genuinely heading.",
-   tip:"Exam tip: underlying excludes volatile items — students frequently reverse this and say it includes them."},
-  {q:"Which statement best describes monetary policy in Australia?",
-   opts:["The government's use of spending and taxation decisions to influence the level of aggregate demand",
-         "The RBA's direct control over the interest rates charged on all bank loans",
-         "The RBA's manipulation of the cash rate target to influence aggregate demand and stabilise economic activity",
-         "The government's program of buying and selling foreign currency to manage the exchange rate"],
-   a:2,kk:'mpdef',
-   fb:"Monetary policy is operated by the RBA and works through the cash rate target. Changing the cash rate flows through to borrowing costs across the economy, influencing spending and the level of AD. Government spending and tax decisions are budgetary policy.",
-   tip:"Exam tip: name the specific instrument — 'the cash rate target' — rather than just saying 'interest rates'."},
-  {q:"The RBA's financial stability role is best described as:",
-   opts:["Guaranteeing that Australian banks cannot lose money on their lending portfolios",
-         "Setting the maximum interest rates banks can charge on home loans and credit cards",
-         "Insuring all Australian share-market investments against capital losses",
-         "Promoting the stability of the financial system, including acting as lender of last resort to solvent banks"],
-   a:3,kk:'mpdef',
-   fb:"The RBA promotes financial system stability and can lend to solvent banks in exchange for assets during a crisis — the 'lender of last resort' role. It does not guarantee bank profits, cap lending rates, or insure share investments.",
-   tip:"Exam tip: financial stability sits alongside the three statutory objectives — the RBA makes monetary policy decisions 'with the stability of the financial system in mind'."}
+ {q:"Which of the following best defines aggregate demand policies?",
+  opts:["Policies that permanently expand the economy's productive capacity by improving technology",
+        "Policies used to stabilise economic activity by influencing the level of aggregate demand",
+        "Policies that directly regulate the prices businesses can charge consumers",
+        "Policies focused on growing government revenue through new taxes"],
+  a:1,kk:'adpol',
+  fb:"AD policies work by altering the level of AD to counter the business cycle. Expanding productive capacity is the role of aggregate supply (AS) policies, which operate over the longer run.",
+  tip:"Exam tip: always link AD policies to their purpose - stabilising the business cycle."},
+ {q:"Which of the following is NOT one of the RBA's three statutory objectives under the Reserve Bank Act 1959?",
+  opts:["The stability of the Australian dollar exchange rate",
+        "The stability of the currency of Australia",
+        "The maintenance of full employment in Australia",
+        "The economic prosperity and welfare of the people of Australia"],
+  a:0,kk:'mpdef',
+  fb:"'Stability of the currency' means price stability, not fixing the exchange rate. The AUD has floated freely since 1983 and the RBA does not target its value.",
+  tip:"Exam tip: never write 'stability of the exchange rate' as an RBA objective - it costs marks every time."},
+ {q:"The RBA's inflation target is best described as:",
+  opts:["Keeping the cash rate between 2% and 3% at all times",
+        "Holding CPI at exactly 2.5% every quarter regardless of conditions",
+        "Keeping consumer price inflation at 2-3% on average over time",
+        "Reducing inflation to zero over a five-year planning horizon"],
+  a:2,kk:'infl',
+  fb:"The target is a flexible band - 2-3% on average over time - not a fixed point. Inflation can sit outside the band temporarily without the target being abandoned.",
+  tip:"Exam tip: quote the full target - '2-3% on average over time' - on first mention."},
+ {q:"Which statement about headline and underlying inflation is correct?",
+  opts:["The RBA targets underlying inflation; headline is used only for international comparisons",
+        "Underlying inflation strips out volatile price changes so the RBA can better forecast where headline CPI is heading",
+        "Headline and underlying measures always move in the same direction by the same amount",
+        "Underlying inflation includes commodity prices, while headline excludes them"],
+  a:1,kk:'infl',
+  fb:"The 2-3% target is quoted in headline CPI terms, but underlying measures strip out the most extreme price changes, giving a cleaner signal of where inflation is heading.",
+  tip:"Exam tip: underlying excludes volatile items - students frequently reverse this."},
+ {q:"Which statement best describes monetary policy in Australia?",
+  opts:["The government's use of spending and taxation decisions to influence the level of aggregate demand",
+        "The RBA's direct control over the interest rates charged on all bank loans",
+        "The RBA's manipulation of the cash rate target to influence aggregate demand and stabilise economic activity",
+        "The government's program of buying and selling foreign currency to manage the exchange rate"],
+  a:2,kk:'mpdef',
+  fb:"Monetary policy is operated by the RBA and works through the cash rate target, which flows through to borrowing costs and AD. Government spending and tax decisions are budgetary policy.",
+  tip:"Exam tip: name the specific instrument - 'the cash rate target' - rather than just 'interest rates'."},
+ {q:"The RBA's financial stability role is best described as:",
+  opts:["Guaranteeing that Australian banks cannot lose money on their lending portfolios",
+        "Setting the maximum interest rates banks can charge on home loans and credit cards",
+        "Insuring all Australian share-market investments against capital losses",
+        "Promoting the stability of the financial system, including acting as lender of last resort to solvent banks"],
+  a:3,kk:'mpdef',
+  fb:"The RBA promotes financial system stability and can lend to solvent banks in a crisis - the lender of last resort role. It does not guarantee profits, cap rates, or insure investments.",
+  tip:"Exam tip: financial stability sits alongside the three statutory objectives."}
 ];
 
-/* ===== OBJECTIVE MATCHER ===== */
 var OBJ={
   cats:["Stability of the currency","Maintenance of full employment","Economic prosperity and welfare"],
   items:[
-    {t:"The RBA raises the cash rate to bring CPI back within the 2–3% band",c:0,why:"Keeping CPI within 2–3% on average over time is the operational definition of 'stability of the currency' — preserving the purchasing power of money."},
-    {t:"The RBA cuts the cash rate to stimulate AD and support job creation as unemployment rises",c:1,why:"Cutting the cash rate to boost economic activity and reduce unemployment directly pursues the 'maintenance of full employment' objective."},
-    {t:"Monetary policy is set to support rising material living standards and higher household incomes across the economy",c:2,why:"Improving the prosperity and welfare of Australians — including living standards — is the third statutory objective, broader than just prices or jobs."},
-    {t:"The RBA holds the cash rate steady to avoid stoking further inflationary pressure while wages growth accelerates",c:0,why:"Holding the cash rate to prevent CPI from rising further is motivated by the price stability (stability of the currency) objective."},
-    {t:"The RBA acts to keep the unemployment rate near NAIRU so that labour markets are neither too tight nor too slack",c:1,why:"Keeping unemployment around NAIRU — the non-accelerating inflation rate — is the practical meaning of 'maintenance of full employment'."},
-    {t:"The RBA considers how interest rate decisions might affect consumer confidence, business investment and long-run living standards",c:2,why:"These broader considerations — confidence, investment and living standards — fall under economic prosperity and welfare of the people of Australia."}
+    {t:"The RBA raises the cash rate to bring CPI back within the 2-3% band",c:0,why:"Keeping CPI within 2-3% on average over time is the operational definition of stability of the currency."},
+    {t:"The RBA cuts the cash rate to stimulate AD and support job creation as unemployment rises",c:1,why:"Cutting the cash rate to boost activity and reduce unemployment directly pursues the maintenance of full employment objective."},
+    {t:"Monetary policy is set to support rising material living standards and higher household incomes across the economy",c:2,why:"Improving prosperity and welfare - including living standards - is the third statutory objective, broader than just prices or jobs."},
+    {t:"The RBA holds the cash rate steady to avoid stoking further inflationary pressure while wages growth accelerates",c:0,why:"Holding the cash rate to prevent CPI rising further is motivated by price stability."},
+    {t:"The RBA acts to keep the unemployment rate near NAIRU so labour markets are neither too tight nor too slack",c:1,why:"Keeping unemployment around NAIRU is the practical meaning of maintenance of full employment."},
+    {t:"The RBA considers how rate decisions might affect consumer confidence, business investment and long-run living standards",c:2,why:"These broader considerations fall under economic prosperity and welfare of the people of Australia."}
   ]
 };
 
-/* ===== TIMELINE ===== */
 var TL={
   opts:['Expansionary','Highly expansionary','Contractionary','Neutral'],
   periods:[
-    {label:'A · 2002–2004',desc:"Cash rate around 4.75–5.25%. Growth tracking close to trend, inflation near the middle of the 2–3% band.",a:3,
-     why:"With growth near trend and inflation mid-band, the cash rate sat around the neutral rate of the time — neither stimulating nor restraining AD. Note: the neutral rate was higher in the early 2000s than the ~3% used today; it has shifted over time."},
-    {label:'B · 2007–2008',desc:"Cash rate lifted to 6.75–7.25% as strong demand and a commodity boom pushed inflation above 3%.",a:2,
-     why:"Well above the neutral rate, the cash rate was set to restrain AD and reduce inflationary pressure — a contractionary (restrictive) stance."},
-    {label:'C · 2009–2010',desc:"Cash rate cut rapidly to 3.0% at the height of the Global Financial Crisis as growth fell sharply.",a:0,
-     why:"Emergency cuts pushed the rate toward and below the neutral level of the time — an expansionary stance to stimulate AD and support employment, though not at an extreme low."},
-    {label:'D · 2020–2021',desc:"Cash rate reduced to a record low of 0.10% during the COVID-19 recession, accompanied by unconventional policy measures.",a:1,
-     why:"At 0.10% — the lowest rate in Australian history, far below any estimate of neutral — the stance was not just expansionary but highly expansionary (highly accommodative). The COVID setting was an emergency measure of exceptional scale."},
-    {label:'E · 2022–2023',desc:"Cash rate raised from 0.10% to 4.35% across 13 consecutive increases as inflation surged above 7%.",a:2,
-     why:"The fastest tightening cycle in decades took the cash rate well above the ~3% neutral level — a clearly contractionary stance designed to restrain AD and bring inflation back toward the 2–3% band."}
+    {label:'A - 2002-2004',desc:"Cash rate around 4.75-5.25%. Growth tracking close to trend, inflation near the middle of the 2-3% band.",a:3,
+     why:"With growth near trend and inflation mid-band, the cash rate sat around the neutral rate of the time - neither stimulating nor restraining AD. The neutral rate was higher in the early 2000s than the ~3% used today."},
+    {label:'B - 2007-2008',desc:"Cash rate lifted to 6.75-7.25% as strong demand and a commodity boom pushed inflation above 3%.",a:2,
+     why:"Well above the neutral rate, the cash rate was set to restrain AD and reduce inflationary pressure - a contractionary stance."},
+    {label:'C - 2009-2010',desc:"Cash rate cut rapidly to 3.0% at the height of the Global Financial Crisis as growth fell sharply.",a:0,
+     why:"Emergency cuts pushed the rate toward and below the neutral level of the time - expansionary to stimulate AD and support employment, though not at an extreme low."},
+    {label:'D - 2020-2021',desc:"Cash rate reduced to a record low of 0.10% during the COVID-19 recession, accompanied by unconventional policy measures.",a:1,
+     why:"At 0.10% - the lowest rate in Australian history, far below any estimate of neutral - the stance was highly expansionary, an emergency measure of exceptional scale."},
+    {label:'E - 2022-2023',desc:"Cash rate raised from 0.10% to 4.35% across 13 consecutive increases as inflation surged above 7%.",a:2,
+     why:"The fastest tightening cycle in decades took the cash rate well above the ~3% neutral level - contractionary, to restrain AD and bring inflation back toward the 2-3% band."}
   ]
 };
 
-/* ===== DUAL STANCE ===== */
 var DUAL={
   stanceOpts:['Expansionary','Contractionary','Neutral'],
   moveOpts:['Becoming more expansionary','Becoming less expansionary','Becoming more contractionary','Becoming less contractionary','Unchanged'],
   sc:[
     {desc:"The RBA raises the cash rate from 3.85% to 4.35%.",stance:1,move:2,
-     why:"At 4.35% the cash rate is above the ~3% neutral rate — the stance is contractionary. The rise has pushed it further from neutral, making policy MORE contractionary."},
+     why:"At 4.35% the cash rate is above the ~3% neutral rate - the stance is contractionary. The rise has pushed it further from neutral, making policy MORE contractionary."},
     {desc:"The RBA cuts the cash rate from 4.35% to 3.85%.",stance:1,move:3,
-     why:"The classic trap: a cut does not automatically produce an expansionary stance. At 3.85%, the rate is still above neutral — the stance remains contractionary. The cut has simply made it LESS contractionary (less restrictive)."},
+     why:"The classic trap: a cut does not automatically produce an expansionary stance. At 3.85%, the rate is still above neutral - the stance remains contractionary. The cut has simply made it LESS contractionary."},
     {desc:"The RBA cuts the cash rate from 2.50% to 2.00%.",stance:0,move:0,
-     why:"Both 2.50% and 2.00% sit below the ~3% neutral rate — the stance was already expansionary. The cut makes it MORE expansionary (more accommodative)."},
+     why:"Both 2.50% and 2.00% sit below the ~3% neutral rate - the stance was already expansionary. The cut makes it MORE expansionary."},
     {desc:"The RBA raises the cash rate from 1.50% to 2.25%.",stance:0,move:1,
-     why:"The mirror trap: a rise does not automatically mean contractionary. At 2.25%, the rate is still below neutral — the stance remains expansionary. The rise makes it LESS expansionary."},
+     why:"The mirror trap: a rise does not automatically mean contractionary. At 2.25%, the rate is still below neutral - the stance remains expansionary. The rise makes it LESS expansionary."},
     {desc:"The RBA holds the cash rate at 3.00% with inflation tracking at 2.5%.",stance:2,move:4,
-     why:"At roughly the neutral rate with inflation mid-band, policy is neither stimulating nor restraining AD — a neutral stance, unchanged by the hold decision."}
+     why:"At roughly the neutral rate with inflation mid-band, policy is neither stimulating nor restraining AD - a neutral stance, unchanged by the hold decision."}
   ]
 };
 
-/* ===== CHAIN ===== */
 var CHAIN=[
-  {pre:"Real GDP growth falls below the government's goal of around ",post:" per year and spare productive capacity begins to emerge.",opts:['3–3.5%','2–3%','4–4.25%'],a:0,kk:'adpol'},
-  {pre:"With demand-side pressure easing, inflation falls below the lower bound of the RBA's target of ",post:" on average over time.",opts:['3–3.5%','2–3%','0–1%'],a:1,kk:'infl'},
+  {pre:"Real GDP growth falls below the government's goal of around ",post:" per year and spare productive capacity begins to emerge.",opts:['3-3.5%','2-3%','4-4.25%'],a:0,kk:'adpol'},
+  {pre:"With demand-side pressure easing, inflation falls below the lower bound of the RBA's target of ",post:" on average over time.",opts:['3-3.5%','2-3%','0-1%'],a:1,kk:'infl'},
   {pre:"The RBA Board is likely to respond by ",post:" the cash rate target at its next meeting.",opts:['raising','holding at the same level','cutting'],a:2,kk:'stance'},
   {pre:"This shifts the stance of monetary policy in a more ",post:" direction, reducing the cost of borrowing.",opts:['expansionary','contractionary','neutral'],a:0,kk:'stance'},
-  {pre:"Cheaper credit should encourage households and firms to increase spending and investment, lifting the ",post:" components of AD and supporting a return toward trend growth.",opts:['G and (X−M)','C and I','X−M only'],a:1,kk:'adpol'}
+  {pre:"Cheaper credit should encourage households and firms to increase spending and investment, lifting the ",post:" components of AD and supporting a return toward trend growth.",opts:['G and (X-M)','C and I','X-M only'],a:1,kk:'adpol'}
 ];
 
-/* ===== SPOT THE ERROR — 0/2 question now has two separate error steps ===== */
 var SPOT=[
   {q:"Define the stance of monetary policy and classify the stance after the RBA cuts the cash rate from 4.35% to 3.85%. Assume the neutral rate is around 3%. <strong>(2 marks)</strong>",
-   resp:"\u201CThe stance of monetary policy refers to whether the RBA is raising or lowering the cash rate at its board meetings. Because the RBA has just cut the cash rate, the stance of monetary policy is now expansionary.\u201D",
+   resp:"The stance of monetary policy refers to whether the RBA is raising or lowering the cash rate at its board meetings. Because the RBA has just cut the cash rate, the stance of monetary policy is now expansionary.",
    marks:2,correctMark:0,kk:'stance',
    twoErrors:true,
    err1Opts:["The definition describes the direction of the most recent move, not the intended impact on AD","The definition should have included the exchange rate channel","The definition is missing a reference to fiscal policy","The definition should mention NAIRU"],
-   err1A:0,err1fb:"The stance is defined by the intended IMPACT of the cash rate setting on AD — whether policy is set to stimulate, restrain or neither. The direction of the latest move is irrelevant to the definition.",
-   err2Opts:["The classification ignores that 3.85% is still above the ~3% neutral rate, so the stance remains contractionary","The classification should be neutral, not expansionary","The student should have said the stance is highly expansionary","The classification is actually correct — any cut produces an expansionary stance"],
-   err2A:0,err2fb:"At 3.85%, the cash rate still sits above neutral — so the stance is still contractionary, just less so. A cut only changes the stance from contractionary to neutral (or expansionary) once the rate actually falls to or below the neutral level.",
-   fixed:"The stance of monetary policy refers to the intended impact of the cash rate setting on the level of AD. At 3.85%, the cash rate remains above the neutral rate of ~3%, so the stance is still contractionary — the cut has simply made policy less contractionary.",
-   rule:"VCAA principle: BOTH marks are lost here. The definition is wrong (describes direction, not impact on AD) and the classification follows from that wrong definition. Stance = level relative to neutral, not the direction of the last move."},
+   err1A:0,err1fb:"The stance is defined by the intended IMPACT of the cash rate setting on AD - whether policy is set to stimulate, restrain or neither. The direction of the latest move is irrelevant to the definition.",
+   err2Opts:["The classification ignores that 3.85% is still above the ~3% neutral rate, so the stance remains contractionary","The classification should be neutral, not expansionary","The student should have said the stance is highly expansionary","The classification is actually correct - any cut produces an expansionary stance"],
+   err2A:0,err2fb:"At 3.85%, the cash rate still sits above neutral - so the stance is still contractionary, just less so. A cut only changes the stance once the rate actually falls to or below the neutral level.",
+   fixed:"The stance of monetary policy refers to the intended impact of the cash rate setting on the level of AD. At 3.85%, the cash rate remains above the neutral rate of ~3%, so the stance is still contractionary - the cut has simply made policy less contractionary.",
+   rule:"VCAA principle: BOTH marks are lost here. The definition is wrong and the classification follows from that wrong definition. Stance = level relative to neutral, not the direction of the last move."},
   {q:"Outline one reason why changes in monetary policy can influence the level of aggregate demand. <strong>(2 marks)</strong>",
-   resp:"\u201CMonetary policy influences aggregate demand because the RBA directly controls every interest rate in the economy. When the RBA cuts the cash rate, all home loan and business lending rates immediately fall by exactly the same amount, which will increase consumption and investment spending.\u201D",
+   resp:"Monetary policy influences aggregate demand because the RBA directly controls every interest rate in the economy. When the RBA cuts the cash rate, all home loan and business lending rates immediately fall by exactly the same amount, which will increase consumption and investment spending.",
    marks:2,correctMark:1,kk:'mpdef',
    twoErrors:false,
-   errOpts:["The RBA sets only the cash rate target — other rates are influenced through it, and the pass-through is neither immediate nor uniform",
+   errOpts:["The RBA sets only the cash rate target - other rates are influenced through it, and the pass-through is neither immediate nor uniform",
             "The response should have discussed the exchange rate rather than interest rates",
             "Consumption and investment are not components of aggregate demand",
-            "The response is correct — the RBA does set all interest rates directly"],
+            "The response is correct - the RBA does set all interest rates directly"],
    errA:0,
    fixed:"Changes in the cash rate target flow through to the interest rates banks charge on loans. A cut in the cash rate should lead to lower lending rates, reducing borrowing costs. This is likely to encourage households and firms to increase consumption (C) and investment (I), raising the level of AD.",
-   rule:"VCAA principle: the RBA sets only the cash rate target. Commercial lending rates are influenced by it, but banks set their own rates — the pass-through is neither automatic nor uniform. Also use 'likely/should' not 'will'. One mark is retained for correctly linking lower rates to higher C and I."}
+   rule:"VCAA principle: the RBA sets only the cash rate target. Also use 'likely/should' not 'will'. One mark is retained for correctly linking lower rates to higher C and I."}
 ];
 
-/* ===== CONDITIONS ===== */
 var COND={
   sc:[
-    {name:"Economy A",data:"CPI: <b>4.6%</b> (underlying 4.1%) &nbsp;·&nbsp; Cash rate: <b>4.25%</b> &nbsp;·&nbsp; Real GDP growth: <b>1.2% p.a.</b> &nbsp;·&nbsp; Unemployment: <b>3.9%</b>",
+    {name:"Economy A",data:"CPI: <b>4.6%</b> (underlying 4.1%) &nbsp;&middot;&nbsp; Cash rate: <b>4.25%</b> &nbsp;&middot;&nbsp; Real GDP growth: <b>1.2% p.a.</b> &nbsp;&middot;&nbsp; Unemployment: <b>3.9%</b>",
      qs:[
       {q:"Is inflation currently inside or outside the RBA's target band?",
-       opts:["Inside — inflation is within the 2–3% target range","Outside — inflation is below the 2–3% target band","Outside — inflation is above the 2–3% target band","The data is insufficient to determine this"],a:2,
-       fb:"At 4.6% headline CPI (and 4.1% underlying), inflation is clearly above the upper bound of the 2–3% target — the price stability goal is not being met."},
+       opts:["Inside - inflation is within the 2-3% target range","Outside - inflation is below the 2-3% target band","Outside - inflation is above the 2-3% target band","The data is insufficient to determine this"],a:2,
+       fb:"At 4.6% headline CPI (and 4.1% underlying), inflation is clearly above the upper bound of the 2-3% target."},
       {q:"Classify the current stance of monetary policy.",
        opts:["Expansionary","Neutral","Cannot be determined from this data","Contractionary"],a:3,
-       fb:"At 4.25% — well above the ~3% neutral rate — the cash rate is set to restrain AD and reduce inflationary pressure. This is a contractionary (restrictive) stance."},
+       fb:"At 4.25% - well above the ~3% neutral rate - the cash rate is set to restrain AD and reduce inflationary pressure. This is a contractionary stance."},
       {q:"Given these conditions, the most appropriate decision at the next board meeting is most likely to be:",
        opts:["Cut the cash rate sharply to prevent a recession","Raise the cash rate further or hold at a restrictive level until inflation moves back toward the band","Cut the cash rate to zero and adopt unconventional measures","Switch focus to the exchange rate instead of the cash rate"],a:1,
-       fb:"With inflation well above the band, keeping policy restrictive is appropriate. A cut would re-stimulate AD and risk embedding inflation further above target — even with soft growth, price stability is the priority when inflation is this high."}
+       fb:"With inflation well above the band, keeping policy restrictive is appropriate. A cut would risk embedding inflation further above target."}
      ]},
-    {name:"Economy B",data:"CPI: <b>1.4%</b> &nbsp;·&nbsp; Cash rate: <b>1.00%</b> &nbsp;·&nbsp; Real GDP growth: <b>0.8% p.a.</b> &nbsp;·&nbsp; Unemployment: <b>5.6% and rising</b>",
+    {name:"Economy B",data:"CPI: <b>1.4%</b> &nbsp;&middot;&nbsp; Cash rate: <b>1.00%</b> &nbsp;&middot;&nbsp; Real GDP growth: <b>0.8% p.a.</b> &nbsp;&middot;&nbsp; Unemployment: <b>5.6% and rising</b>",
      qs:[
       {q:"Classify the current stance of monetary policy.",
-       opts:["Neutral — the cash rate is at its equilibrium level","Contractionary — the cash rate is above neutral","Cannot be determined without knowing the exact neutral rate","Expansionary — the cash rate is well below the neutral rate"],a:3,
-       fb:"At 1.00% the cash rate is well below the ~3% neutral rate — the stance is clearly expansionary (accommodative), set to stimulate AD."},
+       opts:["Neutral - the cash rate is at its equilibrium level","Contractionary - the cash rate is above neutral","Cannot be determined without knowing the exact neutral rate","Expansionary - the cash rate is well below the neutral rate"],a:3,
+       fb:"At 1.00% the cash rate is well below the ~3% neutral rate - the stance is expansionary, set to stimulate AD."},
       {q:"Given these conditions, the most appropriate decision at the next meeting is most likely to be:",
        opts:["Cut the cash rate further to make the already-expansionary stance more accommodative","Raise the cash rate to protect savers from low returns","Hold the cash rate and take no further action regardless of how conditions evolve","Buy foreign currency to depreciate the exchange rate"],a:0,
-       fb:"With inflation below the band, growth weak and unemployment rising, all signals point toward more stimulus. A further cut deepens the expansionary stance, supporting AD, employment and the return of inflation toward the 2–3% band."}
+       fb:"With inflation below the band, growth weak and unemployment rising, all signals point toward more stimulus."}
      ]},
-    {name:"Economy C",data:"CPI: <b>2.6%</b> &nbsp;·&nbsp; Cash rate: <b>3.00%</b> &nbsp;·&nbsp; Real GDP growth: <b>2.9% p.a.</b> &nbsp;·&nbsp; Unemployment: <b>4.2%</b>",
+    {name:"Economy C",data:"CPI: <b>2.6%</b> &nbsp;&middot;&nbsp; Cash rate: <b>3.00%</b> &nbsp;&middot;&nbsp; Real GDP growth: <b>2.9% p.a.</b> &nbsp;&middot;&nbsp; Unemployment: <b>4.2%</b>",
      qs:[
       {q:"Classify the current stance of monetary policy.",
-       opts:["Expansionary — the cash rate is below neutral","Contractionary — the cash rate is above neutral","Neutral — the cash rate is approximately at the neutral rate","Highly contractionary — emergency tightening is underway"],a:2,
-       fb:"With the cash rate at ~3% and the neutral rate also ~3%, policy is neither stimulating nor restraining AD — broadly neutral."},
+       opts:["Expansionary - the cash rate is below neutral","Contractionary - the cash rate is above neutral","Neutral - the cash rate is approximately at the neutral rate","Highly contractionary - emergency tightening is underway"],a:2,
+       fb:"With the cash rate at ~3% and the neutral rate also ~3%, policy is broadly neutral."},
       {q:"Given these conditions, the most appropriate decision at the next meeting is most likely to be:",
        opts:["Raise the cash rate sharply to prevent any future inflation","Cut the cash rate immediately to accelerate growth further","Hold the cash rate, maintaining the broadly neutral stance given balanced conditions","Abandon the inflation target and focus solely on growth"],a:2,
-       fb:"Inflation is mid-band, growth near trend and unemployment around NAIRU. With the cash rate at roughly neutral, there is no signal from the data to move in either direction — a hold is appropriate."}
+       fb:"Inflation is mid-band, growth near trend and unemployment around NAIRU - a hold is appropriate."}
      ]}
   ]
 };
 
 var ACTS=[
-  {id:'a1',title:'1 · Foundations Check',type:'mcq',desc:'6 multiple choice — AD policies, monetary policy & the RBA mandate',max:6},
-  {id:'a2',title:'2 · Match the Objective',type:'obj',desc:'Match 6 RBA statements to the correct statutory objective',max:6},
-  {id:'a3',title:'3 · Read the Graph',type:'tl',desc:'Classify the stance across 5 periods of cash rate history',max:5},
-  {id:'a4',title:'4 · Stance vs Direction',type:'dual',desc:'A cut isn\u2019t always expansionary — classify both the stance AND the move',max:10},
-  {id:'a5',title:'5 · Build the Chain',type:'chain',desc:'Complete the counter-cyclical policy response chain',max:5},
-  {id:'a6',title:'6 · Spot the Error',type:'spot',desc:'Mark two student responses, then identify exactly what went wrong',max:4},
-  {id:'a7',title:'7 · Read the Conditions',type:'cond',desc:'Three economic snapshots — diagnose the stance and the right decision',max:8}
+  {id:'a1',title:'1. Foundations Check',type:'mcq',desc:'6 multiple choice - AD policies, monetary policy & the RBA mandate',max:6},
+  {id:'a2',title:'2. Match the Objective',type:'obj',desc:'Match 6 RBA statements to the correct statutory objective',max:6},
+  {id:'a3',title:'3. Read the Graph',type:'tl',desc:'Classify the stance across 5 periods of cash rate history',max:5},
+  {id:'a4',title:'4. Stance vs Direction',type:'dual',desc:'A cut is not always expansionary - classify both the stance AND the move',max:10},
+  {id:'a5',title:'5. Build the Chain',type:'chain',desc:'Complete the counter-cyclical policy response chain',max:5},
+  {id:'a6',title:'6. Spot the Error',type:'spot',desc:'Mark two student responses, then identify exactly what went wrong',max:4},
+  {id:'a7',title:'7. Read the Conditions',type:'cond',desc:'Three economic snapshots - diagnose the stance and the right decision',max:8}
 ];
 
-/* ===== SCORING ===== */
-function computeScores(){
-  var per={},kk={adpol:{c:0,t:0},mpdef:{c:0,t:0},infl:{c:0,t:0},stance:{c:0,t:0}};
-  var i,j,s;
+/* ============================================================
+   LESSON 2 DATA - How the RBA Implements Monetary Policy
+   ES balances, the corridor, the weekly OMO, and flow-through to other rates
+   ============================================================ */
+var MCQ2=[
+ {q:"What are Exchange Settlement (ES) balances?",
+  opts:["Funds banks hold in deposit accounts at the RBA, used to settle payments with each other",
+        "The cash savings of individual customers held at their local bank branch",
+        "Foreign currency reserves held by the RBA on behalf of the government",
+        "A measure of the total value of banknotes in circulation"],
+  a:0,kk:'cashrate',
+  fb:"ES balances are funds banks hold in deposit accounts at the RBA, used to settle payments between banks - on behalf of themselves and their customers.",
+  tip:"Exam tip: ES = Exchange Settlement. Think of it as 'a bank account, for banks'."},
+ {q:"If the system-wide supply of ES balances is HIGH relative to demand, what happens to the cash rate?",
+  opts:["It is pushed down, toward the floor of the corridor",
+        "It is pushed up, toward the ceiling of the corridor",
+        "It stays exactly at the cash rate target regardless",
+        "It becomes impossible to predict"],
+  a:0,kk:'cashrate',
+  fb:"When supply is high relative to demand, banks with spare ES balances compete to lend them out - pushing the cash rate down, toward the ES rate (floor).",
+  tip:"Exam tip: more supply than needed = downward pressure, toward the floor."},
+ {q:"What is the ES rate?",
+  opts:["The interest rate the RBA pays banks on the reserves they hold in Exchange Settlement accounts",
+        "The rate banks charge each other overnight in the cash market",
+        "The rate at which the RBA lends reserves to banks via its standing facility",
+        "The exchange rate the RBA targets for the Australian dollar"],
+  a:0,kk:'corridor',
+  fb:"The ES rate is what the RBA pays on balances banks hold in their Exchange Settlement accounts. It forms the floor of the corridor, currently set 10 basis points below the cash rate target.",
+  tip:"Exam tip: ES = Exchange Settlement. This is the floor - the least attractive rate for a bank with surplus reserves."},
+ {q:"What is the lending rate (the RBA's overnight standing facility)?",
+  opts:["The interest rate the RBA pays on Exchange Settlement balances",
+        "The cash rate target itself, unchanged",
+        "The rate at which a bank can always borrow reserves overnight from the RBA",
+        "The interest rate the government pays on its own borrowing"],
+  a:2,kk:'corridor',
+  fb:"The lending rate is the RBA's overnight standing facility rate - banks can always borrow reserves at this rate. It forms the ceiling of the corridor, currently 25 basis points above the cash rate target.",
+  tip:"Exam tip: this is the ceiling - the least attractive rate for a bank needing to borrow."},
+ {q:"Relative to the cash rate target, how are the ES rate and the lending rate set?",
+  opts:["ES rate is 25 basis points below target, lending rate is 25 basis points above",
+        "ES rate is 10 basis points below target, lending rate is 25 basis points above",
+        "Both rates are set exactly equal to the cash rate target",
+        "ES rate is above target and the lending rate is below target"],
+  a:1,kk:'corridor',
+  fb:"The corridor is not symmetric: the ES rate (floor) sits 10 basis points below target, while the lending rate (ceiling) sits 25 basis points above target.",
+  tip:"Exam tip: don't assume the corridor is symmetric - the floor and ceiling sit different distances from the target."},
+ {q:"What does the RBA's weekly Open Market Operation (OMO) do?",
+  opts:["It sets a brand new cash rate target every week",
+        "It is a repo auction that lets banks top up or shed ES balances in bulk, helping keep the system from drifting too close to either bound",
+        "It directly fixes the interest rate on every home loan in Australia",
+        "It replaces the corridor entirely with a single fixed rate"],
+  a:1,kk:'repo',
+  fb:"The weekly OMO is a repo auction - a separate tool that sits near the corridor and lets banks adjust their ES balances in bulk, easing pressure on the cash rate system-wide.",
+  tip:"Exam tip: the OMO is a weekly 'reset', not the main reason the cash rate stays near target day to day - that's the corridor."},
+ {q:"If the RBA raises the cash rate target, why does the 30-day bank bill rate also tend to rise?",
+  opts:["It doesn't - the bank bill rate is fixed by law and never changes",
+        "Because the bank bill rate and the cash rate compete for the same pool of bank funding, so the bill rate must rise to remain attractive to lenders",
+        "Because the RBA directly sets the bank bill rate at every Board meeting",
+        "Because bank bills are a type of government bond with a fixed coupon"],
+  a:1,kk:'transmission',
+  fb:"If the bill rate stayed put while the cash rate rose, lenders would prefer to lend overnight at the higher cash rate instead. To stay competitive, the bank bill rate must rise too.",
+  tip:"Exam tip: this is the first link in the flow-through chain from the cash rate to everyday borrowing and deposit rates."}
+];
+
+var CALC2={
+  rows:[
+   {target:3.85,floor:3.75,ceiling:4.10},
+   {target:4.35,floor:4.25,ceiling:4.60},
+   {target:3.60,floor:3.50,ceiling:3.85},
+   {target:4.60,floor:4.50,ceiling:4.85},
+   {target:3.10,floor:3.00,ceiling:3.35}
+  ],
+  tol:0.005
+};
+
+var CHAIN2=[
+  {pre:"Once a week, the RBA holds an ",post:" - a repo auction open to all banks.",opts:['Open Market Operation (OMO)','overnight standing facility','foreign exchange swap'],a:0},
+  {pre:"A bank wanting to top up its reserves provides the RBA with ",post:" as security.",opts:['government securities (CGS)','shares on the ASX','foreign currency'],a:0},
+  {pre:"In exchange, the RBA credits the bank's Exchange Settlement account with extra ",post:".",opts:['cash (reserves)','shares','a grant'],a:0},
+  {pre:"The price for this transaction - the OMO rate - sits ",post:" the bounds of the corridor, depending on overall demand for reserves.",opts:['close to','always exactly at','completely outside'],a:0},
+  {pre:"On the agreed date, the transaction reverses: the bank repays the cash plus interest, and the RBA returns the bank's ",post:" originally used as security.",opts:['government securities','cash','shares'],a:0}
+];
+
+var COMP2=[
+ {pos:"+$20m (surplus)",
+  context:"Target = 4.00% so ES rate (floor) = 3.90% and lending rate (ceiling) = 4.25%. Bank Delta is offering to borrow your surplus at 3.95%.",
+  q1:"What is your best option?",
+  q1opts:["Lend to Bank Delta at 3.95%","Deposit with the RBA at the ES rate, 3.90%","Borrow from the RBA at the lending rate, 4.25%"],
+  q1a:0,
+  q2:"Why is this the best choice?",
+  q2opts:["3.95% is lower than the RBA's lending rate, so it's cheaper to borrow",
+          "3.95% is higher than the RBA's ES rate of 3.90%, so lending earns more than leaving funds with the RBA",
+          "The RBA requires all surplus reserves to be lent to other banks",
+          "3.95% is exactly the cash rate target"],
+  q2a:1,
+  fb:"As a lender, the relevant comparison is the ES rate (floor). 3.95% beats 3.90%, so lending to Bank Delta is the better deal."},
+ {pos:"-$15m (deficit)",
+  context:"Target = 4.10% so floor = 4.00% and ceiling = 4.35%. Bank Epsilon is offering to lend to you at 4.20%.",
+  q1:"What is your best option?",
+  q1opts:["Borrow from the RBA at the lending rate, 4.35%","Borrow from Bank Epsilon at 4.20%","Deposit with the RBA at the ES rate, 4.00%"],
+  q1a:1,
+  q2:"Why is this the best choice?",
+  q2opts:["4.20% is above the RBA's ES rate, so it must be the better deal",
+          "Borrowing from another bank is always required before using RBA facilities",
+          "4.20% is below the RBA's lending rate of 4.35%, so borrowing from Bank Epsilon is cheaper",
+          "4.20% equals the cash rate target exactly"],
+  q2a:2,
+  fb:"As a borrower, the relevant comparison is the lending rate (ceiling). 4.20% beats 4.35%, so borrowing from Bank Epsilon is cheaper."},
+ {pos:"+$10m (surplus)",
+  context:"Target = 3.60% so floor = 3.50% and ceiling = 3.85%. Bank Zeta is offering to borrow your surplus at only 3.45%.",
+  q1:"What is your best option?",
+  q1opts:["Lend to Bank Zeta at 3.45%","Deposit with the RBA at the ES rate, 3.50%","Borrow from the RBA at the lending rate, 3.85%"],
+  q1a:1,
+  q2:"Why is this the best choice?",
+  q2opts:["Bank Zeta's offer is always better because it avoids the RBA",
+          "3.45% is closer to the cash rate target, so it must be correct",
+          "The RBA's ES rate cannot be used by surplus banks",
+          "3.50% from the RBA is higher than the 3.45% Bank Zeta is offering, so the RBA's floor is the better deal here"],
+  q2a:3,
+  fb:"This is the trap: trading with another bank is not automatically better. Here 3.45% is BELOW the ES rate of 3.50%, so depositing with the RBA earns more."},
+ {pos:"-$25m (deficit)",
+  context:"Target = 4.35% so floor = 4.25% and ceiling = 4.60%. No other bank currently has surplus reserves to lend.",
+  q1:"What is your best (realistic) option?",
+  q1opts:["Borrow from the RBA at the lending rate, 4.60%","Wait until another bank posts a lend offer","Deposit with the RBA at the ES rate, 4.25%"],
+  q1a:0,
+  q2:"Compared with trading at the target rate of 4.35%, borrowing from the RBA at 4.60% is:",
+  q2opts:["25bp more expensive - this is the cost of being unable to find a counterparty in the market",
+          "25bp cheaper, so this is actually the best possible outcome",
+          "Exactly the same cost, since both rates are within the corridor",
+          "Irrelevant, because the RBA never charges interest on its standing facility"],
+  q2a:0,
+  fb:"When the market cannot meet your need, the RBA's standing facility is always available - but at a cost. This is exactly why banks prefer to trade with each other near the target."}
+];
+
+var DRIFT2=[
+ {text:"Today, around 7 of 9 banks started the day with a SURPLUS of reserves - a system-wide liquidity injection.",a:0,
+  why:"With most banks looking to lend and few needing to borrow, lenders compete for the few borrowers by offering lower rates. The actual cash rate drifts down, toward the floor (ES rate)."},
+ {text:"Today, around 7 of 9 banks started the day with a DEFICIT of reserves - a system-wide liquidity drain.",a:2,
+  why:"With most banks needing to borrow from only a few lenders, borrowers compete by offering higher rates. The actual cash rate drifts up, toward the ceiling (lending rate)."},
+ {text:"Today, reserves are roughly evenly split - about half the banks have a surplus and half have a deficit.",a:1,
+  why:"With lenders and borrowers roughly balanced, neither side has much bargaining power. The actual cash rate should sit close to the target, away from either bound of the corridor."}
+];
+
+var SPOT2=[
+ {q:"Explain why the cash rate stays close to the RBA's target. <strong>(2 marks)</strong>",
+  resp:"The RBA's computers automatically create new digital cash and use it to buy or sell government bonds every single day until the actual cash rate exactly equals the target.",
+  marks:2,correctMark:0,kk:'repo',
+  errOpts:["The response describes constant daily intervention, but the corridor (ES rate and lending rate) limits how far supply and demand pressure can push the cash rate, and the weekly OMO eases pressure system-wide without daily RBA action",
+           "The response should have discussed the exchange rate instead of the cash rate",
+           "The response correctly describes how the RBA currently operates",
+           "The response is missing a reference to the inflation target"],
+  errA:0,
+  fixed:"The ES rate (floor) and lending rate (ceiling) limit how far the cash rate can move either side of the target, whatever the supply and demand for ES balances on a given day. The RBA's weekly Open Market Operation also helps prevent persistent drift toward either bound - without the RBA needing to intervene every day.",
+  rule:"VCAA principle: claiming the RBA actively intervenes every day misunderstands the system - the corridor itself, plus the weekly OMO, does most of the work."},
+ {q:"A student wrote: 'The RBA's cash rate target directly sets the interest rate that every bank charges on home loans.' Identify the error. <strong>(2 marks)</strong>",
+  resp:"The cash rate target is the interest rate the RBA directly sets for every loan in the economy, including home loans, business loans and savings accounts, so when the RBA changes the cash rate, all these rates change by exactly the same amount immediately.",
+  marks:2,correctMark:1,kk:'transmission',
+  errOpts:["The RBA sets only the cash rate target - this flows through to short-term wholesale rates (like the 30-day bank bill rate), and then to the deposit and lending rates banks offer, but the pass-through is neither immediate nor uniform",
+           "The response should have discussed the inflation target instead",
+           "Home loans are not affected by the cash rate at all",
+           "The response is correct - the RBA does set all these rates directly"],
+  errA:0,
+  fixed:"The RBA directly sets only the cash rate target. This flows through to short-term wholesale rates such as the 30-day bank bill rate, which then influences the deposit and mortgage rates banks offer customers - but banks set their own rates, and changes are neither immediate nor identical in size to the cash rate move.",
+  rule:"VCAA principle: one mark is retained for correctly identifying that the cash rate and home loan rates ARE linked - the error is the word 'directly' and 'exactly the same amount'."}
+];
+
+var SORT2={
+  cats:["Something the RBA actually does","Not something the RBA does"],
+  items:[
+   {t:"Sets the cash rate target at Board meetings",c:0,why:"This is the RBA's core monetary policy instrument."},
+   {t:"Runs a weekly Open Market Operation (OMO) so banks can top up or shed ES balances",c:0,why:"This is the RBA's weekly adjustment tool, priced near the corridor."},
+   {t:"Pays interest on Exchange Settlement balances (the ES rate)",c:0,why:"The ES rate forms the floor of the corridor."},
+   {t:"Stands ready to lend reserves overnight at the lending rate, whenever a bank needs it",c:0,why:"This standing facility commitment forms the ceiling of the corridor."},
+   {t:"Fixes the value of the Australian dollar each morning",c:1,why:"The AUD has floated freely since 1983 - the RBA does not set its value."},
+   {t:"Directly sets the interest rate on every home loan in Australia",c:1,why:"Banks set their own lending rates, influenced but not set by the RBA."},
+   {t:"Decides how much the government spends on infrastructure",c:1,why:"Government spending decisions are budgetary policy, not monetary policy."},
+   {t:"Issues new shares on the ASX",c:1,why:"Share issuance is a matter for companies and the ASX, not the RBA."}
+  ]
+};
+
+var ACTS2=[
+  {id:'b1',title:'1. Foundations Check',type:'mcq2',desc:'7 multiple choice - ES balances, the corridor, the weekly OMO and the bank bill rate',max:7},
+  {id:'b2',title:'2. Calculate the Corridor',type:'calc2',desc:'Given a cash rate target, calculate the floor (ES rate) and ceiling (lending rate)',max:10},
+  {id:'b3',title:'3. How the Weekly OMO Works',type:'chain2',desc:'Complete the chain showing how the RBA performs its weekly Open Market Operation',max:5},
+  {id:'b4',title:'4. Where Would You Trade?',type:'comp2',desc:'Compare a market quote against the RBA floor and ceiling, and choose the best option',max:8},
+  {id:'b5',title:'5. Predict the Drift',type:'drift2',desc:'Given system-wide conditions, predict where the cash rate will trade in the corridor',max:3},
+  {id:'b6',title:'6. Spot the Error',type:'spot2',desc:'Mark two student responses, then identify exactly what went wrong',max:4},
+  {id:'b7',title:'7. RBA Tool or Not?',type:'sort2',desc:'Sort 8 statements into things the RBA does and things it does not',max:8}
+];
+
+/* ================= LESSONS META ================= */
+var LESSONS=[
+  {id:1,title:'The Nature & Operation of Monetary Policy',subtitle:'AD policies, the RBA, objectives and the stance',acts:ACTS,max:39,
+   selfCheck:[
+    "What are aggregate demand policies, and why does the economy need them?",
+    "What is monetary policy, and who operates it?",
+    "What are the RBA's three objectives under the Reserve Bank Act?",
+    "What does the stance of monetary policy mean, and what determines it?",
+    "What is the difference between headline and underlying inflation?"
+   ]},
+  {id:2,title:'How the RBA Implements Monetary Policy',subtitle:'ES balances, the corridor, the weekly OMO, and flow-through to other rates',acts:ACTS2,max:45,
+   selfCheck:[
+    "What are Exchange Settlement (ES) balances, and why do banks hold them?",
+    "What are the ES rate and the lending rate, and how do they relate to the cash rate target?",
+    "What does the RBA's weekly Open Market Operation (OMO) do?",
+    "If you have surplus reserves, what determines whether you would lend to another bank or use the RBA's standing facility?",
+    "If the cash rate rises, why does the 30-day bank bill rate rise too, and what happens to deposit and mortgage rates next?"
+   ]}
+];
+
+/* ================= SCORING ================= */
+function blankKK(){
+  var kk={};
+  for(var k in KK_MAP){ kk[k]={c:0,t:0}; }
+  return kk;
+}
+function computeL1Scores(){
+  var per={}, kk=blankKK(), i,j,s;
   s=0;for(i=0;i<MCQ.length;i++){kk[MCQ[i].kk].t++;var sel=S.ans['a1-'+i];if(sel!==undefined&&sel===MCQ[i].a){s++;kk[MCQ[i].kk].c++;}}per.a1=s;
   s=0;for(i=0;i<OBJ.items.length;i++){kk.mpdef.t++;if(S.obj.checked&&S.obj.placed[i]===OBJ.items[i].c){s++;kk.mpdef.c++;}}per.a2=s;
   s=0;for(i=0;i<TL.periods.length;i++){kk.stance.t++;if(S.tl[i]!==undefined&&S.tl[i]===TL.periods[i].a){s++;kk.stance.c++;}}per.a3=s;
   s=0;for(i=0;i<DUAL.sc.length;i++){kk.stance.t+=2;if(S.dual['s'+i]!==undefined&&S.dual['s'+i]===DUAL.sc[i].stance){s++;kk.stance.c++;}if(S.dual['m'+i]!==undefined&&S.dual['m'+i]===DUAL.sc[i].move){s++;kk.stance.c++;}}per.a4=s;
   s=0;for(i=0;i<CHAIN.length;i++){kk[CHAIN[i].kk].t++;if(S.chain[i]!==undefined&&S.chain[i]===CHAIN[i].a){s++;kk[CHAIN[i].kk].c++;}}per.a5=s;
-  s=0;
-  for(i=0;i<SPOT.length;i++){
+  s=0;for(i=0;i<SPOT.length;i++){
     kk[SPOT[i].kk].t+=2;
     if(S.spot.marks[i]!==undefined&&S.spot.marks[i]===SPOT[i].correctMark){s++;kk[SPOT[i].kk].c++;}
-    if(SPOT[i].twoErrors){
-      if(S.spot.gap1[i]!==undefined&&S.spot.gap1[i]===SPOT[i].err1A){s++;kk[SPOT[i].kk].c++;}
-    }else{
-      if(S.spot.gap1[i]!==undefined&&S.spot.gap1[i]===SPOT[i].errA){s++;kk[SPOT[i].kk].c++;}
-    }
+    if(SPOT[i].twoErrors){ if(S.spot.gap1[i]!==undefined&&S.spot.gap1[i]===SPOT[i].err1A){s++;kk[SPOT[i].kk].c++;} }
+    else { if(S.spot.gap1[i]!==undefined&&S.spot.gap1[i]===SPOT[i].errA){s++;kk[SPOT[i].kk].c++;} }
   }per.a6=s;
   s=0;var qn=0;
   for(i=0;i<COND.sc.length;i++){for(j=0;j<COND.sc[i].qs.length;j++){kk.stance.t++;if(S.cond[qn]!==undefined&&S.cond[qn]===COND.sc[i].qs[j].a){s++;kk.stance.c++;}qn++;}}per.a7=s;
   var total=0;for(var k in per){total+=per[k];}
   return{per:per,kk:kk,total:total,max:39};
+}
+function computeL2Scores(){
+  var per={}, kk=blankKK(), i,s;
+  s=0;for(i=0;i<MCQ2.length;i++){kk[MCQ2[i].kk].t++;var sel=S.l2ans['b1-'+i];if(sel!==undefined&&sel===MCQ2[i].a){s++;kk[MCQ2[i].kk].c++;}}per.b1=s;
+  s=0;for(i=0;i<CALC2.rows.length;i++){
+    kk.corridor.t+=2;
+    var row=S.l2calc[i];
+    if(row&&row.checked){
+      if(Math.abs(row.floorVal-CALC2.rows[i].floor)<=CALC2.tol){s++;kk.corridor.c++;}
+      if(Math.abs(row.ceilVal-CALC2.rows[i].ceiling)<=CALC2.tol){s++;kk.corridor.c++;}
+    }
+  }per.b2=s;
+  s=0;for(i=0;i<CHAIN2.length;i++){kk.repo.t++;if(S.l2chain[i]!==undefined&&S.l2chain[i]===CHAIN2[i].a){s++;kk.repo.c++;}}per.b3=s;
+  s=0;for(i=0;i<COMP2.length;i++){
+    kk.liquidity.t+=2;
+    if(S.l2comp[i+'_a']!==undefined&&S.l2comp[i+'_a']===COMP2[i].q1a){s++;kk.liquidity.c++;}
+    if(S.l2comp[i+'_b']!==undefined&&S.l2comp[i+'_b']===COMP2[i].q2a){s++;kk.liquidity.c++;}
+  }per.b4=s;
+  s=0;for(i=0;i<DRIFT2.length;i++){kk.liquidity.t++;if(S.l2drift[i]!==undefined&&S.l2drift[i]===DRIFT2[i].a){s++;kk.liquidity.c++;}}per.b5=s;
+  s=0;for(i=0;i<SPOT2.length;i++){
+    kk[SPOT2[i].kk].t+=2;
+    if(S.l2spot.marks[i]!==undefined&&S.l2spot.marks[i]===SPOT2[i].correctMark){s++;kk[SPOT2[i].kk].c++;}
+    if(S.l2spot.gap[i]!==undefined&&S.l2spot.gap[i]===SPOT2[i].errA){s++;kk[SPOT2[i].kk].c++;}
+  }per.b6=s;
+  s=0;for(i=0;i<SORT2.items.length;i++){kk.cashrate.t++;if(S.l2sort.checked&&S.l2sort.placed[i]===SORT2.items[i].c){s++;kk.cashrate.c++;}}per.b7=s;
+  var total=0;for(var k in per){total+=per[k];}
+  return{per:per,kk:kk,total:total,max:45};
+}
+function computeScores(){
+  return S.lesson===2 ? computeL2Scores() : computeL1Scores();
 }
 
 function actProgress(id){
@@ -340,24 +613,40 @@ function actProgress(id){
   if(id==='a4'){tot=DUAL.sc.length*2;for(i=0;i<DUAL.sc.length;i++){if(S.dual['s'+i]!==undefined)done++;if(S.dual['m'+i]!==undefined)done++;}}
   if(id==='a5'){tot=CHAIN.length;for(i=0;i<tot;i++){if(S.chain[i]!==undefined)done++;}}
   if(id==='a6'){tot=SPOT.length*2;for(i=0;i<SPOT.length;i++){if(S.spot.marks[i]!==undefined)done++;if(SPOT[i].twoErrors){if(S.spot.gap2[i]!==undefined)done++;}else{if(S.spot.gap1[i]!==undefined)done++;}}}
-  if(id==='a7'){tot=0;var qn=0;for(i=0;i<COND.sc.length;i++){tot+=COND.sc[i].qs.length;}for(i=0;i<tot;i++){if(S.cond[i]!==undefined)done++;}}
+  if(id==='a7'){tot=0;for(i=0;i<COND.sc.length;i++){tot+=COND.sc[i].qs.length;}for(i=0;i<tot;i++){if(S.cond[i]!==undefined)done++;}}
+
+  if(id==='b1'){tot=MCQ2.length;for(i=0;i<tot;i++){if(S.l2ans['b1-'+i]!==undefined)done++;}}
+  if(id==='b2'){tot=CALC2.rows.length;for(i=0;i<tot;i++){if(S.l2calc[i]&&S.l2calc[i].checked)done++;}}
+  if(id==='b3'){tot=CHAIN2.length;for(i=0;i<tot;i++){if(S.l2chain[i]!==undefined)done++;}}
+  if(id==='b4'){tot=COMP2.length*2;for(i=0;i<COMP2.length;i++){if(S.l2comp[i+'_a']!==undefined)done++;if(S.l2comp[i+'_b']!==undefined)done++;}}
+  if(id==='b5'){tot=DRIFT2.length;for(i=0;i<tot;i++){if(S.l2drift[i]!==undefined)done++;}}
+  if(id==='b6'){tot=SPOT2.length*2;for(i=0;i<SPOT2.length;i++){if(S.l2spot.marks[i]!==undefined)done++;if(S.l2spot.gap[i]!==undefined)done++;}}
+  if(id==='b7'){tot=1;done=S.l2sort.checked?1:0;}
+
   return{done:done,tot:tot,complete:done>=tot&&tot>0};
 }
+function lessonComplete(lessonId){
+  var acts = LESSONS[lessonId-1].acts;
+  var allDone=true,any=false;
+  for(var i=0;i<acts.length;i++){var p=actProgress(acts[i].id);if(p.complete)any=true;else allDone=false;if(p.done>0)any=true;}
+  if(allDone)return{cls:'done',txt:'Complete'};
+  if(any)return{cls:'prog',txt:'In progress'};
+  return{cls:'new',txt:'Not started'};
+}
 
-/* ===== SYNC ===== */
+/* ================= SYNC ================= */
 function syncResults(){
   if(!S.name)return;
   var sc=computeScores();
-  var acts={};for(var i=0;i<ACTS.length;i++){var p=actProgress(ACTS[i].id);acts[ACTS[i].id]={s:sc.per[ACTS[i].id],m:ACTS[i].max,done:p.complete};}
-  var payload={name:S.name,lesson:'L1',score:sc.total,max:sc.max,acts:acts,kk:sc.kk};
+  var acts=LESSONS[S.lesson-1].acts;
+  var actData={};for(var i=0;i<acts.length;i++){var p=actProgress(acts[i].id);actData[acts[i].id]={s:sc.per[acts[i].id],m:acts[i].max,done:p.complete};}
+  var payload={name:S.name,lesson:'L'+S.lesson,score:sc.total,max:sc.max,acts:actData,kk:sc.kk};
   try{fetch(RES_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(e){});}catch(e){}
 }
 function maybeSync(id){var p=actProgress(id);if(p.complete)syncResults();}
 
-/* ===== NO-SCROLL PATCH helper ===== */
-function patchEl(id,html){var el=document.getElementById(id);if(el)el.innerHTML=html;}
-
-/* ===== RENDER ===== */
+/* ================= RENDER ================= */
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 function go(scr){S.screen=scr;render();}
 function render(){
   saveState();
@@ -370,51 +659,73 @@ function render(){
   window.scrollTo(0,0);
 }
 
-/* ===== HOME ===== */
+/* ================= HOME ================= */
 function vHome(){
-  var sc=computeScores();
-  var h="<div class='hero'><div class='hero-inner'><span class='badge'>UNIT 4 · AOS 1</span><h1>Monetary Policy Hub</h1><p>Retrieval practice for each lesson. Pick your lesson, complete the activities in any order, and your results sync automatically.</p></div></div><div class='wrap'>";
-  if(S.name){h+="<div class='card'><strong>Welcome back, "+esc(S.name)+"</strong> — Lesson 1 score so far: <strong style='color:var(--primary-mid)'>"+sc.total+" / "+sc.max+"</strong><div style='margin-top:12px'><button class='btn gold' onclick='go(\"chooser\")'>Continue →</button> <button class='btn ghost btn-sm' onclick='resetAll()'>Start over</button></div></div>";}
+  var h="<div class='hero'><div class='hero-inner'><span class='badge'>UNIT 4 - AOS 1</span><h1>Monetary Policy Hub</h1><p>Retrieval practice for each lesson. Pick your lesson, complete the activities in any order, and your results sync automatically.</p></div></div><div class='wrap'>";
+  if(S.name){
+    var sc=computeScores();
+    h+="<div class='card'><strong>Welcome back, "+esc(S.name)+"</strong> - your current lesson score: <strong style='color:var(--primary-mid)'>"+sc.total+" / "+sc.max+"</strong><div style='margin-top:12px'><button class='btn gold' onclick='go(\"chooser\")'>Continue last lesson</button> <button class='btn ghost btn-sm' onclick='resetAll()'>Start over</button></div></div>";
+  }
   h+="<h2 style='margin:10px 0 14px;color:var(--primary)'>Lessons</h2><div class='tiles'>";
-  h+="<div class='tile' onclick='openL1()'><div class='num'>Lesson 1</div><h3>The Nature &amp; Operation of Monetary Policy</h3><div class='meta'>AD policies · the RBA · objectives · the stance</div><span class='pill "+lessonStatus().cls+"'>"+lessonStatus().txt+"</span></div>";
-  var coming=[['Lesson 2','How the RBA Implements Monetary Policy'],['Lesson 3','The Transmission Mechanism'],['Lesson 4','Effects on Macroeconomic Goals'],['Lesson 5','Evaluate Monetary Policy']];
-  for(var i=0;i<coming.length;i++){h+="<div class='tile locked'><div class='num'>"+coming[i][0]+"</div><h3>"+coming[i][1]+"</h3><span class='pill soon'>Coming soon</span></div>";}
+  for(var i=0;i<LESSONS.length;i++){
+    var L=LESSONS[i], st=lessonComplete(L.id);
+    h+="<div class='tile' onclick='openLesson("+L.id+")'><div class='num'>Lesson "+L.id+"</div><h3>"+L.title+"</h3><div class='meta'>"+L.subtitle+"</div><span class='pill "+st.cls+"'>"+st.txt+"</span></div>";
+  }
+  var coming=[['Lesson 3','The Transmission Mechanism'],['Lesson 4','Effects on Macroeconomic Goals'],['Lesson 5','Evaluate Monetary Policy']];
+  for(var c=0;c<coming.length;c++){h+="<div class='tile locked'><div class='num'>"+coming[c][0]+"</div><h3>"+coming[c][1]+"</h3><span class='pill soon'>Coming soon</span></div>";}
   h+="</div><div class='footer-link'><span onclick='go(\"teacher\")'>Teacher view</span></div></div>";
   return h;
 }
-function lessonStatus(){
-  var allDone=true,any=false;
-  for(var i=0;i<ACTS.length;i++){var p=actProgress(ACTS[i].id);if(p.complete)any=true;else allDone=false;if(p.done>0)any=true;}
-  if(allDone)return{cls:'done',txt:'✓ Complete'};
-  if(any)return{cls:'prog',txt:'In progress'};
-  return{cls:'new',txt:'Not started'};
+function openLesson(id){
+  S.lesson=id;
+  if(!S.name)go('name'); else go('chooser');
 }
-function openL1(){if(!S.name)go('name');else go('chooser');}
-function resetAll(){if(confirm('Clear all progress on this device?')){try{localStorage.removeItem(LS_KEY);}catch(e){}S={screen:'home',name:'',act:0,ans:{},obj:{placed:{},checked:false},tl:{},dual:{},chain:{},spot:{marks:{},gap1:{},gap2:{}},cond:{},synced:{}};render();}}
+function resetAll(){
+  if(confirm('Clear all progress on this device?')){
+    try{localStorage.removeItem(LS_KEY);}catch(e){}
+    S={screen:'home',name:'',lesson:1,act:0,
+       ans:{},obj:{placed:{},checked:false},tl:{},dual:{},chain:{},spot:{marks:{},gap1:{},gap2:{}},cond:{},
+       l2ans:{},l2calc:{},l2chain:{},l2comp:{},l2drift:{},l2spot:{marks:{},gap:{}},l2sort:{placed:{},checked:false}};
+    render();
+  }
+}
 
-/* ===== NAME ===== */
+/* ================= NAME / SELF-CHECK ================= */
 function vName(){
-  var h="<div class='hero'><div class='hero-inner'><span class='badge'>LESSON 1</span><h1>Before you start…</h1></div></div><div class='wrap'><div class='card'><h3 style='color:var(--primary);margin-bottom:8px'>Can you answer these?</h3><p style='font-size:14.5px;color:var(--text-sec)'>Try these in your head before beginning — they are what today's activities test.</p><ul class='selfcheck'><li>What are aggregate demand policies, and why does the economy need them?</li><li>What is monetary policy, and who operates it?</li><li>What are the RBA's three objectives under the Reserve Bank Act?</li><li>What does the <em>stance</em> of monetary policy mean, and what determines it?</li><li>What is the difference between headline and underlying inflation?</li></ul></div><div class='card'><h3 style='color:var(--primary);margin-bottom:8px'>Enter your full name</h3><p style='font-size:14px;color:var(--text-sec);margin-bottom:10px'>Use your real first and last name — this is how your results appear for your teacher.</p><input type='text' id='nameIn' placeholder='e.g. Alex Nguyen' value='"+esc(S.name)+"'><button class='btn gold' style='margin-top:10px;display:block' onclick='setName()'>Let's go →</button></div><span class='backlink' onclick='go(\"home\")'>&larr; Back</span></div>";
+  var L=LESSONS[S.lesson-1];
+  var h="<div class='hero'><div class='hero-inner'><span class='badge'>LESSON "+L.id+"</span><h1>Before you start...</h1></div></div><div class='wrap'><div class='card'><h3 style='color:var(--primary);margin-bottom:8px'>Can you answer these?</h3><p style='font-size:14.5px;color:var(--text-sec)'>Try these in your head before beginning - they are what today's activities test.</p><ul class='selfcheck'>";
+  for(var i=0;i<L.selfCheck.length;i++){h+="<li>"+L.selfCheck[i]+"</li>";}
+  h+="</ul></div>";
+  if(!S.name){
+    h+="<div class='card'><h3 style='color:var(--primary);margin-bottom:8px'>Enter your full name</h3><p style='font-size:14px;color:var(--text-sec);margin-bottom:10px'>Use your real first and last name - this is how your results appear for your teacher.</p><input type='text' id='nameIn' placeholder='e.g. Alex Nguyen'><button class='btn gold' style='margin-top:10px;display:block' onclick='setName()'>Let's go</button></div>";
+  }else{
+    h+="<div class='card center'><button class='btn gold' onclick='go(\"chooser\")'>Continue as "+esc(S.name)+"</button></div>";
+  }
+  h+="<span class='backlink' onclick='go(\"home\")'>Back</span></div>";
   return h;
 }
 function setName(){var v=document.getElementById('nameIn').value.trim();if(v.length<3){alert('Please enter your full name.');return;}S.name=v;go('chooser');}
 
-/* ===== CHOOSER ===== */
+/* ================= CHOOSER ================= */
 function vChooser(){
-  var sc=computeScores();
-  var h="<div class='hero' style='padding:34px 28px 30px'><div class='hero-inner'><span class='badge'>LESSON 1</span><h1 style='font-size:27px'>The Nature &amp; Operation of Monetary Policy</h1></div></div><div class='wrap'>";
+  var L=LESSONS[S.lesson-1], sc=computeScores();
+  var h="<div class='hero' style='padding:34px 28px 30px'><div class='hero-inner'><span class='badge'>LESSON "+L.id+"</span><h1 style='font-size:27px'>"+L.title+"</h1></div></div><div class='wrap'>";
   h+="<div class='nav'><span class='score'>Score: "+sc.total+" / "+sc.max+"</span><span class='sname'>"+esc(S.name)+"</span></div>";
-  h+="<p style='font-size:14.5px;color:var(--text-sec);margin-bottom:14px'>Complete the activities in any order. Return to any activity to improve your score — results sync automatically.</p>";
-  for(var i=0;i<ACTS.length;i++){var a=ACTS[i],p=actProgress(a.id);var st=p.complete?"<span class='pill done'>✓ "+sc.per[a.id]+" / "+a.max+"</span>":(p.done>0?"<span class='pill prog'>In progress</span>":"<span class='pill new'>Start</span>");h+="<div class='acard' onclick='openAct("+i+")'><div><h3>"+a.title+"</h3><div class='tdesc'>"+a.desc+"</div></div><div>"+st+"</div></div>";}
-  h+="<span class='backlink' onclick='go(\"home\")'>&larr; Back to lessons</span></div>";
+  h+="<p style='font-size:14.5px;color:var(--text-sec);margin-bottom:14px'>Complete the activities in any order. Return to any activity to improve your score - results sync automatically.</p>";
+  for(var i=0;i<L.acts.length;i++){
+    var a=L.acts[i], p=actProgress(a.id);
+    var st=p.complete?"<span class='pill done'>"+sc.per[a.id]+" / "+a.max+"</span>":(p.done>0?"<span class='pill prog'>In progress</span>":"<span class='pill new'>Start</span>");
+    h+="<div class='acard' onclick='openAct("+i+")'><div><h3>"+a.title+"</h3><div class='tdesc'>"+a.desc+"</div></div><div>"+st+"</div></div>";
+  }
+  h+="<span class='backlink' onclick='go(\"home\")'>Back to lessons</span></div>";
   return h;
 }
 function openAct(i){S.act=i;go('act');}
 
-/* ===== ACT SHELL ===== */
+/* ================= ACT SHELL ================= */
 function vAct(){
-  var a=ACTS[S.act],sc=computeScores(),p=actProgress(a.id);
-  var h="<div class='wrap' style='padding-top:24px'><span class='backlink' onclick='go(\"chooser\")'>&larr; All activities</span><div class='nav'><span class='score'>Score: "+sc.total+" / "+sc.max+"</span><span class='sname'>"+esc(S.name)+"</span></div><div class='card'><h2 style='color:var(--primary);margin-bottom:4px'>"+a.title+"</h2><p style='font-size:14px;color:var(--text-sec)'>"+a.desc+"</p></div>";
+  var L=LESSONS[S.lesson-1], a=L.acts[S.act], sc=computeScores(), p=actProgress(a.id);
+  var h="<div class='wrap' style='padding-top:24px'><span class='backlink' onclick='go(\"chooser\")'>All activities</span><div class='nav'><span class='score'>Score: "+sc.total+" / "+sc.max+"</span><span class='sname'>"+esc(S.name)+"</span></div><div class='card'><h2 style='color:var(--primary);margin-bottom:4px'>"+a.title+"</h2><p style='font-size:14px;color:var(--text-sec)'>"+a.desc+"</p></div>";
   if(a.type==='mcq')h+=vMCQ();
   if(a.type==='obj')h+=vObj();
   if(a.type==='tl')h+=vTL();
@@ -422,19 +733,22 @@ function vAct(){
   if(a.type==='chain')h+=vChain();
   if(a.type==='spot')h+=vSpot();
   if(a.type==='cond')h+=vCond();
-  if(p.complete){h+="<div class='card' style='border-color:var(--green);background:var(--green-pale)'><strong>✓ Activity complete — "+sc.per[a.id]+" / "+a.max+".</strong> Results synced. Head back and try another activity.</div>";}
-  h+="<button class='btn' onclick='go(\"chooser\")'>← Back to activities</button></div>";
+  if(a.type==='mcq2')h+=vMCQ2();
+  if(a.type==='calc2')h+=vCalc2();
+  if(a.type==='chain2')h+=vChain2();
+  if(a.type==='comp2')h+=vComp2();
+  if(a.type==='drift2')h+=vDrift2();
+  if(a.type==='spot2')h+=vSpot2();
+  if(a.type==='sort2')h+=vSort2();
+  if(p.complete){h+="<div class='card' style='border-color:var(--green);background:var(--green-pale)'><strong>Activity complete - "+sc.per[a.id]+" / "+a.max+".</strong> Results synced. Head back and try another activity.</div>";}
+  h+="<button class='btn' onclick='go(\"chooser\")'>Back to activities</button></div>";
   return h;
 }
 
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
-
-/* ===== A1 MCQ — no-scroll patch ===== */
+/* ================= A1 MCQ (Lesson 1) ================= */
 function vMCQ(){
   var h='';
-  for(var i=0;i<MCQ.length;i++){
-    h+="<div class='card' id='mcq"+i+"'>"+mcqInner(i)+"</div>";
-  }
+  for(var i=0;i<MCQ.length;i++){h+="<div class='card' id='mcq"+i+"'>"+mcqInner(i)+"</div>";}
   return h;
 }
 function mcqInner(i){
@@ -453,14 +767,12 @@ function mcqInner(i){
 }
 function ansMCQ(i,o){
   if(S.ans['a1-'+i]!==undefined)return;
-  S.ans['a1-'+i]=o;
-  saveState();
-  var el=document.getElementById('mcq'+i);
-  if(el){el.innerHTML=mcqInner(i);}
+  S.ans['a1-'+i]=o;saveState();
+  var el=document.getElementById('mcq'+i);if(el)el.innerHTML=mcqInner(i);
   updateNav();maybeSync('a1');
 }
 
-/* ===== A2 OBJECTIVE MATCHER ===== */
+/* ================= A2 OBJECTIVE MATCHER ================= */
 function vObj(){
   var h="<div class='card'><p style='font-size:14.5px'>For each statement, click it from the bank below and assign it to the correct RBA objective. Click a placed item to remove it.</p>";
   var placed={};for(var k in S.obj.placed){placed[k]=S.obj.placed[k];}
@@ -479,7 +791,7 @@ function vObj(){
   h+="</div>";
   var unplaced=[];for(var m=0;m<OBJ.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
   if(unplaced.length>0){
-    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place — click one, then click the column:</p><div class='obj-bank' id='objBank'>";
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click the column:</p><div class='obj-bank' id='objBank'>";
     for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectObj("+unplaced[n]+")' id='ob"+unplaced[n]+"'>"+OBJ.items[unplaced[n]].t+"</button>";}
     h+="</div>";
   }
@@ -489,7 +801,7 @@ function vObj(){
     h+="<div style='margin-top:14px'>";
     for(var p=0;p<OBJ.items.length;p++){
       var ok=S.obj.placed[p]===OBJ.items[p].c;
-      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'✓':'✗')+" "+OBJ.items[p].t+"</strong> → "+OBJ.cats[OBJ.items[p].c]+". "+OBJ.items[p].why+"</div>";
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+OBJ.items[p].t+"</strong> goes under "+OBJ.cats[OBJ.items[p].c]+". "+OBJ.items[p].why+"</div>";
     }
     h+="</div>";
   }
@@ -510,13 +822,12 @@ function placeObj(col){
   if(_objSel===null)return;
   if(S.obj.checked)return;
   S.obj.placed[_objSel]=col;_objSel=null;saveState();
-  var a=ACTS[S.act];
   document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
 }
 function removeObj(idx){if(S.obj.checked)return;delete S.obj.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
 function checkObj(){S.obj.checked=true;maybeSync('a2');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
 
-/* ===== A3 TIMELINE ===== */
+/* ================= A3 TIMELINE ================= */
 function tlSVG(){
   var pts=[[1996,7.5],[1997,5.5],[1998,5.0],[1999,4.75],[2000,6.25],[2001,4.25],[2002,4.75],[2003,4.75],[2004,5.25],[2005,5.5],[2006,6.0],[2007,6.75],[2008,7.25],[2009,3.0],[2010,4.5],[2011,4.75],[2012,3.0],[2013,2.5],[2014,2.5],[2015,2.0],[2016,1.5],[2019,0.75],[2020,0.1],[2021,0.1],[2022,3.1],[2023,4.35],[2024,4.35],[2025,3.85]];
   function X(y){return 60+(y-1996)*(700/30);}
@@ -531,14 +842,12 @@ function tlSVG(){
   s+="<line x1='60' y1='"+Y(3)+"' x2='760' y2='"+Y(3)+"' stroke='#b91c1c' stroke-width='1.5' stroke-dasharray='5,4'/><text x='755' y='"+(Y(3)-6)+"' font-size='11' fill='#b91c1c' text-anchor='end'>~3% neutral (today)</text>";
   var yrs=[1996,2001,2006,2011,2016,2021,2026];
   for(var y=0;y<yrs.length;y++){s+="<text x='"+X(yrs[y])+"' y='268' font-size='11' fill='#6b6477' text-anchor='middle'>"+yrs[y]+"</text>";}
-  s+="<text x='410' y='285' font-size='11' fill='#6b6477' text-anchor='middle'>Stylised cash rate target 1996–2026</text></svg>";
+  s+="<text x='410' y='285' font-size='11' fill='#6b6477' text-anchor='middle'>Stylised cash rate target 1996-2026</text></svg>";
   return s;
 }
 function vTL(){
-  var h="<div class='card'><p style='font-size:14.5px;margin-bottom:10px'>The chart shows a stylised history of the cash rate target. Classify the stance in each shaded period A–E.</p><div class='tl-wrap'>"+tlSVG()+"</div></div>";
-  for(var i=0;i<TL.periods.length;i++){
-    h+="<div class='card' id='tl"+i+"'>"+tlInner(i)+"</div>";
-  }
+  var h="<div class='card'><p style='font-size:14.5px;margin-bottom:10px'>The chart shows a stylised history of the cash rate target. Classify the stance in each shaded period A-E.</p><div class='tl-wrap'>"+tlSVG()+"</div></div>";
+  for(var i=0;i<TL.periods.length;i++){h+="<div class='card' id='tl"+i+"'>"+tlInner(i)+"</div>";}
   return h;
 }
 function tlInner(i){
@@ -560,21 +869,19 @@ function ansTL(i,o){
   updateNav();maybeSync('a3');
 }
 
-/* ===== A4 DUAL ===== */
+/* ================= A4 DUAL ================= */
 function vDual(){
-  var h="<div class='card'><p style='font-size:14.5px'><strong>Assume the neutral cash rate is around 3%.</strong> For each scenario answer BOTH: (1) what is the stance <em>after</em> the move, and (2) how is the move itself best described?</p></div>";
-  for(var i=0;i<DUAL.sc.length;i++){
-    h+="<div class='card' id='dual"+i+"'>"+dualInner(i)+"</div>";
-  }
+  var h="<div class='card'><p style='font-size:14.5px'><strong>Assume the neutral cash rate is around 3%.</strong> For each scenario answer BOTH: (1) what is the stance after the move, and (2) how is the move itself best described?</p></div>";
+  for(var i=0;i<DUAL.sc.length;i++){h+="<div class='card' id='dual"+i+"'>"+dualInner(i)+"</div>";}
   return h;
 }
 function dualInner(i){
   var sc=DUAL.sc[i],ss=S.dual['s'+i],ms=S.dual['m'+i],h='';
   h+="<div class='qhead'>Scenario "+(i+1)+"</div><p style='font-size:15px'>"+sc.desc+"</p>";
-  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:12px'>Part 1 — The stance is now:</p><div style='display:flex;flex-wrap:wrap;gap:8px'>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:12px'>Part 1 - The stance is now:</p><div style='display:flex;flex-wrap:wrap;gap:8px'>";
   for(var o=0;o<3;o++){var c1='opt';if(ss!==undefined){if(o===sc.stance)c1+=' ok';else if(o===ss)c1+=' bad';}h+="<button class='"+c1+"' style='width:auto' "+(ss!==undefined?'disabled':'')+" onclick='ansDualS("+i+","+o+")'>"+DUAL.stanceOpts[o]+"</button>";}
   h+="</div>";
-  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:12px'>Part 2 — This move is best described as:</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:12px'>Part 2 - This move is best described as:</p>";
   for(var m=0;m<DUAL.moveOpts.length;m++){var c2='opt';if(ms!==undefined){if(m===sc.move)c2+=' ok';else if(m===ms)c2+=' bad';}h+="<button class='"+c2+"' "+(ms!==undefined?'disabled':'')+" onclick='ansDualM("+i+","+m+")'>"+DUAL.moveOpts[m]+"</button>";}
   if(ss!==undefined&&ms!==undefined)h+="<div class='fb'>"+sc.why+"</div>";
   return h;
@@ -582,13 +889,10 @@ function dualInner(i){
 function ansDualS(i,o){if(S.dual['s'+i]!==undefined)return;S.dual['s'+i]=o;saveState();var el=document.getElementById('dual'+i);if(el)el.innerHTML=dualInner(i);updateNav();maybeSync('a4');}
 function ansDualM(i,o){if(S.dual['m'+i]!==undefined)return;S.dual['m'+i]=o;saveState();var el=document.getElementById('dual'+i);if(el)el.innerHTML=dualInner(i);updateNav();maybeSync('a4');}
 
-/* ===== A5 CHAIN ===== */
-function vChain(){
-  var h="<div class='card' id='chainCard'>"+chainInner()+"</div>";
-  return h;
-}
+/* ================= A5 CHAIN ================= */
+function vChain(){return "<div class='card' id='chainCard'>"+chainInner()+"</div>";}
 function chainInner(){
-  var h="<p style='font-size:14.5px;margin-bottom:12px'>Complete the chain below. Choose carefully — once placed, an answer is locked in.</p>";
+  var h="<p style='font-size:14.5px;margin-bottom:12px'>Complete the chain below. Choose carefully - once placed, an answer is locked in.</p>";
   for(var i=0;i<CHAIN.length;i++){
     var c=CHAIN[i],sel=S.chain[i],blank;
     if(sel===undefined)blank="<span class='blank'>?</span>";
@@ -598,7 +902,7 @@ function chainInner(){
     h+="</div>";
   }
   var done=true;for(var j=0;j<CHAIN.length;j++){if(S.chain[j]===undefined)done=false;}
-  if(done){var right=0;for(var k=0;k<CHAIN.length;k++){if(S.chain[k]===CHAIN[k].a)right++;}h+="<div class='fb'><strong>Chain complete — "+right+"/5.</strong> The key terms: growth below 3–3.5% → spare capacity → inflation below 2–3% band → RBA cuts cash rate → more expansionary stance → cheaper borrowing lifts C and I → AD returns toward trend. Always name the AD components and the specific targets.</div>";}
+  if(done){var right=0;for(var k=0;k<CHAIN.length;k++){if(S.chain[k]===CHAIN[k].a)right++;}h+="<div class='fb'><strong>Chain complete - "+right+"/5.</strong> The key terms: growth below 3-3.5% leads to spare capacity, inflation below 2-3% band, the RBA cuts the cash rate, policy becomes more expansionary, cheaper borrowing lifts C and I, and AD returns toward trend.</div>";}
   return h;
 }
 function ansChain(i,o){
@@ -608,7 +912,7 @@ function ansChain(i,o){
   updateNav();maybeSync('a5');
 }
 
-/* ===== A6 SPOT ===== */
+/* ================= A6 SPOT ================= */
 function vSpot(){
   var h='';
   for(var i=0;i<SPOT.length;i++){h+="<div class='card' id='spot"+i+"'>"+spotInner(i)+"</div>";}
@@ -618,15 +922,15 @@ function spotInner(i){
   var q=SPOT[i],mk=S.spot.marks[i],g1=S.spot.gap1[i],g2=S.spot.gap2[i],h='';
   h+="<div class='qhead'>Question "+(i+1)+"</div><p style='font-size:15px'>"+q.q+"</p>";
   h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:10px'>A student wrote:</p><div class='resp'>"+q.resp+"</div>";
-  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid)'>Step 1 — What mark would this earn?</p><div style='display:flex;gap:8px;flex-wrap:wrap'>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid)'>Step 1 - What mark would this earn?</p><div style='display:flex;gap:8px;flex-wrap:wrap'>";
   for(var m=0;m<=q.marks;m++){var c1='opt';if(mk!==undefined){if(m===q.correctMark)c1+=' ok';else if(m===mk)c1+=' bad';}h+="<button class='"+c1+"' style='width:auto' "+(mk!==undefined?'disabled':'')+" onclick='ansMark("+i+","+m+")'>"+m+" / "+q.marks+"</button>";}
   h+="</div>";
   if(mk!==undefined){
     if(q.twoErrors){
-      h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>Step 2 — Identify Error 1 (the definition):</p>";
+      h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>Step 2 - Identify Error 1 (the definition):</p>";
       for(var e1=0;e1<q.err1Opts.length;e1++){var c2='opt';if(g1!==undefined){if(e1===q.err1A)c2+=' ok';else if(e1===g1)c2+=' bad';}h+="<button class='"+c2+"' "+(g1!==undefined?'disabled':'')+" onclick='ansGap1("+i+","+e1+")'>"+q.err1Opts[e1]+"</button>";}
       if(g1!==undefined){h+="<div class='fb'>"+q.err1fb+"</div>";}
-      h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:10px'>Step 3 — Identify Error 2 (the classification):</p>";
+      h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:10px'>Step 3 - Identify Error 2 (the classification):</p>";
       for(var e2=0;e2<q.err2Opts.length;e2++){var c3='opt';if(g2!==undefined){if(e2===q.err2A)c3+=' ok';else if(e2===g2)c3+=' bad';}h+="<button class='"+c3+"' "+(g2!==undefined?'disabled':'')+" onclick='ansGap2("+i+","+e2+")'>"+q.err2Opts[e2]+"</button>";}
       if(g2!==undefined){
         h+="<div class='fb'>"+q.err2fb+"</div>";
@@ -634,7 +938,7 @@ function spotInner(i){
         h+="<div class='rule'>"+q.rule+"</div>";
       }
     }else{
-      h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>Step 2 — What is the key error?</p>";
+      h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>Step 2 - What is the key error?</p>";
       for(var e=0;e<q.errOpts.length;e++){var c4='opt';if(g1!==undefined){if(e===q.errA)c4+=' ok';else if(e===g1)c4+=' bad';}h+="<button class='"+c4+"' "+(g1!==undefined?'disabled':'')+" onclick='ansGap1("+i+","+e+")'>"+q.errOpts[e]+"</button>";}
       if(g1!==undefined){
         h+="<p style='font-size:13.5px;font-weight:700;color:var(--green);margin-top:12px'>An improved response:</p><div class='resp' style='background:var(--green-pale)'>"+q.fixed+"</div>";
@@ -648,17 +952,14 @@ function ansMark(i,m){if(S.spot.marks[i]!==undefined)return;S.spot.marks[i]=m;sa
 function ansGap1(i,e){if(S.spot.gap1[i]!==undefined)return;S.spot.gap1[i]=e;saveState();var el=document.getElementById('spot'+i);if(el)el.innerHTML=spotInner(i);updateNav();maybeSync('a6');}
 function ansGap2(i,e){if(S.spot.gap2[i]!==undefined)return;S.spot.gap2[i]=e;saveState();var el=document.getElementById('spot'+i);if(el)el.innerHTML=spotInner(i);updateNav();maybeSync('a6');}
 
-/* ===== A7 CONDITIONS ===== */
+/* ================= A7 CONDITIONS ================= */
 function vCond(){
-  var h="<div class='card'><p style='font-size:14.5px'>Three fictional economies. Apply what you know about the RBA's target and the neutral rate to diagnose each one — exactly the kind of thinking the Board does before every meeting.</p></div>";
+  var h="<div class='card'><p style='font-size:14.5px'>Three fictional economies. Apply what you know about the RBA's target and the neutral rate to diagnose each one.</p></div>";
   var qn=0;
   for(var i=0;i<COND.sc.length;i++){
     var sc=COND.sc[i];
     h+="<div class='card'><h3 style='color:var(--primary)'>"+sc.name+"</h3><div class='snap'>"+sc.data+"</div>";
-    for(var j=0;j<sc.qs.length;j++){
-      h+="<div id='cond"+qn+"'>"+condInner(i,j,qn)+"</div>";
-      qn++;
-    }
+    for(var j=0;j<sc.qs.length;j++){h+="<div id='cond"+qn+"'>"+condInner(i,j,qn)+"</div>";qn++;}
     h+="</div>";
   }
   return h;
@@ -677,21 +978,244 @@ function ansCond(si,qi,qn,o){
   updateNav();maybeSync('a7');
 }
 
-/* ===== NAV UPDATE without full re-render ===== */
+/* ================= NAV UPDATE ================= */
 function updateNav(){
   var sc=computeScores();
   var navEl=document.querySelector('.nav .score');
   if(navEl)navEl.textContent='Score: '+sc.total+' / '+sc.max;
 }
 
-/* ===== TEACHER ===== */
+/* ============================================================
+   LESSON 2 ACTIVITY RENDERERS
+   ============================================================ */
+
+/* ---- B1 MCQ2 ---- */
+function vMCQ2(){
+  var h='';
+  for(var i=0;i<MCQ2.length;i++){h+="<div class='card' id='mcq2-"+i+"'>"+mcq2Inner(i)+"</div>";}
+  return h;
+}
+function mcq2Inner(i){
+  var q=MCQ2[i],sel=S.l2ans['b1-'+i],h='';
+  h+="<div class='qhead'>Q"+(i+1)+". "+q.q+"</div>";
+  for(var o=0;o<q.opts.length;o++){
+    var cls='opt';
+    if(sel!==undefined){if(o===q.a)cls+=' ok';else if(o===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' "+(sel!==undefined?'disabled':'')+" onclick='ansMCQ2("+i+","+o+")'>"+q.opts[o]+"</button>";
+  }
+  if(sel!==undefined){
+    h+="<div class='fb'>"+(sel===q.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+q.fb+"</div>";
+    h+="<div class='tip'>"+q.tip+"</div>";
+  }
+  return h;
+}
+function ansMCQ2(i,o){
+  if(S.l2ans['b1-'+i]!==undefined)return;
+  S.l2ans['b1-'+i]=o;saveState();
+  var el=document.getElementById('mcq2-'+i);if(el)el.innerHTML=mcq2Inner(i);
+  updateNav();maybeSync('b1');
+}
+
+/* ---- B2 CALCULATE THE CORRIDOR ---- */
+function vCalc2(){
+  var h="<div class='card'><p style='font-size:14.5px;margin-bottom:10px'>For each cash rate target, calculate the ES rate (floor, target minus 0.10) and the lending rate (ceiling, target plus 0.25). Enter values to 2 decimal places, then check.</p>";
+  h+="<table class='calc'><tr><th>Target</th><th>Floor (ES rate)</th><th>Ceiling (lending rate)</th><th></th></tr>";
+  for(var i=0;i<CALC2.rows.length;i++){
+    var r=CALC2.rows[i], row=S.l2calc[i]||{};
+    h+="<tr><td><strong>"+r.target.toFixed(2)+"%</strong></td>";
+    h+="<td><input type='number' step='0.01' class='calc-in"+(row.checked?(Math.abs((row.floorVal||0)-r.floor)<=CALC2.tol?' ok':' bad'):'')+"' id='cf"+i+"' "+(row.checked?'disabled':'')+" value='"+(row.floorVal!==undefined?row.floorVal:'')+"' placeholder='%'></td>";
+    h+="<td><input type='number' step='0.01' class='calc-in"+(row.checked?(Math.abs((row.ceilVal||0)-r.ceiling)<=CALC2.tol?' ok':' bad'):'')+"' id='cc"+i+"' "+(row.checked?'disabled':'')+" value='"+(row.ceilVal!==undefined?row.ceilVal:'')+"' placeholder='%'></td>";
+    h+="<td>"+(row.checked?"<span style='font-size:13px;color:var(--text-sec)'>Correct: "+r.floor.toFixed(2)+"% / "+r.ceiling.toFixed(2)+"%</span>":"<button class='btn btn-sm gold' onclick='checkCalc("+i+")'>Check</button>")+"</td></tr>";
+  }
+  h+="</table>";
+  var allDone=true;for(var j=0;j<CALC2.rows.length;j++){if(!S.l2calc[j]||!S.l2calc[j].checked)allDone=false;}
+  if(allDone){h+="<div class='fb'><strong>Pattern check:</strong> notice the floor always sits 0.10 percentage points BELOW the target, while the ceiling always sits 0.25 percentage points ABOVE it - the corridor is not symmetric. Its width (0.35pp) never changes - only its position shifts when the target changes.</div>";}
+  h+="</div>";
+  return h;
+}
+function checkCalc(i){
+  var fEl=document.getElementById('cf'+i), cEl=document.getElementById('cc'+i);
+  var fVal=parseFloat(fEl.value), cVal=parseFloat(cEl.value);
+  if(isNaN(fVal)||isNaN(cVal)){alert('Please enter both values.');return;}
+  S.l2calc[i]={floorVal:fVal,ceilVal:cVal,checked:true};
+  saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+  updateNav();maybeSync('b2');
+}
+
+/* ---- B3 REPO CHAIN ---- */
+function vChain2(){return "<div class='card' id='chain2Card'>"+chain2Inner()+"</div>";}
+function chain2Inner(){
+  var h="<p style='font-size:14.5px;margin-bottom:12px'>Complete the chain showing how the RBA's weekly Open Market Operation (OMO) works. Choose carefully - once placed, an answer is locked in.</p>";
+  for(var i=0;i<CHAIN2.length;i++){
+    var c=CHAIN2[i],sel=S.l2chain[i],blank;
+    if(sel===undefined)blank="<span class='blank'>?</span>";
+    else blank="<span class='blank "+(sel===c.a?'ok':'bad')+"'>"+c.opts[sel]+"</span>"+(sel!==c.a?" <span style='color:var(--green);font-weight:700'>("+c.opts[c.a]+")</span>":"");
+    h+="<div class='chainstep'><strong>Step "+(i+1)+".</strong> "+c.pre+blank+c.post;
+    if(sel===undefined){h+="<div style='margin-top:8px'>";for(var o=0;o<c.opts.length;o++){h+="<button class='chip' onclick='ansChain2("+i+","+o+")'>"+c.opts[o]+"</button>";}h+="</div>";}
+    h+="</div>";
+  }
+  var done=true;for(var j=0;j<CHAIN2.length;j++){if(S.l2chain[j]===undefined)done=false;}
+  if(done){var right=0;for(var k=0;k<CHAIN2.length;k++){if(S.l2chain[k]===CHAIN2[k].a)right++;}h+="<div class='fb'><strong>Chain complete - "+right+"/5.</strong> The weekly OMO is a repo (repurchase agreement) auction: the RBA provides cash against government securities, priced near the bounds of the corridor, and the transaction reverses on the agreed date. This is how banks top up or shed ES balances in bulk.</div>";}
+  return h;
+}
+function ansChain2(i,o){
+  if(S.l2chain[i]!==undefined)return;
+  S.l2chain[i]=o;saveState();
+  var el=document.getElementById('chain2Card');if(el)el.innerHTML=chain2Inner();
+  updateNav();maybeSync('b3');
+}
+
+/* ---- B4 WHERE WOULD YOU TRADE ---- */
+function vComp2(){
+  var h='';
+  for(var i=0;i<COMP2.length;i++){h+="<div class='card' id='comp2-"+i+"'>"+comp2Inner(i)+"</div>";}
+  return h;
+}
+function comp2Inner(i){
+  var sc=COMP2[i], a1=S.l2comp[i+'_a'], a2=S.l2comp[i+'_b'], h='';
+  h+="<div class='qhead'>Scenario "+(i+1)+" - Your position: "+sc.pos+"</div>";
+  h+="<p style='font-size:14.5px;margin-bottom:8px'>"+sc.context+"</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid)'>"+sc.q1+"</p>";
+  for(var o=0;o<sc.q1opts.length;o++){
+    var c1='opt';
+    if(a1!==undefined){if(o===sc.q1a)c1+=' ok';else if(o===a1)c1+=' bad';}
+    h+="<button class='"+c1+"' "+(a1!==undefined?'disabled':'')+" onclick='ansComp2a("+i+","+o+")'>"+sc.q1opts[o]+"</button>";
+  }
+  if(a1!==undefined){
+    h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>"+sc.q2+"</p>";
+    for(var p=0;p<sc.q2opts.length;p++){
+      var c2='opt';
+      if(a2!==undefined){if(p===sc.q2a)c2+=' ok';else if(p===a2)c2+=' bad';}
+      h+="<button class='"+c2+"' "+(a2!==undefined?'disabled':'')+" onclick='ansComp2b("+i+","+p+")'>"+sc.q2opts[p]+"</button>";
+    }
+  }
+  if(a1!==undefined&&a2!==undefined){h+="<div class='fb'>"+sc.fb+"</div>";}
+  return h;
+}
+function ansComp2a(i,o){if(S.l2comp[i+'_a']!==undefined)return;S.l2comp[i+'_a']=o;saveState();var el=document.getElementById('comp2-'+i);if(el)el.innerHTML=comp2Inner(i);updateNav();maybeSync('b4');}
+function ansComp2b(i,o){if(S.l2comp[i+'_b']!==undefined)return;S.l2comp[i+'_b']=o;saveState();var el=document.getElementById('comp2-'+i);if(el)el.innerHTML=comp2Inner(i);updateNav();maybeSync('b4');}
+
+/* ---- B5 PREDICT THE DRIFT ---- */
+var DRIFT_LABELS=[
+  {name:'Near the floor',rate:'3.90%'},
+  {name:'Near the target',rate:'4.00%'},
+  {name:'Near the ceiling',rate:'4.25%'}
+];
+function vDrift2(){
+  var h="<div class='card'><p style='font-size:14.5px;margin-bottom:10px'>Assume the cash rate target is 4.00%, so the floor (ES rate) is 3.90% and the ceiling (lending rate) is 4.25%. For each scenario, predict where the actual cash rate is most likely to trade today.</p></div>";
+  for(var i=0;i<DRIFT2.length;i++){h+="<div class='card' id='drift2-"+i+"'>"+drift2Inner(i)+"</div>";}
+  return h;
+}
+function drift2Inner(i){
+  var d=DRIFT2[i], sel=S.l2drift[i], h='';
+  h+="<div class='qhead'>Scenario "+(i+1)+"</div><p style='font-size:14.5px;margin-bottom:6px'>"+d.text+"</p>";
+  h+="<div class='driftbar'>";
+  for(var o=0;o<3;o++){
+    var cls='driftseg '+(o===0?'floor':o===1?'target':'ceiling');
+    if(sel!==undefined){if(o===d.a)cls+=' ok';else if(o===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' "+(sel!==undefined?'disabled':'')+" onclick='ansDrift2("+i+","+o+")'>"+DRIFT_LABELS[o].name+"<small>"+DRIFT_LABELS[o].rate+"</small></button>";
+  }
+  h+="</div>";
+  if(sel!==undefined)h+="<div class='fb'>"+(sel===d.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+d.why+"</div>";
+  return h;
+}
+function ansDrift2(i,o){
+  if(S.l2drift[i]!==undefined)return;
+  S.l2drift[i]=o;saveState();
+  var el=document.getElementById('drift2-'+i);if(el)el.innerHTML=drift2Inner(i);
+  updateNav();maybeSync('b5');
+}
+
+/* ---- B6 SPOT THE ERROR (Lesson 2) ---- */
+function vSpot2(){
+  var h='';
+  for(var i=0;i<SPOT2.length;i++){h+="<div class='card' id='spot2-"+i+"'>"+spot2Inner(i)+"</div>";}
+  return h;
+}
+function spot2Inner(i){
+  var q=SPOT2[i],mk=S.l2spot.marks[i],g=S.l2spot.gap[i],h='';
+  h+="<div class='qhead'>Question "+(i+1)+"</div><p style='font-size:15px'>"+q.q+"</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:10px'>A student wrote:</p><div class='resp'>"+q.resp+"</div>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid)'>Step 1 - What mark would this earn?</p><div style='display:flex;gap:8px;flex-wrap:wrap'>";
+  for(var m=0;m<=q.marks;m++){var c1='opt';if(mk!==undefined){if(m===q.correctMark)c1+=' ok';else if(m===mk)c1+=' bad';}h+="<button class='"+c1+"' style='width:auto' "+(mk!==undefined?'disabled':'')+" onclick='ansMark2("+i+","+m+")'>"+m+" / "+q.marks+"</button>";}
+  h+="</div>";
+  if(mk!==undefined){
+    h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>Step 2 - What is the key error?</p>";
+    for(var e=0;e<q.errOpts.length;e++){var c2='opt';if(g!==undefined){if(e===q.errA)c2+=' ok';else if(e===g)c2+=' bad';}h+="<button class='"+c2+"' "+(g!==undefined?'disabled':'')+" onclick='ansGap2L2("+i+","+e+")'>"+q.errOpts[e]+"</button>";}
+    if(g!==undefined){
+      h+="<p style='font-size:13.5px;font-weight:700;color:var(--green);margin-top:12px'>An improved response:</p><div class='resp' style='background:var(--green-pale)'>"+q.fixed+"</div>";
+      h+="<div class='rule'>"+q.rule+"</div>";
+    }
+  }
+  return h;
+}
+function ansMark2(i,m){if(S.l2spot.marks[i]!==undefined)return;S.l2spot.marks[i]=m;saveState();var el=document.getElementById('spot2-'+i);if(el)el.innerHTML=spot2Inner(i);updateNav();maybeSync('b6');}
+function ansGap2L2(i,e){if(S.l2spot.gap[i]!==undefined)return;S.l2spot.gap[i]=e;saveState();var el=document.getElementById('spot2-'+i);if(el)el.innerHTML=spot2Inner(i);updateNav();maybeSync('b6');}
+
+/* ---- B7 RBA TOOL OR NOT (2-column sorter) ---- */
+function vSort2(){
+  var h="<div class='card'><p style='font-size:14.5px'>Click each statement to assign it: things the RBA actually does, or things it does not do. Click a placed item to remove it.</p>";
+  var placed={};for(var k in S.l2sort.placed){placed[k]=S.l2sort.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(2,1fr)'>";
+  for(var c=0;c<2;c++){
+    h+="<div class='obj-col'><h4>"+SORT2.cats[c]+"</h4>";
+    for(var j=0;j<SORT2.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l2sort.checked)cls2+=placed[j]===SORT2.items[j].c?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeSort2("+j+")'>"+SORT2.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<SORT2.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click a column:</p><div class='obj-bank' id='sortBank2'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectSort2("+unplaced[n]+")' id='sb2-"+unplaced[n]+"'>"+SORT2.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l2sort.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkSort2()'>Check my answers</button>";
+  if(S.l2sort.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<SORT2.items.length;p++){
+      var ok=S.l2sort.placed[p]===SORT2.items[p].c;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+SORT2.items[p].t+"</strong> - "+SORT2.cats[SORT2.items[p].c]+". "+SORT2.items[p].why+"</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _sort2Sel=null;
+function selectSort2(idx){
+  _sort2Sel=idx;
+  var els=document.querySelectorAll('#sortBank2 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('sb2-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeSort2(ci);};})(c);}
+}
+function placeSort2(col){
+  if(_sort2Sel===null)return;
+  if(S.l2sort.checked)return;
+  S.l2sort.placed[_sort2Sel]=col;_sort2Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeSort2(idx){if(S.l2sort.checked)return;delete S.l2sort.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkSort2(){S.l2sort.checked=true;maybeSync('b7');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ================= TEACHER ================= */
 function vTeacherPin(){
-  return "<div class='hero' style='padding:34px 28px 30px'><div class='hero-inner'><span class='badge'>STAFF</span><h1 style='font-size:26px'>Teacher view</h1></div></div><div class='wrap'><div class='card'><p style='font-size:14.5px;margin-bottom:10px'>Enter your teacher PIN to load class results.</p><input type='password' id='pinIn' placeholder='PIN'><button class='btn gold' style='margin-top:10px;display:block' onclick='loadTeacher()'>View results →</button><div id='tchOut' style='margin-top:18px'></div></div><span class='backlink' onclick='go(\"home\")'>&larr; Back</span></div>";
+  return "<div class='hero' style='padding:34px 28px 30px'><div class='hero-inner'><span class='badge'>STAFF</span><h1 style='font-size:26px'>Teacher view</h1></div></div><div class='wrap'><div class='card'><p style='font-size:14.5px;margin-bottom:10px'>Enter your teacher PIN to load class results.</p><input type='password' id='pinIn' placeholder='PIN'><button class='btn gold' style='margin-top:10px;display:block' onclick='loadTeacher()'>View results</button><div id='tchOut' style='margin-top:18px'></div></div><span class='backlink' onclick='go(\"home\")'>Back</span></div>";
 }
 function loadTeacher(){
   var pin=document.getElementById('pinIn').value.trim();
   var out=document.getElementById('tchOut');
-  out.innerHTML="<em>Loading…</em>";
+  out.innerHTML="<em>Loading...</em>";
   fetch(RES_URL+'/?pin='+encodeURIComponent(pin)).then(function(r){return r.json();}).then(function(d){
     if(d.error){out.innerHTML="<span style='color:var(--red)'>"+esc(d.error)+"</span>";return;}
     out.innerHTML=teacherTable(d.results||[]);
@@ -700,17 +1224,17 @@ function loadTeacher(){
 function kdot(c,t){if(t===0)return"<span class='kdot' style='background:#d6d2de'></span>";var pct=c/t;var col=pct>=0.8?'#15803d':(pct>=0.5?'#d97706':'#b91c1c');return"<span class='kdot' style='background:"+col+"'></span>";}
 function teacherTable(rows){
   if(!rows.length)return"<p>No results yet.</p>";
-  rows.sort(function(a,b){return(a.name||'').localeCompare(b.name||'');});
-  var h="<p style='font-size:13.5px;color:var(--text-sec);margin-bottom:8px'>"+rows.length+" submission(s) · green ≥80% · amber 50–79% · red &lt;50%</p><div style='overflow-x:auto'><table class='tch'><tr><th>Student</th><th>Score</th><th>Acts done</th>";
+  rows.sort(function(a,b){var n=(a.name||'').localeCompare(b.name||'');if(n!==0)return n;return (a.lesson||'').localeCompare(b.lesson||'');});
+  var h="<p style='font-size:13.5px;color:var(--text-sec);margin-bottom:8px'>"+rows.length+" submission(s) - green at least 80%, amber 50-79%, red below 50%, grey not assessed this lesson</p><div style='overflow-x:auto'><table class='tch'><tr><th>Student</th><th>Lesson</th><th>Score</th><th>Acts done</th>";
   for(var k in KK_MAP){h+="<th>"+KK_MAP[k]+"</th>";}
   h+="<th>Updated</th></tr>";
   for(var i=0;i<rows.length;i++){
-    var r=rows[i],dc=0,ac=0;
+    var r=rows[i], dc=0, ac=0;
     if(r.acts){for(var a in r.acts){ac++;if(r.acts[a].done)dc++;}}
-    h+="<tr><td><strong>"+esc(r.name||'?')+"</strong></td><td><strong>"+(r.score||0)+" / "+(r.max||'?')+"</strong></td><td>"+dc+" / "+ac+"</td>";
+    h+="<tr><td><strong>"+esc(r.name||'?')+"</strong></td><td>"+esc(r.lesson||'')+"</td><td><strong>"+(r.score||0)+" / "+(r.max||'?')+"</strong></td><td>"+dc+" / "+ac+"</td>";
     for(var k2 in KK_MAP){var kk=(r.kk&&r.kk[k2])?r.kk[k2]:{c:0,t:0};h+="<td>"+kdot(kk.c,kk.t)+kk.c+"/"+kk.t+"</td>";}
     var dt=r.updated?new Date(r.updated):null;
-    h+="<td>"+(dt?dt.toLocaleString('en-AU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'—')+"</td></tr>";
+    h+="<td>"+(dt?dt.toLocaleString('en-AU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'-')+"</td></tr>";
   }
   return h+"</table></div>";
 }
