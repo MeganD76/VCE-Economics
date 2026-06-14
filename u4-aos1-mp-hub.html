@@ -134,7 +134,7 @@ var LS_KEY='u4_aos1_hub_v2';
 var S={
   screen:'home', name:'', lesson:1, act:0,
   ans:{}, obj:{placed:{},checked:false}, tl:{}, dual:{}, chain:{}, spot:{marks:{},gap1:{},gap2:{}}, cond:{},
-  l2ans:{}, l2calc:{}, l2chain:{}, l2comp:{}, l2drift:{}, l2spot:{marks:{},gap:{}}, l2sort:{placed:{},checked:false}
+  l2ans:{}, l2calc:{}, l2calctf:{}, l2chain:{}, l2comp:{}, l2drift:{}, l2spot:{marks:{},gap:{}}, l2sort:{placed:{},checked:false}
 };
 
 function saveState(){
@@ -347,59 +347,59 @@ var ACTS=[
    ============================================================ */
 var MCQ2=[
  {q:"What are Exchange Settlement (ES) balances?",
-  opts:["Funds banks hold in deposit accounts at the RBA, used to settle payments with each other",
-        "The cash savings of individual customers held at their local bank branch",
-        "Foreign currency reserves held by the RBA on behalf of the government",
-        "A measure of the total value of banknotes in circulation"],
+  opts:["Funds banks hold at the RBA to settle payments with each other",
+        "Cash savings individual customers keep at their local bank branch, which the RBA tracks centrally",
+        "Foreign currency reserves the RBA holds for the government",
+        "A measure of the total banknotes in circulation"],
   a:0,kk:'cashrate',
   fb:"ES balances are funds banks hold in deposit accounts at the RBA, used to settle payments between banks - on behalf of themselves and their customers.",
   tip:"Exam tip: ES = Exchange Settlement. Think of it as 'a bank account, for banks'."},
  {q:"If the system-wide supply of ES balances is HIGH relative to demand, what happens to the cash rate?",
-  opts:["It is pushed down, toward the floor of the corridor",
-        "It is pushed up, toward the ceiling of the corridor",
-        "It stays exactly at the cash rate target regardless",
-        "It becomes impossible to predict"],
-  a:0,kk:'cashrate',
+  opts:["It is pushed up, toward the ceiling of the corridor",
+        "It becomes impossible to predict",
+        "It is pushed down, toward the floor of the corridor",
+        "It stays exactly at the cash rate target regardless"],
+  a:2,kk:'cashrate',
   fb:"When supply is high relative to demand, banks with spare ES balances compete to lend them out - pushing the cash rate down, toward the ES rate (floor).",
   tip:"Exam tip: more supply than needed = downward pressure, toward the floor."},
  {q:"What is the ES rate?",
-  opts:["The interest rate the RBA pays banks on the reserves they hold in Exchange Settlement accounts",
-        "The rate banks charge each other overnight in the cash market",
-        "The rate at which the RBA lends reserves to banks via its standing facility",
-        "The exchange rate the RBA targets for the Australian dollar"],
-  a:0,kk:'corridor',
+  opts:["The rate banks charge each other overnight in the cash market, which the RBA monitors but does not set",
+        "The interest rate the RBA pays banks on ES balances",
+        "The exchange rate the RBA targets for the AUD",
+        "The rate at which the RBA lends reserves via its standing facility"],
+  a:1,kk:'corridor',
   fb:"The ES rate is what the RBA pays on balances banks hold in their Exchange Settlement accounts. It forms the floor of the corridor, currently set 10 basis points below the cash rate target.",
   tip:"Exam tip: ES = Exchange Settlement. This is the floor - the least attractive rate for a bank with surplus reserves."},
  {q:"What is the lending rate (the RBA's overnight standing facility)?",
-  opts:["The interest rate the RBA pays on Exchange Settlement balances",
+  opts:["The interest rate the government pays on its own borrowing from foreign central banks and private investors",
         "The cash rate target itself, unchanged",
-        "The rate at which a bank can always borrow reserves overnight from the RBA",
-        "The interest rate the government pays on its own borrowing"],
-  a:2,kk:'corridor',
+        "The interest rate the RBA pays on Exchange Settlement balances",
+        "The rate at which a bank can always borrow reserves overnight from the RBA"],
+  a:3,kk:'corridor',
   fb:"The lending rate is the RBA's overnight standing facility rate - banks can always borrow reserves at this rate. It forms the ceiling of the corridor, currently 25 basis points above the cash rate target.",
   tip:"Exam tip: this is the ceiling - the least attractive rate for a bank needing to borrow."},
  {q:"Relative to the cash rate target, how are the ES rate and the lending rate set?",
-  opts:["ES rate is 25 basis points below target, lending rate is 25 basis points above",
-        "ES rate is 10 basis points below target, lending rate is 25 basis points above",
-        "Both rates are set exactly equal to the cash rate target",
-        "ES rate is above target and the lending rate is below target"],
+  opts:["Both rates are set exactly equal to the cash rate target, with no spread either side at all",
+        "ES rate is 10 basis points below target, lending rate is 25 above",
+        "ES rate is above target and the lending rate is below target",
+        "ES rate is 25 basis points below target, lending rate is 25 above"],
   a:1,kk:'corridor',
   fb:"The corridor is not symmetric: the ES rate (floor) sits 10 basis points below target, while the lending rate (ceiling) sits 25 basis points above target.",
   tip:"Exam tip: don't assume the corridor is symmetric - the floor and ceiling sit different distances from the target."},
  {q:"What does the RBA's weekly Open Market Operation (OMO) do?",
-  opts:["It sets a brand new cash rate target every week",
-        "It is a repo auction that lets banks top up or shed ES balances in bulk, helping keep the system from drifting too close to either bound",
-        "It directly fixes the interest rate on every home loan in Australia",
+  opts:["It directly fixes the interest rate on every single home loan in Australia",
+        "Lets banks adjust ES balances in bulk via a repo auction",
+        "It sets a brand new cash rate target every week",
         "It replaces the corridor entirely with a single fixed rate"],
   a:1,kk:'repo',
   fb:"The weekly OMO is a repo auction - a separate tool that sits near the corridor and lets banks adjust their ES balances in bulk, easing pressure on the cash rate system-wide.",
   tip:"Exam tip: the OMO is a weekly 'reset', not the main reason the cash rate stays near target day to day - that's the corridor."},
  {q:"If the RBA raises the cash rate target, why does the 30-day bank bill rate also tend to rise?",
-  opts:["It doesn't - the bank bill rate is fixed by law and never changes",
-        "Because the bank bill rate and the cash rate compete for the same pool of bank funding, so the bill rate must rise to remain attractive to lenders",
-        "Because the RBA directly sets the bank bill rate at every Board meeting",
-        "Because bank bills are a type of government bond with a fixed coupon"],
-  a:1,kk:'transmission',
+  opts:["Because bank bills are a type of government bond with a legally fixed coupon rate",
+        "It doesn't - the bank bill rate is fixed by law",
+        "It competes with the cash rate for funding, so it must rise to stay attractive",
+        "Because the RBA directly sets the bank bill rate each meeting"],
+  a:2,kk:'transmission',
   fb:"If the bill rate stayed put while the cash rate rose, lenders would prefer to lend overnight at the higher cash rate instead. To stay competitive, the bank bill rate must rise too.",
   tip:"Exam tip: this is the first link in the flow-through chain from the cash rate to everyday borrowing and deposit rates."}
 ];
@@ -407,10 +407,21 @@ var MCQ2=[
 var CALC2={
   rows:[
    {target:3.85,floor:3.75,ceiling:4.10},
-   {target:4.35,floor:4.25,ceiling:4.60},
-   {target:3.60,floor:3.50,ceiling:3.85},
-   {target:4.60,floor:4.50,ceiling:4.85},
-   {target:3.10,floor:3.00,ceiling:3.35}
+   {target:4.35,floor:4.25,ceiling:4.60}
+  ],
+  shift:{
+   from:{target:3.60,floor:3.50,ceiling:3.85},
+   to:{target:4.10,floor:4.00,ceiling:4.35}
+  },
+  tf:[
+   {s:"The corridor is symmetric - the floor and ceiling sit the same distance from the target.",a:false,
+    why:"The corridor is NOT symmetric: the floor (ES rate) sits 0.10pp below target, but the ceiling (lending rate) sits 0.25pp above target."},
+   {s:"The width of the corridor (the gap between floor and ceiling) stays the same even when the target changes.",a:true,
+    why:"Correct - the corridor is always 0.35pp wide (0.10 + 0.25). Only its position shifts with the target."},
+   {s:"If the cash rate target falls, the ES rate (floor) and lending rate (ceiling) both fall by the same amount.",a:true,
+    why:"Correct - both bounds move automatically with the target, by the same amount as the target's change, since the corridor shifts as a whole."},
+   {s:"A bank can always borrow reserves overnight from the RBA at the ES rate.",a:false,
+    why:"The ES rate is what the RBA PAYS on deposits (the floor) - it is not a borrowing rate. The lending rate (ceiling) is what a bank pays to borrow from the RBA's standing facility."}
   ],
   tol:0.005
 };
@@ -430,11 +441,11 @@ var COMP2=[
   q1opts:["Lend to Bank Delta at 3.95%","Deposit with the RBA at the ES rate, 3.90%","Borrow from the RBA at the lending rate, 4.25%"],
   q1a:0,
   q2:"Why is this the best choice?",
-  q2opts:["3.95% is lower than the RBA's lending rate, so it's cheaper to borrow",
-          "3.95% is higher than the RBA's ES rate of 3.90%, so lending earns more than leaving funds with the RBA",
-          "The RBA requires all surplus reserves to be lent to other banks",
-          "3.95% is exactly the cash rate target"],
-  q2a:1,
+  q2opts:["3.95% beats the RBA's ES rate, so lending earns more here",
+          "3.95% is lower than the RBA's lending rate of 4.25%",
+          "The RBA requires surplus reserves to be lent to other banks",
+          "3.95% equals the cash rate target exactly"],
+  q2a:0,
   fb:"As a lender, the relevant comparison is the ES rate (floor). 3.95% beats 3.90%, so lending to Bank Delta is the better deal."},
  {pos:"-$15m (deficit)",
   context:"Target = 4.10% so floor = 4.00% and ceiling = 4.35%. Bank Epsilon is offering to lend to you at 4.20%.",
@@ -442,10 +453,10 @@ var COMP2=[
   q1opts:["Borrow from the RBA at the lending rate, 4.35%","Borrow from Bank Epsilon at 4.20%","Deposit with the RBA at the ES rate, 4.00%"],
   q1a:1,
   q2:"Why is this the best choice?",
-  q2opts:["4.20% is above the RBA's ES rate, so it must be the better deal",
-          "Borrowing from another bank is always required before using RBA facilities",
-          "4.20% is below the RBA's lending rate of 4.35%, so borrowing from Bank Epsilon is cheaper",
-          "4.20% equals the cash rate target exactly"],
+  q2opts:["4.20% equals the cash rate target exactly",
+          "Borrowing from another bank is always required by RBA rules",
+          "4.20% beats the lending rate, so it's cheaper",
+          "4.20% is above the RBA's ES rate"],
   q2a:2,
   fb:"As a borrower, the relevant comparison is the lending rate (ceiling). 4.20% beats 4.35%, so borrowing from Bank Epsilon is cheaper."},
  {pos:"+$10m (surplus)",
@@ -454,23 +465,23 @@ var COMP2=[
   q1opts:["Lend to Bank Zeta at 3.45%","Deposit with the RBA at the ES rate, 3.50%","Borrow from the RBA at the lending rate, 3.85%"],
   q1a:1,
   q2:"Why is this the best choice?",
-  q2opts:["Bank Zeta's offer is always better because it avoids the RBA",
-          "3.45% is closer to the cash rate target, so it must be correct",
-          "The RBA's ES rate cannot be used by surplus banks",
-          "3.50% from the RBA is higher than the 3.45% Bank Zeta is offering, so the RBA's floor is the better deal here"],
-  q2a:3,
+  q2opts:["The RBA's ES rate cannot be used by surplus banks",
+          "3.50% beats the 3.45% Bank Zeta is offering",
+          "Bank Zeta's offer always beats the RBA",
+          "3.45% is closer to the cash rate target"],
+  q2a:1,
   fb:"This is the trap: trading with another bank is not automatically better. Here 3.45% is BELOW the ES rate of 3.50%, so depositing with the RBA earns more."},
  {pos:"-$25m (deficit)",
   context:"Target = 4.35% so floor = 4.25% and ceiling = 4.60%. No other bank currently has surplus reserves to lend.",
   q1:"What is your best (realistic) option?",
-  q1opts:["Borrow from the RBA at the lending rate, 4.60%","Wait until another bank posts a lend offer","Deposit with the RBA at the ES rate, 4.25%"],
-  q1a:0,
+  q1opts:["Wait until another bank posts a lend offer","Borrow from the RBA's lending rate, 4.60%","Deposit with the RBA at the ES rate, 4.25%"],
+  q1a:1,
   q2:"Compared with trading at the target rate of 4.35%, borrowing from the RBA at 4.60% is:",
-  q2opts:["25bp more expensive - this is the cost of being unable to find a counterparty in the market",
-          "25bp cheaper, so this is actually the best possible outcome",
-          "Exactly the same cost, since both rates are within the corridor",
-          "Irrelevant, because the RBA never charges interest on its standing facility"],
-  q2a:0,
+  q2opts:["Exactly the same, since both are in the corridor",
+          "25bp more expensive - the cost of no counterparty",
+          "Irrelevant, as standing facilities charge no interest at all",
+          "25bp cheaper, so this is the best outcome"],
+  q2a:1,
   fb:"When the market cannot meet your need, the RBA's standing facility is always available - but at a cost. This is exactly why banks prefer to trade with each other near the target."}
 ];
 
@@ -522,7 +533,7 @@ var SORT2={
 
 var ACTS2=[
   {id:'b1',title:'1. Foundations Check',type:'mcq2',desc:'7 multiple choice - ES balances, the corridor, the weekly OMO and the bank bill rate',max:7},
-  {id:'b2',title:'2. Calculate the Corridor',type:'calc2',desc:'Given a cash rate target, calculate the floor (ES rate) and ceiling (lending rate)',max:10},
+  {id:'b2',title:'2. Understanding the Corridor',type:'calc2',desc:'Calculate the floor and ceiling, work through a corridor shift, and test key facts with true/false',max:10},
   {id:'b3',title:'3. How the Weekly OMO Works',type:'chain2',desc:'Complete the chain showing how the RBA performs its weekly Open Market Operation',max:5},
   {id:'b4',title:'4. Where Would You Trade?',type:'comp2',desc:'Compare a market quote against the RBA floor and ceiling, and choose the best option',max:8},
   {id:'b5',title:'5. Predict the Drift',type:'drift2',desc:'Given system-wide conditions, predict where the cash rate will trade in the corridor',max:3},
@@ -584,7 +595,14 @@ function computeL2Scores(){
       if(Math.abs(row.floorVal-CALC2.rows[i].floor)<=CALC2.tol){s++;kk.corridor.c++;}
       if(Math.abs(row.ceilVal-CALC2.rows[i].ceiling)<=CALC2.tol){s++;kk.corridor.c++;}
     }
-  }per.b2=s;
+  }
+  kk.corridor.t+=2;
+  if(S.l2calc.shift&&S.l2calc.shift.checked){
+    if(Math.abs(S.l2calc.shift.floorVal-CALC2.shift.to.floor)<=CALC2.tol){s++;kk.corridor.c++;}
+    if(Math.abs(S.l2calc.shift.ceilVal-CALC2.shift.to.ceiling)<=CALC2.tol){s++;kk.corridor.c++;}
+  }
+  for(i=0;i<CALC2.tf.length;i++){kk.corridor.t++;if(S.l2calctf[i]!==undefined&&S.l2calctf[i]===CALC2.tf[i].a){s++;kk.corridor.c++;}}
+  per.b2=s;
   s=0;for(i=0;i<CHAIN2.length;i++){kk.repo.t++;if(S.l2chain[i]!==undefined&&S.l2chain[i]===CHAIN2[i].a){s++;kk.repo.c++;}}per.b3=s;
   s=0;for(i=0;i<COMP2.length;i++){
     kk.liquidity.t+=2;
@@ -616,7 +634,12 @@ function actProgress(id){
   if(id==='a7'){tot=0;for(i=0;i<COND.sc.length;i++){tot+=COND.sc[i].qs.length;}for(i=0;i<tot;i++){if(S.cond[i]!==undefined)done++;}}
 
   if(id==='b1'){tot=MCQ2.length;for(i=0;i<tot;i++){if(S.l2ans['b1-'+i]!==undefined)done++;}}
-  if(id==='b2'){tot=CALC2.rows.length;for(i=0;i<tot;i++){if(S.l2calc[i]&&S.l2calc[i].checked)done++;}}
+  if(id==='b2'){
+    tot=CALC2.rows.length+1+CALC2.tf.length;
+    for(i=0;i<CALC2.rows.length;i++){if(S.l2calc[i]&&S.l2calc[i].checked)done++;}
+    if(S.l2calc.shift&&S.l2calc.shift.checked)done++;
+    for(i=0;i<CALC2.tf.length;i++){if(S.l2calctf[i]!==undefined)done++;}
+  }
   if(id==='b3'){tot=CHAIN2.length;for(i=0;i<tot;i++){if(S.l2chain[i]!==undefined)done++;}}
   if(id==='b4'){tot=COMP2.length*2;for(i=0;i<COMP2.length;i++){if(S.l2comp[i+'_a']!==undefined)done++;if(S.l2comp[i+'_b']!==undefined)done++;}}
   if(id==='b5'){tot=DRIFT2.length;for(i=0;i<tot;i++){if(S.l2drift[i]!==undefined)done++;}}
@@ -685,7 +708,7 @@ function resetAll(){
     try{localStorage.removeItem(LS_KEY);}catch(e){}
     S={screen:'home',name:'',lesson:1,act:0,
        ans:{},obj:{placed:{},checked:false},tl:{},dual:{},chain:{},spot:{marks:{},gap1:{},gap2:{}},cond:{},
-       l2ans:{},l2calc:{},l2chain:{},l2comp:{},l2drift:{},l2spot:{marks:{},gap:{}},l2sort:{placed:{},checked:false}};
+       l2ans:{},l2calc:{},l2calctf:{},l2chain:{},l2comp:{},l2drift:{},l2spot:{marks:{},gap:{}},l2sort:{placed:{},checked:false}};
     render();
   }
 }
@@ -1031,13 +1054,59 @@ function vCalc2(){
   var allDone=true;for(var j=0;j<CALC2.rows.length;j++){if(!S.l2calc[j]||!S.l2calc[j].checked)allDone=false;}
   if(allDone){h+="<div class='fb'><strong>Pattern check:</strong> notice the floor always sits 0.10 percentage points BELOW the target, while the ceiling always sits 0.25 percentage points ABOVE it - the corridor is not symmetric. Its width (0.35pp) never changes - only its position shifts when the target changes.</div>";}
   h+="</div>";
+
+  // Corridor shift scenario
+  var sh=CALC2.shift, srow=S.l2calc.shift||{};
+  h+="<div class='card'><p style='font-size:14.5px;margin-bottom:10px'><strong>Corridor shift:</strong> the cash rate target moves from "+sh.from.target.toFixed(2)+"% (floor "+sh.from.floor.toFixed(2)+"%, ceiling "+sh.from.ceiling.toFixed(2)+"%) to a new target of "+sh.to.target.toFixed(2)+"%. Calculate the NEW floor and ceiling.</p>";
+  h+="<table class='calc'><tr><th>New target</th><th>New floor (ES rate)</th><th>New ceiling (lending rate)</th><th></th></tr>";
+  h+="<tr><td><strong>"+sh.to.target.toFixed(2)+"%</strong></td>";
+  h+="<td><input type='number' step='0.01' class='calc-in"+(srow.checked?(Math.abs((srow.floorVal||0)-sh.to.floor)<=CALC2.tol?' ok':' bad'):'')+"' id='shf' "+(srow.checked?'disabled':'')+" value='"+(srow.floorVal!==undefined?srow.floorVal:'')+"' placeholder='%'></td>";
+  h+="<td><input type='number' step='0.01' class='calc-in"+(srow.checked?(Math.abs((srow.ceilVal||0)-sh.to.ceiling)<=CALC2.tol?' ok':' bad'):'')+"' id='shc' "+(srow.checked?'disabled':'')+" value='"+(srow.ceilVal!==undefined?srow.ceilVal:'')+"' placeholder='%'></td>";
+  h+="<td>"+(srow.checked?"<span style='font-size:13px;color:var(--text-sec)'>Correct: "+sh.to.floor.toFixed(2)+"% / "+sh.to.ceiling.toFixed(2)+"%</span>":"<button class='btn btn-sm gold' onclick='checkCalcShift()'>Check</button>")+"</td></tr>";
+  h+="</table>";
+  if(srow.checked){h+="<div class='fb'>The whole corridor shifts together with the target - the floor and ceiling each move by the same amount as the target ("+(sh.to.target-sh.from.target>=0?'+':'')+(sh.to.target-sh.from.target).toFixed(2)+"pp).</div>";}
+  h+="</div>";
+
+  // True/False set
+  h+="<div class='card'><p style='font-size:14.5px;margin-bottom:10px'><strong>True or False:</strong> for each statement about the corridor, decide whether it is true or false.</p>";
+  for(var t=0;t<CALC2.tf.length;t++){h+="<div id='calctf-"+t+"'>"+calcTfInner(t)+"</div>";}
+  h+="</div>";
+
   return h;
+}
+function calcTfInner(i){
+  var st=CALC2.tf[i], sel=S.l2calctf[i], h='';
+  h+="<div class='qhead' style='margin-top:10px'>"+(i+1)+". "+st.s+"</div><div style='display:flex;gap:8px;margin-top:6px'>";
+  ['True','False'].forEach(function(label,o){
+    var val=(o===0);
+    var cls='opt';
+    if(sel!==undefined){if(val===st.a)cls+=' ok';else if(val===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' style='width:auto' "+(sel!==undefined?'disabled':'')+" onclick='ansCalcTf("+i+","+val+")'>"+label+"</button>";
+  });
+  h+="</div>";
+  if(sel!==undefined)h+="<div class='fb'>"+(sel===st.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+st.why+"</div>";
+  return h;
+}
+function ansCalcTf(i,val){
+  if(S.l2calctf[i]!==undefined)return;
+  S.l2calctf[i]=val;saveState();
+  var el=document.getElementById('calctf-'+i);if(el)el.innerHTML=calcTfInner(i);
+  updateNav();maybeSync('b2');
 }
 function checkCalc(i){
   var fEl=document.getElementById('cf'+i), cEl=document.getElementById('cc'+i);
   var fVal=parseFloat(fEl.value), cVal=parseFloat(cEl.value);
   if(isNaN(fVal)||isNaN(cVal)){alert('Please enter both values.');return;}
   S.l2calc[i]={floorVal:fVal,ceilVal:cVal,checked:true};
+  saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+  updateNav();maybeSync('b2');
+}
+function checkCalcShift(){
+  var fEl=document.getElementById('shf'), cEl=document.getElementById('shc');
+  var fVal=parseFloat(fEl.value), cVal=parseFloat(cEl.value);
+  if(isNaN(fVal)||isNaN(cVal)){alert('Please enter both values.');return;}
+  S.l2calc.shift={floorVal:fVal,ceilVal:cVal,checked:true};
   saveState();
   document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
   updateNav();maybeSync('b2');
