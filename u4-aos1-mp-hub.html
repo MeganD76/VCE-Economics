@@ -1803,11 +1803,13 @@ function computeL3Scores(){
 }
 
 /* ================= TEACHER ================= */
+var _tchPin='';
 function vTeacherPin(){
   return "<div class='hero' style='padding:34px 28px 30px'><div class='hero-inner'><span class='badge'>STAFF</span><h1 style='font-size:26px'>Teacher view</h1></div></div><div class='wrap'><div class='card'><p style='font-size:14.5px;margin-bottom:10px'>Enter your teacher PIN to load class results.</p><input type='password' id='pinIn' placeholder='PIN'><button class='btn gold' style='margin-top:10px;display:block' onclick='loadTeacher()'>View results</button><div id='tchOut' style='margin-top:18px'></div></div><span class='backlink' onclick='go(\"home\")'>Back</span></div>";
 }
 function loadTeacher(){
   var pin=document.getElementById('pinIn').value.trim();
+  _tchPin=pin;
   var out=document.getElementById('tchOut');
   out.innerHTML="<em>Loading...</em>";
   fetch(RES_URL+'/?pin='+encodeURIComponent(pin)).then(function(r){return r.json();}).then(function(d){
@@ -1815,20 +1817,42 @@ function loadTeacher(){
     out.innerHTML=teacherTable(d.results||[]);
   }).catch(function(e){out.innerHTML="<span style='color:var(--red)'>Error: "+esc(e.message)+"</span>";});
 }
+function deleteResult(name,lesson){
+  if(!confirm("Delete "+name+"'s "+lesson+" result? This cannot be undone."))return;
+  fetch(RES_URL+'/?pin='+encodeURIComponent(_tchPin)+'&name='+encodeURIComponent(name)+'&lesson='+encodeURIComponent(lesson),{method:'DELETE'})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.error){alert('Error: '+d.error);return;}
+      loadTeacher();
+    }).catch(function(e){alert('Error: '+e.message);});
+}
+function deleteStudent(name){
+  if(!confirm("Delete ALL results for "+name+" (every lesson)? This cannot be undone."))return;
+  fetch(RES_URL+'/?pin='+encodeURIComponent(_tchPin)+'&name='+encodeURIComponent(name),{method:'DELETE'})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.error){alert('Error: '+d.error);return;}
+      loadTeacher();
+    }).catch(function(e){alert('Error: '+e.message);});
+}
 function kdot(c,t){if(t===0)return"<span class='kdot' style='background:#d6d2de'></span>";var pct=c/t;var col=pct>=0.8?'#15803d':(pct>=0.5?'#d97706':'#b91c1c');return"<span class='kdot' style='background:"+col+"'></span>";}
 function teacherTable(rows){
   if(!rows.length)return"<p>No results yet.</p>";
   rows.sort(function(a,b){var n=(a.name||'').localeCompare(b.name||'');if(n!==0)return n;return (a.lesson||'').localeCompare(b.lesson||'');});
   var h="<p style='font-size:13.5px;color:var(--text-sec);margin-bottom:8px'>"+rows.length+" submission(s) - green at least 80%, amber 50-79%, red below 50%, grey not assessed this lesson</p><div style='overflow-x:auto'><table class='tch'><tr><th>Student</th><th>Lesson</th><th>Score</th><th>Acts done</th>";
   for(var k in KK_MAP){h+="<th>"+KK_MAP[k]+"</th>";}
-  h+="<th>Updated</th></tr>";
+  h+="<th>Updated</th><th>Delete</th></tr>";
+  var seen={};
   for(var i=0;i<rows.length;i++){
-    var r=rows[i], dc=0, ac=0;
+    var r=rows[i], dc=0, ac=0, nm=r.name||'?';
     if(r.acts){for(var a in r.acts){ac++;if(r.acts[a].done)dc++;}}
-    h+="<tr><td><strong>"+esc(r.name||'?')+"</strong></td><td>"+esc(r.lesson||'')+"</td><td><strong>"+(r.score||0)+" / "+(r.max||'?')+"</strong></td><td>"+dc+" / "+ac+"</td>";
+    h+="<tr><td><strong>"+esc(nm)+"</strong>";
+    if(!seen[nm]){seen[nm]=true;h+="<br><button class='btn btn-sm ghost' style='margin-top:4px;color:var(--red);border-color:var(--red)' onclick='deleteStudent(\""+esc(nm).replace(/"/g,'&quot;')+"\")'>Delete all</button>";}
+    h+="</td><td>"+esc(r.lesson||'')+"</td><td><strong>"+(r.score||0)+" / "+(r.max||'?')+"</strong></td><td>"+dc+" / "+ac+"</td>";
     for(var k2 in KK_MAP){var kk=(r.kk&&r.kk[k2])?r.kk[k2]:{c:0,t:0};h+="<td>"+kdot(kk.c,kk.t)+kk.c+"/"+kk.t+"</td>";}
     var dt=r.updated?new Date(r.updated):null;
-    h+="<td>"+(dt?dt.toLocaleString('en-AU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'-')+"</td></tr>";
+    h+="<td>"+(dt?dt.toLocaleString('en-AU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'-')+"</td>";
+    h+="<td><button class='btn btn-sm ghost' style='color:var(--red);border-color:var(--red)' onclick='deleteResult(\""+esc(nm).replace(/"/g,'&quot;')+"\",\""+esc(r.lesson||'').replace(/"/g,'&quot;')+"\")'>Delete</button></td></tr>";
   }
   return h+"</table></div>";
 }
