@@ -134,7 +134,8 @@ var LS_KEY='u4_aos1_hub_v2';
 var S={
   screen:'home', name:'', lesson:1, act:0,
   ans:{}, obj:{placed:{},checked:false}, tl:{}, dual:{}, chain:{}, spot:{marks:{},gap1:{},gap2:{}}, cond:{},
-  l2ans:{}, l2calc:{}, l2calctf:{}, l2chain:{}, l2comp:{}, l2drift:{}, l2spot:{marks:{},gap:{}}, l2sort:{placed:{},checked:false}
+  l2ans:{}, l2calc:{}, l2calctf:{}, l2chain:{}, l2comp:{}, l2drift:{}, l2spot:{marks:{},gap:{}}, l2sort:{placed:{},checked:false},
+  l3sort:{placed:{},checked:false}, l3link:{}, l3detect:{}, l3race:{placed:{},checked:false}, l3mark:{marks:{},gap:{}}, l3cori:{placed:{},checked:false}, l3exit:{}
 };
 
 function saveState(){
@@ -162,7 +163,10 @@ var KK_MAP={
   corridor:'The corridor (ES rate & lending rate)',
   repo:'The weekly OMO',
   liquidity:'System liquidity & rate drift',
-  transmission:'Flow-through to other rates'
+  transmission:'Flow-through to other rates',
+  setstance:'Setting vs stance vs transmission',
+  channels:'The four transmission channels',
+  adcomp:'AD components (C, I, G, X-M)'
 };
 
 /* ============================================================
@@ -542,6 +546,201 @@ var ACTS2=[
 ];
 
 /* ================= LESSONS META ================= */
+/* ============================================================
+   LESSON 3 DATA - The Transmission Mechanism
+   Setting vs stance vs transmission, the four channels, AD links
+   ============================================================ */
+
+/* ---- C1 SETTING, STANCE, OR TRANSMISSION? (3-column sort) ---- */
+var SORT3={
+  cats:["The setting","The stance","The transmission mechanism"],
+  items:[
+   {t:"The RBA Board set the cash rate target at 4.35%",c:0,why:"This is a specific figure - the actual interest rate the RBA has set. That is the SETTING."},
+   {t:"The RBA Board increased the cash rate target from 4.10% to 4.35%",c:0,why:"Still a figure - a change in the specific rate. The SETTING is the number itself, and any change to that number."},
+   {t:"The RBA is aiming to slow inflation by reducing the level of aggregate demand",c:1,why:"This describes the RBA's INTENDED EFFECT - what it is trying to achieve. That is the STANCE (here, contractionary)."},
+   {t:"Monetary policy is currently expansionary, supporting economic activity",c:1,why:"This is a description of the RBA's overall intent/direction - the STANCE - not a specific number."},
+   {t:"Higher mortgage repayments reduced households' disposable income, so they cut spending",c:2,why:"This describes HOW the cash rate change flows through to actual behaviour and spending. That is the TRANSMISSION MECHANISM."},
+   {t:"The AUD appreciated after the rate rise, making exports more expensive for foreign buyers",c:2,why:"This is a specific channel of transmission (the exchange rate channel) showing how the rate change affects the economy."},
+   {t:"The cash rate target is currently 3.85%",c:0,why:"A specific number - the SETTING."},
+   {t:"Monetary policy is described as 'neutral' - neither stimulating nor restricting the economy",c:1,why:"This is a description of intent/direction (neither expansionary nor contractionary) - the STANCE."},
+   {t:"Falling house prices made households feel less wealthy, so they reduced consumption",c:2,why:"This traces a specific cause-and-effect chain (the asset prices and wealth channel) - the TRANSMISSION MECHANISM."},
+   {t:"The RBA cut the cash rate target by 0.25 percentage points to support employment",c:0,why:"Although it mentions a goal, the core fact described is the SIZE of the rate change - the SETTING. (The goal hints at stance, but the figure itself is the setting.)"},
+   {t:"Business investment fell because the cost of borrowing for new equipment increased",c:2,why:"This describes how a rate change affects a specific decision (investment) through the savings & investment channel - TRANSMISSION."},
+   {t:"The RBA judged that the economy needed less stimulus, so it began withdrawing support",c:1,why:"This describes the RBA's judgement and intended direction of policy - the STANCE."}
+  ]
+};
+
+/* ---- C2 WHICH LINK IS MISSING? (independent gap-fill items) ---- */
+var LINK3=[
+  {pre:"RBA increases the cash rate \u2192 Higher mortgage repayments \u2192 ",post:" \u2192 Lower AD",
+   opts:["Lower disposable income","Higher exchange rate","Higher asset prices","More borrowing"],a:0,
+   why:"This is the cash flow channel: higher repayments directly reduce disposable income, which then reduces consumption (and AD)."},
+  {pre:"RBA cuts the cash rate \u2192 Lower lending rates \u2192 ",post:" \u2192 Higher investment \u2192 Higher AD",
+   opts:["More borrowing for business projects","Lower household wealth","AUD depreciation","Higher unemployment"],a:0,
+   why:"This is the savings & investment channel: lower borrowing costs encourage businesses to take on more debt-funded investment."},
+  {pre:"RBA increases the cash rate \u2192 Australian rates rise relative to other countries \u2192 ",post:" \u2192 AUD appreciates",
+   opts:["Capital inflow from foreign investors","Capital outflow to other countries","Lower house prices","Higher consumption"],a:0,
+   why:"This is the exchange rate channel: higher relative returns attract foreign capital, increasing demand for the AUD."},
+  {pre:"RBA increases the cash rate \u2192 ",post:" \u2192 Household wealth falls \u2192 Lower consumption",
+   opts:["Asset prices (housing, shares) fall","Export demand rises","Government spending falls","Wages rise"],a:0,
+   why:"This is the asset prices and wealth channel: higher rates reduce demand for assets, lowering their prices and household wealth."},
+  {pre:"RBA cuts the cash rate \u2192 AUD depreciates \u2192 ",post:" \u2192 Higher AD",
+   opts:["Net exports (X-M) rise","Net exports (X-M) fall","Household wealth rises","Inflation expectations fall"],a:0,
+   why:"A weaker AUD makes exports cheaper for foreign buyers and imports more expensive for Australians, so (X-M) rises."},
+  {pre:"RBA increases the cash rate \u2192 Higher deposit rates \u2192 ",post:" \u2192 Lower consumption",
+   opts:["Greater incentive to save rather than spend","Greater incentive to borrow","Lower mortgage repayments","Higher business confidence"],a:0,
+   why:"This is the savings & investment channel from the saving side: a higher return on deposits encourages households to save more and spend less."},
+  {pre:"RBA cuts the cash rate \u2192 Lower variable loan repayments for businesses \u2192 ",post:" \u2192 Higher investment",
+   opts:["More cash flow available for expansion","Higher cost of capital","Lower business confidence","AUD appreciation"],a:0,
+   why:"This is the cash flow channel for businesses: lower repayments free up cash flow that can be used for investment."},
+  {pre:"RBA increases the cash rate \u2192 Higher cost of borrowing for housing \u2192 ",post:" \u2192 Lower demand for housing \u2192 House prices fall",
+   opts:["Fewer buyers can afford or want a mortgage","More buyers enter the market","Rental prices fall","Construction costs fall"],a:0,
+   why:"This is the asset prices channel taking hold: higher borrowing costs reduce demand for housing, which puts downward pressure on prices."},
+  {pre:"RBA cuts the cash rate \u2192 Lower cost of credit \u2192 More business investment \u2192 ",post:" \u2192 Higher AD",
+   opts:["Higher I (investment) in the AD equation","Higher G (government spending)","Higher (X-M)","Lower C (consumption)"],a:0,
+   why:"More business investment directly raises the I component of AD = C + I + G + (X-M)."}
+];
+
+/* ---- C3 CHANNEL DETECTIVE (scenario -> channel + AD direction) ---- */
+var DETECT3=[
+ {context:"Australian interest rates rise above US interest rates. Foreign investors purchase Australian dollars, causing the AUD to appreciate. Export demand falls.",
+  q1:"Which channel is this?",
+  q1opts:["Exchange rate channel","Savings and investment channel","Cash flow channel","Asset prices and wealth channel"],q1a:0,
+  q2:"What happens to AD?",q2opts:["AD rises","AD falls"],q2a:1,
+  fb:"This is the exchange rate channel. A higher AUD makes exports less competitive, reducing net exports (X-M) and therefore AD."},
+ {context:"The RBA cuts the cash rate. A family with a variable-rate mortgage sees their monthly repayments fall by $300. They decide to eat out more often.",
+  q1:"Which channel is this?",
+  q1opts:["Exchange rate channel","Cash flow channel","Asset prices and wealth channel","Savings and investment channel"],q1a:1,
+  q2:"What happens to AD?",q2opts:["AD rises","AD falls"],q2a:0,
+  fb:"This is the cash flow channel: the rate cut directly increases this family's disposable income right now, and they spend more - C rises, so AD rises."},
+ {context:"After a series of rate rises, house prices in Melbourne fall by 8%. Homeowners feel less wealthy on paper and cut back on discretionary spending, even though they haven't sold their homes.",
+  q1:"Which channel is this?",
+  q1opts:["Savings and investment channel","Exchange rate channel","Asset prices & wealth channel","Cash flow channel"],q1a:2,
+  q2:"What happens to AD?",q2opts:["AD rises","AD falls"],q2a:1,
+  fb:"This is the asset prices and wealth channel: falling asset prices reduce 'paper wealth', triggering the wealth effect - consumption falls, so AD falls."},
+ {context:"A cafe owner considering a $150,000 renovation decides the loan repayments are now affordable after a rate cut, and proceeds with the project.",
+  q1:"Which channel is this?",
+  q1opts:["Cash flow channel","Asset prices and wealth channel","Savings and investment channel","Exchange rate channel"],q1a:2,
+  q2:"What happens to AD?",q2opts:["AD rises","AD falls"],q2a:0,
+  fb:"This is the savings and investment channel: a lower cost of credit makes the investment project profitable, increasing I and therefore AD."},
+ {context:"Retirees living off term deposit interest see their returns rise sharply after several rate increases. Many choose to save even more rather than draw down their savings for spending.",
+  q1:"Which channel is this?",
+  q1opts:["Asset prices and wealth channel","Cash flow channel","Exchange rate channel","Savings and investment channel"],q1a:3,
+  q2:"What happens to AD?",q2opts:["AD rises","AD falls"],q2a:1,
+  fb:"This is the savings and investment channel from the savings side: higher deposit rates increase the incentive to save rather than spend, so C falls and AD falls."},
+ {context:"A manufacturer that exports machinery parts finds overseas orders increasing after the AUD weakens significantly following a series of rate cuts.",
+  q1:"Which channel is this?",
+  q1opts:["Cash flow channel","Exchange rate channel","Savings and investment channel","Asset prices and wealth channel"],q1a:1,
+  q2:"What happens to AD?",q2opts:["AD rises","AD falls"],q2a:0,
+  fb:"This is the exchange rate channel: a weaker AUD makes exports more price-competitive overseas, raising (X-M) and AD."}
+];
+
+/* ---- C4 CHANNEL RACE (drag 8 effects into 4 channels) ---- */
+var RACE3={
+  cats:["Savings & Investment","Cash Flow","Exchange Rate","Asset Prices & Wealth"],
+  items:[
+   {t:"Mortgage repayments rise immediately, cutting disposable income",c:1,why:"Cash flow channel - the immediate change in income available to spend."},
+   {t:"Businesses delay borrowing for expansion because credit is now more expensive",c:0,why:"Savings & investment channel - the cost of credit changes the investment decision."},
+   {t:"House prices fall, reducing household 'paper wealth'",c:3,why:"Asset prices & wealth channel - a change in asset values changes perceived wealth."},
+   {t:"The AUD appreciates as foreign capital flows in seeking higher returns",c:2,why:"Exchange rate channel - capital flows respond to the interest rate differential."},
+   {t:"Households increase savings because term deposit rates are now more attractive",c:0,why:"Savings & investment channel - this is about the incentive to save versus spend."},
+   {t:"A business's loan repayments fall, freeing up cash flow for new stock",c:1,why:"Cash flow channel - this is about current cash available, not the decision to take on new debt."},
+   {t:"Export earnings fall because the stronger AUD makes goods less competitive overseas",c:2,why:"Exchange rate channel - this is the effect on net exports via the currency."},
+   {t:"Share portfolios lose value, and shareholders feel less wealthy and spend less",c:3,why:"Asset prices & wealth channel - falling asset values reducing consumption via the wealth effect."}
+  ]
+};
+
+/* ---- C5 MARKING PRACTICE (mix of 2-mark and 4-mark responses) ---- */
+var MARK3=[
+ {q:"Explain how an increase in the cash rate might affect the level of aggregate demand. <strong>(2 marks)</strong>",
+  resp:"The RBA increased the cash rate, causing people to spend less money.",
+  marks:2,correctMark:1,kk:'channels',
+  errOpts:["It is completely incorrect and deserves 0 marks overall",
+           "It never names a transmission channel or links through to AD",
+           "It should have discussed the inflation target instead of spending",
+           "It is a perfect 2-mark response with no issues at all"],
+  errA:1,
+  fixed:"An increase in the cash rate raises lending rates, increasing the cost of credit (savings and investment channel). This discourages borrowing for both household and business investment, so C and I are likely to fall, leading to a fall in AD.",
+  rule:"VCAA principle: one mark only for the correct general direction (spending falls) - full marks require naming a specific channel and completing the chain through to AD."},
+ {q:"With reference to ONE transmission channel, explain how a cash rate cut is likely to affect aggregate demand. <strong>(3 marks)</strong>",
+  resp:"The RBA cut the cash rate. This is the cash flow channel. Lower interest rates mean households with mortgages have more money. This increases consumption, so AD will increase.",
+  marks:3,correctMark:2,kk:'channels',
+  errOpts:["It fails to mention AD anywhere in this response",
+           "It uses the wrong channel and should be remarked",
+           "It says 'will' rather than 'is likely to'",
+           "It is a perfect 3-mark response, no issues"],
+  errA:2,
+  fixed:"This can be explained using the cash flow channel. A cash rate cut leads to lower variable mortgage interest rates, so households have lower loan repayments and therefore more disposable income. With more income available, households are likely to increase consumption (C), leading to an increase in aggregate demand (AD).",
+  rule:"VCAA principle: outcomes in economics are probabilistic, not certain - examiners reward 'is likely to' / 'should' over definitive claims like 'will'."},
+ {q:"Explain how higher interest rates might affect aggregate demand through the asset prices and wealth channel. <strong>(3 marks)</strong>",
+  resp:"Higher interest rates mean people don't want to buy houses as much, so house prices go down.",
+  marks:3,correctMark:1,kk:'channels',
+  errOpts:["It should discuss government spending here instead",
+           "It names the wrong channel entirely - exchange rate",
+           "It is a complete answer worth full marks",
+           "It stops halfway - never reaches wealth or AD"],
+  errA:3,
+  fixed:"Higher interest rates increase the cost of borrowing, reducing demand for housing and pushing house prices down. As asset prices fall, households' wealth - even on paper - is reduced (the wealth effect). Feeling less wealthy, households are likely to reduce their consumption spending, leading to a fall in aggregate demand (AD).",
+  rule:"VCAA principle: 'stopping halfway' after the first step (asset prices fall) is one of the most common ways marks are lost - always continue the chain to the behavioural response and the AD link."},
+ {q:"A student wrote: 'A rate rise reduces consumer confidence, so people spend less and AD falls.' Evaluate this as an explanation of a transmission channel. <strong>(2 marks)</strong>",
+  resp:"A rate rise reduces consumer confidence, so people spend less and AD falls.",
+  marks:2,correctMark:0,kk:'channels',
+  errOpts:["The response correctly names the cash flow channel",
+           "It should be awarded full marks - the conclusion holds",
+           "This is an acceptable substitute for any of the channels",
+           "'Consumer confidence' is not a named channel here"],
+  errA:3,
+  fixed:"A rate rise could be explained using the cash flow channel: higher variable mortgage repayments reduce households' disposable income, so they are likely to reduce consumption (C), leading to a fall in AD.",
+  rule:"VCAA principle: 'consumer confidence' is a plausible-sounding but ungraded concept here - always use one of the four named channels (savings & investment, cash flow, exchange rate, asset prices & wealth)."}
+];
+
+/* ---- C6 CONSUMPTION OR INVESTMENT? (2-column sort) ---- */
+var CORI3={
+  cats:["Consumption (C)","Investment (I)"],
+  items:[
+   {t:"A mortgage holder cuts back on discretionary spending after a rate rise",c:0,why:"This is a household spending decision - Consumption (C)."},
+   {t:"A firm cancels its planned warehouse expansion due to higher borrowing costs",c:1,why:"This is a business spending decision on capital - Investment (I)."},
+   {t:"A family delays their overseas holiday because of higher mortgage repayments",c:0,why:"Household spending on a good/service - Consumption (C)."},
+   {t:"A manufacturer postpones a machinery purchase until rates fall",c:1,why:"Business spending on capital goods - Investment (I)."},
+   {t:"A household buys a new car after a rate cut frees up some of their income",c:0,why:"Household spending on a good - Consumption (C)."},
+   {t:"A property developer delays starting a new apartment block due to high financing costs",c:1,why:"Business spending on a long-term project - Investment (I)."},
+   {t:"A retiree increases spending on dining out after their term deposit returns improve",c:0,why:"Household spending on a service - Consumption (C)."},
+   {t:"A cafe owner takes out a loan to renovate their shopfront after rates fall",c:1,why:"Business spending on capital improvements - Investment (I)."}
+  ]
+};
+
+/* ---- C7 TRANSMISSION MECHANISM EXIT TICKET ---- */
+var EXIT3={
+  scenario:"The RBA increased the cash rate target from 4.10% to 4.35%.",
+  qs:[
+   {q:"What stance does this represent?",
+    opts:["Contractionary","Expansionary stance","Neutral stance overall","Inflationary policy"],a:0,
+    fb:"A rate INCREASE aimed at restricting activity is a contractionary stance."},
+   {q:"Which transmission channel could you use to explain the effect on a household with a variable-rate mortgage?",
+    opts:["Cash flow channel","Exchange rate channel only","None - this household is unaffected","Asset prices channel only"],a:0,
+    fb:"The cash flow channel directly applies here - higher repayments immediately reduce this household's disposable income."},
+   {q:"What is likely to happen to C (consumption) for this household?",
+    opts:["C is likely to fall","C is likely to rise","C is unaffected","C will definitely double"],a:0,
+    fb:"With less disposable income, this household is LIKELY to reduce consumption spending - note the appropriately cautious language."},
+   {q:"What is the overall likely effect on AD?",
+    opts:["AD is likely to fall","AD is likely to rise","AD is unaffected","AD will definitely fall to zero"],a:0,
+    fb:"With C (and likely I) falling across the economy, AD is likely to fall."},
+   {q:"Which macroeconomic goal is most directly being targeted by this decision?",
+    opts:["Price stability (low inflation)","Full employment as the primary goal","External stability/exchange rate target","Equity in income distribution"],a:0,
+    fb:"A contractionary stance in response to inflationary pressure is primarily aimed at price stability, consistent with the RBA's inflation target - though it may trade off against employment in the short term."}
+  ]
+};
+
+var ACTS3=[
+  {id:'c1',title:'1. Setting, Stance, or Transmission?',type:'sort3',desc:'Sort 12 statements into the setting, the stance, or the transmission mechanism',max:12},
+  {id:'c2',title:'2. Which Link is Missing?',type:'link3',desc:'Complete 9 independent chains by filling in the missing link',max:9},
+  {id:'c3',title:'3. Channel Detective',type:'detect3',desc:'Read 6 scenarios, identify the channel, and determine the effect on AD',max:12},
+  {id:'c4',title:'4. Channel Race',type:'race3',desc:'Sort 8 effects into the four transmission channels',max:8},
+  {id:'c5',title:'5. Marking Practice',type:'mark3',desc:'Mark 4 student responses (2-4 marks each), then diagnose exactly what went wrong',max:8},
+  {id:'c6',title:'6. Consumption or Investment?',type:'cori3',desc:'Sort 8 statements into the correct AD component - C or I',max:8},
+  {id:'c7',title:'7. Transmission Mechanism Exit Ticket',type:'exit3',desc:'One scenario, five questions - stance, channel, AD effect, and the macro goal',max:5}
+];
+
 var LESSONS=[
   {id:1,title:'The Nature & Operation of Monetary Policy',subtitle:'AD policies, the RBA, objectives and the stance',acts:ACTS,max:39,
    selfCheck:[
@@ -558,6 +757,14 @@ var LESSONS=[
     "What does the RBA's weekly Open Market Operation (OMO) do?",
     "If you have surplus reserves, what determines whether you would lend to another bank or use the RBA's standing facility?",
     "If the cash rate rises, why does the 30-day bank bill rate rise too, and what happens to deposit and mortgage rates next?"
+   ]},
+  {id:3,title:'The Transmission Mechanism',subtitle:'Setting vs stance vs transmission, and the four channels to AD',acts:ACTS3,max:62,
+   selfCheck:[
+    "What is the difference between the setting, the stance, and the transmission mechanism?",
+    "What are the four transmission channels, and what does each one affect first?",
+    "Which AD component(s) does each channel ultimately change - C, I, or (X-M)?",
+    "Why is it important to say a rate change 'is likely to' affect AD, rather than 'will' affect it?",
+    "What is the most common way students lose marks when explaining a transmission channel?"
    ]}
 ];
 
@@ -620,7 +827,9 @@ function computeL2Scores(){
   return{per:per,kk:kk,total:total,max:45};
 }
 function computeScores(){
-  return S.lesson===2 ? computeL2Scores() : computeL1Scores();
+  if(S.lesson===2)return computeL2Scores();
+  if(S.lesson===3)return computeL3Scores();
+  return computeL1Scores();
 }
 
 function actProgress(id){
@@ -645,6 +854,14 @@ function actProgress(id){
   if(id==='b5'){tot=DRIFT2.length;for(i=0;i<tot;i++){if(S.l2drift[i]!==undefined)done++;}}
   if(id==='b6'){tot=SPOT2.length*2;for(i=0;i<SPOT2.length;i++){if(S.l2spot.marks[i]!==undefined)done++;if(S.l2spot.gap[i]!==undefined)done++;}}
   if(id==='b7'){tot=1;done=S.l2sort.checked?1:0;}
+
+  if(id==='c1'){tot=1;done=S.l3sort.checked?1:0;}
+  if(id==='c2'){tot=LINK3.length;for(i=0;i<tot;i++){if(S.l3link[i]!==undefined)done++;}}
+  if(id==='c3'){tot=DETECT3.length*2;for(i=0;i<DETECT3.length;i++){if(S.l3detect[i+'_a']!==undefined)done++;if(S.l3detect[i+'_b']!==undefined)done++;}}
+  if(id==='c4'){tot=1;done=S.l3race.checked?1:0;}
+  if(id==='c5'){tot=MARK3.length*2;for(i=0;i<MARK3.length;i++){if(S.l3mark.marks[i]!==undefined)done++;if(S.l3mark.gap[i]!==undefined)done++;}}
+  if(id==='c6'){tot=1;done=S.l3cori.checked?1:0;}
+  if(id==='c7'){tot=EXIT3.qs.length;for(i=0;i<tot;i++){if(S.l3exit[i]!==undefined)done++;}}
 
   return{done:done,tot:tot,complete:done>=tot&&tot>0};
 }
@@ -694,7 +911,7 @@ function vHome(){
     var L=LESSONS[i], st=lessonComplete(L.id);
     h+="<div class='tile' onclick='openLesson("+L.id+")'><div class='num'>Lesson "+L.id+"</div><h3>"+L.title+"</h3><div class='meta'>"+L.subtitle+"</div><span class='pill "+st.cls+"'>"+st.txt+"</span></div>";
   }
-  var coming=[['Lesson 3','The Transmission Mechanism'],['Lesson 4','Effects on Macroeconomic Goals'],['Lesson 5','Evaluate Monetary Policy']];
+  var coming=[['Lesson 4','Effects on Macroeconomic Goals'],['Lesson 5','Evaluate Monetary Policy']];
   for(var c=0;c<coming.length;c++){h+="<div class='tile locked'><div class='num'>"+coming[c][0]+"</div><h3>"+coming[c][1]+"</h3><span class='pill soon'>Coming soon</span></div>";}
   h+="</div><div class='footer-link'><span onclick='go(\"teacher\")'>Teacher view</span></div></div>";
   return h;
@@ -708,7 +925,8 @@ function resetAll(){
     try{localStorage.removeItem(LS_KEY);}catch(e){}
     S={screen:'home',name:'',lesson:1,act:0,
        ans:{},obj:{placed:{},checked:false},tl:{},dual:{},chain:{},spot:{marks:{},gap1:{},gap2:{}},cond:{},
-       l2ans:{},l2calc:{},l2calctf:{},l2chain:{},l2comp:{},l2drift:{},l2spot:{marks:{},gap:{}},l2sort:{placed:{},checked:false}};
+       l2ans:{},l2calc:{},l2calctf:{},l2chain:{},l2comp:{},l2drift:{},l2spot:{marks:{},gap:{}},l2sort:{placed:{},checked:false},
+       l3sort:{placed:{},checked:false},l3link:{},l3detect:{},l3race:{placed:{},checked:false},l3mark:{marks:{},gap:{}},l3cori:{placed:{},checked:false},l3exit:{}};
     render();
   }
 }
@@ -763,6 +981,13 @@ function vAct(){
   if(a.type==='drift2')h+=vDrift2();
   if(a.type==='spot2')h+=vSpot2();
   if(a.type==='sort2')h+=vSort2();
+  if(a.type==='sort3')h+=vSort3();
+  if(a.type==='link3')h+=vLink3();
+  if(a.type==='detect3')h+=vDetect3();
+  if(a.type==='race3')h+=vRace3();
+  if(a.type==='mark3')h+=vMark3();
+  if(a.type==='cori3')h+=vCori3();
+  if(a.type==='exit3')h+=vExit3();
   if(p.complete){h+="<div class='card' style='border-color:var(--green);background:var(--green-pale)'><strong>Activity complete - "+sc.per[a.id]+" / "+a.max+".</strong> Results synced. Head back and try another activity.</div>";}
   h+="<button class='btn' onclick='go(\"chooser\")'>Back to activities</button></div>";
   return h;
@@ -1276,6 +1501,306 @@ function placeSort2(col){
 }
 function removeSort2(idx){if(S.l2sort.checked)return;delete S.l2sort.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
 function checkSort2(){S.l2sort.checked=true;maybeSync('b7');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ================= LESSON 3 RENDER FUNCTIONS ================= */
+
+/* ---- C1 SETTING, STANCE, OR TRANSMISSION? (3-column sort) ---- */
+function vSort3(){
+  var h="<div class='card'><p style='font-size:14.5px'>Click each statement to assign it to the correct category: the setting (the actual figure), the stance (the intended effect), or the transmission mechanism (how it flows through). Click a placed item to remove it.</p>";
+  var placed={};for(var k in S.l3sort.placed){placed[k]=S.l3sort.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(3,1fr)'>";
+  for(var c=0;c<3;c++){
+    h+="<div class='obj-col'><h4>"+SORT3.cats[c]+"</h4>";
+    for(var j=0;j<SORT3.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l3sort.checked)cls2+=placed[j]===SORT3.items[j].c?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeSort3("+j+")'>"+SORT3.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<SORT3.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click a column:</p><div class='obj-bank' id='sortBank3'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectSort3("+unplaced[n]+")' id='sb3-"+unplaced[n]+"'>"+SORT3.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l3sort.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkSort3()'>Check my answers</button>";
+  if(S.l3sort.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<SORT3.items.length;p++){
+      var ok=S.l3sort.placed[p]===SORT3.items[p].c;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+SORT3.items[p].t+"</strong> - "+SORT3.cats[SORT3.items[p].c]+". "+SORT3.items[p].why+"</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _sort3Sel=null;
+function selectSort3(idx){
+  _sort3Sel=idx;
+  var els=document.querySelectorAll('#sortBank3 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('sb3-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeSort3(ci);};})(c);}
+}
+function placeSort3(col){
+  if(_sort3Sel===null)return;
+  if(S.l3sort.checked)return;
+  S.l3sort.placed[_sort3Sel]=col;_sort3Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeSort3(idx){if(S.l3sort.checked)return;delete S.l3sort.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkSort3(){S.l3sort.checked=true;maybeSync('c1');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- C2 WHICH LINK IS MISSING? (independent gap-fill items) ---- */
+function vLink3(){
+  var h="<p style='font-size:14.5px;margin-bottom:12px'>Each chain below is missing one link. Choose the option that correctly completes it.</p>";
+  for(var i=0;i<LINK3.length;i++){h+="<div class='card' id='link3-"+i+"'>"+link3Inner(i)+"</div>";}
+  return h;
+}
+function link3Inner(i){
+  var c=LINK3[i],sel=S.l3link[i],blank,h='';
+  h+="<div class='qhead'>Item "+(i+1)+"</div>";
+  if(sel===undefined)blank="<span class='blank'>?</span>";
+  else blank="<span class='blank "+(sel===c.a?'ok':'bad')+"'>"+c.opts[sel]+"</span>"+(sel!==c.a?" <span style='color:var(--green);font-weight:700'>("+c.opts[c.a]+")</span>":"");
+  h+="<div class='chainstep'>"+c.pre+blank+c.post+"</div>";
+  if(sel===undefined){h+="<div style='margin-top:8px'>";for(var o=0;o<c.opts.length;o++){h+="<button class='chip' onclick='ansLink3("+i+","+o+")'>"+c.opts[o]+"</button>";}h+="</div>";}
+  if(sel!==undefined){h+="<div class='fb'>"+(sel===c.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+c.why+"</div>";}
+  return h;
+}
+function ansLink3(i,o){
+  if(S.l3link[i]!==undefined)return;
+  S.l3link[i]=o;saveState();
+  var el=document.getElementById('link3-'+i);if(el)el.innerHTML=link3Inner(i);
+  updateNav();maybeSync('c2');
+}
+
+/* ---- C3 CHANNEL DETECTIVE (scenario -> channel + AD direction) ---- */
+function vDetect3(){
+  var h='';
+  for(var i=0;i<DETECT3.length;i++){h+="<div class='card' id='detect3-"+i+"'>"+detect3Inner(i)+"</div>";}
+  return h;
+}
+function detect3Inner(i){
+  var sc=DETECT3[i], a1=S.l3detect[i+'_a'], a2=S.l3detect[i+'_b'], h='';
+  h+="<div class='qhead'>Scenario "+(i+1)+"</div>";
+  h+="<p style='font-size:14.5px;margin-bottom:8px'>"+sc.context+"</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid)'>"+sc.q1+"</p>";
+  for(var o=0;o<sc.q1opts.length;o++){
+    var c1='opt';
+    if(a1!==undefined){if(o===sc.q1a)c1+=' ok';else if(o===a1)c1+=' bad';}
+    h+="<button class='"+c1+"' "+(a1!==undefined?'disabled':'')+" onclick='ansDetect3a("+i+","+o+")'>"+sc.q1opts[o]+"</button>";
+  }
+  if(a1!==undefined){
+    h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>"+sc.q2+"</p>";
+    for(var p=0;p<sc.q2opts.length;p++){
+      var c2='opt';
+      if(a2!==undefined){if(p===sc.q2a)c2+=' ok';else if(p===a2)c2+=' bad';}
+      h+="<button class='"+c2+"' "+(a2!==undefined?'disabled':'')+" onclick='ansDetect3b("+i+","+p+")'>"+sc.q2opts[p]+"</button>";
+    }
+  }
+  if(a1!==undefined&&a2!==undefined){h+="<div class='fb'>"+sc.fb+"</div>";}
+  return h;
+}
+function ansDetect3a(i,o){if(S.l3detect[i+'_a']!==undefined)return;S.l3detect[i+'_a']=o;saveState();var el=document.getElementById('detect3-'+i);if(el)el.innerHTML=detect3Inner(i);updateNav();maybeSync('c3');}
+function ansDetect3b(i,o){if(S.l3detect[i+'_b']!==undefined)return;S.l3detect[i+'_b']=o;saveState();var el=document.getElementById('detect3-'+i);if(el)el.innerHTML=detect3Inner(i);updateNav();maybeSync('c3');}
+
+/* ---- C4 CHANNEL RACE (4-column sort) ---- */
+function vRace3(){
+  var h="<div class='card'><p style='font-size:14.5px'>Sort each effect into the channel it best illustrates. Click an effect, then click a column.</p>";
+  var placed={};for(var k in S.l3race.placed){placed[k]=S.l3race.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(4,1fr)'>";
+  for(var c=0;c<4;c++){
+    h+="<div class='obj-col'><h4>"+RACE3.cats[c]+"</h4>";
+    for(var j=0;j<RACE3.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l3race.checked)cls2+=placed[j]===RACE3.items[j].c?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeRace3("+j+")'>"+RACE3.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<RACE3.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click a column:</p><div class='obj-bank' id='raceBank3'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectRace3("+unplaced[n]+")' id='rb3-"+unplaced[n]+"'>"+RACE3.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l3race.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkRace3()'>Check my answers</button>";
+  if(S.l3race.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<RACE3.items.length;p++){
+      var ok=S.l3race.placed[p]===RACE3.items[p].c;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+RACE3.items[p].t+"</strong> - "+RACE3.cats[RACE3.items[p].c]+". "+RACE3.items[p].why+"</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _race3Sel=null;
+function selectRace3(idx){
+  _race3Sel=idx;
+  var els=document.querySelectorAll('#raceBank3 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('rb3-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeRace3(ci);};})(c);}
+}
+function placeRace3(col){
+  if(_race3Sel===null)return;
+  if(S.l3race.checked)return;
+  S.l3race.placed[_race3Sel]=col;_race3Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeRace3(idx){if(S.l3race.checked)return;delete S.l3race.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkRace3(){S.l3race.checked=true;maybeSync('c4');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- C5 MARKING PRACTICE ---- */
+function vMark3(){
+  var h='';
+  for(var i=0;i<MARK3.length;i++){h+="<div class='card' id='mark3-"+i+"'>"+mark3Inner(i)+"</div>";}
+  return h;
+}
+function mark3Inner(i){
+  var q=MARK3[i],mk=S.l3mark.marks[i],g=S.l3mark.gap[i],h='';
+  h+="<div class='qhead'>Question "+(i+1)+"</div><p style='font-size:15px'>"+q.q+"</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:10px'>A student wrote:</p><div class='resp'>"+q.resp+"</div>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid)'>Step 1 - What mark would this earn?</p><div style='display:flex;gap:8px;flex-wrap:wrap'>";
+  for(var m=0;m<=q.marks;m++){var c1='opt';if(mk!==undefined){if(m===q.correctMark)c1+=' ok';else if(m===mk)c1+=' bad';}h+="<button class='"+c1+"' style='width:auto' "+(mk!==undefined?'disabled':'')+" onclick='ansMark3("+i+","+m+")'>"+m+" / "+q.marks+"</button>";}
+  h+="</div>";
+  if(mk!==undefined){
+    h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>Step 2 - What is the key issue?</p>";
+    for(var e=0;e<q.errOpts.length;e++){var c2='opt';if(g!==undefined){if(e===q.errA)c2+=' ok';else if(e===g)c2+=' bad';}h+="<button class='"+c2+"' "+(g!==undefined?'disabled':'')+" onclick='ansMarkGap3("+i+","+e+")'>"+q.errOpts[e]+"</button>";}
+    if(g!==undefined){
+      h+="<p style='font-size:13.5px;font-weight:700;color:var(--green);margin-top:12px'>An improved response:</p><div class='resp' style='background:var(--green-pale)'>"+q.fixed+"</div>";
+      h+="<div class='rule'>"+q.rule+"</div>";
+    }
+  }
+  return h;
+}
+function ansMark3(i,m){if(S.l3mark.marks[i]!==undefined)return;S.l3mark.marks[i]=m;saveState();var el=document.getElementById('mark3-'+i);if(el)el.innerHTML=mark3Inner(i);updateNav();maybeSync('c5');}
+function ansMarkGap3(i,e){if(S.l3mark.gap[i]!==undefined)return;S.l3mark.gap[i]=e;saveState();var el=document.getElementById('mark3-'+i);if(el)el.innerHTML=mark3Inner(i);updateNav();maybeSync('c5');}
+
+/* ---- C6 CONSUMPTION OR INVESTMENT? (2-column sort) ---- */
+function vCori3(){
+  var h="<div class='card'><p style='font-size:14.5px'>Sort each statement into Consumption (C) or Investment (I). Click an item, then click a column.</p>";
+  var placed={};for(var k in S.l3cori.placed){placed[k]=S.l3cori.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(2,1fr)'>";
+  for(var c=0;c<2;c++){
+    h+="<div class='obj-col'><h4>"+CORI3.cats[c]+"</h4>";
+    for(var j=0;j<CORI3.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l3cori.checked)cls2+=placed[j]===CORI3.items[j].c?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeCori3("+j+")'>"+CORI3.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<CORI3.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click a column:</p><div class='obj-bank' id='coriBank3'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectCori3("+unplaced[n]+")' id='cb3-"+unplaced[n]+"'>"+CORI3.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l3cori.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkCori3()'>Check my answers</button>";
+  if(S.l3cori.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<CORI3.items.length;p++){
+      var ok=S.l3cori.placed[p]===CORI3.items[p].c;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+CORI3.items[p].t+"</strong> - "+CORI3.cats[CORI3.items[p].c]+". "+CORI3.items[p].why+"</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _cori3Sel=null;
+function selectCori3(idx){
+  _cori3Sel=idx;
+  var els=document.querySelectorAll('#coriBank3 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('cb3-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeCori3(ci);};})(c);}
+}
+function placeCori3(col){
+  if(_cori3Sel===null)return;
+  if(S.l3cori.checked)return;
+  S.l3cori.placed[_cori3Sel]=col;_cori3Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeCori3(idx){if(S.l3cori.checked)return;delete S.l3cori.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkCori3(){S.l3cori.checked=true;maybeSync('c6');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- C7 TRANSMISSION MECHANISM EXIT TICKET ---- */
+function vExit3(){
+  var h="<div class='card'><div class='qhead' style='margin-top:0'>Scenario</div><p style='font-size:15px'>"+EXIT3.scenario+"</p></div>";
+  for(var i=0;i<EXIT3.qs.length;i++){h+="<div class='card' id='exit3-"+i+"'>"+exit3Inner(i)+"</div>";}
+  return h;
+}
+function exit3Inner(i){
+  var q=EXIT3.qs[i],sel=S.l3exit[i],h='';
+  h+="<div class='qhead'>"+(i+1)+". "+q.q+"</div>";
+  for(var o=0;o<q.opts.length;o++){
+    var cls='opt';
+    if(sel!==undefined){if(o===q.a)cls+=' ok';else if(o===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' "+(sel!==undefined?'disabled':'')+" onclick='ansExit3("+i+","+o+")'>"+q.opts[o]+"</button>";
+  }
+  if(sel!==undefined){h+="<div class='fb'>"+(sel===q.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+q.fb+"</div>";}
+  return h;
+}
+function ansExit3(i,o){
+  if(S.l3exit[i]!==undefined)return;
+  S.l3exit[i]=o;saveState();
+  var el=document.getElementById('exit3-'+i);if(el)el.innerHTML=exit3Inner(i);
+  updateNav();maybeSync('c7');
+}
+
+/* ================= LESSON 3 SCORING ================= */
+function computeL3Scores(){
+  var kk=blankKK(),per={},total=0,s,i;
+
+  s=0;for(i=0;i<SORT3.items.length;i++){kk.setstance.t++;if(S.l3sort.checked&&S.l3sort.placed[i]===SORT3.items[i].c){s++;kk.setstance.c++;}}per.c1=s;
+
+  s=0;for(i=0;i<LINK3.length;i++){kk.channels.t++;if(S.l3link[i]===LINK3[i].a){s++;kk.channels.c++;}}per.c2=s;
+
+  s=0;for(i=0;i<DETECT3.length;i++){
+    kk.channels.t+=2;
+    if(S.l3detect[i+'_a']===DETECT3[i].q1a){s++;kk.channels.c++;}
+    if(S.l3detect[i+'_b']===DETECT3[i].q2a){s++;kk.channels.c++;}
+  }per.c3=s;
+
+  s=0;for(i=0;i<RACE3.items.length;i++){kk.channels.t++;if(S.l3race.checked&&S.l3race.placed[i]===RACE3.items[i].c){s++;kk.channels.c++;}}per.c4=s;
+
+  s=0;for(i=0;i<MARK3.length;i++){
+    kk.channels.t+=2;
+    if(S.l3mark.marks[i]===MARK3[i].correctMark){s++;kk.channels.c++;}
+    if(S.l3mark.gap[i]===MARK3[i].errA){s++;kk.channels.c++;}
+  }per.c5=s;
+
+  s=0;for(i=0;i<CORI3.items.length;i++){kk.adcomp.t++;if(S.l3cori.checked&&S.l3cori.placed[i]===CORI3.items[i].c){s++;kk.adcomp.c++;}}per.c6=s;
+
+  s=0;for(i=0;i<EXIT3.qs.length;i++){kk.setstance.t++;if(S.l3exit[i]===EXIT3.qs[i].a){s++;kk.setstance.c++;}}per.c7=s;
+
+  for(var key in per)total+=per[key];
+  return{per:per,kk:kk,total:total,max:62};
+}
 
 /* ================= TEACHER ================= */
 function vTeacherPin(){
