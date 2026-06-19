@@ -1252,26 +1252,8 @@ body {
       <div style="font-family:'Courier Prime',monospace;font-size:11px;color:var(--brown-mid);letter-spacing:0.15em;text-transform:uppercase;margin-top:4px;">Australian Economy Simulation</div>
     </div>
 
-    <!-- TEACHER -->
-    <div id="join-teacher-panel">
-      <div style="font-family:'Courier Prime',monospace;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brown-mid);margin-bottom:16px;">Create a new game</div>
-      <div style="margin-bottom:12px;">
-        <label style="font-size:12px;font-weight:500;display:block;margin-bottom:5px;">Number of students</label>
-        <input type="number" id="joinStudentCount" min="4" max="30" value="13"
-          style="width:100%;padding:10px 12px;border:1.5px solid var(--brown);border-radius:3px;font-size:14px;background:var(--cream);font-family:'Inter',sans-serif;color:var(--brown);"
-          oninput="previewRoles(this.value)">
-      </div>
-      <div id="joinRolePreview" style="background:var(--cream);border:1px solid var(--brown-light);border-radius:3px;padding:12px;margin-bottom:16px;font-size:12px;line-height:1.9;color:var(--brown-mid);font-family:'Courier Prime',monospace;">
-        🏠 Households: 7 &nbsp;|&nbsp; 🏭 Businesses: 6
-      </div>
-      <button onclick="createGame()" class="btn-primary" style="width:100%;margin-bottom:16px;font-size:14px;padding:13px;">Create Game →</button>
-      <div style="text-align:center;">
-        <button onclick="switchToStudentJoin()" style="background:none;border:none;color:var(--brown-mid);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;">I'm a student — join an existing game</button>
-      </div>
-    </div>
-
-    <!-- STUDENT -->
-    <div id="join-student-panel" style="display:none;">
+    <!-- STUDENT (shown first) -->
+    <div id="join-student-panel">
       <div style="font-family:'Courier Prime',monospace;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brown-mid);margin-bottom:16px;">Join a game</div>
       <div style="margin-bottom:12px;">
         <label style="font-size:12px;font-weight:500;display:block;margin-bottom:5px;">Game code</label>
@@ -1287,7 +1269,25 @@ body {
       <button onclick="studentJoin()" class="btn-primary" style="width:100%;font-size:14px;padding:13px;margin-bottom:12px;">Join Game →</button>
       <div id="joinError" style="display:none;background:#FCEBEB;border:1px solid #F09595;border-radius:3px;padding:10px 12px;font-size:12px;color:#A32D2D;text-align:center;margin-bottom:12px;"></div>
       <div style="text-align:center;">
-        <button onclick="switchToTeacher()" style="background:none;border:none;color:var(--brown-mid);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;">I'm the teacher — create a game</button>
+        <button onclick="switchToTeacher()" style="background:none;border:none;color:var(--brown-mid);font-size:11px;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;opacity:0.6;">Teacher — create a game</button>
+      </div>
+    </div>
+
+    <!-- TEACHER (hidden initially) -->
+    <div id="join-teacher-panel" style="display:none;">
+      <div style="font-family:'Courier Prime',monospace;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brown-mid);margin-bottom:16px;">Create a new game</div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;font-weight:500;display:block;margin-bottom:5px;">Number of students</label>
+        <input type="number" id="joinStudentCount" min="4" max="30" value="13"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--brown);border-radius:3px;font-size:14px;background:var(--cream);font-family:'Inter',sans-serif;color:var(--brown);"
+          oninput="previewRoles(this.value)">
+      </div>
+      <div id="joinRolePreview" style="background:var(--cream);border:1px solid var(--brown-light);border-radius:3px;padding:12px;margin-bottom:16px;font-size:12px;line-height:1.9;color:var(--brown-mid);font-family:'Courier Prime',monospace;">
+        🏠 Households: 7 &nbsp;|&nbsp; 🏭 Businesses: 6
+      </div>
+      <button onclick="createGame()" class="btn-primary" style="width:100%;margin-bottom:16px;font-size:14px;padding:13px;">Create Game →</button>
+      <div style="text-align:center;">
+        <button onclick="switchToStudentJoin()" style="background:none;border:none;color:var(--brown-mid);font-size:11px;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;opacity:0.6;">Back to student join</button>
       </div>
     </div>
   </div>
