@@ -1244,6 +1244,66 @@ body {
 
 </div>
 
+<!-- JOIN SCREEN -->
+<div id="screen-join" style="position:fixed;inset:0;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;padding:24px;">
+  <div style="background:var(--paper);border:2px solid var(--brown);border-radius:4px;padding:40px;max-width:480px;width:100%;">
+    <div style="text-align:center;margin-bottom:32px;">
+      <div style="font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:var(--brown);">Econo<span style="color:var(--gold)">land</span></div>
+      <div style="font-family:'Courier Prime',monospace;font-size:11px;color:var(--brown-mid);letter-spacing:0.15em;text-transform:uppercase;margin-top:4px;">Australian Economy Simulation</div>
+    </div>
+
+    <!-- TEACHER -->
+    <div id="join-teacher-panel">
+      <div style="font-family:'Courier Prime',monospace;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brown-mid);margin-bottom:16px;">Create a new game</div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;font-weight:500;display:block;margin-bottom:5px;">Number of students</label>
+        <input type="number" id="joinStudentCount" min="4" max="30" value="13"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--brown);border-radius:3px;font-size:14px;background:var(--cream);font-family:'Inter',sans-serif;color:var(--brown);"
+          oninput="previewRoles(this.value)">
+      </div>
+      <div id="joinRolePreview" style="background:var(--cream);border:1px solid var(--brown-light);border-radius:3px;padding:12px;margin-bottom:16px;font-size:12px;line-height:1.9;color:var(--brown-mid);font-family:'Courier Prime',monospace;">
+        🏠 Households: 7 &nbsp;|&nbsp; 🏭 Businesses: 6
+      </div>
+      <button onclick="createGame()" class="btn-primary" style="width:100%;margin-bottom:16px;font-size:14px;padding:13px;">Create Game →</button>
+      <div style="text-align:center;">
+        <button onclick="switchToStudentJoin()" style="background:none;border:none;color:var(--brown-mid);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;">I'm a student — join an existing game</button>
+      </div>
+    </div>
+
+    <!-- STUDENT -->
+    <div id="join-student-panel" style="display:none;">
+      <div style="font-family:'Courier Prime',monospace;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brown-mid);margin-bottom:16px;">Join a game</div>
+      <div style="margin-bottom:12px;">
+        <label style="font-size:12px;font-weight:500;display:block;margin-bottom:5px;">Game code</label>
+        <input type="text" id="joinCode" placeholder="e.g. AH9FNC" maxlength="6"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--brown);border-radius:3px;font-size:24px;text-transform:uppercase;font-family:'Courier Prime',monospace;letter-spacing:0.2em;background:var(--cream);color:var(--rust);text-align:center;"
+          oninput="this.value=this.value.toUpperCase()">
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px;font-weight:500;display:block;margin-bottom:5px;">Your name</label>
+        <input type="text" id="joinName" placeholder="e.g. Aisha"
+          style="width:100%;padding:10px 12px;border:1.5px solid var(--brown);border-radius:3px;font-size:14px;background:var(--cream);font-family:'Inter',sans-serif;color:var(--brown);">
+      </div>
+      <button onclick="studentJoin()" class="btn-primary" style="width:100%;font-size:14px;padding:13px;margin-bottom:12px;">Join Game →</button>
+      <div id="joinError" style="display:none;background:#FCEBEB;border:1px solid #F09595;border-radius:3px;padding:10px 12px;font-size:12px;color:#A32D2D;text-align:center;margin-bottom:12px;"></div>
+      <div style="text-align:center;">
+        <button onclick="switchToTeacher()" style="background:none;border:none;color:var(--brown-mid);font-size:12px;cursor:pointer;text-decoration:underline;font-family:'Inter',sans-serif;">I'm the teacher — create a game</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GAME CODE OVERLAY -->
+<div id="screen-gamecode" style="position:fixed;inset:0;background:rgba(44,31,20,0.88);display:none;align-items:center;justify-content:center;z-index:998;">
+  <div style="background:var(--paper);border:2px solid var(--brown);border-radius:4px;padding:40px;max-width:500px;width:90%;text-align:center;">
+    <div style="font-family:'Courier Prime',monospace;font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--brown-mid);margin-bottom:8px;">Game created — share this code with your class</div>
+    <div id="displayGameCode" style="font-family:'Courier Prime',monospace;font-size:72px;font-weight:700;color:var(--rust);letter-spacing:0.15em;margin:16px 0;line-height:1;">------</div>
+    <div style="font-size:12px;color:var(--brown-mid);margin-bottom:16px;font-family:'Courier Prime',monospace;">Students go to:<br><strong style="color:var(--rust);font-size:14px;">megand76.github.io/VCE-Economics</strong></div>
+    <div id="roleBreakdown" style="background:var(--cream);border:1px solid var(--brown-light);border-radius:3px;padding:16px;margin-bottom:20px;text-align:left;font-size:13px;line-height:2.2;font-family:'Courier Prime',monospace;color:var(--brown-mid);"></div>
+    <button onclick="enterTeacherDashboard()" class="btn-primary" style="width:100%;font-size:14px;padding:13px;">Open Teacher Dashboard →</button>
+  </div>
+</div>
+
 <!-- EVENT OVERLAY -->
 <div class="event-overlay" id="eventOverlay">
   <div class="event-modal">
@@ -1428,7 +1488,7 @@ buildTicker();
 <script>
 // ── BACKEND CONFIG ───────────────────────────────────────────────────────────
 // After deploying your Cloudflare Worker, replace the URL below:
-const WORKER_URL = 'https://econoland.megan-dyring.workers.dev';
+const WORKER_URL = 'https://econoland.YOUR_SUBDOMAIN.workers.dev';
 // Leave as null to run in demo mode (no backend needed)
 // const WORKER_URL = null;
 
@@ -1639,7 +1699,118 @@ async function confirmBizDecision() {
   showToast('Investment decisions confirmed and sent to teacher dashboard.');
 }
 
-// Teacher event trigger — also posts to backend
+// ── JOIN SCREEN LOGIC ────────────────────────────────────────────────────────
+
+function calcRoles(n) {
+  n = parseInt(n) || 13;
+  const biz = Math.floor(n * 0.45);
+  const hh = n - biz;
+  return { households: hh, businesses: biz };
+}
+
+function previewRoles(n) {
+  const { households, businesses } = calcRoles(n);
+  document.getElementById('joinRolePreview').innerHTML =
+    `🏠 Households: <strong style="color:var(--brown)">${households}</strong> &nbsp;|&nbsp; 🏭 Businesses: <strong style="color:var(--brown)">${businesses}</strong><br>
+     <span style="font-size:10px;color:var(--brown-light)">Govt, Financial & Overseas roles — you assign in later rounds</span>`;
+}
+
+function switchToStudentJoin() {
+  document.getElementById('join-teacher-panel').style.display = 'none';
+  document.getElementById('join-student-panel').style.display = 'block';
+}
+
+function switchToTeacher() {
+  document.getElementById('join-student-panel').style.display = 'none';
+  document.getElementById('join-teacher-panel').style.display = 'block';
+}
+
+async function createGame() {
+  const n = parseInt(document.getElementById('joinStudentCount').value) || 13;
+  const { households, businesses } = calcRoles(n);
+  let gameCode;
+
+  if (WORKER_URL) {
+    const result = await api('/api/create-game', 'POST', { studentCount: n, households, businesses });
+    if (!result?.gameCode) { showToast('Could not create game — check connection'); return; }
+    gameCode = result.gameCode;
+  } else {
+    gameCode = Math.random().toString(36).substring(2,8).toUpperCase();
+  }
+
+  GAME_CODE = gameCode;
+  STUDENT_ROLE = 'teacher';
+  STUDENT_ID = 'teacher_' + Date.now();
+
+  document.getElementById('displayGameCode').textContent = gameCode;
+  document.getElementById('roleBreakdown').innerHTML =
+    `🏠 <strong>Households — first ${households} students to join</strong><br>
+     🏭 <strong>Businesses — next ${businesses} students to join</strong><br>
+     <span style="color:var(--teal)">🏛️ Government — you reassign a student in Round 2</span><br>
+     <span style="color:var(--gold)">🏦 Financial & 🌏 Overseas — you assign in Round 3</span>`;
+
+  document.getElementById('screen-gamecode').style.display = 'flex';
+  if (WORKER_URL) startPolling();
+}
+
+function enterTeacherDashboard() {
+  document.getElementById('screen-gamecode').style.display = 'none';
+  document.getElementById('screen-join').style.display = 'none';
+  document.getElementById('headerRole').textContent = 'Teacher Dashboard';
+  showView_direct('teacher');
+  document.querySelectorAll('.nav-btn')[0].classList.add('active');
+}
+
+async function studentJoin() {
+  const code = document.getElementById('joinCode').value.trim().toUpperCase();
+  const name = document.getElementById('joinName').value.trim();
+  const errEl = document.getElementById('joinError');
+  errEl.style.display = 'none';
+
+  if (!code || code.length !== 6) {
+    errEl.textContent = 'Please enter a valid 6-character game code.';
+    errEl.style.display = 'block'; return;
+  }
+  if (!name) {
+    errEl.textContent = 'Please enter your name.';
+    errEl.style.display = 'block'; return;
+  }
+
+  if (WORKER_URL) {
+    const id = name.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now();
+    const result = await api(`/api/game/${code}/join`, 'POST', { studentId: id, name, role: 'auto' });
+    if (result?.error) {
+      errEl.textContent = result.error === 'Game not found'
+        ? 'Game code not found. Check with your teacher.'
+        : 'Could not join — please try again.';
+      errEl.style.display = 'block'; return;
+    }
+    GAME_CODE = code;
+    STUDENT_ID = result.player?.id;
+    STUDENT_ROLE = result.player?.role;
+    startPolling();
+    enterStudentDashboard(result.player);
+  } else {
+    GAME_CODE = code;
+    STUDENT_ROLE = 'household';
+    enterStudentDashboard({ role: 'household', name });
+  }
+}
+
+function enterStudentDashboard(player) {
+  document.getElementById('screen-join').style.display = 'none';
+  const roleNames = { household:'Household', business:'Business', government:'Government', financial:'Financial Sector', overseas:'Overseas Sector' };
+  const roleEmojis = { household:'🏠', business:'🏭', government:'🏛️', financial:'🏦', overseas:'🌏' };
+  document.getElementById('headerRole').textContent = `${player.name} — ${roleNames[player.role] || player.role}`;
+  const viewMap = { household:'household', business:'business', government:'teacher', financial:'teacher', overseas:'teacher' };
+  showView_direct(viewMap[player.role] || 'household');
+  showToast(`${roleEmojis[player.role] || ''} You are a ${roleNames[player.role]} — Round 1 is active!`);
+}
+
+// Init role preview
+previewRoles(13);
+
+
 const _origTriggerEvent = triggerEvent;
 async function triggerEvent(type) {
   if (GAME_CODE && WORKER_URL && typeof type === 'string') {
