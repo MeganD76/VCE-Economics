@@ -1752,14 +1752,28 @@ async function createGame() {
     STUDENT_ROLE = 'teacher';
     STUDENT_ID = 'teacher_' + Date.now();
 
-    document.getElementById('displayGameCode').textContent = gameCode;
-    document.getElementById('roleBreakdown').innerHTML =
+    const codeEl = document.getElementById('displayGameCode');
+    const breakdownEl = document.getElementById('roleBreakdown');
+    const overlayEl = document.getElementById('screen-gamecode');
+
+    console.log('Elements found:', codeEl, breakdownEl, overlayEl);
+
+    if (codeEl) codeEl.textContent = gameCode;
+    if (breakdownEl) breakdownEl.innerHTML =
       `🏠 <strong>Households — first ${households} students to join</strong><br>
        🏭 <strong>Businesses — next ${businesses} students to join</strong><br>
        <span style="color:var(--teal)">🏛️ Government — you reassign a student in Round 2</span><br>
        <span style="color:var(--gold)">🏦 Financial & 🌏 Overseas — you assign in Round 3</span>`;
 
-    document.getElementById('screen-gamecode').style.display = 'flex';
+    if (overlayEl) {
+      overlayEl.style.display = 'flex';
+      overlayEl.style.visibility = 'visible';
+      overlayEl.style.opacity = '1';
+    } else {
+      // Fallback — show as alert if overlay not found
+      alert(`Game created! Code: ${gameCode}\n\nShare this with your students.`);
+    }
+
     if (WORKER_URL) startPolling();
 
   } catch(e) {
