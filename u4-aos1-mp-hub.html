@@ -135,7 +135,9 @@ var S={
   screen:'home', name:'', lesson:1, act:0,
   ans:{}, obj:{placed:{},checked:false}, tl:{}, dual:{}, chain:{}, spot:{marks:{},gap1:{},gap2:{}}, cond:{},
   l2ans:{}, l2calc:{}, l2calctf:{}, l2chain:{}, l2comp:{}, l2drift:{}, l2spot:{marks:{},gap:{}}, l2sort:{placed:{},checked:false},
-  l3sort:{placed:{},checked:false}, l3link:{}, l3detect:{}, l3race:{placed:{},checked:false}, l3mark:{marks:{},gap:{}}, l3cori:{placed:{},checked:false}, l3exit:{}
+  l3sort:{placed:{},checked:false}, l3link:{}, l3detect:{}, l3race:{placed:{},checked:false}, l3mark:{marks:{},gap:{}}, l3cori:{placed:{},checked:false}, l3exit:{},
+  l4stance:{placed:{},checked:false}, l4guide:{placed:{},checked:false}, l4chain:{}, l4trap:{}, l4sort:{placed:{},checked:false}, l4mark:{marks:{},gap:{}}, l4exit:{},
+  l5swact:{placed:{},checked:false}, l5time:{placed:{},checked:false}, l5eval:{}, l5trade:{}, l5para:{placed:{},checked:false}, l5mark:{marks:{},gap:{}}, l5exit:{}
 };
 
 function saveState(){
@@ -166,7 +168,9 @@ var KK_MAP={
   transmission:'Flow-through to other rates',
   setstance:'Setting vs stance vs transmission',
   channels:'The four transmission channels',
-  adcomp:'AD components (C, I, G, X-M)'
+  adcomp:'AD components (C, I, G, X-M)',
+  fwdguide:'Forward guidance & unconventional policy',
+  evaluate:'Strengths, weaknesses & evaluating MP'
 };
 
 /* ============================================================
@@ -741,6 +745,310 @@ var ACTS3=[
   {id:'c7',title:'7. Transmission Mechanism Exit Ticket',type:'exit3',desc:'One scenario, five questions - stance, channel, AD effect, and the macro goal',max:5}
 ];
 
+/* ============================================================
+   LESSON 4 DATA - Stance & Forward Guidance
+   ============================================================ */
+
+/* ---- D1 STANCE CALCULATOR (3-column sort: cash rate vs neutral estimate) ---- */
+var STANCE4={
+  cats:["Expansionary","Neutral","Contractionary"],
+  items:[
+   {t:"Cash rate target: 2.50%. RBA's neutral rate estimate: around 3.00%.",c:0,why:"The cash rate sits below the neutral estimate, so policy is EXPANSIONARY - stimulating borrowing and spending."},
+   {t:"Cash rate target: 4.35%. RBA's neutral rate estimate: around 2.50-3.50%.",c:2,why:"The cash rate sits well above the neutral estimate, so policy is CONTRACTIONARY - restraining borrowing and spending."},
+   {t:"Cash rate target: 3.10%. RBA's neutral rate estimate: around 3.00%.",c:1,why:"The cash rate sits very close to the neutral estimate, so policy is NEUTRAL - neither stimulating nor restricting AD."},
+   {t:"Cash rate target: 0.10%. RBA's neutral rate estimate: around 2.50-3.00%.",c:0,why:"Far below neutral - this is a strongly EXPANSIONARY setting (this was the COVID-19 setting)."},
+   {t:"Cash rate target: 3.85%. RBA's neutral rate estimate: around 2.50-3.50%.",c:2,why:"Above the top of the neutral range, so policy is CONTRACTIONARY, though less strongly than at 4.35%."},
+   {t:"Cash rate target: 2.85%. RBA's neutral rate estimate: around 2.50-3.50%.",c:1,why:"Sits within the estimated neutral range, so policy is best described as NEUTRAL."},
+   {t:"Cash rate target: 1.50%. RBA's neutral rate estimate: around 2.50-3.50%.",c:0,why:"Below the neutral range, so policy is EXPANSIONARY."},
+   {t:"Cash rate target: 4.10%. RBA's neutral rate estimate: around 2.50-3.50%.",c:2,why:"Above the neutral range, so policy is CONTRACTIONARY."}
+  ]
+};
+
+/* ---- D2 TIME-BASED OR STATE-BASED? (2-column sort) ---- */
+var GUIDE4={
+  cats:["Time-based guidance","State-based guidance"],
+  items:[
+   {t:"\"The Board does not expect to increase the cash rate until at least 2024.\"",c:0,why:"This is tied to a specific date (2024), making it TIME-BASED guidance."},
+   {t:"The RBA's actual COVID-19 commitment: rates would stay low until inflation was sustainably in the 2-3% target range and the labour market was consistent with full employment.",c:1,why:"This is tied to economic conditions being met, not a date, making it STATE-BASED guidance - the real approach the RBA used."},
+   {t:"\"Interest rates will remain at their current level for at least the next twelve months.\"",c:0,why:"Tied to a fixed time period, so this is TIME-BASED guidance."},
+   {t:"\"The Board will not consider raising rates until unemployment falls below 4%.\"",c:1,why:"Tied to a labour market outcome being reached, so this is STATE-BASED guidance."},
+   {t:"\"We expect to keep rates on hold through the end of next year.\"",c:0,why:"A specific time horizon (end of next year), so this is TIME-BASED guidance."},
+   {t:"\"Rates will stay low until we see inflation sustainably within the target band.\"",c:1,why:"Tied to an inflation outcome, not a date, so this is STATE-BASED guidance."}
+  ]
+};
+
+/* ---- D3 FORWARD GUIDANCE CHAIN BUILDER (gap-fill, single blank per item) ---- */
+var CHAIN4=[
+  {pre:"The RBA signals rates will stay low until conditions are met \u2192 ",post:" \u2192 more confidence to borrow and spend now",
+   opts:["The cash rate target falls to zero within that same week","Households and businesses expect cheap borrowing for longer","Every major bank lowers its advertised lending rates","The RBA Board holds an unscheduled emergency meeting"],a:1,
+   why:"Forward guidance works by shaping expectations about FUTURE rates - it does not require an immediate change in the cash rate itself."},
+  {pre:"Households expect cheap borrowing for longer \u2192 ",post:" \u2192 consumption (C) is likely to rise",
+   opts:["They have more confidence to bring forward spending and borrowing","They immediately receive a one-off tax rebate from government","Their existing mortgage is automatically refinanced at a lower rate","They are required by their bank to spend a fixed share of income"],a:0,
+   why:"Greater confidence about future borrowing costs encourages households to act on spending and borrowing decisions sooner."},
+  {pre:"Businesses expect borrowing costs to stay low for an extended period \u2192 ",post:" \u2192 investment (I) is likely to rise",
+   opts:["They reduce their workforce in anticipation of weaker demand","They demand a higher interest rate from their existing bank","They become more willing to commit to long-term investment","They delay every investment decision until conditions are clearer"],a:2,
+   why:"Confidence that financing costs will remain low for longer makes long-term investment projects look more attractive now."},
+  {pre:"During COVID-19, the RBA committed to holding rates low until conditions were met \u2192 ",post:" \u2192 this is forward guidance, not a change in the setting",
+   opts:["This commitment changed the cash rate target on that same day","This commitment permanently replaced the RBA's inflation target","This commitment was about future intentions, not today's rate","This commitment had no real effect on anyone's behaviour at all"],a:2,
+   why:"The COVID-19 commitment is the clearest real-world example of forward guidance: a statement about future intentions, used to shape expectations."}
+];
+
+/* ---- D4 SPOT THE TRAP (true/false on the core misconception) ---- */
+var TRAP4=[
+  {t:"Forward guidance works by directly lowering the cash rate target.",a:false,
+   why:"FALSE. Forward guidance does not change the cash rate. It works by shaping expectations about FUTURE policy, which can influence behaviour even while the cash rate stays the same."},
+  {t:"Forward guidance can influence spending decisions even if the cash rate target does not change at all.",a:true,
+   why:"TRUE. This is the key feature of forward guidance - it works through expectations and confidence, not through an actual rate change."},
+  {t:"State-based guidance is tied to a specific calendar date.",a:false,
+   why:"FALSE. That describes TIME-BASED guidance. State-based guidance is tied to economic conditions (like inflation or employment) being met."},
+  {t:"The RBA's COVID-19 forward guidance was an example of state-based guidance.",a:true,
+   why:"TRUE. The RBA tied its commitment to inflation and employment outcomes being met, not to a fixed date."},
+  {t:"Unconventional monetary policy is only needed when the cash rate is already very low, near the effective lower bound.",a:true,
+   why:"TRUE. Unconventional tools like forward guidance become necessary specifically because conventional rate cuts have little room left to work."},
+  {t:"Once the RBA uses forward guidance, it can no longer also change the cash rate target.",a:false,
+   why:"FALSE. Forward guidance and conventional cash rate changes can both be used - they are not mutually exclusive tools."}
+];
+
+/* ---- D5 SETTING VS STANCE VS TOOL (3-column sort) ---- */
+var SORT4={
+  cats:["The setting","The stance","Unconventional policy tool"],
+  items:[
+   {t:"The cash rate target is currently 4.35%",c:0,why:"A specific figure - the SETTING."},
+   {t:"Monetary policy is contractionary because the cash rate sits well above the neutral rate",c:1,why:"A description of the relationship to neutral and its intended effect - the STANCE."},
+   {t:"The RBA committed to holding rates low until inflation returned to target",c:2,why:"A communication about future intentions used to shape expectations - an UNCONVENTIONAL POLICY TOOL (forward guidance)."},
+   {t:"The RBA Board lowered the cash rate target to 3.60% in August 2025",c:0,why:"A specific number and a change to that number - the SETTING."},
+   {t:"At 0.10%, the cash rate was close to its effective lower bound, leaving little room for further cuts",c:2,why:"This describes the condition that made an UNCONVENTIONAL POLICY TOOL necessary, not the setting or stance itself."},
+   {t:"Policy is currently expansionary, supporting economic activity",c:1,why:"A description of overall direction and intent - the STANCE."},
+   {t:"The cash rate target is 2.85%, close to the RBA's neutral rate estimate",c:0,why:"A specific figure being stated and compared - the SETTING (with stance information attached, but the figure itself is the SETTING)."},
+   {t:"The Board used state-based forward guidance, tying its commitment to inflation and employment outcomes",c:2,why:"A description of a specific unconventional communication tool - the TOOL."}
+  ]
+};
+
+/* ---- D6 MARKING PRACTICE ---- */
+var MARK4=[
+ {q:"Describe how the Reserve Bank of Australia's use of forward guidance may influence household spending decisions. <strong>(4 marks)</strong>",
+  resp:"The RBA used forward guidance during COVID-19. It said rates would stay low. This means people have more money to spend, so spending goes up.",
+  marks:4,correctMark:1,kk:'fwdguide',
+  errOpts:["It should have used a transmission channel instead",
+           "It never explains how the commitment changes expectations or behaviour",
+           "It incorrectly describes this as a change in the setting",
+           "It is a perfect 4-mark response with no issues"],
+  errA:1,
+  fixed:"The RBA's forward guidance is a commitment about future policy intentions - for example, that rates will stay low until certain conditions are met. This is likely to shape household expectations, giving them more confidence that borrowing will remain affordable for an extended period. As a result, households are likely to bring forward spending and borrowing decisions they may otherwise have delayed, increasing consumption (C).",
+  rule:"VCAA principle: a response must explain the mechanism (expectations changing behaviour), not just assert the outcome (\"spending goes up\") - asserting the conclusion without the chain of reasoning loses marks."},
+ {q:"Explain how this use of forward guidance may assist the RBA in achieving its inflation objective. <strong>(6 marks)</strong>",
+  resp:"Forward guidance means rates stay low for longer. This makes people spend more, which increases AD. This helps the RBA achieve full employment.",
+  marks:6,correctMark:2,kk:'fwdguide',
+  errOpts:["It fails to mention the cash rate target",
+           "It is too long and should be shortened",
+           "It links to the wrong objective at the end",
+           "It correctly links all the way to the inflation objective"],
+  errA:2,
+  fixed:"Forward guidance shapes expectations about future interest rates without necessarily changing the cash rate itself. If households and businesses expect borrowing to remain affordable for longer, they are likely to bring forward spending and investment decisions, increasing consumption (C) and investment (I), and therefore aggregate demand (AD). However, this use of forward guidance during COVID-19 was aimed at supporting AD when inflation and employment were both well below target - in this context, higher AD was needed to help inflation return to the 2-3% target range from below, consistent with the RBA's price stability objective.",
+  rule:"VCAA principle: always trace the response through to the SPECIFIC objective named in the question (here, inflation) - linking to a different, even related, objective does not answer the question asked."},
+ {q:"A student wrote: 'Forward guidance works because it cuts the cash rate, which makes borrowing cheaper.' Evaluate this statement. <strong>(3 marks)</strong>",
+  resp:"Forward guidance works because it cuts the cash rate, which makes borrowing cheaper.",
+  marks:3,correctMark:0,kk:'fwdguide',
+  errOpts:["This describes quantitative easing, not forward guidance",
+           "Forward guidance does not cut the cash rate - it works through expectations",
+           "This statement should be awarded full marks",
+           "This is a completely accurate description"],
+  errA:1,
+  fixed:"This statement is incorrect. Forward guidance does not involve cutting the cash rate - the cash rate may stay exactly the same. Instead, forward guidance works by shaping expectations about future policy, which can influence household and business confidence and spending decisions even without an actual change in the cash rate target.",
+  rule:"VCAA principle: this is the most common error in this topic - always state clearly that forward guidance works through EXPECTATIONS, not through an actual rate cut."}
+];
+
+/* ---- D7 LESSON 4 EXIT TICKET ---- */
+var EXIT4={
+  scenario:"In 2026, with inflation at 4.6% (well above the 2-3% target) and the cash rate already at 4.35%, suppose the RBA Board stated publicly that it would not consider cutting the cash rate until underlying inflation had returned to the target band on a sustainable basis.",
+  qs:[
+   {q:"What stance does a cash rate of 4.35% represent, given a neutral rate estimate of around 2.50-3.50%?",
+    opts:["Neutral","Inflationary policy","Expansionary","Contractionary"],a:3,
+    fb:"Well above the neutral estimate - this is a CONTRACTIONARY stance, consistent with fighting above-target inflation."},
+   {q:"What type of forward guidance would this statement be?",
+    opts:["Time-based guidance","Not forward guidance at all","State-based guidance","Conventional monetary policy"],a:2,
+    fb:"It is tied to an inflation outcome being reached, not a fixed date - STATE-BASED guidance."},
+   {q:"Unlike the COVID-19 example, this guidance is not needed because the cash rate is near its effective lower bound. What is it being used for instead?",
+    opts:["To directly force prices lower across the economy immediately","To reinforce the contractionary stance by shaping expectations","To replace the need for the RBA to hold any further meetings","To raise the cash rate target without announcing a number"],a:1,
+    fb:"This shows forward guidance is not only a lower-bound tool - it can also be used to reinforce an existing stance (here, contractionary) by shaping expectations directly."},
+   {q:"What is the most likely effect of this guidance on household and business spending decisions?",
+    opts:["They are likely to delay spending and borrowing decisions","They are required by law to reduce spending immediately","They are unaffected because the cash rate didn't change","They are likely to increase borrowing before rates rise further"],a:0,
+    fb:"Expecting rates to stay high for longer is likely to discourage households and businesses from borrowing and spending now, reinforcing the contractionary effect on AD."},
+   {q:"Does this guidance, by itself, change the cash rate target?",
+    opts:["Yes - this guidance always raises the cash rate immediately","Yes - but only for new variable-rate borrowers","No - it is a statement about future intentions, not a rate change","No - it abolishes the entire cash rate target system"],a:2,
+    fb:"Forward guidance works through expectations. The cash rate target itself does not need to change for this tool to have an effect - whether reinforcing expansion or contraction."}
+  ]
+};
+
+var ACTS4=[
+  {id:'d1',title:'1. Stance Calculator',type:'stance4',desc:'Compare the cash rate to the neutral rate estimate and classify the stance',max:8},
+  {id:'d2',title:'2. Time-Based or State-Based?',type:'guide4',desc:'Sort 6 guidance statements into time-based or state-based forward guidance',max:6},
+  {id:'d3',title:'3. Forward Guidance Chain Builder',type:'chain4',desc:'Complete 4 chains explaining how forward guidance flows through to AD',max:4},
+  {id:'d4',title:'4. Spot the Trap',type:'trap4',desc:'True or false: test yourself on the most common forward guidance misconception',max:6},
+  {id:'d5',title:'5. Setting vs Stance vs Tool',type:'sort4',desc:'Sort 8 statements into the setting, the stance, or an unconventional policy tool',max:8},
+  {id:'d6',title:'6. Marking Practice',type:'mark4',desc:'Mark 3 student responses (3-6 marks each), then diagnose exactly what went wrong',max:6},
+  {id:'d7',title:'7. Lesson 4 Exit Ticket',type:'exit4',desc:'One scenario, five questions - stance, guidance type, and effects on spending',max:5}
+];
+
+/* ============================================================
+   LESSON 5 DATA - Strengths, Weaknesses & Evaluating the Past Two Years
+   ============================================================ */
+
+/* ---- E1 STRENGTH OR WEAKNESS IN ACTION (sort into 8 categories via 2-pass: first classify as strength/weakness, then... ) ----
+   Simpler approach matching hub conventions: 2-column sort (Strength / Weakness),
+   8 scenarios mapped to specific named strengths/weaknesses via the `why` field. */
+var SWACT5={
+  cats:["Strength","Weakness"],
+  items:[
+   {t:"Within a week of the Board's decision, every major bank had repriced its variable mortgage rates",c:0,why:"SPEED OF IMPLEMENTATION - monetary policy can be enacted and felt far faster than most fiscal policy changes, which require legislation."},
+   {t:"A booming economy sees household incomes fall almost immediately once the cash rate rises",c:0,why:"STRONG, DIRECT EFFECT VIA THE CASH FLOW CHANNEL - a potent and quick way to cool an overheating economy."},
+   {t:"The government delayed its budget until after the election, but the RBA still raised the cash rate twice in that period",c:0,why:"INDEPENDENCE FROM POLITICS - RBA decisions can be based on economic conditions rather than the electoral or budget cycle."},
+   {t:"A saver earns more interest on their term deposit, while their neighbour's mortgage repayments rise by hundreds of dollars a month, from the very same rate rise",c:1,why:"UNEVEN IMPACT - the same policy change affects different households very differently depending on whether they are savers or borrowers."},
+   {t:"Households have borrowed so much that a rate cut barely changes their spending behaviour",c:1,why:"HIGH HOUSEHOLD DEBT LEVELS CAN BLUNT EFFECTIVENESS - existing debt saturation limits how much further borrowing or spending a rate cut can encourage."},
+   {t:"Oil prices spike sharply, pushing up inflation, but the RBA has no direct tool to fix the supply side of the economy",c:1,why:"CANNOT ADDRESS COST-PUSH OR SUPPLY-SIDE INFLATION - monetary policy works on aggregate demand, not supply-side cost pressures."},
+   {t:"The government runs large budget deficits while the RBA simultaneously tries to cool the economy with higher interest rates",c:1,why:"CONFLICT WITH OTHER POLICIES - monetary policy can be undermined when fiscal/budgetary policy is working in the opposite direction."},
+   {t:"With the cash rate already near zero, further cuts barely moved spending at all",c:1,why:"LIMITED EFFECTIVENESS AT VERY LOW RATES - near the effective lower bound, conventional rate cuts lose much of their power."}
+  ]
+};
+
+/* ---- E2 BUILD THE CASH RATE TIMELINE (ordered sequence from a shuffled bank) ---- */
+var TIME5={
+  slots:[
+   {label:"Nov 2023",correct:0},
+   {label:"Feb 2025",correct:1},
+   {label:"May 2025",correct:2},
+   {label:"Aug 2025",correct:3},
+   {label:"Nov-Dec 2025",correct:4},
+   {label:"Feb-May 2026",correct:5}
+  ],
+  items:[
+   {t:"Cash rate peaks at 4.35% after 13 consecutive increases since May 2022",order:0},
+   {t:"Easing cycle begins - cash rate cut to 4.10%",order:1},
+   {t:"Cash rate cut again to 3.85% as inflation moves back within the 2-3% target band",order:2},
+   {t:"Cash rate cut a third time to a cycle low of 3.60%",order:3},
+   {t:"Cash rate held at 3.60% as inflation begins to re-accelerate",order:4},
+   {t:"Tightening cycle - three rate rises take the cash rate back up to 4.35%",order:5}
+  ]
+};
+
+/* ---- E3 EVALUATE THE DATA (judge real inflation/unemployment figures against the goals) ---- */
+var EVALDATA5=[
+  {context:"Inflation (annual) to March 2026: <strong>4.6%</strong>. RBA target: 2-3% on average over time.",
+   q:"Is this goal currently being met?",
+   opts:["Yes - because the cash rate has been rising lately","Cannot be determined from this data alone","No - inflation is well above the target band","Yes - inflation is within the target band currently"],a:2,
+   fb:"At 4.6%, inflation sits well above the upper bound of the 2-3% target - this goal is not currently being met, despite the contractionary stance."},
+  {context:"Trimmed mean inflation over the year to March 2026: <strong>3.3%</strong>.",
+   q:"What does this additional measure suggest?",
+   opts:["That trimmed mean inflation is not a particularly useful measure","That the RBA should immediately cut the cash rate further","That underlying pressure is broad-based, not just a temporary spike","That headline inflation is a one-off spike with no real pressure"],a:2,
+   fb:"Trimmed mean inflation strips out the most volatile price changes - at 3.3%, still above target, this shows the pressure is broad-based rather than driven by one or two temporary factors."},
+  {context:"Unemployment rate, March 2026: <strong>4.3%</strong>, described by the RBA as 'somewhat tight'.",
+   q:"Is the full employment goal currently being met?",
+   opts:["No - the labour market has collapsed completely since 2025","No - unemployment has risen sharply and is now very high","Cannot be determined without the participation rate","Broadly yes - unemployment remains low despite tightening"],a:3,
+   fb:"At 4.3% and described as 'somewhat tight', the labour market has stayed resilient even as the RBA has raised rates three times in 2026 - broadly consistent with the full employment goal."},
+  {context:"Unemployment was 4.1% in March 2025, rising only slightly to 4.3% in March 2026, despite the cash rate rising by 0.75 percentage points over the same period.",
+   q:"What does this combination of data suggest about the trade-off between inflation and unemployment?",
+   opts:["Inflation and unemployment always move in exactly the same direction","The trade-off no longer exists in any modern economy at all","Australia has clearly suffered the full classic trade-off here","So far, Australia has avoided a severe trade-off"],a:3,
+   fb:"Despite a notable tightening cycle, unemployment has only edged up slightly - this suggests Australia has so far avoided the more severe trade-off between the two goals."}
+];
+
+/* ---- E4 TRADE-OFF OR NO TRADE-OFF? (scenario MCQs) ---- */
+var TRADE5=[
+  {s:"The RBA raises the cash rate sharply. Inflation falls back to target within a year, but unemployment rises from 4% to 7% over the same period.",
+   q:"Does this scenario show the classic inflation-unemployment trade-off?",
+   opts:["No - unemployment would have risen anyway, unrelated to policy","Yes - lower inflation came at the cost of much higher unemployment","Yes - but only because the government was running a surplus","No - the two goals were achieved independently of each other"],a:1,
+   why:"This is the classic trade-off: contractionary policy successfully reduced inflation, but at a clear cost - a substantial rise in unemployment."},
+  {s:"The RBA raises the cash rate. Inflation remains above target, but unemployment stays low and broadly unchanged.",
+   q:"Does this scenario show the classic inflation-unemployment trade-off?",
+   opts:["Yes - because the cash rate changed at all in this case","No - because inflation is a price phenomenon, not a policy outcome","Yes - this is the clearest possible example of the trade-off","No - in this case, the trade-off is not clearly showing up"],a:3,
+   why:"Here, unemployment has not risen even though policy is contractionary and inflation remains elevated - the trade-off is not clearly evident in this outcome."},
+  {s:"A supply shock (a spike in global oil prices) pushes inflation up, while a separate slowdown in global trade pushes unemployment up at the same time.",
+   q:"Does this scenario show the classic inflation-unemployment trade-off caused by monetary policy?",
+   opts:["No - oil prices and trade have no link to either macroeconomic goal","Yes - the RBA must have caused both of these through its own decisions","No - both are worsening due to external shocks, not an RBA trade-off","Yes - this perfectly illustrates the standard policy trade-off"],a:2,
+   why:"This is not the policy trade-off at all - both goals are deteriorating due to separate external shocks, not because the RBA chose to sacrifice one goal for the other."}
+];
+
+/* ---- E5 EVALUATION PARAGRAPH BUILDER (ordered sequence: 4-step structure) ---- */
+var PARA5={
+  slots:[
+   {label:"Step 1 - State the stance & evidence",correct:0},
+   {label:"Step 2 - Show the strength",correct:1},
+   {label:"Step 3 - Show the limitation",correct:2},
+   {label:"Step 4 - Reach a judgement",correct:3}
+  ],
+  items:[
+   {t:"Monetary policy is currently contractionary, with the cash rate at 4.35% - well above the RBA's neutral rate estimate of around 2.5-3.5%.",order:0},
+   {t:"This has helped keep the labour market resilient: unemployment has only risen slightly, from 4.1% to 4.3%, despite three rate rises in 2026.",order:1},
+   {t:"However, inflation remains well above target at 4.6%, suggesting the tightening so far has not yet been fully effective, partly due to the time lags in monetary policy.",order:2},
+   {t:"Overall, monetary policy has been partially effective - it has avoided a sharp rise in unemployment, but has not yet returned inflation to the target band, and further time may be needed to judge its full impact.",order:3}
+  ]
+};
+
+/* ---- E6 MARKING PRACTICE ---- */
+var MARK5=[
+ {q:"Analyse the effectiveness of using monetary policy to achieve the goal of low inflation over the past two years. <strong>(5 marks)</strong>",
+  resp:"The RBA raised the cash rate three times in 2026. This made monetary policy contractionary. Higher interest rates reduce consumption and investment, so AD falls. This means monetary policy has been effective.",
+  marks:5,correctMark:2,kk:'evaluate',
+  errOpts:["It should have discussed the exchange rate channel instead of consumption",
+           "It only considers one side and reaches a conclusion without citing data",
+           "It is a complete 5-mark response with no issues at all",
+           "It never mentions the cash rate at any point in this particular response"],
+  errA:1,
+  fixed:"The RBA raised the cash rate three times in 2026, taking it to 4.35% - a contractionary stance intended to reduce AD and bring down inflation. Higher borrowing costs are likely to have reduced consumption and investment, supporting this aim. However, inflation remains at 4.6%, still well above the 2-3% target, partly reflecting the time lags involved in monetary policy. On balance, monetary policy has not yet been fully effective in achieving low inflation, though its full effects may not yet be visible.",
+  rule:"VCAA principle: 'analyse' and 'evaluate' require weighing up evidence on both sides and reaching a supported judgement - asserting effectiveness without citing the actual inflation outcome is a one-sided, undersupported response."},
+ {q:"A student concluded: 'Because unemployment has stayed low, monetary policy has been completely effective.' Evaluate this conclusion. <strong>(3 marks)</strong>",
+  resp:"Because unemployment has stayed low, monetary policy has been completely effective.",
+  marks:3,correctMark:1,kk:'evaluate',
+  errOpts:["This describes fiscal policy rather than monetary policy here",
+           "It only considers one goal and ignores the inflation outcome",
+           "This conclusion should be awarded full marks immediately and without question",
+           "Unemployment data is not relevant to monetary policy at all"],
+  errA:1,
+  fixed:"This conclusion is not fully supported. While unemployment has stayed low (4.3%, only slightly up from 4.1%), inflation remains well above the RBA's 2-3% target at 4.6%. Effectiveness should be judged against both of the RBA's relevant objectives, not just one - so monetary policy has been only partially effective so far.",
+  rule:"VCAA principle: 'completely effective' is rarely supportable - check performance against ALL relevant goals before reaching an overall judgement, not just the one with the most favourable result."},
+ {q:"Outline one weakness associated with using monetary policy to manage aggregate demand over this period. <strong>(2 marks)</strong>",
+  resp:"A weakness is that monetary policy didn't work because inflation is still high.",
+  marks:2,correctMark:1,kk:'evaluate',
+  errOpts:["It should have discussed a strength instead of a weakness here",
+           "It asserts an outcome without naming or explaining a weakness",
+           "This correctly names and explains a specific weakness in full detail",
+           "This is an example of cost-push inflation, which is irrelevant here"],
+  errA:1,
+  fixed:"One weakness is time lags: changes in the cash rate can take 12-18 months to fully flow through to spending and inflation. This means that even though the cash rate has been raised three times in 2026, the full effect on inflation may not yet be visible in the data.",
+  rule:"VCAA principle: naming the OUTCOME (inflation is still high) is not the same as naming and explaining the WEAKNESS (e.g. time lags) that helps account for that outcome."}
+];
+
+/* ---- E7 LESSON 5 EXIT TICKET ---- */
+var EXIT5={
+  scenario:"Over 2025-2026, the RBA cut the cash rate three times to a low of 3.60%, then raised it three times back to 4.35% as inflation re-accelerated. Inflation now sits at 4.6% and unemployment at 4.3%.",
+  qs:[
+   {q:"What is the current stance of monetary policy?",
+    opts:["Neutral","Expansionary","Highly expansionary","Contractionary"],a:3,
+    fb:"At 4.35%, well above the estimated neutral rate, policy is contractionary."},
+   {q:"Which weakness of monetary policy is most clearly illustrated by the time between the 2025 cuts and the 2026 reversal?",
+    opts:["Time lags in the effect of policy on the economy","The RBA's lack of independence from government","Monetary policy cannot affect the exchange rate","Monetary policy only ever affects investment, not consumption"],a:0,
+    fb:"The delay between a policy change and its full effect on the economy - and the need to later reverse course - illustrates the time lags involved in monetary policy."},
+   {q:"Based on the unemployment data (4.1% to 4.3%), has the classic inflation-unemployment trade-off clearly emerged during the tightening cycle?",
+    opts:["Yes - unemployment has risen sharply as a direct cost of lower inflation","Not clearly - unemployment has only edged up slightly so far","Yes - unemployment has fallen to historically low levels","Cannot be assessed using unemployment data at all"],a:1,
+    fb:"With unemployment rising only slightly, the more severe version of the trade-off has not clearly emerged so far."},
+   {q:"Which of the following would be part of a strong evaluation of this period's policy?",
+    opts:["Only listing strengths of monetary policy in general","Stating the stance once and not referring to any data","Weighing both the inflation and unemployment outcomes before concluding","Describing the cash rate changes without reaching any judgement"],a:2,
+    fb:"A strong evaluation weighs evidence on both sides (here, inflation and unemployment) before reaching a supported judgement - not a one-sided list or a description without a conclusion."},
+   {q:"Overall, has monetary policy fully achieved both of the RBA's relevant goals over this period?",
+    opts:["Yes - both inflation and unemployment are exactly at target","No - inflation remains above target, though unemployment has stayed comparatively low","No - both goals have completely failed","Yes - because the cash rate has changed several times"],a:1,
+    fb:"Inflation remains well above the 2-3% target, while unemployment has stayed comparatively low - a mixed, partially effective outcome rather than full success or failure."}
+  ]
+};
+
+var ACTS5=[
+  {id:'e1',title:'1. Strength or Weakness in Action',type:'swact5',desc:'Sort 8 real-world scenarios into strengths or weaknesses of monetary policy',max:8},
+  {id:'e2',title:'2. Build the Cash Rate Timeline',type:'time5',desc:'Place 6 real events from the past two years in the correct chronological order',max:6},
+  {id:'e3',title:'3. Evaluate the Data',type:'evaldata5',desc:'Judge real inflation and unemployment figures against the RBA\'s goals',max:4},
+  {id:'e4',title:'4. Trade-Off or No Trade-Off?',type:'trade5',desc:'Decide whether each scenario shows the classic inflation-unemployment trade-off',max:3},
+  {id:'e5',title:'5. Evaluation Paragraph Builder',type:'para5',desc:'Place 4 sentences in the correct order to build a model evaluation paragraph',max:4},
+  {id:'e6',title:'6. Marking Practice',type:'mark5',desc:'Mark 3 student responses (2-5 marks each), then diagnose exactly what went wrong',max:6},
+  {id:'e7',title:'7. Lesson 5 Exit Ticket',type:'exit5',desc:'One scenario, five questions - stance, weaknesses, trade-offs, and evaluation technique',max:5}
+];
+
 var LESSONS=[
   {id:1,title:'The Nature & Operation of Monetary Policy',subtitle:'AD policies, the RBA, objectives and the stance',acts:ACTS,max:39,
    selfCheck:[
@@ -765,6 +1073,22 @@ var LESSONS=[
     "Which AD component(s) does each channel ultimately change - C, I, or (X-M)?",
     "Why is it important to say a rate change 'is likely to' affect AD, rather than 'will' affect it?",
     "What is the most common way students lose marks when explaining a transmission channel?"
+   ]},
+  {id:4,title:'Stance & Forward Guidance',subtitle:'Classifying the stance against neutral, and how forward guidance works',acts:ACTS4,max:43,
+   selfCheck:[
+    "How do you classify the stance of monetary policy by comparing the cash rate to the neutral rate?",
+    "What is unconventional monetary policy, and why might a central bank need to use it?",
+    "What is the difference between time-based and state-based forward guidance?",
+    "How does forward guidance influence spending decisions without changing the cash rate itself?",
+    "Can forward guidance be used to reinforce a contractionary stance, not just an expansionary one?"
+   ]},
+  {id:5,title:'Strengths, Weaknesses & Evaluating the Past Two Years',subtitle:'Strengths and limitations of monetary policy, and judging real RBA performance',acts:ACTS5,max:36,
+   selfCheck:[
+    "What are at least two strengths and two weaknesses of using monetary policy to manage AD?",
+    "Can you describe the cash rate's path over the past two years, including both the easing and tightening cycles?",
+    "How do you judge whether monetary policy has been effective, using real inflation and unemployment data?",
+    "Has the classic inflation-unemployment trade-off clearly emerged over this period, or not?",
+    "What four-step structure should a strong 'analyse' or 'evaluate' response follow?"
    ]}
 ];
 
@@ -829,6 +1153,8 @@ function computeL2Scores(){
 function computeScores(){
   if(S.lesson===2)return computeL2Scores();
   if(S.lesson===3)return computeL3Scores();
+  if(S.lesson===4)return computeL4Scores();
+  if(S.lesson===5)return computeL5Scores();
   return computeL1Scores();
 }
 
@@ -863,6 +1189,22 @@ function actProgress(id){
   if(id==='c6'){tot=1;done=S.l3cori.checked?1:0;}
   if(id==='c7'){tot=EXIT3.qs.length;for(i=0;i<tot;i++){if(S.l3exit[i]!==undefined)done++;}}
 
+  if(id==='d1'){tot=1;done=S.l4stance.checked?1:0;}
+  if(id==='d2'){tot=1;done=S.l4guide.checked?1:0;}
+  if(id==='d3'){tot=CHAIN4.length;for(i=0;i<tot;i++){if(S.l4chain[i]!==undefined)done++;}}
+  if(id==='d4'){tot=TRAP4.length;for(i=0;i<tot;i++){if(S.l4trap[i]!==undefined)done++;}}
+  if(id==='d5'){tot=1;done=S.l4sort.checked?1:0;}
+  if(id==='d6'){tot=MARK4.length*2;for(i=0;i<MARK4.length;i++){if(S.l4mark.marks[i]!==undefined)done++;if(S.l4mark.gap[i]!==undefined)done++;}}
+  if(id==='d7'){tot=EXIT4.qs.length;for(i=0;i<tot;i++){if(S.l4exit[i]!==undefined)done++;}}
+
+  if(id==='e1'){tot=1;done=S.l5swact.checked?1:0;}
+  if(id==='e2'){tot=1;done=S.l5time.checked?1:0;}
+  if(id==='e3'){tot=EVALDATA5.length;for(i=0;i<tot;i++){if(S.l5eval[i]!==undefined)done++;}}
+  if(id==='e4'){tot=TRADE5.length;for(i=0;i<tot;i++){if(S.l5trade[i]!==undefined)done++;}}
+  if(id==='e5'){tot=1;done=S.l5para.checked?1:0;}
+  if(id==='e6'){tot=MARK5.length*2;for(i=0;i<MARK5.length;i++){if(S.l5mark.marks[i]!==undefined)done++;if(S.l5mark.gap[i]!==undefined)done++;}}
+  if(id==='e7'){tot=EXIT5.qs.length;for(i=0;i<tot;i++){if(S.l5exit[i]!==undefined)done++;}}
+
   return{done:done,tot:tot,complete:done>=tot&&tot>0};
 }
 function lessonComplete(lessonId){
@@ -884,6 +1226,518 @@ function syncResults(){
   try{fetch(RES_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(e){});}catch(e){}
 }
 function maybeSync(id){var p=actProgress(id);if(p.complete)syncResults();}
+
+/* ================= RESULTS EXPORT (PDF via print) ================= */
+/* Returns a list of {act, item, your, correct, why} for every item the
+   student attempted and got wrong, plus a separate count of unattempted
+   items per activity. Lesson 4 only for now - other lessons can be added
+   the same way once this pattern is confirmed working. */
+function wrongItemsL1(){
+  var out=[], notDone={}, i;
+  function note(actTitle,itemText,yourTxt,correctTxt,why){
+    out.push({act:actTitle,item:itemText,your:yourTxt,correct:correctTxt,why:why});
+  }
+
+  // A1 Foundations Check (MCQ)
+  for(i=0;i<MCQ.length;i++){
+    var sel=S.ans['a1-'+i];
+    if(sel===undefined){ notDone['1. Foundations Check']=true; }
+    else if(sel!==MCQ[i].a){
+      note('1. Foundations Check',MCQ[i].q,MCQ[i].opts[sel],MCQ[i].opts[MCQ[i].a],MCQ[i].fb);
+    }
+  }
+
+  // A2 Match the Objective (sort)
+  if(S.obj.checked){
+    for(i=0;i<OBJ.items.length;i++){
+      var o=OBJ.items[i];
+      if(S.obj.placed[i]!==o.c){
+        note('2. Match the Objective',o.t,S.obj.placed[i]!==undefined?OBJ.cats[S.obj.placed[i]]:'Not placed',OBJ.cats[o.c],o.why);
+      }
+    }
+  } else { notDone['2. Match the Objective']=true; }
+
+  // A3 Read the Graph (timeline classify)
+  for(i=0;i<TL.periods.length;i++){
+    var per=TL.periods[i];
+    if(S.tl[i]===undefined){ notDone['3. Read the Graph']=true; }
+    else if(S.tl[i]!==per.a){
+      note('3. Read the Graph',per.label+' - '+per.desc,TL.opts[S.tl[i]],TL.opts[per.a],per.why);
+    }
+  }
+
+  // A4 Stance vs Direction (dual: stance + move)
+  for(i=0;i<DUAL.sc.length;i++){
+    var d=DUAL.sc[i];
+    if(S.dual['s'+i]===undefined||S.dual['m'+i]===undefined){ notDone['4. Stance vs Direction']=true; }
+    else{
+      if(S.dual['s'+i]!==d.stance){
+        note('4. Stance vs Direction',d.desc+' (stance)',DUAL.stanceOpts[S.dual['s'+i]],DUAL.stanceOpts[d.stance],d.why);
+      }
+      if(S.dual['m'+i]!==d.move){
+        note('4. Stance vs Direction',d.desc+' (direction of change)',DUAL.moveOpts[S.dual['m'+i]],DUAL.moveOpts[d.move],d.why);
+      }
+    }
+  }
+
+  // A5 Build the Chain (gap-fill)
+  for(i=0;i<CHAIN.length;i++){
+    var ch=CHAIN[i];
+    if(S.chain[i]===undefined){ notDone['5. Build the Chain']=true; }
+    else if(S.chain[i]!==ch.a){
+      note('5. Build the Chain',ch.pre+'____'+ch.post,ch.opts[S.chain[i]],ch.opts[ch.a],'');
+    }
+  }
+
+  // A6 Spot the Error (marking practice, mixed single/twoErrors)
+  for(i=0;i<SPOT.length;i++){
+    var sp=SPOT[i];
+    if(S.spot.marks[i]===undefined){ notDone['6. Spot the Error']=true; continue; }
+    if(S.spot.marks[i]!==sp.correctMark){
+      note('6. Spot the Error','Q'+(i+1)+' - mark awarded: '+sp.q.replace(/<[^>]+>/g,''),S.spot.marks[i]+' / '+sp.marks,sp.correctMark+' / '+sp.marks,sp.rule);
+    }
+    if(sp.twoErrors){
+      if(S.spot.gap1[i]===undefined){ notDone['6. Spot the Error']=true; }
+      else if(S.spot.gap1[i]!==sp.err1A){
+        note('6. Spot the Error','Q'+(i+1)+' - first issue identified',sp.err1Opts[S.spot.gap1[i]],sp.err1Opts[sp.err1A],sp.err1fb);
+      }
+    } else {
+      if(S.spot.gap1[i]===undefined){ notDone['6. Spot the Error']=true; }
+      else if(S.spot.gap1[i]!==sp.errA){
+        note('6. Spot the Error','Q'+(i+1)+' - key issue identified',sp.errOpts[S.spot.gap1[i]],sp.errOpts[sp.errA],sp.rule);
+      }
+    }
+  }
+
+  // A7 Read the Conditions (scenario tree)
+  var qn=0;
+  for(i=0;i<COND.sc.length;i++){
+    for(var j=0;j<COND.sc[i].qs.length;j++){
+      var cq=COND.sc[i].qs[j];
+      if(S.cond[qn]===undefined){ notDone['7. Read the Conditions']=true; }
+      else if(S.cond[qn]!==cq.a){
+        note('7. Read the Conditions',COND.sc[i].name+' - '+cq.q,cq.opts[S.cond[qn]],cq.opts[cq.a],cq.fb);
+      }
+      qn++;
+    }
+  }
+
+  return {wrong:out,notDone:Object.keys(notDone)};
+}
+
+function wrongItemsL2(){
+  var out=[], notDone={}, i;
+  function note(actTitle,itemText,yourTxt,correctTxt,why){
+    out.push({act:actTitle,item:itemText,your:yourTxt,correct:correctTxt,why:why});
+  }
+
+  // B1 Foundations Check (MCQ)
+  for(i=0;i<MCQ2.length;i++){
+    var sel=S.l2ans['b1-'+i];
+    if(sel===undefined){ notDone['1. Foundations Check']=true; }
+    else if(sel!==MCQ2[i].a){
+      note('1. Foundations Check',MCQ2[i].q,MCQ2[i].opts[sel],MCQ2[i].opts[MCQ2[i].a],MCQ2[i].fb);
+    }
+  }
+
+  // B2 Understanding the Corridor (calc rows + shift + true/false)
+  var b2NotDone=false;
+  for(i=0;i<CALC2.rows.length;i++){
+    var row=S.l2calc[i];
+    if(!row||!row.checked){ b2NotDone=true; continue; }
+    var r=CALC2.rows[i];
+    if(Math.abs(row.floorVal-r.floor)>CALC2.tol){
+      note('2. Understanding the Corridor','Target '+r.target+'% - floor (ES rate)',String(row.floorVal)+'%',r.floor+'%','The ES rate (floor) sits 0.10pp below the cash rate target.');
+    }
+    if(Math.abs(row.ceilVal-r.ceiling)>CALC2.tol){
+      note('2. Understanding the Corridor','Target '+r.target+'% - ceiling (lending rate)',String(row.ceilVal)+'%',r.ceiling+'%','The lending rate (ceiling) sits 0.25pp above the cash rate target.');
+    }
+  }
+  if(!S.l2calc.shift||!S.l2calc.shift.checked){ b2NotDone=true; }
+  else{
+    if(Math.abs(S.l2calc.shift.floorVal-CALC2.shift.to.floor)>CALC2.tol){
+      note('2. Understanding the Corridor','Corridor shift - new floor',String(S.l2calc.shift.floorVal)+'%',CALC2.shift.to.floor+'%','The whole corridor shifts with the target - the floor stays 0.10pp below it.');
+    }
+    if(Math.abs(S.l2calc.shift.ceilVal-CALC2.shift.to.ceiling)>CALC2.tol){
+      note('2. Understanding the Corridor','Corridor shift - new ceiling',String(S.l2calc.shift.ceilVal)+'%',CALC2.shift.to.ceiling+'%','The whole corridor shifts with the target - the ceiling stays 0.25pp above it.');
+    }
+  }
+  for(i=0;i<CALC2.tf.length;i++){
+    if(S.l2calctf[i]===undefined){ b2NotDone=true; }
+    else if(S.l2calctf[i]!==CALC2.tf[i].a){
+      note('2. Understanding the Corridor',CALC2.tf[i].s,S.l2calctf[i]?'True':'False',CALC2.tf[i].a?'True':'False',CALC2.tf[i].why);
+    }
+  }
+  if(b2NotDone) notDone['2. Understanding the Corridor']=true;
+
+  // B3 How the Weekly OMO Works (chain)
+  for(i=0;i<CHAIN2.length;i++){
+    var c2=CHAIN2[i];
+    if(S.l2chain[i]===undefined){ notDone['3. How the Weekly OMO Works']=true; }
+    else if(S.l2chain[i]!==c2.a){
+      note('3. How the Weekly OMO Works',c2.pre+'____'+c2.post,c2.opts[S.l2chain[i]],c2.opts[c2.a],'');
+    }
+  }
+
+  // B4 Where Would You Trade? (two-part comparison)
+  for(i=0;i<COMP2.length;i++){
+    var cp=COMP2[i];
+    if(S.l2comp[i+'_a']===undefined||S.l2comp[i+'_b']===undefined){ notDone['4. Where Would You Trade?']=true; continue; }
+    if(S.l2comp[i+'_a']!==cp.q1a){
+      note('4. Where Would You Trade?',cp.pos+' - '+cp.context+' - '+cp.q1,cp.q1opts[S.l2comp[i+'_a']],cp.q1opts[cp.q1a],cp.fb);
+    }
+    if(S.l2comp[i+'_b']!==cp.q2a){
+      note('4. Where Would You Trade?',cp.pos+' - '+cp.q2,cp.q2opts[S.l2comp[i+'_b']],cp.q2opts[cp.q2a],cp.fb);
+    }
+  }
+
+  // B5 Predict the Drift (single MCQ)
+  for(i=0;i<DRIFT2.length;i++){
+    var dr=DRIFT2[i];
+    if(S.l2drift[i]===undefined){ notDone['5. Predict the Drift']=true; }
+    else if(S.l2drift[i]!==dr.a){
+      note('5. Predict the Drift',dr.text,['Drifts toward the floor (ES rate)','Stays close to the target','Drifts toward the ceiling (lending rate)'][S.l2drift[i]]||('Option '+S.l2drift[i]),['Drifts toward the floor (ES rate)','Stays close to the target','Drifts toward the ceiling (lending rate)'][dr.a]||('Option '+dr.a),dr.why);
+    }
+  }
+
+  // B6 Spot the Error (marking practice, single error each)
+  for(i=0;i<SPOT2.length;i++){
+    var sp2=SPOT2[i];
+    if(S.l2spot.marks[i]===undefined||S.l2spot.gap[i]===undefined){ notDone['6. Spot the Error']=true; continue; }
+    if(S.l2spot.marks[i]!==sp2.correctMark){
+      note('6. Spot the Error','Q'+(i+1)+' - mark awarded: '+sp2.q.replace(/<[^>]+>/g,''),S.l2spot.marks[i]+' / '+sp2.marks,sp2.correctMark+' / '+sp2.marks,sp2.rule);
+    }
+    if(S.l2spot.gap[i]!==sp2.errA){
+      note('6. Spot the Error','Q'+(i+1)+' - key issue identified',sp2.errOpts[S.l2spot.gap[i]],sp2.errOpts[sp2.errA],sp2.rule);
+    }
+  }
+
+  // B7 RBA Tool or Not? (2-column sort)
+  if(S.l2sort.checked){
+    for(i=0;i<SORT2.items.length;i++){
+      var so=SORT2.items[i];
+      if(S.l2sort.placed[i]!==so.c){
+        note('7. RBA Tool or Not?',so.t,S.l2sort.placed[i]!==undefined?SORT2.cats[S.l2sort.placed[i]]:'Not placed',SORT2.cats[so.c],so.why);
+      }
+    }
+  } else { notDone['7. RBA Tool or Not?']=true; }
+
+  return {wrong:out,notDone:Object.keys(notDone)};
+}
+
+function wrongItemsL3(){
+  var out=[], notDone={}, i;
+  function note(actTitle,itemText,yourTxt,correctTxt,why){
+    out.push({act:actTitle,item:itemText,your:yourTxt,correct:correctTxt,why:why});
+  }
+
+  // C1 Setting, Stance, or Transmission? (3-col sort)
+  if(S.l3sort.checked){
+    for(i=0;i<SORT3.items.length;i++){
+      var s3=SORT3.items[i];
+      if(S.l3sort.placed[i]!==s3.c){
+        note('1. Setting, Stance, or Transmission?',s3.t,S.l3sort.placed[i]!==undefined?SORT3.cats[S.l3sort.placed[i]]:'Not placed',SORT3.cats[s3.c],s3.why);
+      }
+    }
+  } else { notDone['1. Setting, Stance, or Transmission?']=true; }
+
+  // C2 Which Link is Missing? (chain)
+  for(i=0;i<LINK3.length;i++){
+    var l3=LINK3[i];
+    if(S.l3link[i]===undefined){ notDone['2. Which Link is Missing?']=true; }
+    else if(S.l3link[i]!==l3.a){
+      note('2. Which Link is Missing?',l3.pre+'____'+l3.post,l3.opts[S.l3link[i]],l3.opts[l3.a],l3.why);
+    }
+  }
+
+  // C3 Channel Detective (two-part scenario)
+  for(i=0;i<DETECT3.length;i++){
+    var dt=DETECT3[i];
+    if(S.l3detect[i+'_a']===undefined||S.l3detect[i+'_b']===undefined){ notDone['3. Channel Detective']=true; continue; }
+    if(S.l3detect[i+'_a']!==dt.q1a){
+      note('3. Channel Detective',dt.context+' - '+dt.q1,dt.q1opts[S.l3detect[i+'_a']],dt.q1opts[dt.q1a],dt.fb);
+    }
+    if(S.l3detect[i+'_b']!==dt.q2a){
+      note('3. Channel Detective',dt.context+' - '+dt.q2,dt.q2opts[S.l3detect[i+'_b']],dt.q2opts[dt.q2a],dt.fb);
+    }
+  }
+
+  // C4 Channel Race (4-col sort)
+  if(S.l3race.checked){
+    for(i=0;i<RACE3.items.length;i++){
+      var r3=RACE3.items[i];
+      if(S.l3race.placed[i]!==r3.c){
+        note('4. Channel Race',r3.t,S.l3race.placed[i]!==undefined?RACE3.cats[S.l3race.placed[i]]:'Not placed',RACE3.cats[r3.c],r3.why);
+      }
+    }
+  } else { notDone['4. Channel Race']=true; }
+
+  // C5 Marking Practice
+  for(i=0;i<MARK3.length;i++){
+    var mq3=MARK3[i];
+    if(S.l3mark.marks[i]===undefined||S.l3mark.gap[i]===undefined){ notDone['5. Marking Practice']=true; continue; }
+    if(S.l3mark.marks[i]!==mq3.correctMark){
+      note('5. Marking Practice','Q'+(i+1)+' - mark awarded: '+mq3.q.replace(/<[^>]+>/g,''),S.l3mark.marks[i]+' / '+mq3.marks,mq3.correctMark+' / '+mq3.marks,mq3.rule);
+    }
+    if(S.l3mark.gap[i]!==mq3.errA){
+      note('5. Marking Practice','Q'+(i+1)+' - key issue identified',mq3.errOpts[S.l3mark.gap[i]],mq3.errOpts[mq3.errA],mq3.rule);
+    }
+  }
+
+  // C6 Consumption or Investment? (2-col sort)
+  if(S.l3cori.checked){
+    for(i=0;i<CORI3.items.length;i++){
+      var co=CORI3.items[i];
+      if(S.l3cori.placed[i]!==co.c){
+        note('6. Consumption or Investment?',co.t,S.l3cori.placed[i]!==undefined?CORI3.cats[S.l3cori.placed[i]]:'Not placed',CORI3.cats[co.c],co.why);
+      }
+    }
+  } else { notDone['6. Consumption or Investment?']=true; }
+
+  // C7 Transmission Mechanism Exit Ticket
+  for(i=0;i<EXIT3.qs.length;i++){
+    var e3=EXIT3.qs[i];
+    if(S.l3exit[i]===undefined){ notDone['7. Transmission Mechanism Exit Ticket']=true; }
+    else if(S.l3exit[i]!==e3.a){
+      note('7. Transmission Mechanism Exit Ticket',e3.q,e3.opts[S.l3exit[i]],e3.opts[e3.a],e3.fb);
+    }
+  }
+
+  return {wrong:out,notDone:Object.keys(notDone)};
+}
+
+function wrongItemsL5(){
+  var out=[], notDone={}, i;
+  function note(actTitle,itemText,yourTxt,correctTxt,why){
+    out.push({act:actTitle,item:itemText,your:yourTxt,correct:correctTxt,why:why});
+  }
+
+  // E1 Strength or Weakness in Action (2-col sort)
+  if(S.l5swact.checked){
+    for(i=0;i<SWACT5.items.length;i++){
+      var sw=SWACT5.items[i];
+      if(S.l5swact.placed[i]!==sw.c){
+        note('1. Strength or Weakness in Action',sw.t,S.l5swact.placed[i]!==undefined?SWACT5.cats[S.l5swact.placed[i]]:'Not placed',SWACT5.cats[sw.c],sw.why);
+      }
+    }
+  } else { notDone['1. Strength or Weakness in Action']=true; }
+
+  // E2 Build the Cash Rate Timeline (ordered sequence - check placed slot vs correct order)
+  if(S.l5time.checked){
+    for(i=0;i<TIME5.items.length;i++){
+      var tm=TIME5.items[i];
+      if(S.l5time.placed[i]!==tm.order){
+        var yourSlot=S.l5time.placed[i]!==undefined?TIME5.slots[S.l5time.placed[i]].label:'Not placed';
+        note('2. Build the Cash Rate Timeline',tm.t,yourSlot,TIME5.slots[tm.order].label,'');
+      }
+    }
+  } else { notDone['2. Build the Cash Rate Timeline']=true; }
+
+  // E3 Evaluate the Data
+  for(i=0;i<EVALDATA5.length;i++){
+    var ev=EVALDATA5[i];
+    if(S.l5eval[i]===undefined){ notDone['3. Evaluate the Data']=true; }
+    else if(S.l5eval[i]!==ev.a){
+      note('3. Evaluate the Data',ev.context.replace(/<[^>]+>/g,'')+' - '+ev.q,ev.opts[S.l5eval[i]],ev.opts[ev.a],ev.fb);
+    }
+  }
+
+  // E4 Trade-Off or No Trade-Off?
+  for(i=0;i<TRADE5.length;i++){
+    var tr=TRADE5[i];
+    if(S.l5trade[i]===undefined){ notDone['4. Trade-Off or No Trade-Off?']=true; }
+    else if(S.l5trade[i]!==tr.a){
+      note('4. Trade-Off or No Trade-Off?',tr.s+' - '+tr.q,tr.opts[S.l5trade[i]],tr.opts[tr.a],tr.why);
+    }
+  }
+
+  // E5 Evaluation Paragraph Builder (ordered sequence)
+  if(S.l5para.checked){
+    for(i=0;i<PARA5.items.length;i++){
+      var pa=PARA5.items[i];
+      if(S.l5para.placed[i]!==pa.order){
+        var yourStep=S.l5para.placed[i]!==undefined?PARA5.slots[S.l5para.placed[i]].label:'Not placed';
+        note('5. Evaluation Paragraph Builder',pa.t,yourStep,PARA5.slots[pa.order].label,'');
+      }
+    }
+  } else { notDone['5. Evaluation Paragraph Builder']=true; }
+
+  // E6 Marking Practice
+  for(i=0;i<MARK5.length;i++){
+    var mq5=MARK5[i];
+    if(S.l5mark.marks[i]===undefined||S.l5mark.gap[i]===undefined){ notDone['6. Marking Practice']=true; continue; }
+    if(S.l5mark.marks[i]!==mq5.correctMark){
+      note('6. Marking Practice','Q'+(i+1)+' - mark awarded: '+mq5.q.replace(/<[^>]+>/g,''),S.l5mark.marks[i]+' / '+mq5.marks,mq5.correctMark+' / '+mq5.marks,mq5.rule);
+    }
+    if(S.l5mark.gap[i]!==mq5.errA){
+      note('6. Marking Practice','Q'+(i+1)+' - key issue identified',mq5.errOpts[S.l5mark.gap[i]],mq5.errOpts[mq5.errA],mq5.rule);
+    }
+  }
+
+  // E7 Lesson 5 Exit Ticket
+  for(i=0;i<EXIT5.qs.length;i++){
+    var e5=EXIT5.qs[i];
+    if(S.l5exit[i]===undefined){ notDone['7. Lesson 5 Exit Ticket']=true; }
+    else if(S.l5exit[i]!==e5.a){
+      note('7. Lesson 5 Exit Ticket',e5.q,e5.opts[S.l5exit[i]],e5.opts[e5.a],e5.fb);
+    }
+  }
+
+  return {wrong:out,notDone:Object.keys(notDone)};
+}
+
+function wrongItemsL4(){
+  var out=[], notDone={}, i;
+
+  function note(actTitle,itemText,yourTxt,correctTxt,why){
+    out.push({act:actTitle,item:itemText,your:yourTxt,correct:correctTxt,why:why});
+  }
+
+  // D1 Stance Calculator
+  if(S.l4stance.checked){
+    for(i=0;i<STANCE4.items.length;i++){
+      var it=STANCE4.items[i];
+      if(S.l4stance.placed[i]!==it.c){
+        note('1. Stance Calculator',it.t,S.l4stance.placed[i]!==undefined?STANCE4.cats[S.l4stance.placed[i]]:'Not placed',STANCE4.cats[it.c],it.why);
+      }
+    }
+  } else { notDone['1. Stance Calculator']=true; }
+
+  // D2 Time-Based or State-Based?
+  if(S.l4guide.checked){
+    for(i=0;i<GUIDE4.items.length;i++){
+      var g=GUIDE4.items[i];
+      if(S.l4guide.placed[i]!==g.c){
+        note('2. Time-Based or State-Based?',g.t,S.l4guide.placed[i]!==undefined?GUIDE4.cats[S.l4guide.placed[i]]:'Not placed',GUIDE4.cats[g.c],g.why);
+      }
+    }
+  } else { notDone['2. Time-Based or State-Based?']=true; }
+
+  // D3 Chain Builder
+  for(i=0;i<CHAIN4.length;i++){
+    var c=CHAIN4[i];
+    if(S.l4chain[i]===undefined){ notDone['3. Forward Guidance Chain Builder']=true; }
+    else if(S.l4chain[i]!==c.a){
+      note('3. Forward Guidance Chain Builder',c.pre+'____'+c.post,c.opts[S.l4chain[i]],c.opts[c.a],c.why);
+    }
+  }
+
+  // D4 Spot the Trap
+  for(i=0;i<TRAP4.length;i++){
+    var t=TRAP4[i];
+    if(S.l4trap[i]===undefined){ notDone['4. Spot the Trap']=true; }
+    else if(S.l4trap[i]!==t.a){
+      note('4. Spot the Trap',t.t,S.l4trap[i]?'True':'False',t.a?'True':'False',t.why);
+    }
+  }
+
+  // D5 Setting vs Stance vs Tool
+  if(S.l4sort.checked){
+    for(i=0;i<SORT4.items.length;i++){
+      var s4=SORT4.items[i];
+      if(S.l4sort.placed[i]!==s4.c){
+        note('5. Setting vs Stance vs Tool',s4.t,S.l4sort.placed[i]!==undefined?SORT4.cats[S.l4sort.placed[i]]:'Not placed',SORT4.cats[s4.c],s4.why);
+      }
+    }
+  } else { notDone['5. Setting vs Stance vs Tool']=true; }
+
+  // D6 Marking Practice (two parts per question - the mark itself, and the diagnosis)
+  for(i=0;i<MARK4.length;i++){
+    var mq=MARK4[i];
+    if(S.l4mark.marks[i]===undefined||S.l4mark.gap[i]===undefined){ notDone['6. Marking Practice']=true; }
+    else{
+      if(S.l4mark.marks[i]!==mq.correctMark){
+        note('6. Marking Practice','Q'+(i+1)+' - mark awarded: '+mq.q.replace(/<[^>]+>/g,''),S.l4mark.marks[i]+' / '+mq.marks,mq.correctMark+' / '+mq.marks,mq.rule);
+      }
+      if(S.l4mark.gap[i]!==mq.errA){
+        note('6. Marking Practice','Q'+(i+1)+' - key issue identified',mq.errOpts[S.l4mark.gap[i]],mq.errOpts[mq.errA],mq.rule);
+      }
+    }
+  }
+
+  // D7 Exit Ticket
+  for(i=0;i<EXIT4.qs.length;i++){
+    var eq=EXIT4.qs[i];
+    if(S.l4exit[i]===undefined){ notDone['7. Lesson 4 Exit Ticket']=true; }
+    else if(S.l4exit[i]!==eq.a){
+      note('7. Lesson 4 Exit Ticket',eq.q,eq.opts[S.l4exit[i]],eq.opts[eq.a],eq.fb);
+    }
+  }
+
+  return {wrong:out,notDone:Object.keys(notDone)};
+}
+
+function buildReportData(){
+  if(S.lesson===1)return wrongItemsL1();
+  if(S.lesson===2)return wrongItemsL2();
+  if(S.lesson===3)return wrongItemsL3();
+  if(S.lesson===4)return wrongItemsL4();
+  if(S.lesson===5)return wrongItemsL5();
+  return {wrong:[],notDone:[],unsupported:true};
+}
+
+function downloadResults(){
+  var L=LESSONS[S.lesson-1], sc=computeScores();
+  var rep=buildReportData();
+  var win=window.open('','_blank');
+  if(!win){alert('Please allow pop-ups for this site to download your results.');return;}
+  var dt=new Date().toLocaleString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  var h="<!DOCTYPE html><html><head><meta charset='UTF-8'><title>"+esc(S.name)+" - "+esc(L.title)+" results</title>";
+  h+="<style>body{font-family:Arial,Helvetica,sans-serif;color:#241a33;max-width:760px;margin:30px auto;padding:0 20px;}";
+  h+="h1{font-size:22px;margin-bottom:4px;}h2{font-size:16px;margin:22px 0 8px;border-bottom:2px solid #2e1a47;padding-bottom:4px;}";
+  h+=".meta{color:#6b6477;font-size:13px;margin-bottom:18px;}";
+  h+=".scorebox{background:#f8f6fb;border:1px solid #e5e0ec;border-radius:8px;padding:14px 16px;margin-bottom:18px;}";
+  h+=".scorebox strong{font-size:18px;}";
+  h+=".scorerow{display:flex;justify-content:space-between;align-items:center;border:1px solid #e5e0ec;border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:13.5px;}";
+  h+=".scorerow .nm{flex:1;padding-right:12px;}";
+  h+=".scorerow .sc{font-weight:700;white-space:nowrap;}";
+  h+=".item{margin-bottom:14px;border:1px solid #e5e0ec;border-radius:8px;padding:10px 12px;}";
+  h+=".item .q{font-weight:700;margin-bottom:6px;}";
+  h+=".item .row{margin:3px 0;}";
+  h+=".bad{color:#b91c1c;}.good{color:#15803d;}";
+  h+=".why{font-style:italic;color:#6b6477;margin-top:6px;font-size:12.5px;}";
+  h+=".notdone{background:#fffbeb;border:1px solid #d97706;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:13px;}";
+  h+=".printbtn{margin:14px 0;}";
+  h+="@media print{.printbtn{display:none;}}";
+  h+="</style></head><body>";
+  h+="<h1>"+esc(L.title)+"</h1>";
+  h+="<div class='meta'>"+esc(S.name)+" &middot; Generated "+dt+"</div>";
+  h+="<div class='scorebox'>Score: <strong>"+sc.total+" / "+sc.max+"</strong></div>";
+  h+="<button class='printbtn' onclick='window.print()'>Print / Save as PDF</button>";
+
+  if(rep.unsupported){
+    h+="<p>A detailed results export for this lesson isn't available yet - please show your teacher the score above directly on screen.</p>";
+  } else {
+    h+="<h2>Activity scores</h2>";
+    for(var i=0;i<L.acts.length;i++){
+      var a=L.acts[i];
+      h+="<div class='scorerow'><span class='nm'>"+esc(a.title)+"</span><span class='sc'>"+(sc.per[a.id]!==undefined?sc.per[a.id]:0)+" / "+a.max+"</span></div>";
+    }
+
+    if(rep.notDone.length>0){
+      h+="<h2>Not yet completed</h2>";
+      for(var n=0;n<rep.notDone.length;n++){
+        h+="<div class='notdone'>"+esc(rep.notDone[n])+" - not finished, so it isn't included in the items below.</div>";
+      }
+    }
+
+    h+="<h2>Items to review ("+rep.wrong.length+")</h2>";
+    if(rep.wrong.length===0){
+      h+="<p>No incorrect answers on completed activities - nice work.</p>";
+    } else {
+      for(var w=0;w<rep.wrong.length;w++){
+        var it=rep.wrong[w];
+        h+="<div class='item'><div class='q'>"+esc(it.act)+"</div><div class='row'>"+esc(it.item)+"</div>";
+        h+="<div class='row'>Your answer: <span class='bad'>"+esc(it.your)+"</span></div>";
+        h+="<div class='row'>Correct answer: <span class='good'>"+esc(it.correct)+"</span></div>";
+        if(it.why)h+="<div class='why'>"+esc(it.why)+"</div>";
+        h+="</div>";
+      }
+    }
+  }
+  h+="</body></html>";
+  win.document.open();win.document.write(h);win.document.close();
+}
 
 /* ================= RENDER ================= */
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -911,7 +1765,7 @@ function vHome(){
     var L=LESSONS[i], st=lessonComplete(L.id);
     h+="<div class='tile' onclick='openLesson("+L.id+")'><div class='num'>Lesson "+L.id+"</div><h3>"+L.title+"</h3><div class='meta'>"+L.subtitle+"</div><span class='pill "+st.cls+"'>"+st.txt+"</span></div>";
   }
-  var coming=[['Lesson 4','Effects on Macroeconomic Goals'],['Lesson 5','Evaluate Monetary Policy']];
+  var coming=[];
   for(var c=0;c<coming.length;c++){h+="<div class='tile locked'><div class='num'>"+coming[c][0]+"</div><h3>"+coming[c][1]+"</h3><span class='pill soon'>Coming soon</span></div>";}
   h+="</div><div class='footer-link'><span onclick='go(\"teacher\")'>Teacher view</span></div></div>";
   return h;
@@ -926,7 +1780,9 @@ function resetAll(){
     S={screen:'home',name:'',lesson:1,act:0,
        ans:{},obj:{placed:{},checked:false},tl:{},dual:{},chain:{},spot:{marks:{},gap1:{},gap2:{}},cond:{},
        l2ans:{},l2calc:{},l2calctf:{},l2chain:{},l2comp:{},l2drift:{},l2spot:{marks:{},gap:{}},l2sort:{placed:{},checked:false},
-       l3sort:{placed:{},checked:false},l3link:{},l3detect:{},l3race:{placed:{},checked:false},l3mark:{marks:{},gap:{}},l3cori:{placed:{},checked:false},l3exit:{}};
+       l3sort:{placed:{},checked:false},l3link:{},l3detect:{},l3race:{placed:{},checked:false},l3mark:{marks:{},gap:{}},l3cori:{placed:{},checked:false},l3exit:{},
+       l4stance:{placed:{},checked:false},l4guide:{placed:{},checked:false},l4chain:{},l4trap:{},l4sort:{placed:{},checked:false},l4mark:{marks:{},gap:{}},l4exit:{},
+       l5swact:{placed:{},checked:false},l5time:{placed:{},checked:false},l5eval:{},l5trade:{},l5para:{placed:{},checked:false},l5mark:{marks:{},gap:{}},l5exit:{}};
     render();
   }
 }
@@ -958,6 +1814,7 @@ function vChooser(){
     var st=p.complete?"<span class='pill done'>"+sc.per[a.id]+" / "+a.max+"</span>":(p.done>0?"<span class='pill prog'>In progress</span>":"<span class='pill new'>Start</span>");
     h+="<div class='acard' onclick='openAct("+i+")'><div><h3>"+a.title+"</h3><div class='tdesc'>"+a.desc+"</div></div><div>"+st+"</div></div>";
   }
+  h+="<div style='margin-top:16px'><button class='btn ghost' onclick='downloadResults()'>Download my results (PDF)</button><p style='font-size:12.5px;color:var(--text-sec);margin-top:6px'>Opens a printable summary - use your browser's \"Save as PDF\" option to keep a copy.</p></div>";
   h+="<span class='backlink' onclick='go(\"home\")'>Back to lessons</span></div>";
   return h;
 }
@@ -988,6 +1845,20 @@ function vAct(){
   if(a.type==='mark3')h+=vMark3();
   if(a.type==='cori3')h+=vCori3();
   if(a.type==='exit3')h+=vExit3();
+  if(a.type==='stance4')h+=vStance4();
+  if(a.type==='guide4')h+=vGuide4();
+  if(a.type==='chain4')h+=vChain4();
+  if(a.type==='trap4')h+=vTrap4();
+  if(a.type==='sort4')h+=vSort4();
+  if(a.type==='mark4')h+=vMark4();
+  if(a.type==='exit4')h+=vExit4();
+  if(a.type==='swact5')h+=vSwact5();
+  if(a.type==='time5')h+=vTime5();
+  if(a.type==='evaldata5')h+=vEvaldata5();
+  if(a.type==='trade5')h+=vTrade5();
+  if(a.type==='para5')h+=vPara5();
+  if(a.type==='mark5')h+=vMark5();
+  if(a.type==='exit5')h+=vExit5();
   if(p.complete){h+="<div class='card' style='border-color:var(--green);background:var(--green-pale)'><strong>Activity complete - "+sc.per[a.id]+" / "+a.max+".</strong> Results synced. Head back and try another activity.</div>";}
   h+="<button class='btn' onclick='go(\"chooser\")'>Back to activities</button></div>";
   return h;
@@ -1800,6 +2671,598 @@ function computeL3Scores(){
 
   for(var key in per)total+=per[key];
   return{per:per,kk:kk,total:total,max:62};
+}
+
+/* ================= LESSON 4 RENDER FUNCTIONS ================= */
+
+/* ---- D1 STANCE CALCULATOR (3-column sort) ---- */
+function vStance4(){
+  var h="<div class='card'><p style='font-size:14.5px'>Compare each cash rate to the RBA's neutral rate estimate, then sort it into the correct stance. Click an item, then click a column.</p>";
+  var placed={};for(var k in S.l4stance.placed){placed[k]=S.l4stance.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(3,1fr)'>";
+  for(var c=0;c<3;c++){
+    h+="<div class='obj-col'><h4>"+STANCE4.cats[c]+"</h4>";
+    for(var j=0;j<STANCE4.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l4stance.checked)cls2+=placed[j]===STANCE4.items[j].c?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeStance4("+j+")'>"+STANCE4.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<STANCE4.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click a column:</p><div class='obj-bank' id='stanceBank4'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectStance4("+unplaced[n]+")' id='st4-"+unplaced[n]+"'>"+STANCE4.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l4stance.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkStance4()'>Check my answers</button>";
+  if(S.l4stance.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<STANCE4.items.length;p++){
+      var ok=S.l4stance.placed[p]===STANCE4.items[p].c;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+STANCE4.items[p].t+"</strong> - "+STANCE4.cats[STANCE4.items[p].c]+". "+STANCE4.items[p].why+"</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _stance4Sel=null;
+function selectStance4(idx){
+  _stance4Sel=idx;
+  var els=document.querySelectorAll('#stanceBank4 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('st4-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeStance4(ci);};})(c);}
+}
+function placeStance4(col){
+  if(_stance4Sel===null)return;
+  if(S.l4stance.checked)return;
+  S.l4stance.placed[_stance4Sel]=col;_stance4Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeStance4(idx){if(S.l4stance.checked)return;delete S.l4stance.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkStance4(){S.l4stance.checked=true;maybeSync('d1');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- D2 TIME-BASED OR STATE-BASED? (2-column sort) ---- */
+function vGuide4(){
+  var h="<div class='card'><p style='font-size:14.5px'>Sort each guidance statement into time-based or state-based forward guidance. Click an item, then click a column.</p>";
+  var placed={};for(var k in S.l4guide.placed){placed[k]=S.l4guide.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(2,1fr)'>";
+  for(var c=0;c<2;c++){
+    h+="<div class='obj-col'><h4>"+GUIDE4.cats[c]+"</h4>";
+    for(var j=0;j<GUIDE4.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l4guide.checked)cls2+=placed[j]===GUIDE4.items[j].c?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeGuide4("+j+")'>"+GUIDE4.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<GUIDE4.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click a column:</p><div class='obj-bank' id='guideBank4'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectGuide4("+unplaced[n]+")' id='gd4-"+unplaced[n]+"'>"+GUIDE4.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l4guide.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkGuide4()'>Check my answers</button>";
+  if(S.l4guide.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<GUIDE4.items.length;p++){
+      var ok=S.l4guide.placed[p]===GUIDE4.items[p].c;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+GUIDE4.items[p].t+"</strong> - "+GUIDE4.cats[GUIDE4.items[p].c]+". "+GUIDE4.items[p].why+"</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _guide4Sel=null;
+function selectGuide4(idx){
+  _guide4Sel=idx;
+  var els=document.querySelectorAll('#guideBank4 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('gd4-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeGuide4(ci);};})(c);}
+}
+function placeGuide4(col){
+  if(_guide4Sel===null)return;
+  if(S.l4guide.checked)return;
+  S.l4guide.placed[_guide4Sel]=col;_guide4Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeGuide4(idx){if(S.l4guide.checked)return;delete S.l4guide.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkGuide4(){S.l4guide.checked=true;maybeSync('d2');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- D3 FORWARD GUIDANCE CHAIN BUILDER (gap-fill chains) ---- */
+function vChain4(){
+  var h="<p style='font-size:14.5px;margin-bottom:12px'>Each chain below is missing one link. Choose the option that correctly completes it.</p>";
+  for(var i=0;i<CHAIN4.length;i++){h+="<div class='card' id='chain4-"+i+"'>"+chain4Inner(i)+"</div>";}
+  return h;
+}
+function chain4Inner(i){
+  var c=CHAIN4[i],sel=S.l4chain[i],blank,h='';
+  h+="<div class='qhead'>Item "+(i+1)+"</div>";
+  if(sel===undefined)blank="<span class='blank'>?</span>";
+  else blank="<span class='blank "+(sel===c.a?'ok':'bad')+"'>"+c.opts[sel]+"</span>"+(sel!==c.a?" <span style='color:var(--green);font-weight:700'>("+c.opts[c.a]+")</span>":"");
+  h+="<div class='chainstep'>"+c.pre+blank+c.post+"</div>";
+  if(sel===undefined){h+="<div style='margin-top:8px'>";for(var o=0;o<c.opts.length;o++){h+="<button class='chip' onclick='ansChain4("+i+","+o+")'>"+c.opts[o]+"</button>";}h+="</div>";}
+  if(sel!==undefined){h+="<div class='fb'>"+(sel===c.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+c.why+"</div>";}
+  return h;
+}
+function ansChain4(i,o){
+  if(S.l4chain[i]!==undefined)return;
+  S.l4chain[i]=o;saveState();
+  var el=document.getElementById('chain4-'+i);if(el)el.innerHTML=chain4Inner(i);
+  updateNav();maybeSync('d3');
+}
+
+/* ---- D4 SPOT THE TRAP (true/false) ---- */
+function vTrap4(){
+  var h="<p style='font-size:14.5px;margin-bottom:12px'>Decide whether each statement is true or false.</p>";
+  for(var i=0;i<TRAP4.length;i++){h+="<div class='card' id='trap4-"+i+"'>"+trap4Inner(i)+"</div>";}
+  return h;
+}
+function trap4Inner(i){
+  var t=TRAP4[i],sel=S.l4trap[i],h='';
+  h+="<div class='qhead'>Statement "+(i+1)+"</div><p style='font-size:15px'>"+t.t+"</p>";
+  var opts=[true,false];
+  h+="<div style='display:flex;gap:8px;flex-wrap:wrap;margin-top:8px'>";
+  for(var o=0;o<opts.length;o++){
+    var cls='opt';
+    if(sel!==undefined){if(opts[o]===t.a)cls+=' ok';else if(opts[o]===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' style='width:auto' "+(sel!==undefined?'disabled':'')+" onclick='ansTrap4("+i+","+opts[o]+")'>"+(opts[o]?'True':'False')+"</button>";
+  }
+  h+="</div>";
+  if(sel!==undefined){h+="<div class='fb'>"+t.why+"</div>";}
+  return h;
+}
+function ansTrap4(i,o){
+  if(S.l4trap[i]!==undefined)return;
+  S.l4trap[i]=o;saveState();
+  var el=document.getElementById('trap4-'+i);if(el)el.innerHTML=trap4Inner(i);
+  updateNav();maybeSync('d4');
+}
+
+/* ---- D5 SETTING VS STANCE VS TOOL (3-column sort) ---- */
+function vSort4(){
+  var h="<div class='card'><p style='font-size:14.5px'>Sort each statement into the setting, the stance, or an unconventional policy tool. Click an item, then click a column.</p>";
+  var placed={};for(var k in S.l4sort.placed){placed[k]=S.l4sort.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(3,1fr)'>";
+  for(var c=0;c<3;c++){
+    h+="<div class='obj-col'><h4>"+SORT4.cats[c]+"</h4>";
+    for(var j=0;j<SORT4.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l4sort.checked)cls2+=placed[j]===SORT4.items[j].c?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeSort4("+j+")'>"+SORT4.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<SORT4.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click a column:</p><div class='obj-bank' id='sortBank4'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectSort4("+unplaced[n]+")' id='so4-"+unplaced[n]+"'>"+SORT4.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l4sort.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkSort4()'>Check my answers</button>";
+  if(S.l4sort.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<SORT4.items.length;p++){
+      var ok=S.l4sort.placed[p]===SORT4.items[p].c;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+SORT4.items[p].t+"</strong> - "+SORT4.cats[SORT4.items[p].c]+". "+SORT4.items[p].why+"</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _sort4Sel=null;
+function selectSort4(idx){
+  _sort4Sel=idx;
+  var els=document.querySelectorAll('#sortBank4 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('so4-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeSort4(ci);};})(c);}
+}
+function placeSort4(col){
+  if(_sort4Sel===null)return;
+  if(S.l4sort.checked)return;
+  S.l4sort.placed[_sort4Sel]=col;_sort4Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeSort4(idx){if(S.l4sort.checked)return;delete S.l4sort.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkSort4(){S.l4sort.checked=true;maybeSync('d5');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- D6 MARKING PRACTICE ---- */
+function vMark4(){
+  var h='';
+  for(var i=0;i<MARK4.length;i++){h+="<div class='card' id='mark4-"+i+"'>"+mark4Inner(i)+"</div>";}
+  return h;
+}
+function mark4Inner(i){
+  var q=MARK4[i],mk=S.l4mark.marks[i],g=S.l4mark.gap[i],h='';
+  h+="<div class='qhead'>Question "+(i+1)+"</div><p style='font-size:15px'>"+q.q+"</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:10px'>A student wrote:</p><div class='resp'>"+q.resp+"</div>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid)'>Step 1 - What mark would this earn?</p><div style='display:flex;gap:8px;flex-wrap:wrap'>";
+  for(var m=0;m<=q.marks;m++){var c1='opt';if(mk!==undefined){if(m===q.correctMark)c1+=' ok';else if(m===mk)c1+=' bad';}h+="<button class='"+c1+"' style='width:auto' "+(mk!==undefined?'disabled':'')+" onclick='ansMark4("+i+","+m+")'>"+m+" / "+q.marks+"</button>";}
+  h+="</div>";
+  if(mk!==undefined){
+    h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>Step 2 - What is the key issue?</p>";
+    for(var e=0;e<q.errOpts.length;e++){var c2='opt';if(g!==undefined){if(e===q.errA)c2+=' ok';else if(e===g)c2+=' bad';}h+="<button class='"+c2+"' "+(g!==undefined?'disabled':'')+" onclick='ansMarkGap4("+i+","+e+")'>"+q.errOpts[e]+"</button>";}
+    if(g!==undefined){
+      h+="<p style='font-size:13.5px;font-weight:700;color:var(--green);margin-top:12px'>An improved response:</p><div class='resp' style='background:var(--green-pale)'>"+q.fixed+"</div>";
+      h+="<div class='rule'>"+q.rule+"</div>";
+    }
+  }
+  return h;
+}
+function ansMark4(i,m){if(S.l4mark.marks[i]!==undefined)return;S.l4mark.marks[i]=m;saveState();var el=document.getElementById('mark4-'+i);if(el)el.innerHTML=mark4Inner(i);updateNav();maybeSync('d6');}
+function ansMarkGap4(i,e){if(S.l4mark.gap[i]!==undefined)return;S.l4mark.gap[i]=e;saveState();var el=document.getElementById('mark4-'+i);if(el)el.innerHTML=mark4Inner(i);updateNav();maybeSync('d6');}
+
+/* ---- D7 LESSON 4 EXIT TICKET ---- */
+function vExit4(){
+  var h="<div class='card'><div class='qhead' style='margin-top:0'>Scenario</div><p style='font-size:15px'>"+EXIT4.scenario+"</p></div>";
+  for(var i=0;i<EXIT4.qs.length;i++){h+="<div class='card' id='exit4-"+i+"'>"+exit4Inner(i)+"</div>";}
+  return h;
+}
+function exit4Inner(i){
+  var q=EXIT4.qs[i],sel=S.l4exit[i],h='';
+  h+="<div class='qhead'>"+(i+1)+". "+q.q+"</div>";
+  for(var o=0;o<q.opts.length;o++){
+    var cls='opt';
+    if(sel!==undefined){if(o===q.a)cls+=' ok';else if(o===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' "+(sel!==undefined?'disabled':'')+" onclick='ansExit4("+i+","+o+")'>"+q.opts[o]+"</button>";
+  }
+  if(sel!==undefined){h+="<div class='fb'>"+(sel===q.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+q.fb+"</div>";}
+  return h;
+}
+function ansExit4(i,o){
+  if(S.l4exit[i]!==undefined)return;
+  S.l4exit[i]=o;saveState();
+  var el=document.getElementById('exit4-'+i);if(el)el.innerHTML=exit4Inner(i);
+  updateNav();maybeSync('d7');
+}
+
+/* ================= LESSON 4 SCORING ================= */
+function computeL4Scores(){
+  var kk=blankKK(),per={},total=0,s,i;
+
+  s=0;for(i=0;i<STANCE4.items.length;i++){kk.stance.t++;if(S.l4stance.checked&&S.l4stance.placed[i]===STANCE4.items[i].c){s++;kk.stance.c++;}}per.d1=s;
+
+  s=0;for(i=0;i<GUIDE4.items.length;i++){kk.fwdguide.t++;if(S.l4guide.checked&&S.l4guide.placed[i]===GUIDE4.items[i].c){s++;kk.fwdguide.c++;}}per.d2=s;
+
+  s=0;for(i=0;i<CHAIN4.length;i++){kk.fwdguide.t++;if(S.l4chain[i]===CHAIN4[i].a){s++;kk.fwdguide.c++;}}per.d3=s;
+
+  s=0;for(i=0;i<TRAP4.length;i++){kk.fwdguide.t++;if(S.l4trap[i]===TRAP4[i].a){s++;kk.fwdguide.c++;}}per.d4=s;
+
+  s=0;for(i=0;i<SORT4.items.length;i++){kk.setstance.t++;if(S.l4sort.checked&&S.l4sort.placed[i]===SORT4.items[i].c){s++;kk.setstance.c++;}}per.d5=s;
+
+  s=0;for(i=0;i<MARK4.length;i++){
+    kk.fwdguide.t+=2;
+    if(S.l4mark.marks[i]===MARK4[i].correctMark){s++;kk.fwdguide.c++;}
+    if(S.l4mark.gap[i]===MARK4[i].errA){s++;kk.fwdguide.c++;}
+  }per.d6=s;
+
+  s=0;for(i=0;i<EXIT4.qs.length;i++){kk.fwdguide.t++;if(S.l4exit[i]===EXIT4.qs[i].a){s++;kk.fwdguide.c++;}}per.d7=s;
+
+  for(var key in per)total+=per[key];
+  return{per:per,kk:kk,total:total,max:43};
+}
+
+/* ================= LESSON 5 RENDER FUNCTIONS ================= */
+
+/* ---- E1 STRENGTH OR WEAKNESS IN ACTION (2-column sort) ---- */
+function vSwact5(){
+  var h="<div class='card'><p style='font-size:14.5px'>Sort each real-world scenario into a strength or a weakness of monetary policy. Click an item, then click a column.</p>";
+  var placed={};for(var k in S.l5swact.placed){placed[k]=S.l5swact.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(2,1fr)'>";
+  for(var c=0;c<2;c++){
+    h+="<div class='obj-col'><h4>"+SWACT5.cats[c]+"</h4>";
+    for(var j=0;j<SWACT5.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l5swact.checked)cls2+=placed[j]===SWACT5.items[j].c?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeSwact5("+j+")'>"+SWACT5.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<SWACT5.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Items to place - click one, then click a column:</p><div class='obj-bank' id='swactBank5'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectSwact5("+unplaced[n]+")' id='sw5-"+unplaced[n]+"'>"+SWACT5.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l5swact.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkSwact5()'>Check my answers</button>";
+  if(S.l5swact.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<SWACT5.items.length;p++){
+      var ok=S.l5swact.placed[p]===SWACT5.items[p].c;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+SWACT5.items[p].t+"</strong> - "+SWACT5.cats[SWACT5.items[p].c]+". "+SWACT5.items[p].why+"</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _swact5Sel=null;
+function selectSwact5(idx){
+  _swact5Sel=idx;
+  var els=document.querySelectorAll('#swactBank5 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('sw5-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeSwact5(ci);};})(c);}
+}
+function placeSwact5(col){
+  if(_swact5Sel===null)return;
+  if(S.l5swact.checked)return;
+  S.l5swact.placed[_swact5Sel]=col;_swact5Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeSwact5(idx){if(S.l5swact.checked)return;delete S.l5swact.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkSwact5(){S.l5swact.checked=true;maybeSync('e1');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- E2 BUILD THE CASH RATE TIMELINE (ordered sequence from shuffled bank) ----
+   New pattern: numbered slots (1..n) instead of named columns. Click an item from
+   the bank, then click a slot number to place it. Reuses .obj-col/.obj-chip CSS. */
+function vTime5(){
+  var h="<div class='card'><p style='font-size:14.5px'>Place each event into the correct position in the timeline, from earliest (1) to most recent ("+TIME5.slots.length+"). Click an item, then click a slot number.</p>";
+  var placed={};for(var k in S.l5time.placed){placed[k]=S.l5time.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat("+TIME5.slots.length+",1fr)'>";
+  for(var c=0;c<TIME5.slots.length;c++){
+    h+="<div class='obj-col'><h4>"+(c+1)+". "+TIME5.slots[c].label+"</h4>";
+    for(var j=0;j<TIME5.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l5time.checked)cls2+=placed[j]===TIME5.items[j].order?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removeTime5("+j+")'>"+TIME5.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<TIME5.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Events to place (shuffled) - click one, then click a slot:</p><div class='obj-bank' id='timeBank5'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectTime5("+unplaced[n]+")' id='tm5-"+unplaced[n]+"'>"+TIME5.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l5time.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkTime5()'>Check my answers</button>";
+  if(S.l5time.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<TIME5.items.length;p++){
+      var ok=S.l5time.placed[p]===TIME5.items[p].order;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+TIME5.items[p].t+"</strong> - belongs at position "+(TIME5.items[p].order+1)+" ("+TIME5.slots[TIME5.items[p].order].label+").</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _time5Sel=null;
+function selectTime5(idx){
+  _time5Sel=idx;
+  var els=document.querySelectorAll('#timeBank5 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('tm5-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placeTime5(ci);};})(c);}
+}
+function placeTime5(col){
+  if(_time5Sel===null)return;
+  if(S.l5time.checked)return;
+  // each slot holds exactly one item - if it's already occupied, bump the existing item back to the bank
+  for(var k in S.l5time.placed){if(S.l5time.placed[k]===col)delete S.l5time.placed[k];}
+  S.l5time.placed[_time5Sel]=col;_time5Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removeTime5(idx){if(S.l5time.checked)return;delete S.l5time.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkTime5(){S.l5time.checked=true;maybeSync('e2');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- E3 EVALUATE THE DATA (sequential MCQ with context) ---- */
+function vEvaldata5(){
+  var h='';
+  for(var i=0;i<EVALDATA5.length;i++){h+="<div class='card' id='evaldata5-"+i+"'>"+evaldata5Inner(i)+"</div>";}
+  return h;
+}
+function evaldata5Inner(i){
+  var d=EVALDATA5[i],sel=S.l5eval[i],h='';
+  h+="<div class='qhead'>Data point "+(i+1)+"</div><p style='font-size:14.5px'>"+d.context+"</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:8px'>"+d.q+"</p>";
+  for(var o=0;o<d.opts.length;o++){
+    var cls='opt';
+    if(sel!==undefined){if(o===d.a)cls+=' ok';else if(o===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' "+(sel!==undefined?'disabled':'')+" onclick='ansEvaldata5("+i+","+o+")'>"+d.opts[o]+"</button>";
+  }
+  if(sel!==undefined){h+="<div class='fb'>"+(sel===d.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+d.fb+"</div>";}
+  return h;
+}
+function ansEvaldata5(i,o){
+  if(S.l5eval[i]!==undefined)return;
+  S.l5eval[i]=o;saveState();
+  var el=document.getElementById('evaldata5-'+i);if(el)el.innerHTML=evaldata5Inner(i);
+  updateNav();maybeSync('e3');
+}
+
+/* ---- E4 TRADE-OFF OR NO TRADE-OFF? (scenario MCQ) ---- */
+function vTrade5(){
+  var h='';
+  for(var i=0;i<TRADE5.length;i++){h+="<div class='card' id='trade5-"+i+"'>"+trade5Inner(i)+"</div>";}
+  return h;
+}
+function trade5Inner(i){
+  var t=TRADE5[i],sel=S.l5trade[i],h='';
+  h+="<div class='qhead'>Scenario "+(i+1)+"</div><p style='font-size:14.5px'>"+t.s+"</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:8px'>"+t.q+"</p>";
+  for(var o=0;o<t.opts.length;o++){
+    var cls='opt';
+    if(sel!==undefined){if(o===t.a)cls+=' ok';else if(o===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' "+(sel!==undefined?'disabled':'')+" onclick='ansTrade5("+i+","+o+")'>"+t.opts[o]+"</button>";
+  }
+  if(sel!==undefined){h+="<div class='fb'>"+(sel===t.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+t.why+"</div>";}
+  return h;
+}
+function ansTrade5(i,o){
+  if(S.l5trade[i]!==undefined)return;
+  S.l5trade[i]=o;saveState();
+  var el=document.getElementById('trade5-'+i);if(el)el.innerHTML=trade5Inner(i);
+  updateNav();maybeSync('e4');
+}
+
+/* ---- E5 EVALUATION PARAGRAPH BUILDER (ordered sequence from shuffled bank) ---- */
+function vPara5(){
+  var h="<div class='card'><p style='font-size:14.5px'>Place each sentence into the correct step to build a model evaluation paragraph, from Step 1 to Step "+PARA5.slots.length+". Click a sentence, then click a step.</p>";
+  var placed={};for(var k in S.l5para.placed){placed[k]=S.l5para.placed[k];}
+  h+="<div class='obj-cols' style='grid-template-columns:repeat(2,1fr)'>";
+  for(var c=0;c<PARA5.slots.length;c++){
+    h+="<div class='obj-col'><h4>"+PARA5.slots[c].label+"</h4>";
+    for(var j=0;j<PARA5.items.length;j++){
+      if(placed[j]===c){
+        var cls2='obj-chip';
+        if(S.l5para.checked)cls2+=placed[j]===PARA5.items[j].order?' ok':' bad';
+        h+="<button class='"+cls2+"' onclick='removePara5("+j+")'>"+PARA5.items[j].t+"</button>";
+      }
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  var unplaced=[];for(var m=0;m<PARA5.items.length;m++){if(placed[m]===undefined)unplaced.push(m);}
+  if(unplaced.length>0){
+    h+="<p style='font-size:13.5px;color:var(--text-sec);margin:8px 0 4px'>Sentences to place (shuffled) - click one, then click a step:</p><div class='obj-bank' id='paraBank5'>";
+    for(var n=0;n<unplaced.length;n++){h+="<button class='obj-bank-chip' onclick='selectPara5("+unplaced[n]+")' id='pa5-"+unplaced[n]+"'>"+PARA5.items[unplaced[n]].t+"</button>";}
+    h+="</div>";
+  }
+  var allPlaced=(unplaced.length===0);
+  if(allPlaced&&!S.l5para.checked)h+="<button class='btn gold' style='margin-top:10px' onclick='checkPara5()'>Check my answers</button>";
+  if(S.l5para.checked){
+    h+="<div style='margin-top:14px'>";
+    for(var p=0;p<PARA5.items.length;p++){
+      var ok=S.l5para.placed[p]===PARA5.items[p].order;
+      h+="<div class='obj-exp "+(ok?'ok':'bad')+"'><strong>"+(ok?'Correct - ':'Not quite - ')+PARA5.items[p].t+"</strong> - belongs at "+PARA5.slots[PARA5.items[p].order].label+".</div>";
+    }
+    h+="<div class='card' style='background:var(--green-pale);margin-top:10px'><strong>Full model paragraph:</strong><p style='margin-top:8px;font-size:14px'>"+PARA5.items.slice().sort(function(a,b){return a.order-b.order;}).map(function(it){return it.t;}).join(' ')+"</p></div>";
+    h+="</div>";
+  }
+  h+="</div>";
+  return h;
+}
+var _para5Sel=null;
+function selectPara5(idx){
+  _para5Sel=idx;
+  var els=document.querySelectorAll('#paraBank5 .obj-bank-chip');
+  for(var i=0;i<els.length;i++){els[i].style.borderColor='';}
+  var el=document.getElementById('pa5-'+idx);
+  if(el)el.style.borderColor='var(--accent)';
+  var cols=document.querySelectorAll('.obj-col');
+  for(var c=0;c<cols.length;c++){(function(ci){cols[ci].style.cursor='pointer';cols[ci].onclick=function(){placePara5(ci);};})(c);}
+}
+function placePara5(col){
+  if(_para5Sel===null)return;
+  if(S.l5para.checked)return;
+  for(var k in S.l5para.placed){if(S.l5para.placed[k]===col)delete S.l5para.placed[k];}
+  S.l5para.placed[_para5Sel]=col;_para5Sel=null;saveState();
+  document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);
+}
+function removePara5(idx){if(S.l5para.checked)return;delete S.l5para.placed[idx];saveState();document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+function checkPara5(){S.l5para.checked=true;maybeSync('e5');document.getElementById('app').innerHTML=vAct();window.scrollTo(0,0);}
+
+/* ---- E6 MARKING PRACTICE ---- */
+function vMark5(){
+  var h='';
+  for(var i=0;i<MARK5.length;i++){h+="<div class='card' id='mark5-"+i+"'>"+mark5Inner(i)+"</div>";}
+  return h;
+}
+function mark5Inner(i){
+  var q=MARK5[i],mk=S.l5mark.marks[i],g=S.l5mark.gap[i],h='';
+  h+="<div class='qhead'>Question "+(i+1)+"</div><p style='font-size:15px'>"+q.q+"</p>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:10px'>A student wrote:</p><div class='resp'>"+q.resp+"</div>";
+  h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid)'>Step 1 - What mark would this earn?</p><div style='display:flex;gap:8px;flex-wrap:wrap'>";
+  for(var m=0;m<=q.marks;m++){var c1='opt';if(mk!==undefined){if(m===q.correctMark)c1+=' ok';else if(m===mk)c1+=' bad';}h+="<button class='"+c1+"' style='width:auto' "+(mk!==undefined?'disabled':'')+" onclick='ansMark5("+i+","+m+")'>"+m+" / "+q.marks+"</button>";}
+  h+="</div>";
+  if(mk!==undefined){
+    h+="<p style='font-size:13.5px;font-weight:700;color:var(--primary-mid);margin-top:14px'>Step 2 - What is the key issue?</p>";
+    for(var e=0;e<q.errOpts.length;e++){var c2='opt';if(g!==undefined){if(e===q.errA)c2+=' ok';else if(e===g)c2+=' bad';}h+="<button class='"+c2+"' "+(g!==undefined?'disabled':'')+" onclick='ansMarkGap5("+i+","+e+")'>"+q.errOpts[e]+"</button>";}
+    if(g!==undefined){
+      h+="<p style='font-size:13.5px;font-weight:700;color:var(--green);margin-top:12px'>An improved response:</p><div class='resp' style='background:var(--green-pale)'>"+q.fixed+"</div>";
+      h+="<div class='rule'>"+q.rule+"</div>";
+    }
+  }
+  return h;
+}
+function ansMark5(i,m){if(S.l5mark.marks[i]!==undefined)return;S.l5mark.marks[i]=m;saveState();var el=document.getElementById('mark5-'+i);if(el)el.innerHTML=mark5Inner(i);updateNav();maybeSync('e6');}
+function ansMarkGap5(i,e){if(S.l5mark.gap[i]!==undefined)return;S.l5mark.gap[i]=e;saveState();var el=document.getElementById('mark5-'+i);if(el)el.innerHTML=mark5Inner(i);updateNav();maybeSync('e6');}
+
+/* ---- E7 LESSON 5 EXIT TICKET ---- */
+function vExit5(){
+  var h="<div class='card'><div class='qhead' style='margin-top:0'>Scenario</div><p style='font-size:15px'>"+EXIT5.scenario+"</p></div>";
+  for(var i=0;i<EXIT5.qs.length;i++){h+="<div class='card' id='exit5-"+i+"'>"+exit5Inner(i)+"</div>";}
+  return h;
+}
+function exit5Inner(i){
+  var q=EXIT5.qs[i],sel=S.l5exit[i],h='';
+  h+="<div class='qhead'>"+(i+1)+". "+q.q+"</div>";
+  for(var o=0;o<q.opts.length;o++){
+    var cls='opt';
+    if(sel!==undefined){if(o===q.a)cls+=' ok';else if(o===sel)cls+=' bad';}
+    h+="<button class='"+cls+"' "+(sel!==undefined?'disabled':'')+" onclick='ansExit5("+i+","+o+")'>"+q.opts[o]+"</button>";
+  }
+  if(sel!==undefined){h+="<div class='fb'>"+(sel===q.a?'<strong>Correct.</strong> ':'<strong>Not quite.</strong> ')+q.fb+"</div>";}
+  return h;
+}
+function ansExit5(i,o){
+  if(S.l5exit[i]!==undefined)return;
+  S.l5exit[i]=o;saveState();
+  var el=document.getElementById('exit5-'+i);if(el)el.innerHTML=exit5Inner(i);
+  updateNav();maybeSync('e7');
+}
+
+/* ================= LESSON 5 SCORING ================= */
+function computeL5Scores(){
+  var kk=blankKK(),per={},total=0,s,i;
+
+  s=0;for(i=0;i<SWACT5.items.length;i++){kk.evaluate.t++;if(S.l5swact.checked&&S.l5swact.placed[i]===SWACT5.items[i].c){s++;kk.evaluate.c++;}}per.e1=s;
+
+  s=0;for(i=0;i<TIME5.items.length;i++){kk.evaluate.t++;if(S.l5time.checked&&S.l5time.placed[i]===TIME5.items[i].order){s++;kk.evaluate.c++;}}per.e2=s;
+
+  s=0;for(i=0;i<EVALDATA5.length;i++){kk.evaluate.t++;if(S.l5eval[i]===EVALDATA5[i].a){s++;kk.evaluate.c++;}}per.e3=s;
+
+  s=0;for(i=0;i<TRADE5.length;i++){kk.evaluate.t++;if(S.l5trade[i]===TRADE5[i].a){s++;kk.evaluate.c++;}}per.e4=s;
+
+  s=0;for(i=0;i<PARA5.items.length;i++){kk.evaluate.t++;if(S.l5para.checked&&S.l5para.placed[i]===PARA5.items[i].order){s++;kk.evaluate.c++;}}per.e5=s;
+
+  s=0;for(i=0;i<MARK5.length;i++){
+    kk.evaluate.t+=2;
+    if(S.l5mark.marks[i]===MARK5[i].correctMark){s++;kk.evaluate.c++;}
+    if(S.l5mark.gap[i]===MARK5[i].errA){s++;kk.evaluate.c++;}
+  }per.e6=s;
+
+  s=0;for(i=0;i<EXIT5.qs.length;i++){kk.evaluate.t++;if(S.l5exit[i]===EXIT5.qs[i].a){s++;kk.evaluate.c++;}}per.e7=s;
+
+  for(var key in per)total+=per[key];
+  return{per:per,kk:kk,total:total,max:36};
 }
 
 /* ================= TEACHER ================= */
