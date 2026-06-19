@@ -1488,7 +1488,7 @@ buildTicker();
 <script>
 // ── BACKEND CONFIG ───────────────────────────────────────────────────────────
 // After deploying your Cloudflare Worker, replace the URL below:
-const WORKER_URL = 'https://econoland.YOUR_SUBDOMAIN.workers.dev';
+const WORKER_URL = 'https://econoland.megan-dyring.workers.dev';
 // Leave as null to run in demo mode (no backend needed)
 // const WORKER_URL = null;
 
@@ -1726,31 +1726,48 @@ function switchToTeacher() {
 }
 
 async function createGame() {
+  const btn = document.querySelector('#join-teacher-panel .btn-primary');
+  if (btn) { btn.textContent = 'Creating...'; btn.disabled = true; }
+
   const n = parseInt(document.getElementById('joinStudentCount').value) || 13;
   const { households, businesses } = calcRoles(n);
   let gameCode;
 
-  if (WORKER_URL) {
-    const result = await api('/api/create-game', 'POST', { studentCount: n, households, businesses });
-    if (!result?.gameCode) { showToast('Could not create game — check connection'); return; }
-    gameCode = result.gameCode;
-  } else {
-    gameCode = Math.random().toString(36).substring(2,8).toUpperCase();
+  try {
+    if (WORKER_URL) {
+      const result = await api('/api/create-game', 'POST', { studentCount: n, households, businesses });
+      console.log('Create game result:', result);
+      if (!result?.gameCode) {
+        showToast('Could not create game — check connection');
+        btn.textContent = 'Create Game →';
+        btn.disabled = false;
+        return;
+      }
+      gameCode = result.gameCode;
+    } else {
+      gameCode = Math.random().toString(36).substring(2,8).toUpperCase();
+    }
+
+    GAME_CODE = gameCode;
+    STUDENT_ROLE = 'teacher';
+    STUDENT_ID = 'teacher_' + Date.now();
+
+    document.getElementById('displayGameCode').textContent = gameCode;
+    document.getElementById('roleBreakdown').innerHTML =
+      `🏠 <strong>Households — first ${households} students to join</strong><br>
+       🏭 <strong>Businesses — next ${businesses} students to join</strong><br>
+       <span style="color:var(--teal)">🏛️ Government — you reassign a student in Round 2</span><br>
+       <span style="color:var(--gold)">🏦 Financial & 🌏 Overseas — you assign in Round 3</span>`;
+
+    document.getElementById('screen-gamecode').style.display = 'flex';
+    if (WORKER_URL) startPolling();
+
+  } catch(e) {
+    console.error('Create game error:', e);
+    showToast('Error: ' + e.message);
   }
 
-  GAME_CODE = gameCode;
-  STUDENT_ROLE = 'teacher';
-  STUDENT_ID = 'teacher_' + Date.now();
-
-  document.getElementById('displayGameCode').textContent = gameCode;
-  document.getElementById('roleBreakdown').innerHTML =
-    `🏠 <strong>Households — first ${households} students to join</strong><br>
-     🏭 <strong>Businesses — next ${businesses} students to join</strong><br>
-     <span style="color:var(--teal)">🏛️ Government — you reassign a student in Round 2</span><br>
-     <span style="color:var(--gold)">🏦 Financial & 🌏 Overseas — you assign in Round 3</span>`;
-
-  document.getElementById('screen-gamecode').style.display = 'flex';
-  if (WORKER_URL) startPolling();
+  if (btn) { btn.textContent = 'Create Game →'; btn.disabled = false; }
 }
 
 function enterTeacherDashboard() {
