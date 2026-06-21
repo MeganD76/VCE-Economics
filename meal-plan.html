@@ -771,9 +771,9 @@
     <!-- CALCULATE -->
     <div class="settings-section">
       <h2 class="settings-heading">🧮 Recommended targets</h2>
-      <button onclick="runCalculation()" style="width:100%;padding:11px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:12px;">Calculate from my profile</button>
+      <button onclick="runCalculation()" style="width:100%;padding:11px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:12px;">🧮 Preview calculated targets</button>
       <div id="s-calc-working" style="display:none;background:var(--bg-surface);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;font-size:13px;line-height:1.8;color:var(--text-muted);"></div>
-      <p style="font-size:12px;color:var(--text-hint);margin-bottom:10px;">Edit these if your GP or dietitian has given you different advice — these are the values used throughout the app.</p>
+      <p style="font-size:12px;color:var(--text-hint);margin-bottom:10px;">Targets calculate automatically when you save. Preview them above first if you like. Edit any field if your GP or dietitian has given you different advice.</p>
       <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
         <div class="settings-field">
           <label>Calories</label>
@@ -865,7 +865,7 @@ let userSettings = {
 };
 
 // ── CONFIG: paste your Cloudflare Worker URL here after deploying ──
-const WORKER_URL = 'https://meal-plan-worker.megan-dyring.workers.dev';
+const WORKER_URL = 'PASTE_YOUR_WORKER_URL_HERE';
 
 // ── PERSISTENCE ───────────────────────────────────────────────
 function saveState() {
@@ -2556,7 +2556,7 @@ function loadSettings() {
 }
 
 function saveSettings() {
-  // Read all fields
+  // Read profile fields first
   userSettings.name = document.getElementById('s-name').value.trim();
   userSettings.gender = document.getElementById('s-gender').value;
   userSettings.age = parseInt(document.getElementById('s-age').value)||null;
@@ -2567,13 +2567,20 @@ function saveSettings() {
   userSettings.goal = document.getElementById('s-goal').value;
   userSettings.lossRate = parseFloat(document.getElementById('s-rate').value)||0.5;
   userSettings.avoidances = document.getElementById('s-avoidances').value.trim();
-  // Read targets (potentially manually overridden)
+
+  // Auto-calculate if profile is complete — don't require separate button click
+  if(userSettings.age && userSettings.weightKg && userSettings.heightCm) {
+    runCalculation();
+  }
+
+  // Read targets (filled by runCalculation, or manually entered)
   userSettings.targetCal = parseInt(document.getElementById('s-t-cal').value)||TARGETS.cal;
   userSettings.targetProt = parseInt(document.getElementById('s-t-prot').value)||TARGETS.prot;
   userSettings.targetCarb = parseInt(document.getElementById('s-t-carb').value)||TARGETS.carb;
   userSettings.targetFat = parseInt(document.getElementById('s-t-fat').value)||TARGETS.fat;
   userSettings.targetFibre = parseInt(document.getElementById('s-t-fibre').value)||TARGETS.fibre;
-  // Apply to TARGETS
+
+  // Apply to global TARGETS
   TARGETS = {
     cal: userSettings.targetCal,
     prot: userSettings.targetProt,
@@ -2583,7 +2590,6 @@ function saveSettings() {
   };
   try { localStorage.setItem('mp_settings', JSON.stringify(userSettings)); } catch(e) {}
   applySettingsToUI();
-  // Show saved confirmation
   const msg = document.getElementById('s-saved-msg');
   msg.style.display = 'block';
   setTimeout(() => { msg.style.display='none'; }, 2500);
