@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U4 AOS1 — Monetary Policy GAP Analysis</title>
+<style>
+:root{
+  --primary:#2563eb; --primaryl:#eff6ff; --primaryd:#1d4ed8;
+  --ink:#1e293b; --ink-sec:#64748b; --border:#e2e8f0; --bg:#f8fafc; --card:#ffffff;
+  --green:#16a34a; --green-pale:#f0fdf4;
+  --amber:#d97706; --amber-pale:#fffbeb;
+  --red:#dc2626; --red-pale:#fef2f2;
+  --purple:#7c3aed; --purple-pale:#f5f3ff;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Source Sans 3',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;}
+h1,h2,h3,h4{font-family:Cambria,Georgia,serif;color:#0f172a;margin:0 0 8px;}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px 60px;}
+.hero{background:linear-gradient(135deg,var(--primaryd),var(--primary));color:#fff;padding:38px 20px 46px;}
+.hero-inner{max-width:880px;margin:0 auto;}
+.badge{display:inline-block;background:rgba(255,255,255,.18);border-radius:20px;padding:4px 14px;font-size:12.5px;font-weight:700;letter-spacing:.04em;margin-bottom:10px;}
+.hero h1{color:#fff;font-size:28px;margin-bottom:6px;}
+.hero p{font-size:15px;opacity:.92;margin:0;max-width:640px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 24px;margin-top:18px;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+.btn{background:var(--primary);color:#fff;border:none;border-radius:10px;padding:12px 22px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;}
+.btn:hover{background:var(--primaryd);}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.btn.ghost{background:transparent;color:var(--primary);border:1.5px solid var(--primary);}
+.btn.sm{padding:8px 14px;font-size:13.5px;}
+input[type=text]{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:9px;font-size:15px;font-family:inherit;}
+input[type=text]:focus{outline:none;border-color:var(--primary);}
+.footer-link{text-align:center;margin-top:26px;font-size:12.5px;color:var(--ink-sec);cursor:pointer;}
+.footer-link:hover{color:var(--primary);text-decoration:underline;}
+
+/* Survey */
+.kk-block{margin-top:22px;}
+.kk-title{font-size:16px;font-weight:700;color:var(--primaryd);margin-bottom:2px;}
+.kk-num{color:var(--ink-sec);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;}
+.sub-row{border-top:1px solid var(--border);padding:14px 0;}
+.sub-label{font-size:14.5px;margin-bottom:10px;}
+.rating-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:520px;}
+.rating-btn{border:1.5px solid var(--border);background:#fff;border-radius:9px;padding:10px 6px;cursor:pointer;font-size:12.5px;text-align:center;white-space:normal;font-family:inherit;color:var(--ink);}
+.rating-btn .emo{font-size:18px;display:block;margin-bottom:3px;}
+.rating-btn.sel{border-color:var(--primary);background:var(--primaryl);box-shadow:0 0 0 2px var(--primary);font-weight:700;}
+.progress-bar{position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:5;border-bottom:1px solid var(--border);margin-bottom:4px;}
+.progress-track{height:8px;background:var(--border);border-radius:6px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--primary);transition:width .2s;}
+.progress-txt{font-size:12.5px;color:var(--ink-sec);margin-top:5px;}
+
+/* Results */
+.tile-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;}
+.stat-tile{flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+.stat-tile .n{font-size:26px;font-weight:800;color:var(--primaryd);font-family:Cambria,Georgia,serif;}
+.stat-tile .l{font-size:12px;color:var(--ink-sec);margin-top:2px;}
+.alert{border-radius:12px;padding:16px 18px;margin-top:18px;font-size:14.5px;}
+.alert.warn{background:var(--amber-pale);border:1px solid #fde68a;color:#92400e;}
+.kk-card{border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin-top:12px;}
+.kk-card.weak{border-color:#fecaca;background:var(--red-pale);}
+.kk-card.mid{border-color:#fde68a;background:var(--amber-pale);}
+.kk-card.strong{border-color:#bbf7d0;background:var(--green-pale);}
+.kk-bar-track{height:8px;background:#e2e8f0;border-radius:6px;overflow:hidden;margin:8px 0;}
+.kk-bar-fill{height:100%;border-radius:6px;}
+.badge-type{display:inline-block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;padding:2px 8px;border-radius:20px;margin-right:6px;}
+.badge-type.definition{background:#fce7f3;color:#9d174d;}
+.badge-type.content{background:#dbeafe;color:#1e40af;}
+.badge-type.application{background:#dcfce7;color:#166534;}
+.badge-type.eval{background:#ede9fe;color:#5b21b6;}
+.badge-tab{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:20px;}
+.badge-tab.game{background:#dcfce7;color:#166534;}
+.badge-tab.practice{background:#ede9fe;color:#5b21b6;}
+.badge-tab.both{background:#fef9c3;color:#854d0e;}
+details{margin-top:8px;}
+summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--primaryd);}
+.weak-sub{font-size:13.5px;padding:6px 0;border-top:1px dashed var(--border);}
+
+/* Plan */
+.opt-pill{display:inline-block;border:1.5px solid var(--border);border-radius:20px;padding:9px 16px;margin:4px 6px 4px 0;cursor:pointer;font-size:13.5px;background:#fff;}
+.opt-pill.sel{background:var(--primary);color:#fff;border-color:var(--primary);}
+textarea{width:100%;min-height:90px;padding:12px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:inherit;font-size:14.5px;}
+.q-block{margin-top:22px;}
+.q-num{font-size:12px;font-weight:700;color:var(--ink-sec);text-transform:uppercase;letter-spacing:.04em;}
+
+/* Teacher */
+.tch table{width:100%;border-collapse:collapse;font-size:13px;}
+.tch th,.tch td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;}
+.tch th{background:var(--primaryl);color:var(--primaryd);font-size:11.5px;text-transform:uppercase;}
+.kdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;}
+.wk-bar-row{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:13px;}
+.wk-bar-track{flex:1;height:14px;background:#e2e8f0;border-radius:7px;overflow:hidden;display:flex;}
+.save-toast{position:fixed;bottom:20px;right:20px;background:#0f172a;color:#fff;padding:10px 18px;border-radius:9px;font-size:13.5px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;z-index:50;}
+.save-toast.show{opacity:1;transform:translateY(0);}
+
+@media print{
+  body{background:#fff;}
+  .no-print{display:none !important;}
+  .hero{background:#fff !important;color:#000 !important;padding:10px 0;}
+  .hero h1,.hero p{color:#000 !important;}
+  .card{box-shadow:none;border:1px solid #999;break-inside:avoid;}
+  .kk-card{break-inside:avoid;}
+}
+@media(max-width:560px){
+  .rating-grid{grid-template-columns:repeat(2,1fr);}
+  .hero h1{font-size:23px;}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="save-toast" id="saveTst">Saved</div>
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+var WORKER_URL   = "https://vce-marker.megan-dyring.workers.dev";
+var GITHUB_OWNER = "MeganD76";
+var GITHUB_REPO  = "VCE-Economics";
+var GITHUB_FILE  = "gap-u4-aos1-data.json";
+var TEACHER_PIN  = "0904";
+var AUTO_REFRESH = 30;
+var LS_KEY = "gap_u4_aos1_v1";
+
+/* ============================================================
+   KK DATA
+   ============================================================ */
+var KKS = [
+  {
+    id:1,
+    cat:"The need for aggregate demand policies in terms of stabilising the business cycle",
+    title:"The need for aggregate demand policies in terms of stabilising the business cycle",
+    subs:[
+      {id:"1a", label:"explain what aggregate demand policies are", type:"definition"},
+      {id:"1b", label:"explain why the economy needs aggregate demand policies to stabilise the business cycle", type:"content"}
+    ]
+  },
+  {
+    id:2,
+    cat:"The role of the RBA with respect to monetary policy as outlined in its charter",
+    title:"The role of the RBA with respect to monetary policy as outlined in its charter",
+    subs:[
+      {id:"2a", label:"explain the RBA's role with respect to monetary policy", type:"content"},
+      {id:"2b", label:"explain the objectives outlined in the RBA's charter", type:"definition"}
+    ]
+  },
+  {
+    id:3,
+    cat:"Conventional monetary policy (cash rate target) and how it affects interest rates",
+    title:"Conventional monetary policy (cash rate target) and how it affects interest rates",
+    subs:[
+      {id:"3a", label:"explain what is meant by conventional monetary policy", type:"definition"},
+      {id:"3b", label:"explain what the cash rate target is", type:"definition"},
+      {id:"3c", label:"explain what happens in the overnight money market when banks have surplus or deficit ES balances", type:"content"},
+      {id:"3d", label:"explain what a bank with a positive (surplus) ES balance earns from the RBA, and why this forms the floor", type:"content"},
+      {id:"3e", label:"explain what a bank with a negative (deficit) ES balance pays the RBA, and why this forms the ceiling", type:"content"},
+      {id:"3f", label:"explain whether the floor and ceiling sit the same distance from the cash rate target", type:"content"},
+      {id:"3g", label:"explain how a change in the cash rate target flows through to influence other interest rates in the economy", type:"application"}
+    ]
+  },
+  {
+    id:4,
+    cat:"One example of the operation of an unconventional monetary policy tool from the past two years",
+    title:"One example of the operation of an unconventional monetary policy tool from the past two years",
+    subs:[
+      {id:"4a", label:"define unconventional monetary policy", type:"definition"},
+      {id:"4b", label:"explain why unconventional monetary policy is needed", type:"content"},
+      {id:"4c", label:"describe an example of unconventional monetary policy used in the past two years", type:"application"}
+    ]
+  },
+  {
+    id:5,
+    cat:"Transmission mechanism of monetary policy and its effect on the level of aggregate demand, including the four channels of savings and investment, cash-flow, exchange rate, and asset prices and wealth",
+    title:"Transmission mechanism of monetary policy and its effect on the level of aggregate demand, including the four channels of savings and investment, cash-flow, exchange rate, and asset prices and wealth",
+    subs:[
+      {id:"5a", label:"explain what is meant by the transmission mechanism", type:"definition"},
+      {id:"5b", label:"explain how changes in the cash rate impact economic activity through the savings and investment channel", type:"content"},
+      {id:"5c", label:"explain how changes in the cash rate impact economic activity through the cash flow channel", type:"content"},
+      {id:"5d", label:"explain how changes in the cash rate impact economic activity through the exchange rate channel", type:"content"},
+      {id:"5e", label:"explain how changes in the cash rate impact economic activity through the asset prices and wealth channel", type:"content"}
+    ]
+  },
+  {
+    id:6,
+    cat:"The stance of monetary policy: expansionary (accommodative), contractionary (restrictive) or neutral",
+    title:"The stance of monetary policy: expansionary (accommodative), contractionary (restrictive) or neutral",
+    subs:[
+      {id:"6a", label:"explain what is meant by an expansionary stance, and the cash rate level associated with it", type:"definition"},
+      {id:"6b", label:"explain what is meant by a contractionary stance, and the cash rate level associated with it", type:"definition"},
+      {id:"6c", label:"explain what is meant by a neutral stance, and the cash rate level associated with it", type:"definition"},
+      {id:"6d", label:"explain the difference between the stance of monetary policy and the direction of a change in the cash rate target", type:"content"},
+      {id:"6e", label:"explain why a change in the cash rate target can make policy more or less expansionary (or contractionary), without necessarily changing the stance itself", type:"application"}
+    ]
+  },
+  {
+    id:7,
+    cat:"The stance of monetary policy over the past two years and its likely effect on the achievement of the domestic macroeconomic goals and living standards",
+    title:"The stance of monetary policy over the past two years and its likely effect on the achievement of the domestic macroeconomic goals and living standards",
+    subs:[
+      {id:"7a", label:"explain the current stance of monetary policy", type:"content"},
+      {id:"7b", label:"identify the current cash rate target", type:"content"},
+      {id:"7c", label:"explain how the current stance is likely impacting the achievement of the domestic macroeconomic goals", type:"application"},
+      {id:"7d", label:"explain the pattern of changes in the cash rate target over the past two years", type:"eval"}
+    ]
+  },
+  {
+    id:8,
+    cat:"The strengths and weaknesses of using monetary policy to affect aggregate demand and influence the achievement of the domestic macroeconomic goals and living standards",
+    title:"The strengths and weaknesses of using monetary policy to affect aggregate demand and influence the achievement of the domestic macroeconomic goals and living standards",
+    subs:[
+      {id:"8a", label:"explain how MP has a relatively short implementation lag and why this is a strength", type:"content"},
+      {id:"8b", label:"explain how being free from political bias is a strength of MP", type:"content"},
+      {id:"8c", label:"explain jawboning and how this is a strength of MP", type:"content"},
+      {id:"8d", label:"explain why MP is powerful at reducing AD during a boom and how this is a strength", type:"content"},
+      {id:"8e", label:"explain what is meant by MP being a blunt instrument and why this is a weakness", type:"content"},
+      {id:"8f", label:"explain why the impact lag of MP may be long, and how long it takes for the full effect of rate changes to flow through to the economy", type:"content"},
+      {id:"8g", label:"explain why the long impact lag is a weakness", type:"eval"},
+      {id:"8h", label:"explain why the RBA not being able to control interest rates directly is a weakness", type:"content"},
+      {id:"8i", label:"explain why MP is less effective at stimulating AD during a downturn", type:"eval"},
+      {id:"8j", label:"explain why MP is less effective as indebtedness increases", type:"eval"},
+      {id:"8k", label:"explain how MP can be undermined by budgetary policy", type:"content"},
+      {id:"8l", label:"explain how MP is limited in addressing supply-side issues in the economy", type:"eval"}
+    ]
+  }
+];
+
+var FOUNDATIONAL_KKS = [1, 2, 3];
+
+var ROUTING = {
+  1: {
+    f:{tab:"game", name:"Hub Lesson 1 — Foundations Check", note:"Six recall MCQs covering AD policies, monetary policy and the RBA mandate."},
+    c:{tab:"practice", name:"Practice Tool — Lesson 1, Level 1 (3m)", note:"Practice outlining the RBA's role in stabilising AD, with AI marking."},
+    e:{tab:"game", name:"Hub Lesson 4 — Setting vs Stance vs Tool", note:"Sharpen the distinction between an AD policy, the stance, and a specific policy tool."}
+  },
+  2: {
+    f:{tab:"game", name:"Hub Lesson 1 — Match the Objective", note:"Match statements to the RBA's three statutory objectives."},
+    c:{tab:"practice", name:"Practice Tool — Lesson 1, Level 1 (3m)", note:"Practice outlining the RBA's charter role as an exam-style short answer."},
+    e:{tab:"practice", name:"Practice Tool — Lesson 1, Level 2 (4m)", note:"Extend into how inflation behaviour has shaped the stance and focus of policy."}
+  },
+  3: {
+    f:{tab:"game", name:"Hub Lesson 2 — Foundations Check", note:"Six recall MCQs on ES balances, the corridor and the cash rate target."},
+    c:{tab:"both", name:"Hub L2 'Where Would You Trade?' + Cash Market Floor simulation", note:"Apply the floor/ceiling to trading decisions, then practise live in the simulation."},
+    e:{tab:"practice", name:"Practice Tool — Lesson 2, Level 2 (3m)", note:"Explain how the inflation trend since 2022 has driven conventional policy."}
+  },
+  4: {
+    f:{tab:"practice", name:"Practice Tool — Lesson 4, Level 1 (4m)", note:"Describe how forward guidance influences household/business spending."},
+    c:{tab:"game", name:"Hub Lesson 4 — Forward Guidance Chain Builder", note:"Complete chains showing how forward guidance flows through to AD."},
+    e:{tab:"practice", name:"Practice Tool — Lesson 4, Level 2 (6m)", note:"Explain how forward guidance assists the RBA's inflation objective."}
+  },
+  5: {
+    f:{tab:"game", name:"Hub Lesson 3 — Channel Detective / Channel Race", note:"Identify each channel and sort effects into the four transmission channels."},
+    c:{tab:"practice", name:"Practice Tool — Lesson 3, Level 1 (4m)", note:"Explain one channel's effect on AD as an exam-style response."},
+    e:{tab:"practice", name:"Practice Tool — Lesson 3, Level 2 (8m)", note:"Explain two channels fully, adapted from a VCAA 2018 question."}
+  },
+  6: {
+    f:{tab:"game", name:"Hub Lesson 4 — Stance Calculator", note:"Compare the cash rate to the neutral rate and classify the stance."},
+    c:{tab:"game", name:"Hub Lesson 1 — Stance vs Direction", note:"Practice the key distinction: a cut isn't always expansionary."},
+    e:{tab:"practice", name:"Practice Tool — Lesson 2, Level 2 (3m)", note:"Apply stance reasoning to the inflation trend since 2022."}
+  },
+  7: {
+    f:{tab:"practice", name:"Practice Tool — Lesson 6, Starter (2m)", note:"Identify one factor behind a 2025 cut or 2026 rise."},
+    c:{tab:"practice", name:"Practice Tool — Lesson 6, Level 1 (3m)", note:"Describe how monetary policy has operated over the past two years."},
+    e:{tab:"both", name:"Hub L5 'Build the Cash Rate Timeline' + Practice L6c", note:"Order the real events, then analyse the stance's effect on a goal and living standards (6m)."}
+  },
+  8: {
+    f:{tab:"game", name:"Hub Lesson 5 — Strength or Weakness in Action", note:"Sort real-world scenarios into strengths or weaknesses."},
+    c:{tab:"practice", name:"Practice Tool — Lesson 5, Level 1 (3m)", note:"Outline one weakness as an exam-style short answer."},
+    e:{tab:"both", name:"Hub L5 'Evaluation Paragraph Builder' + Practice L5b", note:"Build a model evaluation paragraph, then analyse effectiveness against a goal (5m)."}
+  }
+};
+
+var SUPP = {
+  1:{1:"Write down, from memory, what aggregate demand policies are and name the two AD policies used in Australia.",
+     2:"Write a short chain explaining why the economy needs AD policies to stabilise the business cycle.",
+     3:"Write a practice exam response explaining the RBA's role in stabilising AD (aim for 3 marks).",
+     4:"Evaluate why AD policies are needed given the current phase of the business cycle, using recent Australian data."},
+  2:{1:"Write all three of the RBA's charter objectives from memory.",
+     2:"Write a chain linking each charter objective to a specific RBA action.",
+     3:"Write a practice exam response outlining the RBA's charter role (aim for 3 marks).",
+     4:"Evaluate how well current monetary policy is achieving all three charter objectives, using current data."},
+  3:{1:"Write from memory what the ES rate and OMO rate are, and which forms the floor and which forms the ceiling.",
+     2:"Write a chain explaining what happens in the overnight money market when a bank has a deficit ES balance.",
+     3:"Write a practice exam response explaining how the RBA would react to a decrease in liquidity (aim for 3 marks).",
+     4:"Evaluate how the corridor has kept the cash rate close to target over the past two years, using current data."},
+  4:{1:"Write from memory a definition of unconventional monetary policy and one example the RBA has used.",
+     2:"Write a chain showing how forward guidance flows through to household or business spending.",
+     3:"Write a practice exam response describing how forward guidance influences spending decisions (aim for 4 marks).",
+     4:"Evaluate how forward guidance assists the RBA in achieving its inflation objective, using current conditions."},
+  5:{1:"Write, from memory, all four transmission channels.",
+     2:"Write a full chain for one channel, from a change in the cash rate through to AD.",
+     3:"Write a practice exam response explaining one channel's effect on AD (aim for 4 marks).",
+     4:"Write a practice exam response explaining two channels fully, adapted from a VCAA-style question (aim for 8 marks)."},
+  6:{1:"Write from memory the cash rate ranges associated with expansionary, contractionary and neutral stances.",
+     2:"Write a chain explaining why a rate cut doesn't automatically mean an expansionary stance.",
+     3:"Write a practice exam response classifying the stance given a set of conditions.",
+     4:"Evaluate how the stance has changed as the cash rate has moved over the past two years, using current data."},
+  7:{1:"Write from memory the current cash rate target and the current stance of monetary policy.",
+     2:"Write a chain from one factor behind a recent rate decision through to the resulting stance.",
+     3:"Write a practice exam response describing how MP has operated over the past two years (aim for 3 marks).",
+     4:"Write a practice exam response analysing how the stance is likely affecting one goal and living standards, using current data (aim for 6 marks)."},
+  8:{1:"Write from memory two strengths and two weaknesses of monetary policy.",
+     2:"Write a chain explaining why one weakness limits MP's effectiveness.",
+     3:"Write a practice exam response outlining one weakness (aim for 3 marks).",
+     4:"Write a practice exam response analysing MP's effectiveness in achieving one goal, using current data (aim for 5 marks)."}
+};
+
+var RATING_OPTS = [
+  {v:1, emo:"🚨", label:"Don't remember"},
+  {v:2, emo:"⚠️", label:"Basic knowledge"},
+  {v:3, emo:"✅", label:"Good knowledge"},
+  {v:4, emo:"⭐", label:"Could teach it!"}
+];
+
+var SAC_AREAS = [
+  "Overall content knowledge","Increasing depth in responses","Including specific examples",
+  "Improving response structure","Limiting response to what is asked","Defining key terms accurately",
+  "Working out what is being asked","Responding to the task word correctly",
+  "Linking to macroeconomic goals with target rates","Explaining what a macroeconomic goal is before applying it",
+  "Stating the target rate when referring to a goal","Using causal language precisely",
+  "Writing full chains rather than listing points","Distinguishing between short-run and long-run impacts"
+];
+var STRATEGIES = [
+  "Practice exam questions","Chain Builder activities","Re-do Hub activities","Flashcards / recall practice",
+  "Study group with classmates","Re-read study notes","Watch RBA explainer videos","One-on-one with Ms Dyring"
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+var S = {
+  screen:'entry', name:'', ratings:{}, submittedAt:null, planSubmitted:false,
+  plan:{current_grade:'',target_grade:'',hours:'',strategies:[],improvement_areas:[],open_response:''},
+  teacherOk:false, tPinInput:''
+};
+
+function saveLocal(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(S)); toast('Progress saved'); }catch(e){}
+}
+function loadLocal(){
+  try{
+    var raw = localStorage.getItem(LS_KEY);
+    if(raw){ var p = JSON.parse(raw); for(var k in p){ S[k]=p[k]; } if(S.screen==='teacher'||S.screen==='teacherpin'){S.screen='entry';S.teacherOk=false;} }
+  }catch(e){}
+}
+function toast(msg){
+  var t=document.getElementById('saveTst'); if(!t)return;
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(window._toastT);
+  window._toastT=setTimeout(function(){t.classList.remove('show');},1500);
+}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function safeName(n){return String(n).trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,40);}
+
+loadLocal();
+
+/* ============================================================
+   SCORING
+   ============================================================ */
+function totalSubs(){ var n=0; for(var i=0;i<KKS.length;i++){ n+=KKS[i].subs.length; } return n; }
+function answeredCount(){ var n=0; for(var k in S.ratings){ if(S.ratings[k]!==undefined) n++; } return n; }
+
+function kkAvg(kk){
+  var sum=0, n=0;
+  for(var i=0;i<kk.subs.length;i++){
+    var v=S.ratings[kk.subs[i].id];
+    if(v!==undefined){ sum+=v; n++; }
+  }
+  return n>0 ? sum/n : null;
+}
+function bandFromAvg(avg){
+  if(avg===null) return null;
+  var b = Math.round(avg);
+  if(b<1)b=1; if(b>4)b=4;
+  return b;
+}
+function bandKey(b){ return b<=2 ? 'f' : (b===3 ? 'c' : 'e'); }
+function bandColorClass(avg){
+  if(avg===null) return '';
+  if(avg<2.5) return 'weak';
+  if(avg<3.25) return 'mid';
+  return 'strong';
+}
+function bandBarColor(avg){
+  if(avg===null) return '#cbd5e1';
+  if(avg<2.5) return '#dc2626';
+  if(avg<3.25) return '#d97706';
+  return '#16a34a';
+}
+
+function computeResults(){
+  var kkResults = [];
+  for(var i=0;i<KKS.length;i++){
+    var kk=KKS[i], avg=kkAvg(kk), band=bandFromAvg(avg);
+    kkResults.push({kk:kk, avg:avg, band:band});
+  }
+  var priority = kkResults.filter(function(r){ return r.avg!==null && r.avg<2.5; })
+                           .sort(function(a,b){ return a.avg-b.avg; });
+  var weakSubs = [];
+  for(var j=0;j<KKS.length;j++){
+    var kkj=KKS[j];
+    for(var s=0;s<kkj.subs.length;s++){
+      var sub=kkj.subs[s], v=S.ratings[sub.id];
+      if(v!==undefined && v<=2){ weakSubs.push({kk:kkj, sub:sub, v:v}); }
+    }
+  }
+  weakSubs.sort(function(a,b){ return a.v-b.v; });
+  var foundLow = 0;
+  for(var f=0;f<FOUNDATIONAL_KKS.length;f++){
+    var r = kkResults.filter(function(x){return x.kk.id===FOUNDATIONAL_KKS[f];})[0];
+    if(r && r.avg!==null && r.avg<2.5) foundLow++;
+  }
+  var totalAnswered = answeredCount(), total = totalSubs();
+  var overallSum=0, overallN=0;
+  for(var k in S.ratings){ overallSum+=S.ratings[k]; overallN++; }
+  var overallAvg = overallN>0 ? (overallSum/overallN) : null;
+  return{kkResults:kkResults, priority:priority, weakSubs:weakSubs, foundLow:foundLow,
+         totalAnswered:totalAnswered, total:total, overallAvg:overallAvg};
+}
+
+/* ============================================================
+   RENDER ROOT
+   ============================================================ */
+function render(){
+  saveLocal();
+  var el = document.getElementById('app');
+  if(S.screen==='entry') el.innerHTML = vEntry();
+  else if(S.screen==='survey') el.innerHTML = vSurvey();
+  else if(S.screen==='results') el.innerHTML = vResults();
+  else if(S.screen==='plan') el.innerHTML = vPlan();
+  else if(S.screen==='teacherpin') el.innerHTML = vTeacherPin();
+  else if(S.screen==='teacher') el.innerHTML = vTeacher();
+  window.scrollTo(0,0);
+  if(S.screen==='teacher') initTeacherView();
+}
+function go(scr){ S.screen=scr; render(); }
+
+/* ============================================================
+   ENTRY SCREEN
+   ============================================================ */
+function vEntry(){
+  var h = "<div class='hero'><div class='hero-inner'><span class='badge'>UNIT 4 · AOS 1</span>";
+  h += "<h1>Monetary Policy — SAC GAP Analysis</h1>";
+  h += "<p>Rate your knowledge of every key knowledge point before the SAC. You'll get a personalised revision plan pointing to the exact Hub activities and practice questions you need.</p></div></div>";
+  h += "<div class='wrap'>";
+  h += "<div class='card'><h3>Before you start</h3>";
+  h += "<p style='font-size:14.5px;color:var(--ink-sec)'>We retain about 60% of what's covered in class just by being there — but which 60%? Read each statement, try to answer it in your head, then rate yourself honestly. Your ratings feed back to you as a revision plan, and to Ms Dyring as class-wide data so we can address common gaps together.</p>";
+  h += "<h3 style='margin-top:16px'>Enter your full name</h3>";
+  h += "<p style='font-size:13.5px;color:var(--ink-sec);margin-bottom:10px'>Use your real first and last name — this is how your results appear for your teacher.</p>";
+  h += "<input type='text' id='nameIn' placeholder='e.g. Alex Nguyen' value=\""+esc(S.name)+"\">";
+  h += "<div style='margin-top:14px'><button class='btn' onclick='startSurvey()'>Start the GAP analysis</button></div>";
+  h += "</div>";
+  h += "<div class='footer-link' onclick=\"go('teacherpin')\">Teacher view</div>";
+  h += "</div>";
+  return h;
+}
+function startSurvey(){
+  var v = document.getElementById('nameIn').value.trim();
+  if(!v){ alert('Please enter your name first.'); return; }
+  S.name = v; go('survey');
+}
+
+/* ============================================================
+   SURVEY SCREEN
+   ============================================================ */
+function vSurvey(){
+  var ans = answeredCount(), tot = totalSubs(), pct = Math.round(100*ans/tot);
+  var h = "<div class='hero'><div class='hero-inner'><span class='badge'>"+esc(S.name)+"</span>";
+  h += "<h1>Rate your knowledge</h1><p>Tap the option that best matches how confident you'd be answering each one right now, no notes.</p></div></div>";
+  h += "<div class='wrap'>";
+  h += "<div class='progress-bar no-print'><div class='progress-track'><div class='progress-fill' style='width:"+pct+"%'></div></div><div class='progress-txt'>"+ans+" / "+tot+" answered</div></div>";
+  for(var i=0;i<KKS.length;i++){
+    var kk = KKS[i];
+    h += "<div class='card kk-block'><div class='kk-num'>Key Knowledge "+kk.id+"</div><div class='kk-title'>"+esc(kk.title)+"</div>";
+    for(var s=0;s<kk.subs.length;s++){
+      var sub = kk.subs[s], sel = S.ratings[sub.id];
+      h += "<div class='sub-row'><div class='sub-label'>I can "+esc(sub.label)+"</div>";
+      h += "<div class='rating-grid'>";
+      for(var r=0;r<RATING_OPTS.length;r++){
+        var opt = RATING_OPTS[r];
+        var cls = 'rating-btn'+(sel===opt.v?' sel':'');
+        h += "<button class='"+cls+"' onclick=\"rate('"+sub.id+"',"+opt.v+")\"><span class='emo'>"+opt.emo+"</span>"+opt.label+"</button>";
+      }
+      h += "</div></div>";
+    }
+    h += "</div>";
+  }
+  h += "<div class='card' style='text-align:center'>";
+  if(ans<tot){
+    h += "<p style='color:var(--ink-sec);font-size:14px'>Answer all "+tot+" statements to see your results ("+(tot-ans)+" left).</p>";
+    h += "<button class='btn' disabled>See my results</button>";
+  } else {
+    h += "<button class='btn' onclick=\"go('results')\">See my results</button>";
+  }
+  h += "</div></div>";
+  return h;
+}
+function rate(subId, v){
+  S.ratings[subId] = v;
+  saveLocal();
+  render();
+}
+
+/* ============================================================
+   RESULTS SCREEN
+   ============================================================ */
+function vResults(){
+  var r = computeResults();
+  var h = "<div class='hero'><div class='hero-inner'><span class='badge'>"+esc(S.name)+"'s results</span>";
+  h += "<h1>Your GAP analysis</h1><p>Here's where you're strong, where the gaps are, and exactly what to do about each one.</p></div></div>";
+  h += "<div class='wrap'>";
+
+  h += "<div class='tile-row no-print'>";
+  h += "<div class='stat-tile'><div class='n'>"+(r.overallAvg?r.overallAvg.toFixed(1):'—')+" / 4</div><div class='l'>Overall average</div></div>";
+  h += "<div class='stat-tile'><div class='n'>"+r.priority.length+"</div><div class='l'>Priority KKs (avg &lt; 2.5)</div></div>";
+  h += "<div class='stat-tile'><div class='n'>"+r.weakSubs.length+"</div><div class='l'>Items to revisit</div></div>";
+  h += "</div>";
+
+  if(r.foundLow>=2){
+    h += "<div class='alert warn'><strong>Start with the foundations.</strong> More than one of the building-block key knowledge points (the need for AD policies, the RBA's charter role, and how the cash rate/corridor works) is rated low. These underpin almost everything else in this AOS — it's worth revising these first, even before topics you've rated slightly higher.</div>";
+  }
+
+  h += "<h2 style='margin-top:26px'>Priority areas</h2>";
+  if(r.priority.length===0){
+    h += "<div class='card'><p style='color:var(--ink-sec)'>No key knowledge area averages below 2.5 — solid foundation. Focus on retrieval practice across everything and keep an eye on the individual items flagged below.</p></div>";
+  } else {
+    for(var p=0;p<r.priority.length;p++){
+      h += kkCardHtml(r.priority[p]);
+    }
+  }
+
+  h += "<h2 style='margin-top:26px'>Full breakdown</h2>";
+  for(var i=0;i<r.kkResults.length;i++){
+    var rr = r.kkResults[i];
+    if(r.priority.indexOf(rr)===-1){ h += kkCardHtml(rr); }
+  }
+
+  if(r.weakSubs.length>0){
+    h += "<div class='card' id='revisit-list'><h3>Specific items to revisit</h3>";
+    for(var w=0;w<r.weakSubs.length;w++){
+      var item = r.weakSubs[w];
+      h += "<div class='weak-sub'>☐ <strong>KK"+item.kk.id+"</strong> — I can "+esc(item.sub.label)+"</div>";
+    }
+    h += "</div>";
+  }
+
+  h += "<div class='card' style='text-align:center'>";
+  if(!S.planSubmitted){
+    h += "<p style='font-size:14.5px'>Next: a short pre-SAC planning activity, then you can print this page (with your personal revision checklist) to take into your study session.</p>";
+    h += "<button class='btn' onclick=\"go('plan')\">Continue to pre-SAC planning</button>";
+  } else {
+    h += "<button class='btn' onclick='window.print()'>Print my results &amp; revision plan</button> ";
+    h += "<button class='btn ghost sm' onclick=\"go('plan')\">Edit my plan</button>";
+  }
+  h += "</div></div>";
+  return h;
+}
+
+function kkCardHtml(r){
+  var kk=r.kk, avg=r.avg, band=r.band;
+  var cls = bandColorClass(avg);
+  var barColor = bandBarColor(avg);
+  var pct = avg!==null ? Math.round((avg/4)*100) : 0;
+  var h = "<div class='kk-card "+cls+"'>";
+  h += "<div style='display:flex;justify-content:space-between;align-items:baseline;gap:10px'><strong style='font-size:14.5px'>KK"+kk.id+" — "+esc(kk.title)+"</strong>";
+  h += "<span style='font-weight:800;color:var(--primaryd);white-space:nowrap'>"+(avg!==null?avg.toFixed(1):'—')+" / 4</span></div>";
+  h += "<div class='kk-bar-track'><div class='kk-bar-fill' style='width:"+pct+"%;background:"+barColor+"'></div></div>";
+  if(band){
+    var bk = bandKey(band);
+    var route = ROUTING[kk.id][bk];
+    var task = SUPP[kk.id][band];
+    h += "<div style='margin-top:8px;font-size:13.5px'><span class='badge-tab "+route.tab+"'>"+(route.tab==='game'?'Hub':(route.tab==='practice'?'Practice Tool':'Hub + Practice'))+"</span> <strong>"+esc(route.name)+"</strong></div>";
+    h += "<div style='font-size:13px;color:var(--ink-sec);margin-top:3px'>"+esc(route.note)+"</div>";
+    h += "<div style='font-size:13px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)'>☐ "+esc(task)+"</div>";
+  }
+  h += "<details><summary>Show all sub-questions ("+kk.subs.length+")</summary>";
+  for(var s=0;s<kk.subs.length;s++){
+    var sub=kk.subs[s], v=S.ratings[sub.id];
+    var opt = RATING_OPTS.filter(function(o){return o.v===v;})[0];
+    h += "<div class='weak-sub'><span class='badge-type "+sub.type+"'>"+sub.type+"</span> "+esc(sub.label)+" — <strong>"+(opt?opt.emo+' '+opt.label:'not answered')+"</strong></div>";
+  }
+  h += "</details></div>";
+  return h;
+}
+
+/* ============================================================
+   PLAN SCREEN (Pre-SAC planning)
+   ============================================================ */
+var GRADE_BANDS = ["Below 50%","50–60%","61–65%","66–70%","71–75%","76–80%","81–85%","86%+"];
+var HOURS_OPTS = ["Less than 2 hours","2–3 hours","3–4 hours","4–5 hours","5–6 hours","6+ hours"];
+
+function vPlan(){
+  var p = S.plan;
+  var h = "<div class='hero'><div class='hero-inner'><span class='badge'>"+esc(S.name)+"</span>";
+  h += "<h1>Pre-SAC planning</h1><p>A few quick questions to turn your results into an actual study plan.</p></div></div>";
+  h += "<div class='wrap'>";
+
+  h += "<div class='card q-block'><div class='q-num'>1. Current grade estimate</div>";
+  h += pillGroup('current_grade', GRADE_BANDS, p.current_grade, false);
+  h += "</div>";
+
+  h += "<div class='card q-block'><div class='q-num'>2. Target grade</div>";
+  h += pillGroup('target_grade', GRADE_BANDS, p.target_grade, false);
+  h += "</div>";
+
+  h += "<div class='card q-block'><div class='q-num'>3. Hours you think you need to prepare</div>";
+  h += pillGroup('hours', HOURS_OPTS, p.hours, false);
+  h += "</div>";
+
+  h += "<div class='card q-block'><div class='q-num'>4. Two revision strategies you'll use</div>";
+  h += pillGroup('strategies', STRATEGIES, p.strategies, true);
+  h += "</div>";
+
+  h += "<div class='card q-block'><div class='q-num'>5. Areas to improve, from previous SAC feedback</div>";
+  h += pillGroup('improvement_areas', SAC_AREAS, p.improvement_areas, true);
+  h += "</div>";
+
+  h += "<div class='card q-block'><div class='q-num'>6. Two specific things you'll do differently this time</div>";
+  h += "<textarea id='openResp' placeholder='e.g. I will use the Chain Builder because I keep skipping steps in the transmission mechanism...'>"+esc(p.open_response)+"</textarea>";
+  h += "</div>";
+
+  h += "<div class='card' style='text-align:center'>";
+  h += "<button class='btn' onclick='submitPlan()'>Submit my plan</button>";
+  h += "</div></div>";
+  return h;
+}
+function pillGroup(field, options, current, multi){
+  var h = "<div>";
+  for(var i=0;i<options.length;i++){
+    var opt = options[i];
+    var isSel = multi ? (Array.isArray(current) && current.indexOf(opt)>-1) : (current===opt);
+    h += "<span class='opt-pill"+(isSel?' sel':'')+"' onclick=\"pickPlan('"+field+"',"+JSON.stringify(opt)+","+multi+")\">"+esc(opt)+"</span>";
+  }
+  h += "</div>";
+  return h;
+}
+function pickPlan(field, val, multi){
+  if(multi){
+    var arr = S.plan[field].slice();
+    var idx = arr.indexOf(val);
+    if(idx>-1){ arr.splice(idx,1); } else { arr.push(val); }
+    S.plan[field] = arr;
+  } else {
+    S.plan[field] = val;
+  }
+  saveLocal();
+  render();
+}
+function submitPlan(){
+  S.plan.open_response = document.getElementById('openResp').value;
+  S.planSubmitted = true;
+  S.submittedAt = new Date().toISOString();
+  saveLocal();
+  syncToWorker();
+  go('results');
+}
+
+/* ============================================================
+   WORKER SYNC
+   Matches the vce-marker Worker's actual /gap-read and /gap-write
+   routes: GitHub Contents API pass-through, base64-encoded content,
+   SHA handled server-side on write.
+   ============================================================ */
+function currentSubmission(){
+  return {
+    name: S.name,
+    submittedAt: S.submittedAt || new Date().toISOString(),
+    ratings: S.ratings,
+    plan: S.planSubmitted ? S.plan : null
+  };
+}
+function b64ToStr(b64){
+  return decodeURIComponent(escape(atob(String(b64).replace(/\n/g,''))));
+}
+function readGapData(){
+  return fetch(WORKER_URL+"/gap-read?owner="+encodeURIComponent(GITHUB_OWNER)+"&repo="+encodeURIComponent(GITHUB_REPO)+"&file="+encodeURIComponent(GITHUB_FILE))
+    .then(function(res){ return res.json(); })
+    .then(function(d){
+      if(!d || !d.content) return [];
+      try{
+        var arr = JSON.parse(b64ToStr(d.content));
+        return Array.isArray(arr) ? arr : [];
+      }catch(e){ return []; }
+    })
+    .catch(function(){ return []; });
+}
+function writeGapData(arr){
+  return fetch(WORKER_URL+"/gap-write", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ owner:GITHUB_OWNER, repo:GITHUB_REPO, file:GITHUB_FILE, content: JSON.stringify(arr) })
+  });
+}
+function syncToWorker(){
+  if(!S.name) return;
+  readGapData().then(function(arr){
+    var mine = safeName(S.name);
+    arr = arr.filter(function(row){ return safeName(row.name||'') !== mine; });
+    arr.push(currentSubmission());
+    return writeGapData(arr);
+  }).then(function(){ toast('Synced to teacher'); })
+    .catch(function(){ /* silent fail, localStorage still has it */ });
+}
+
+/* ============================================================
+   TEACHER VIEW
+   ============================================================ */
+function vTeacherPin(){
+  var h = "<div class='hero'><div class='hero-inner'><span class='badge'>TEACHER VIEW</span><h1>Enter PIN</h1></div></div>";
+  h += "<div class='wrap'><div class='card' style='max-width:320px'>";
+  h += "<input type='text' inputmode='numeric' id='pinIn' placeholder='PIN' style='text-align:center;font-size:20px;letter-spacing:4px'>";
+  h += "<div style='margin-top:12px;display:flex;gap:8px'><button class='btn' onclick='checkPin()'>Enter</button><button class='btn ghost' onclick=\"go('entry')\">Back</button></div>";
+  h += "</div></div>";
+  return h;
+}
+function checkPin(){
+  var v = document.getElementById('pinIn').value.trim();
+  if(v===TEACHER_PIN){ S.teacherOk=true; go('teacher'); }
+  else { alert('Incorrect PIN.'); }
+}
+var _teacherData = [];
+function initTeacherView(){
+  fetchTeacherData();
+  clearInterval(window._tchTimer);
+  window._tchTimer = setInterval(fetchTeacherData, AUTO_REFRESH*1000);
+}
+function fetchTeacherData(){
+  readGapData().then(function(arr){
+    _teacherData = arr;
+    renderTeacherBody();
+  });
+}
+function vTeacher(){
+  var h = "<div class='hero no-print'><div class='hero-inner'><span class='badge'>TEACHER VIEW</span><h1>U4 AOS1 — GAP Analysis Dashboard</h1>";
+  h += "<p>Auto-refreshes every "+AUTO_REFRESH+"s. Data pulled from "+esc(GITHUB_FILE)+".</p></div></div>";
+  h += "<div class='wrap'><div id='tchBody'>Loading…</div>";
+  h += "<div class='card no-print' style='text-align:center'>";
+  h += "<button class='btn ghost sm' onclick='fetchTeacherData()'>Refresh now</button> ";
+  h += "<button class='btn ghost sm' onclick='window.print()'>Print</button> ";
+  h += "<button class='btn ghost sm' onclick='clearAllData()' style='color:var(--red);border-color:var(--red)'>Clear all data</button> ";
+  h += "<button class='btn ghost sm' onclick=\"go('entry')\">Exit</button>";
+  h += "</div></div>";
+  return h;
+}
+function renderTeacherBody(){
+  var el = document.getElementById('tchBody');
+  if(!el) return;
+  var rows = _teacherData;
+  var n = rows.length;
+
+  // KK-level averages across class
+  var kkAgg = {};
+  for(var i=0;i<KKS.length;i++){ kkAgg[KKS[i].id] = {sum:0,count:0}; }
+  var subAgg = {};
+  for(var i2=0;i2<KKS.length;i2++){
+    for(var s2=0;s2<KKS[i2].subs.length;s2++){
+      subAgg[KKS[i2].subs[s2].id] = {sum:0,count:0, kk:KKS[i2].id, label:KKS[i2].subs[s2].label};
+    }
+  }
+  var planCount = 0;
+  for(var r=0;r<rows.length;r++){
+    var row = rows[r];
+    if(row.plan) planCount++;
+    if(row.ratings){
+      for(var k in row.ratings){
+        var v = row.ratings[k];
+        if(subAgg[k]){ subAgg[k].sum+=v; subAgg[k].count++; }
+        var kkNum = parseInt(k,10);
+        if(kkAgg[kkNum]){ kkAgg[kkNum].sum+=v; kkAgg[kkNum].count++; }
+      }
+    }
+  }
+
+  var h = "<div class='tile-row no-print'>";
+  h += "<div class='stat-tile'><div class='n'>"+n+"</div><div class='l'>Submissions</div></div>";
+  h += "<div class='stat-tile'><div class='n'>"+planCount+"</div><div class='l'>Plans completed</div></div>";
+  h += "</div>";
+
+  h += "<h2 style='margin-top:24px'>Class priority areas</h2>";
+  var kkAvgList = [];
+  for(var kid in kkAgg){
+    var a = kkAgg[kid];
+    var avg = a.count>0 ? a.sum/a.count : null;
+    var kkObj = KKS.filter(function(x){return x.id===parseInt(kid,10);})[0];
+    kkAvgList.push({id:parseInt(kid,10), title:kkObj?kkObj.title:'', avg:avg});
+  }
+  kkAvgList.sort(function(a,b){
+    if(a.avg===null) return 1; if(b.avg===null) return -1;
+    return a.avg-b.avg;
+  });
+  var lowKk = kkAvgList.filter(function(x){return x.avg!==null && x.avg<2.5;});
+  if(lowKk.length===0){ h += "<div class='card'><p style='color:var(--ink-sec)'>No KK averages below 2.5 across the class.</p></div>"; }
+  for(var lk=0;lk<lowKk.length;lk++){
+    var item = lowKk[lk];
+    h += "<div class='kk-card weak'><strong>KK"+item.id+"</strong> — "+esc(item.title)+" &nbsp; <span style='color:var(--red);font-weight:800'>"+item.avg.toFixed(1)+" / 4</span></div>";
+  }
+
+  h += "<h2 style='margin-top:24px'>Top 10 weakest sub-questions</h2><div class='card'>";
+  var subList = [];
+  for(var sk in subAgg){
+    var sa = subAgg[sk];
+    if(sa.count>0){ subList.push({id:sk, avg:sa.sum/sa.count, kk:sa.kk, label:sa.label, count:sa.count}); }
+  }
+  subList.sort(function(a,b){ return a.avg-b.avg; });
+  subList = subList.slice(0,10);
+  for(var w=0;w<subList.length;w++){
+    var it = subList[w];
+    var pct = Math.round((it.avg/4)*100);
+    h += "<div class='wk-bar-row'><span style='min-width:210px'>KK"+it.kk+" — "+esc(it.label)+"</span>";
+    h += "<div class='wk-bar-track'><div style='width:"+pct+"%;background:"+bandBarColor(it.avg)+"'></div></div>";
+    h += "<span style='min-width:70px;text-align:right'>"+it.avg.toFixed(1)+"/4 (n="+it.count+")</span></div>";
+  }
+  h += "</div>";
+
+  h += "<h2 style='margin-top:24px'>Full KK breakdown</h2>";
+  for(var b=0;b<KKS.length;b++){
+    var kk = KKS[b];
+    var agg = kkAgg[kk.id];
+    var avg = agg.count>0 ? agg.sum/agg.count : null;
+    h += "<details class='card' style='padding:14px 18px'><summary>KK"+kk.id+" — "+esc(kk.title)+" ("+(avg!==null?avg.toFixed(1):'—')+"/4)</summary>";
+    for(var ss=0;ss<kk.subs.length;ss++){
+      var sub = kk.subs[ss], sa2 = subAgg[sub.id];
+      var savg = sa2.count>0 ? sa2.sum/sa2.count : null;
+      h += "<div class='weak-sub'>"+esc(sub.label)+" — "+(savg!==null?savg.toFixed(1)+'/4':'no data')+" (n="+sa2.count+")</div>";
+    }
+    h += "</details>";
+  }
+
+  h += "<h2 style='margin-top:24px'>Students</h2><div class='card tch'><div style='overflow-x:auto'><table><tr><th>Name</th><th>Submitted</th><th>Avg</th><th>Weakest KK</th><th>Plan?</th><th class='no-print'>Delete</th></tr>";
+  var sorted = rows.slice().sort(function(a,b){ return (a.name||'').localeCompare(b.name||''); });
+  for(var rr=0;rr<sorted.length;rr++){
+    var row2 = sorted[rr];
+    var sum=0,cnt=0,worst=null,worstAvg=99;
+    var perKk = {};
+    if(row2.ratings){
+      for(var kk2 in row2.ratings){
+        var v2=row2.ratings[kk2]; sum+=v2; cnt++;
+        var kn = subAgg[kk2] ? subAgg[kk2].kk : null;
+        if(kn){ if(!perKk[kn]) perKk[kn]={sum:0,count:0}; perKk[kn].sum+=v2; perKk[kn].count++; }
+      }
+    }
+    for(var pk in perKk){
+      var pa = perKk[pk].sum/perKk[pk].count;
+      if(pa<worstAvg){ worstAvg=pa; worst=pk; }
+    }
+    var studentAvg = cnt>0 ? (sum/cnt) : null;
+    var dt = row2.submittedAt ? new Date(row2.submittedAt) : null;
+    h += "<tr><td><strong>"+esc(row2.name||'?')+"</strong></td>";
+    h += "<td>"+(dt?dt.toLocaleString('en-AU',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'—')+"</td>";
+    h += "<td>"+(studentAvg!==null?studentAvg.toFixed(1):'—')+"/4</td>";
+    h += "<td>"+(worst?('KK'+worst):'—')+"</td>";
+    h += "<td>"+(row2.plan?'✅':'—')+"</td>";
+    h += "<td class='no-print'><button class='btn ghost sm' style='color:var(--red);border-color:var(--red)' onclick=\"deleteStudent('"+esc(row2.name||'')+"')\">Delete</button></td></tr>";
+  }
+  h += "</table></div></div>";
+
+  el.innerHTML = h;
+}
+function deleteStudent(name){
+  if(!confirm('Delete '+name+"'s submission? This can't be undone.")) return;
+  var mine = safeName(name);
+  var arr = _teacherData.filter(function(row){ return safeName(row.name||'') !== mine; });
+  writeGapData(arr).then(function(){ fetchTeacherData(); });
+}
+function clearAllData(){
+  if(!confirm('Clear ALL student submissions for this GAP analysis? This cannot be undone.')) return;
+  writeGapData([]).then(function(){ fetchTeacherData(); });
+}
+
+render();
+</script>
+</body>
+</html>
