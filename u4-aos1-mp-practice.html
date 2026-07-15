@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U4 AOS1 — Monetary Policy Practice</title>
+<style>
+:root{
+  --ink:#1b2a3a; --paper:#f6f4ee; --card:#ffffff;
+  --accent:#9e2b25; --accent-soft:#f6e8e6;
+  --gold:#a8780a; --gold-soft:#fdf6e3; --gold-line:#e3cf8f;
+  --purple:#5b3a8e; --purple-soft:#f1ecf9; --purple-line:#cdbde8;
+  --teal:#0f6b5c; --teal-soft:#e6f2ef;
+  --text:#22303d; --text-sec:#5b6877; --line:#e2ddd2;
+  --green:#15803d; --amber:#d97706; --red:#b91c1c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--paper);color:var(--text);line-height:1.55}
+h1,h2,h3{font-family:Georgia,'Times New Roman',serif;color:var(--ink);letter-spacing:.2px}
+.hero{background:linear-gradient(135deg,#1b2a3a 0%,#28405a 100%);color:#fff;padding:38px 26px 30px;border-bottom:4px solid var(--accent)}
+.hero-inner{max-width:980px;margin:0 auto}
+.hero h1{color:#fff;font-size:30px;margin:6px 0 4px}
+.hero p{color:#cfd8e3;font-size:14.5px;max-width:640px}
+.badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.4px;padding:3px 10px;border-radius:3px}
+.wrap{max-width:980px;margin:0 auto;padding:26px 22px 70px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:18px;box-shadow:0 1px 3px rgba(27,42,58,.06)}
+input[type=text],input[type=password],textarea{font-family:inherit;font-size:15px;border:1.5px solid #c8c2b4;border-radius:7px;padding:10px 12px;width:100%;background:#fffdf8;color:var(--text)}
+textarea{min-height:150px;resize:vertical;line-height:1.6}
+input:focus,textarea:focus{outline:2px solid var(--ink);outline-offset:1px}
+.btn{display:inline-block;font-family:inherit;font-size:14.5px;font-weight:600;border:none;border-radius:7px;padding:10px 20px;cursor:pointer;background:var(--ink);color:#fff}
+.btn:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.gold{background:var(--gold)} .btn.purple{background:var(--purple)} .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.small{font-size:12.5px;padding:6px 13px}
+.lesson-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.lesson-nav button{font-family:inherit;font-size:13px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--text-sec);border-radius:20px;padding:7px 15px;cursor:pointer}
+.lesson-nav button.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.lesson-nav button .done-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:6px}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin:14px 0 0}
+.tabs button{font-family:inherit;font-size:13.5px;font-weight:700;border:none;background:transparent;color:var(--text-sec);padding:9px 16px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button.on-gold{color:var(--gold);border-bottom-color:var(--gold)}
+.tabs button.on-purple{color:var(--purple);border-bottom-color:var(--purple)}
+.tabs button.on-teal{color:var(--teal);border-bottom-color:var(--teal)}
+.tabs button .tick{color:var(--green);margin-left:4px}
+.nudge{border-radius:8px;padding:12px 15px;font-size:13.5px;margin:16px 0 14px;border:1px solid}
+.nudge.gold{background:var(--gold-soft);border-color:var(--gold-line);color:#6e4f06}
+.nudge.purple{background:var(--purple-soft);border-color:var(--purple-line);color:#43286e}
+.nudge.teal{background:var(--teal-soft);border-color:#b5d8d0;color:#0b4f44}
+.qmeta{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.marks-chip{background:var(--ink);color:#fff;font-size:12px;font-weight:700;border-radius:4px;padding:2px 9px}
+.kk-chip{background:#eceae2;color:var(--text-sec);font-size:11.5px;border-radius:4px;padding:2px 8px}
+.qtext{font-size:16px;line-height:1.65;margin:6px 0 14px}
+.stim{background:#fbfaf6;border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:6px;padding:14px 16px;font-size:13.8px;margin:0 0 16px}
+.stim h4{font-family:inherit;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-sec);margin-bottom:7px}
+.stim table{border-collapse:collapse;width:100%;margin-top:6px}
+.stim td,.stim th{border:1px solid var(--line);padding:5px 9px;font-size:13px;text-align:left}
+.stim th{background:#f0ede4}
+.tip-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tip-btn{font-family:inherit;font-size:12.5px;font-weight:600;border:1.5px dashed #b9b29f;background:transparent;color:var(--text-sec);border-radius:7px;padding:6px 13px;cursor:pointer}
+.tip-box{display:none;background:#fffdf4;border:1px solid var(--gold-line);border-radius:7px;padding:12px 15px;font-size:13.5px;margin-bottom:12px}
+.checklist{background:#f3f6f4;border:1px solid #d4e0d8;border-radius:7px;padding:12px 16px;font-size:13.5px;margin:14px 0}
+.checklist h4{font-family:inherit;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.checklist label{display:block;margin:4px 0;cursor:pointer}
+.fb-panel{border-radius:9px;margin-top:18px;overflow:hidden;border:1px solid var(--line)}
+.fb-head{padding:11px 16px;font-weight:700;font-size:14px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.fb-body{background:#fff;padding:16px 18px;font-size:14px}
+.fb-sec{margin-bottom:12px}
+.fb-sec h5{font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.fb-sec.good h5{color:var(--green)} .fb-sec.improve h5{color:var(--amber)} .fb-sec.mistake h5{color:var(--red)}
+.fb-sec ul{margin-left:18px}
+.fb-sec li{margin:4px 0}
+.model-wrap{border-top:1px dashed var(--line);padding-top:12px;margin-top:6px}
+.model-box{display:none;background:var(--gold-soft);border:1px solid var(--gold-line);border-radius:6px;padding:12px 15px;margin-top:10px;font-size:13.8px}
+.tfb{background:var(--accent-soft);border:1px solid #e3bcb8;border-left:4px solid var(--accent);border-radius:7px;padding:12px 16px;margin-top:14px;font-size:14px}
+.tfb h5{font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.attempt-block{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-top:14px;background:#fcfbf8}
+.attempt-block .alabel{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-sec);margin-bottom:6px}
+.ans-quote{font-size:13.8px;color:#3c4a58;border-left:3px solid #cfc9ba;padding-left:12px;margin:6px 0;white-space:pre-wrap}
+.score-pill{display:inline-block;font-weight:700;border-radius:5px;padding:2px 10px;font-size:13px;color:#fff}
+.reflect-box{background:var(--purple-soft);border:1px solid var(--purple-line);border-radius:7px;padding:13px 16px;margin-top:14px;font-size:13.8px}
+.resume{background:var(--teal-soft);border:1px solid #b5d8d0;border-radius:8px;padding:12px 16px;font-size:13.8px;margin-bottom:16px;color:#0b4f44}
+.spin{display:inline-block;width:15px;height:15px;border:2.5px solid #cdd6df;border-top-color:var(--ink);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:14px 0}
+.kk-card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#fff}
+.kk-card .kk-name{font-size:12.5px;font-weight:700;color:var(--text-sec);margin-bottom:4px}
+.kk-card .kk-score{font-size:20px;font-weight:700;font-family:Georgia,serif}
+.bar{height:7px;border-radius:4px;background:#ece8dc;margin-top:7px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px}
+table.tch{border-collapse:collapse;width:100%;font-size:13px;background:#fff}
+table.tch th{background:var(--ink);color:#fff;padding:7px 10px;text-align:left;font-size:12px;letter-spacing:.4px}
+table.tch td{border:1px solid var(--line);padding:7px 10px}
+table.tch tr:hover td{background:#f6f3ea;cursor:pointer}
+.cell-score{font-weight:700;border-radius:4px;padding:1px 7px;color:#fff;font-size:12px;display:inline-block}
+.backlink{color:var(--text-sec);font-size:13.5px;cursor:pointer;text-decoration:underline}
+.foot{max-width:980px;margin:0 auto;padding:0 22px 40px;display:flex;justify-content:space-between;color:#9aa4ae;font-size:12px}
+.foot span{cursor:pointer;text-decoration:underline}
+.notice{font-size:12.5px;color:var(--text-sec);margin-top:8px}
+@media print{
+  .hero,.lesson-nav,.tabs,.tip-row,.tip-btn,.checklist,.btn,.nudge,.foot,textarea{display:none!important}
+  body{background:#fff} .card,.attempt-block{box-shadow:none;border-color:#999}
+}
+@media(max-width:640px){.hero h1{font-size:23px}.wrap{padding:18px 14px 60px}.card{padding:16px}}
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="hero-inner">
+  <span class="badge">UNIT 4 · AOS 1</span>
+  <h1>Monetary Policy — Practice Questions</h1>
+  <p>Short-answer practice with AI marking, built around the RBA's decisions over 2024&ndash;2026. Your work saves automatically and syncs to your teacher — feedback from Ms&nbsp;Dyring appears here when she's reviewed your answers.</p>
+</div></div>
+
+<div class="wrap">
+
+<div id="entry">
+  <div class="card">
+    <h2 style="font-size:21px;margin-bottom:8px">Start practising</h2>
+    <p style="font-size:14px;color:var(--text-sec);margin-bottom:14px">Enter your full name (first and last) so your work is saved and your teacher can see your progress and leave you feedback.</p>
+    <div id="resumeBanner"></div>
+    <input type="text" id="nameIn" placeholder="Your full name" maxlength="60">
+    <div style="margin-top:14px"><button class="btn" onclick="start()">Start &rarr;</button></div>
+  </div>
+</div>
+
+<div id="main" style="display:none">
+  <div id="lessonNav" class="lesson-nav"></div>
+  <div id="lessonPanel"></div>
+  <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn ghost" onclick="showResults()">My results &rarr;</button>
+    <button class="btn ghost small" onclick="refreshFeedback(true)">&#128172; Check for teacher feedback</button>
+  </div>
+</div>
+
+<div id="results" style="display:none"></div>
+
+<div id="teacher" style="display:none"></div>
+
+</div>
+
+<div class="foot">
+  <div>VCE Economics &middot; Ringwood Secondary College</div>
+  <div><span onclick="openTeacher()">Staff access</span></div>
+</div>
+
+<script>
+const WORKER_URL = 'https://vce-marker.megan-dyring.workers.dev';
+const RES_URL    = 'https://vce-results.megan-dyring.workers.dev';
+var SAVE_KEY     = 'u4_aos1_mp_practice_v1';
+let _apiKey = '';            // Always empty — key is in the Worker
+
+/* ============================================================
+   AI SYSTEM PROMPT
+   ============================================================ */
+const SYSTEM = `You are an expert VCE Economics teacher marking Unit 4 AOS1 (Aggregate demand policies — Monetary Policy) student responses for a Victorian secondary school, against the VCE Economics Study Design 2023-2027. ALL feedback must address the student directly using you/your. Never say 'the student'.
+
+== FEEDBACK STYLE ==
+- Lead with encouragement when the student has made a genuine attempt.
+- Structure: What you did well -> What to improve -> Scaffold if needed -> Model answer.
+- Be specific - never 'good explanation' without naming exactly what was good.
+- When cause/effect is reversed, acknowledge the good thinking then correct the direction.
+- Say 'increase or decrease' not 'positively or negatively'.
+- Use correct VCE terminology: 'aggregate demand/aggregate supply' - never just 'demand/supply'; 'willingness and ability'; 'derived demand for labour'.
+- Never refer to individuals - use aggregates ('average household incomes' not 'people's incomes').
+
+== CONTENT KNOWLEDGE BASE ==
+THE RBA'S CHARTER (Reserve Bank Act 1959): the duty of the Reserve Bank Board is to ensure monetary and banking policy is directed to the greatest advantage of the people of Australia, exercised so as to best contribute to: (1) the stability of the currency of Australia [interpreted as PRICE STABILITY - keeping CPI inflation to 2-3% on average over time]; (2) the maintenance of full employment in Australia; and (3) the economic prosperity and welfare of the people of Australia. The RBA's role with respect to monetary policy is to manipulate the cash rate (and hence interest rates) in a countercyclical way to stabilise aggregate demand and the business cycle: boosting activity when inflation and growth are low, restraining activity when both are high.
+
+CONVENTIONAL MONETARY POLICY: the Monetary Policy Board sets a target for the cash rate - the interest rate on overnight loans between financial institutions in the cash market. The RBA keeps the actual cash rate near the target using its policy interest rate corridor: it pays interest on Exchange Settlement (ES) balances at 0.10 percentage points below the target and lends to banks at 0.25 percentage points above the target, so banks have no incentive to trade outside the corridor. The RBA also conducts open market operations (repurchase agreements/repos) to manage the supply of ES balances (liquidity). If liquidity in the overnight money market decreased, upward pressure on the cash rate would emerge; the RBA would respond by injecting liquidity - buying securities under repurchase agreements (open market operations), increasing the supply of ES balances and keeping the actual cash rate at/near the target. Changes in the cash rate flow through (usually within days) to the interest rates financial institutions charge and pay - mortgages, business loans, personal loans, deposits - because the cash rate represents banks' marginal cost of overnight funds.
+
+UNCONVENTIONAL MONETARY POLICY - FORWARD GUIDANCE (the example used in class, operating within the past two years): forward guidance is public communication by the RBA about the likely future direction of monetary policy and the conditions that would prompt a change. In February 2026 the RBA signalled that inflation was likely to remain above the 2-3% target 'for some time' and that further increases in the cash rate were likely. Operation: guidance shapes the expectations of households, businesses and financial markets. Expecting higher future borrowing costs, households are likely to restrain borrowing and discretionary consumption and may increase savings; businesses are likely to defer debt-funded investment; markets price in future rises, lifting longer-term interest rates immediately - so some tightening is transmitted before the cash rate actually changes. Guidance also helps anchor inflation expectations, reducing the risk that workers seek compensating wage rises and firms pre-emptively raise prices, which would entrench inflation.
+
+TRANSMISSION MECHANISM (four channels - explain direction consistently with the question's scenario):
+1. SAVINGS AND INVESTMENT CHANNEL: higher interest rates increase the reward for saving and the cost of borrowing. Households are likely to save more and borrow/spend less (lower C); businesses find fewer projects with expected returns above the higher cost of borrowing, so business investment (I) is likely to fall. Lower C and I reduce AD. (Reverse for a rate cut.)
+2. CASH-FLOW CHANNEL: higher rates increase interest repayments for variable-rate borrowers (e.g. mortgage holders), reducing discretionary income available for spending; savers receive more deposit interest, but the borrower effect dominates in Australia given high household indebtedness, so consumption (C) is likely to fall, reducing AD.
+3. EXCHANGE RATE CHANNEL: higher Australian interest rates RELATIVE to overseas increase the attractiveness of Australian interest-bearing assets, encouraging capital inflow and reducing capital outflow; demand for AUD rises (and supply falls) on foreign exchange markets, so the AUD is likely to appreciate. An appreciation makes exports relatively more expensive for foreigners and imports relatively cheaper, so net exports (X-M) are likely to fall, reducing AD. THE FULL CHAIN IS REQUIRED: interest rate relativities -> capital flows -> demand/supply of AUD -> exchange rate -> X-M -> AD. Jumping straight from 'higher rates' to 'higher AUD' loses marks.
+4. ASSET PRICES AND WEALTH CHANNEL: higher rates reduce demand for assets such as housing and shares (borrowing to buy them costs more; the present value of future income falls), so asset prices are likely to fall. Lower asset prices reduce households' (paper) wealth and the collateral they can borrow against; via the wealth effect, households spend a smaller share, so consumption (and housing investment) is likely to fall, reducing AD. THE WEALTH EFFECT LINK IS REQUIRED: lower asset prices -> lower wealth -> lower consumption. Stopping at 'house prices fall so inflation falls' is incomplete.
+
+STANCE OF MONETARY POLICY: expansionary (accommodative), contractionary (restrictive) or neutral. Determined by comparing the cash rate to estimates of the 'neutral' rate (the level that neither stimulates nor restrains AD), considering real (inflation-adjusted) interest rates and the direction of recent changes. RECENT NARRATIVE (use this): cash rate 0.10% Nov 2020-Apr 2022 (highly expansionary, COVID); raised 13 times May 2022-Nov 2023 to 4.35% (increasingly contractionary, to combat inflation peaking ~7.8% in Dec qtr 2022); first cut Feb 2024 to 4.10% as inflation eased, with further reductions through 2025 to 3.60% by Aug 2025 (easing toward a more neutral/less restrictive stance as inflation returned to around the target and growth was weak at ~1.0%); held at 3.60% in Dec 2025; then THREE increases of 25 basis points in 2026 (Feb -> 3.85%, Mar -> 4.10%, May -> 4.35%) as inflation re-accelerated to ~3.5% (underlying inflation above 3% for a prolonged period), with capacity pressures and the Middle East conflict's fuel-price shock adding to inflationary pressure. The 2026 stance is contractionary/restrictive, with the FOCUS on returning inflation to the 2-3% target (price stability) while trying to preserve employment gains. So over the PAST TWO YEARS (mid-2024 to mid-2026): an easing phase (less restrictive, supporting AD and growth/employment as inflation fell) followed by a tightening phase from Feb 2026 (restraining AD growth to fight renewed inflation).
+
+STRENGTHS OF MONETARY POLICY: (1) Independence from government - free from political bias (e.g. the RBA can raise rates near elections). (2) Short implementation lag - cash rate changes flow to retail interest rates within days. (3) Flexibility - DISTINCT from implementation lag: the Board meets eight times a year and can act between meetings in emergencies. (4) Powerful influence on expectations - even statements by the Governor alter behaviour (forward guidance). (5) Particularly powerful at restraining AD in a boom because tightening immediately reduces the discretionary income of highly indebted households.
+WEAKNESSES OF MONETARY POLICY: (1) Blunt instrument - cannot discriminate between regions, industries or households; affects everyone. (2) Long and variable IMPACT lag (up to ~2 years for full effect; fixed-rate borrowers unaffected until they roll off) - risk of acting pro-cyclically. (3) The RBA does not directly control retail interest rates - banks may not pass changes on fully. (4) Less effective at STIMULATING AD in a downturn ('like pushing on a string') - cannot force pessimistic households/businesses to borrow and spend. (5) Effectiveness changes with household indebtedness. (6) Cannot directly address supply-side (cost) inflation - e.g. it could not prevent the near-term price-level effect of the 2026 fuel-price shock; it can only restrain AD and keep inflation expectations anchored to stop the shock becoming sustained. (7) Can be undermined by an expansionary budgetary policy working in the opposite direction. WHEN A QUESTION ASKS TO ANALYSE/EVALUATE EFFECTIVENESS: at least one strength AND one weakness must be explained AND linked to the achievement or non-achievement of the named goal under CURRENT conditions - a generic list scores poorly.
+
+GOAL DEFINITIONS - always use these exact versions on first mention:
+SSEG: the highest rate of economic growth possible, consistent with strong employment growth, without running into inflationary, environmental or external pressures - target: 3-3.5% real GDP growth per annum. (Currently NOT achieved: growth ~1.0%.)
+Price Stability: maintaining CPI inflation within 2-3% on average over time. NOTE: NOT 'stability of the AUD exchange rate' - common student error. (Currently NOT achieved: ~3.5% and underlying above 3%.)
+Full Employment: the lowest rate of unemployment consistent with stable inflation (NAIRU) - approximately 4-4.25% unemployment. NOTE: unemployment BELOW the NAIRU is TOO LOW - increases toward 4-4.25% can help achieve both full employment and price stability. (Currently around 4.1% - broadly consistent with the goal, though the labour market has been a little tight.)
+LIVING STANDARDS: material living standards = access to goods and services / real incomes per capita; non-material living standards = quality of life and wellbeing (e.g. mental health, leisure, environment, financial stress) - NOT 'satisfaction from goods'. Where a question asks about living standards, BOTH material and non-material dimensions are required.
+
+== COMMON STUDENT ERRORS (check every answer for these) ==
+- 'demand/supply' instead of 'aggregate demand/aggregate supply'.
+- No ceteris paribus in cause-effect chains; 'will' instead of 'likely/should'.
+- Exchange rate channel: jumping from interest rates to the AUD without interest rate relativities, capital inflow/outflow and demand/supply of the AUD.
+- Asset prices/wealth channel: omitting the wealth effect (lower asset prices -> lower paper wealth -> lower consumption).
+- Naming one channel but explaining a different one (e.g. labels savings & investment, explains cash-flow). Penalise and point out the mismatch.
+- 'Lower consumer confidence' offered as a transmission channel - it is not one of the four channels.
+- Conflating short implementation lag with flexibility - these are two distinct strengths.
+- Stating a strength/weakness without linking it to the achievement or non-achievement of the goal in the question.
+- Price stability confused with exchange rate stability.
+- Believing unemployment below the NAIRU is good - it signals an overly tight labour market and inflationary pressure.
+- Confusing the implementation lag (short for MP) with the impact lag (long for MP).
+- Describing conventional cash-rate mechanics when the question asks about a transmission channel, or vice versa.
+- Missing goal target rates on first mention.
+- Not naming the AD component affected (C, I, G, X-M).
+
+== MARKING RULES ==
+- Ceteris paribus required in cause-effect chains on questions worth 3+ marks.
+- 'Likely/should' not 'will' - deduct on 3+ mark questions if absent.
+- Full goal definitions with target rate on first mention.
+- Both material AND non-material living standards required where living standards are asked about.
+- No circular reasoning - assertions without a mechanism score 0 for that link.
+- Full sentences only - no arrows, symbols or dot points in the answer.
+- Trend description = DUDDS: Direction, Units, Data, Dates, So-what.
+- Must name the AD component affected (C, I, G, or X-M) in transmission/AD questions.
+- Award middle marks for partial understanding. Never award full marks unless ALL criteria are clearly met.
+
+== QUESTION-SPECIFIC MARKING GUIDES ==
+[L1a] Charter, 3 marks: 1 mark for identifying the RBA's role of conducting/setting monetary policy (manipulating the cash rate/interest rates to influence AD and stabilise the business cycle); 2 marks for the charter objectives: stability of the currency (price stability, CPI 2-3% on average over time), maintenance of full employment, and the economic prosperity and welfare of the people of Australia. All three objectives needed for full marks.
+[L1b] CPI behaviour -> stance and focus over past two years, 4 marks: must DESCRIBE the behaviour of CPI inflation over roughly mid-2024 to mid-2026 (easing to around target through 2024-25, then re-accelerating to ~3.5% in 2026 with underlying above 3%) using data; link falling inflation to the easing/less restrictive stance and a focus able to include growth/employment; link the 2026 re-acceleration to the shift to a contractionary stance and a focus on price stability. 'Discuss' = consider the relationship in both phases.
+[L2a] Liquidity decrease, 3 marks: identify that lower liquidity (fewer ES balances) puts upward pressure on the actual cash rate relative to the target (1); the RBA responds with open market operations - buying securities under repurchase agreements, injecting liquidity/increasing ES balances (1); keeping the actual cash rate at/near the target within the policy interest rate corridor (1).
+[L2b] Inflation trend -> use of conventional MP since 2022, 3 marks: trend in inflation (rose sharply to peak ~7.8% Dec 2022, eased through 2023-25 toward target, re-accelerated to ~3.5% in 2026); link to the cash rate response (13 rises to 4.35% by Nov 2023; cuts Feb 2024-Aug 2025 to 3.60%; three rises in 2026 to 4.35%). Both directions of policy response needed for full marks; data strengthens the answer.
+[L3a] Savings and investment channel, 4 marks: higher cash rate -> higher retail interest rates (1); higher reward for saving so households likely save more/consume less, lower C (1); higher cost of borrowing so fewer business projects viable, lower I (1); therefore AD likely decreases, ceteris paribus (1).
+[L3b] Two channels, 8 marks (4+4): for EACH channel: correct identification and full mechanism chain (2), explicit link to the named AD component and the level of AD (1), link to the rate of economic growth via lower AD/spending and production (1). The two channels must be different and each must match its explanation. Contractionary direction (1.50%->3.00%).
+[L4a] Forward guidance -> spending decisions, 4 marks: definition/identification of forward guidance as RBA communication about the likely future path of policy (1); households expect higher future borrowing costs -> likely restrain borrowing/discretionary consumption (C) (1-2); businesses likely defer debt-funded investment (I) (1-2). Mechanism through EXPECTATIONS must be explicit.
+[L4b] Forward guidance -> inflation objective, 6 marks: state the inflation objective with target (2-3% on average over time) (1); guidance shifts expectations and behaviour before/alongside actual rate changes - restraining C and I, and markets lifting longer-term rates (2); lower AD growth eases demand-inflationary/capacity pressures (1); anchoring inflation expectations prevents wage-price responses that entrench inflation (1); link back to returning CPI toward 2-3% (1).
+[L5a] One weakness, 3 marks: identify a relevant weakness for STIMULATING AD (e.g. less effective in a downturn/'pushing on a string', impact lag, banks not passing cuts on) (1); explain why it limits the increase in AD (1); link to the rate of economic growth being lower than otherwise (1). Note the question direction is expansionary - 'blunt instrument' must be argued carefully in this direction.
+[L5b] Effectiveness re SSEG, 5 marks: define SSEG with target (1); at least one strength explained and linked to influencing AD and SSEG under current conditions (2); at least one weakness explained and linked (e.g. cannot address the supply-side fuel-price shock; impact lag; current tightening restrains growth already at ~1.0%) (2). A conclusion weighing the arguments lifts the answer; current data expected.
+[L6a] One factor for 2025 cuts or 2026 rises, 2 marks: identify a relevant factor (1) and link it to the decision (1). 2025 cuts: inflation returning to around target / weak GDP growth ~1.0% / supporting employment. 2026 rises: inflation re-accelerating to ~3.5%, underlying above 3%, capacity pressures, fuel-price shock risking de-anchored expectations.
+[L6b] How MP operated over past two years -> AD and growth, 3 marks: describe the easing phase to 3.60% (Aug 2025) supporting AD/growth (1); the 2026 tightening to 4.35% restraining AD growth (1); the operation via the cash rate -> interest rates -> AD components and hence the rate of economic growth (1).
+[L6c] Stance over past two years -> one goal and living standards, 6 marks: identify the stance in both phases with data (1-2); analyse the likely effect on ONE named goal with its definition and target (2); analyse the likely effect on living standards - BOTH material (e.g. real incomes, mortgage repayments and discretionary income, employment income) AND non-material (e.g. financial stress, job security, wellbeing) (2). Higher answers recognise trade-offs (e.g. tightening protects purchasing power via lower future inflation but raises repayments now).
+
+== FEEDBACK JSON FORMAT - return this exactly, and nothing else ==
+{
+  "score": <integer>,
+  "maxScore": <integer>,
+  "whatWorked": ["You correctly..."],
+  "improvements": ["Your answer would be stronger if..."],
+  "commonMistakes": ["specific error found, or empty string"],
+  "modelAnswer": "Full A-grade model answer in complete sentences.",
+  "encouragement": "One specific encouraging sentence referencing what they did."
+}
+Award middle marks for partial understanding. Never award full marks unless ALL criteria clearly met. Return ONLY the raw JSON object - no markdown fences, no preamble.`;
+
+/* ============================================================
+   KEY KNOWLEDGE MAP
+   ============================================================ */
+const KK_MAP = {
+  KK1:'Need for AD policies',
+  KK2:'RBA charter & role',
+  KK3:'Cash rate & interest rates',
+  KK4:'Unconventional MP',
+  KK5:'Transmission mechanism',
+  KK6:'Stance of MP',
+  KK7:'Stance, goals & living standards',
+  KK8:'Strengths & weaknesses'
+};
+
+/* ============================================================
+   STIMULUS BLOCKS (data strings - HTML)
+   ============================================================ */
+const STIM_DATA_BOX = "<h4>&#128202; Current economic data (2025&ndash;26)</h4>" +
+ "Real GDP growth: ~1.0% p.a. (target: 3&ndash;3.5%) &nbsp;|&nbsp; CPI inflation: ~3.5%, underlying above 3% for a prolonged period (target: 2&ndash;3%) &nbsp;|&nbsp; Unemployment: ~4.1% (NAIRU: ~4&ndash;4.25%) &nbsp;|&nbsp; RBA cash rate: 4.35% (May 2026) &nbsp;|&nbsp; AUD/USD: ~0.63 &nbsp;|&nbsp; Budget: deficit ~$28.5b (2025&ndash;26 est.)";
+
+const STIM_CASH_PATH = "<h4>&#128200; The cash rate target, 2020&ndash;2026</h4>" +
+ "<table><tr><th>Period</th><th>Cash rate</th><th>Context</th></tr>" +
+ "<tr><td>Nov 2020 &ndash; Apr 2022</td><td>0.10%</td><td>COVID-19 recession support</td></tr>" +
+ "<tr><td>May 2022 &ndash; Nov 2023</td><td>13 increases &rarr; 4.35%</td><td>Inflation peaked ~7.8% (Dec qtr 2022)</td></tr>" +
+ "<tr><td>Feb 2024 &ndash; Aug 2025</td><td>Cuts &rarr; 3.60%</td><td>Inflation eased toward target; GDP growth weak (~1.0%)</td></tr>" +
+ "<tr><td>Dec 2025</td><td>Held at 3.60%</td><td>Risks to inflation tilting upward</td></tr>" +
+ "<tr><td>Feb / Mar / May 2026</td><td>+25bp each &rarr; 4.35%</td><td>Inflation re-accelerated to ~3.5%; fuel-price shock from the Middle East conflict</td></tr></table>" +
+ "<div style='margin-top:6px;color:var(--text-sec)'>Source: RBA Monetary Policy Board minutes, Dec 2025 &ndash; May 2026</div>";
+
+const STIM_CPI_PATH = "<h4>&#128200; CPI inflation and the cash rate, 2024&ndash;2026</h4>" +
+ "CPI inflation eased through 2024 and 2025, returning to around the 2&ndash;3% target band as the post-pandemic surge (peak ~7.8% in the December quarter 2022) unwound. The RBA reduced the cash rate from 4.10% (early 2024) to 3.60% by August 2025 and held it there in December 2025. Over the first half of 2026, inflation re-accelerated to ~3.5%, with underlying inflation above 3% for a prolonged period, amid capacity pressures and a fuel-price shock from the conflict in the Middle East. The RBA raised the cash rate at each of its February, March and May 2026 meetings, to 4.35%.";
+
+const STIM_FG_2026 = "<h4>&#128483; RBA communication, February 2026</h4>" +
+ "At the time of announcing the February 2026 increase in the cash rate, the RBA signalled that inflation was expected to remain above the 2&ndash;3% target 'for some time', making further cash rate rises likely. The Board also noted it would remain focused on its mandate to deliver price stability and full employment.";
+
+const STIM_SHOCK_2026 = "<h4>&#128483; From the May 2026 Board minutes</h4>" +
+ "Members agreed that monetary policy could not prevent a near-term increase in the price level as higher fuel prices flowed through to final prices, but that it could limit the risk of this cost shock producing a broader and sustained lift in inflation, by bringing aggregate demand into closer alignment with aggregate supply and keeping inflation expectations anchored. The cash rate was raised to 4.35% &mdash; the third increase in 2026.";
+
+/* ============================================================
+   LESSONS & QUESTIONS
+   ============================================================ */
+const LESSONS = [
+ {
+  id:'L1', title:'Lesson 1 — The RBA: charter, focus & stance',
+  desc:'The role of the RBA as set out in its charter, and how the behaviour of inflation has steered the stance and focus of policy.',
+  showData:true,
+  qs:[
+   {id:'L1a', level:'Level 1', tab:'Level 1 (3m)', marks:3, kk:['KK1','KK2'],
+    text:'Outline the role of the Reserve Bank of Australia with respect to monetary policy as outlined in its charter.',
+    stim:'',
+    hint:'Name all three charter objectives: stability of the currency (interpreted as price stability — CPI inflation of 2–3% on average over time), the maintenance of full employment, and the economic prosperity and welfare of the people of Australia. Then connect them to the RBA&rsquo;s role: adjusting the cash rate countercyclically to stabilise aggregate demand and the business cycle.',
+    process:'&#9312; State the RBA&rsquo;s role: it conducts monetary policy by setting the cash rate target.<br>&#9313; List the three charter objectives — include the inflation target when you mention currency stability.<br>&#9314; Link: the RBA manipulates interest rates to influence AD and help achieve these objectives.<br>&#9888;&#65039; Common error: only naming one or two objectives, or defining price stability as a stable exchange rate.'},
+   {id:'L1b', level:'Level 2', tab:'Level 2 (4m)', marks:4, kk:['KK6','KK7'],
+    text:'Discuss the likely effect of the behaviour of Consumer Price Inflation on the stance and focus of monetary policy during the past two years.',
+    stim:STIM_CPI_PATH,
+    hint:'Two phases: while inflation eased to around target (2024–25), the RBA could adopt a less restrictive stance (cutting to 3.60%) and broaden its focus to growth and employment; when inflation re-accelerated in 2026 (~3.5%, underlying above 3%), the stance shifted contractionary (three rises to 4.35%) with the focus squarely on price stability. Use the data.',
+    process:'&#9312; Describe the behaviour of CPI inflation across the two years with data and dates.<br>&#9313; Phase 1: falling inflation &rarr; easing stance &rarr; focus can include growth/employment.<br>&#9314; Phase 2: re-accelerating inflation &rarr; contractionary stance &rarr; focus on price stability (2–3% target).<br>&#9888;&#65039; &lsquo;Discuss&rsquo; means show the relationship in both phases — one phase only is half an answer.'}
+  ]
+ },
+ {
+  id:'L2', title:'Lesson 2 — Conventional monetary policy',
+  desc:'The cash rate target, the policy interest rate corridor, liquidity management, and how inflation has driven the use of conventional policy since 2022.',
+  showData:false,
+  qs:[
+   {id:'L2a', level:'Level 1', tab:'Level 1 (3m)', marks:3, kk:['KK3'],
+    text:'Explain how the RBA would react to a decrease in liquidity in the overnight money market.',
+    stim:'',
+    hint:'Less liquidity (fewer Exchange Settlement balances) puts upward pressure on the actual cash rate relative to the target. The RBA responds through open market operations — buying securities under repurchase agreements — injecting liquidity so the cash rate stays at/near the target within the policy interest rate corridor.',
+    process:'&#9312; Identify the pressure: lower liquidity &rarr; cash rate likely rises above target.<br>&#9313; The response: open market operations — the RBA buys securities (repos), increasing ES balances.<br>&#9314; The outcome: the actual cash rate returns to/near the target, inside the corridor.<br>&#9888;&#65039; Common error: describing a transmission channel instead of the RBA&rsquo;s liquidity management.'},
+   {id:'L2b', level:'Level 2', tab:'Level 2 (3m)', marks:3, kk:['KK3','KK6'],
+    text:'Explain how the trend in the inflation rate has affected the use of conventional monetary policy since the beginning of 2022.',
+    stim:STIM_CASH_PATH,
+    hint:'Three movements to capture: inflation surging to ~7.8% (Dec qtr 2022) &rarr; 13 cash rate rises to 4.35%; inflation easing through 2023–25 &rarr; cuts to 3.60% by August 2025; inflation re-accelerating in 2026 &rarr; three rises back to 4.35%. The cash rate is the instrument of conventional monetary policy.',
+    process:'&#9312; Describe the trend in inflation since 2022 with data (DUDDS where you can).<br>&#9313; Match each phase of inflation to the corresponding cash rate response.<br>&#9314; Make the &lsquo;conventional&rsquo; link explicit: the RBA used its cash rate target to respond.<br>&#9888;&#65039; Both directions of the policy response are needed for full marks.'}
+  ]
+ },
+ {
+  id:'L3', title:'Lesson 3 — The transmission mechanism',
+  desc:'How changes in the cash rate flow through the four channels — savings and investment, cash-flow, exchange rate, and asset prices and wealth — to aggregate demand.',
+  showData:false,
+  qs:[
+   {id:'L3a', level:'Level 1', tab:'Level 1 (4m)', marks:4, kk:['KK5'],
+    text:'Explain how an increase in the cash rate would affect aggregate demand through the savings and investment channel of the transmission mechanism.',
+    stim:'',
+    hint:'Higher cash rate &rarr; higher retail interest rates. Higher reward for saving &rarr; households likely save more and consume less (C falls). Higher cost of borrowing &rarr; fewer business projects offer returns above the cost of funds, so investment (I) likely falls. Lower C and I &rarr; AD likely decreases, ceteris paribus.',
+    process:'&#9312; Cash rate rise flows through to the interest rates banks charge and pay.<br>&#9313; Savings side: greater incentive to save &rarr; consumption likely falls.<br>&#9314; Investment side: borrowing costs rise &rarr; business investment likely falls.<br>&#9315; Name the AD components (C and I) and conclude AD likely decreases, ceteris paribus.<br>&#9888;&#65039; Don&rsquo;t drift into the cash-flow channel (repayments and discretionary income) — that&rsquo;s a different channel.'},
+   {id:'L3b', level:'Level 2', tab:'Level 2 (8m)', marks:8, kk:['KK5'],
+    text:'Imagine the Reserve Bank of Australia raised the cash rate from 1.50% to 3.00%. Explain how two channels of the transmission mechanism of monetary policy might operate to affect the level of aggregate demand and the rate of economic growth under those conditions. <em>(Adapted from VCAA 2018)</em>',
+    stim:'',
+    hint:'Pick two channels you can chain fully. Exchange rate channel: higher rates relative to overseas &rarr; capital inflow &rarr; higher demand for AUD &rarr; appreciation &rarr; net exports (X&minus;M) likely fall. Asset prices &amp; wealth: higher rates &rarr; asset prices likely fall &rarr; lower paper wealth &rarr; consumption likely falls. Each channel must end at AD <em>and</em> the rate of economic growth.',
+    process:'&#9312; For each channel: name it, then chain every link in order.<br>&#9313; Name the AD component affected (C, I or X&minus;M).<br>&#9314; Finish each channel: lower AD &rarr; less production &rarr; rate of economic growth likely slows.<br>&#9888;&#65039; The classic mark-losers: skipping interest rate relativities/capital flows in the exchange rate channel, and skipping the wealth effect in the asset prices channel. Also: make sure the channel you name is the channel you explain.'}
+  ]
+ },
+ {
+  id:'L4', title:'Lesson 4 — Unconventional monetary policy',
+  desc:'Forward guidance: how RBA communication about the future path of policy shapes expectations, spending and inflation.',
+  showData:false,
+  qs:[
+   {id:'L4a', level:'Level 1', tab:'Level 1 (4m)', marks:4, kk:['KK4'],
+    text:'Describe how the Reserve Bank of Australia&rsquo;s use of forward guidance may influence household and business spending decisions.',
+    stim:'',
+    hint:'Forward guidance = public communication about the likely future direction of monetary policy. The mechanism runs through expectations: households expecting higher future borrowing costs likely restrain borrowing and discretionary consumption; businesses likely defer debt-funded investment. Behaviour changes before the cash rate itself does.',
+    process:'&#9312; Define forward guidance as RBA communication about the likely future path of policy.<br>&#9313; Households: expectations of higher rates &rarr; less borrowing, more caution in consumption (C).<br>&#9314; Businesses: expected higher cost of funds &rarr; investment plans (I) likely deferred.<br>&#9888;&#65039; The word &lsquo;expectations&rsquo; should appear in your answer — that is the mechanism.'},
+   {id:'L4b', level:'Level 2', tab:'Level 2 (6m)', marks:6, kk:['KK4'],
+    text:'Explain how this use of forward guidance may assist the Reserve Bank of Australia in achieving its inflation objective.',
+    stim:STIM_FG_2026,
+    hint:'State the objective (CPI 2–3% on average over time). Guidance tightens conditions early: expectations shift &rarr; C and I restrained, markets lift longer-term rates &rarr; AD growth slows &rarr; less demand-inflationary pressure. Crucially it also anchors inflation expectations, reducing wage-price responses that would entrench inflation — then link back to returning CPI toward 2–3%.',
+    process:'&#9312; State the inflation objective with the target.<br>&#9313; Expectations channel: behaviour and market rates adjust before the cash rate moves fully.<br>&#9314; Lower AD growth &rarr; reduced capacity/demand-inflationary pressure.<br>&#9315; Anchored expectations &rarr; workers and firms less likely to build inflation into wages and prices.<br>&#9316; Conclude: CPI likely returns toward the 2–3% target sooner.<br>&#9888;&#65039; Six marks needs depth — assertion without mechanism scores nothing for that link.'}
+  ]
+ },
+ {
+  id:'L5', title:'Lesson 5 — Strengths & weaknesses',
+  desc:'Evaluating monetary policy: what makes it powerful, what limits it, and how that plays out against the goals in current conditions.',
+  showData:true,
+  qs:[
+   {id:'L5a', level:'Level 1', tab:'Level 1 (3m)', marks:3, kk:['KK8'],
+    text:'Outline one weakness associated with using monetary policy to increase aggregate demand and the rate of economic growth. <em>(VCAA 2018)</em>',
+    stim:'',
+    hint:'Choose a weakness that bites in the <em>expansionary</em> direction: less effective at stimulating AD in a downturn (&ldquo;pushing on a string&rdquo; — the RBA cannot force pessimistic households and businesses to borrow and spend); the long impact lag; or banks not passing on the full cut. Then link it to AD and growth rising by less than intended.',
+    process:'&#9312; Identify the weakness precisely.<br>&#9313; Explain <em>why</em> it limits the increase in AD.<br>&#9314; Link to the rate of economic growth being lower than otherwise.<br>&#9888;&#65039; The question is about <em>increasing</em> AD — a weakness framed for tightening won&rsquo;t fit without careful rewording.'},
+   {id:'L5b', level:'Level 2', tab:'Level 2 (5m)', marks:5, kk:['KK8'],
+    text:'Analyse the effectiveness of using monetary policy to achieve the goal of strong and sustainable economic growth.',
+    stim:STIM_DATA_BOX,
+    hint:'Define SSEG with its 3–3.5% target. One strength linked to current conditions (e.g. short implementation lag and independence allowed swift 2026 tightening to protect the &lsquo;sustainable&rsquo; part of SSEG by fighting inflation). One weakness linked to current conditions (e.g. monetary policy cannot fix the supply-side fuel shock, and tightening restrains AD while growth is already ~1.0% — well below target). Weigh them up.',
+    process:'&#9312; Define SSEG and note it is currently not being achieved (~1.0% vs 3–3.5%).<br>&#9313; Strength &rarr; explain &rarr; link to AD and the goal under <em>current</em> conditions.<br>&#9314; Weakness &rarr; explain &rarr; link to AD and the goal under current conditions.<br>&#9315; Reach a brief, justified conclusion.<br>&#9888;&#65039; Generic strengths/weaknesses with no link to current conditions score poorly — the examiners say so every year.'}
+  ]
+ },
+ {
+  id:'L6', title:'Lesson 6 — Recent operation, goals & living standards',
+  desc:'Pulling it together: how monetary policy has operated over the past two years, and what that means for the goals and for living standards.',
+  showData:true,
+  qs:[
+   {id:'L6a', level:'Starter', tab:'Starter (2m)', marks:2, kk:['KK6','KK7'],
+    text:'Outline one economic factor that might explain why the RBA decided to decrease the cash rate during 2025 or increase it during 2026.',
+    stim:STIM_CASH_PATH,
+    hint:'Pick one side. 2025 cuts: inflation back around the 2–3% target and/or weak GDP growth (~1.0%) justified a less restrictive stance. 2026 rises: inflation re-accelerated to ~3.5% with underlying inflation above 3%, plus the fuel-price shock — tightening needed to protect price stability.',
+    process:'&#9312; Name the factor with data.<br>&#9313; Link it directly to the decision (cut or rise).<br>&#9888;&#65039; Two marks = two clear steps. Don&rsquo;t write an essay.'},
+   {id:'L6b', level:'Level 1', tab:'Level 1 (3m)', marks:3, kk:['KK7'],
+    text:'Describe how monetary policy has operated over the past two years to influence aggregate demand and the rate of economic growth.',
+    stim:STIM_CASH_PATH,
+    hint:'Two phases over mid-2024 to mid-2026: the easing phase (cuts to 3.60% by Aug 2025) lowering interest rates to support borrowing, spending and AD; then the 2026 tightening (three rises to 4.35%) lifting rates to restrain AD growth. Show the operation: cash rate &rarr; interest rates &rarr; AD components &rarr; rate of economic growth.',
+    process:'&#9312; Phase 1: cuts &rarr; lower rates &rarr; support for C and I &rarr; AD and growth supported.<br>&#9313; Phase 2: rises &rarr; higher rates &rarr; AD growth restrained.<br>&#9314; Use dates and data from the stimulus.<br>&#9888;&#65039; &lsquo;Describe&rsquo; still requires the mechanism in brief — not just a list of rate changes.'},
+   {id:'L6c', level:'Level 2', tab:'Level 2 (6m)', marks:6, kk:['KK6','KK7'],
+    text:'Analyse how the stance of monetary policy over the past two years is likely to affect the achievement of one domestic macroeconomic goal and living standards.',
+    stim:STIM_SHOCK_2026,
+    hint:'Identify the stance in both phases. Choose one goal (price stability is the natural fit — define it: CPI 2–3% on average over time) and analyse how the 2026 contractionary stance should help achieve it. Then living standards — BOTH dimensions: material (higher repayments cut discretionary income now, but lower future inflation protects purchasing power; employment effects) and non-material (financial stress, job security, wellbeing).',
+    process:'&#9312; Stance with data: easing to Aug 2025, contractionary through 2026.<br>&#9313; One goal, fully defined with its target, and the mechanism from the stance to its achievement.<br>&#9314; Material living standards — at least one effect, with the trade-off across time if you can.<br>&#9315; Non-material living standards — at least one effect.<br>&#9888;&#65039; Missing either material or non-material living standards caps your mark.'}
+  ]
+ }
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let sName='', attempts={}, currentLesson=0, currentLevels={};
+let tFeedback={};   // teacher feedback by qid
+let _busy=false;
+
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function safeName(n){return String(n).trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,40);}
+
+/* ============================================================
+   SAVE / LOAD (localStorage)
+   ============================================================ */
+function saveState(){
+  try{
+    var st={sName:sName,attempts:attempts,currentLesson:currentLesson,currentLevels:currentLevels,tFeedback:tFeedback};
+    localStorage.setItem(SAVE_KEY,JSON.stringify(st));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    var raw=localStorage.getItem(SAVE_KEY);
+    if(!raw)return false;
+    var st=JSON.parse(raw);
+    if(!st||!st.sName)return false;
+    sName=st.sName;attempts=st.attempts||{};currentLesson=st.currentLesson||0;
+    currentLevels=st.currentLevels||{};tFeedback=st.tFeedback||{};
+    return true;
+  }catch(e){return false;}
+}
+function countDone(){
+  var n=0;for(var k in attempts){if(attempts[k]&&attempts[k].length)n++;}return n;
+}
+
+/* ============================================================
+   ENTRY / RESUME
+   ============================================================ */
+function init(){
+  if(loadState()){
+    var b=$('resumeBanner');
+    b.innerHTML="<div class='resume'>&#128075; Welcome back, <strong>"+esc(sName)+"</strong> — you have completed "+countDone()+" question(s). Press Start to continue, or <span style='text-decoration:underline;cursor:pointer' onclick='startAgain()'>start again from scratch</span>.</div>";
+    $('nameIn').value=sName;
+  }
+}
+function startAgain(){
+  if(!confirm('This clears all your saved answers on this device. Are you sure?'))return;
+  localStorage.removeItem(SAVE_KEY);
+  sName='';attempts={};currentLesson=0;currentLevels={};tFeedback={};
+  $('resumeBanner').innerHTML='';$('nameIn').value='';
+}
+function start(){
+  var n=$('nameIn').value.trim();
+  if(n.length<3){alert('Please enter your full name so your work can be saved.');return;}
+  if(sName&&safeName(n)!==safeName(sName)){attempts={};currentLevels={};tFeedback={};currentLesson=0;}
+  sName=n;
+  saveState();
+  $('entry').style.display='none';$('results').style.display='none';$('teacher').style.display='none';
+  $('main').style.display='block';
+  renderNav();renderLesson();
+  refreshFeedback(false);
+  maybeSync();
+}
+
+/* ============================================================
+   NAVIGATION & LESSON RENDERING
+   ============================================================ */
+function lessonDone(L){
+  for(var i=0;i<L.qs.length;i++){if(attempts[L.qs[i].id]&&attempts[L.qs[i].id].length)return true;}
+  return false;
+}
+function renderNav(){
+  var h='';
+  for(var i=0;i<LESSONS.length;i++){
+    var L=LESSONS[i];
+    h+="<button class='"+(i===currentLesson?'active':'')+"' onclick='goLesson("+i+")'>"+L.title.split('—')[0].trim()+(lessonDone(L)?"<span class='done-dot'></span>":'')+"</button>";
+  }
+  $('lessonNav').innerHTML=h;
+}
+function goLesson(i){currentLesson=i;saveState();renderNav();renderLesson();}
+function tabIdx(L){
+  var t=currentLevels[L.id];
+  if(typeof t!=='number'||t<0||t>=L.qs.length)t=0;
+  return t;
+}
+function switchLevel(li,ti){
+  currentLevels[LESSONS[li].id]=ti;saveState();renderLesson();
+}
+function tabClassFor(level){
+  if(level==='Level 2')return 'on-purple';
+  if(level==='Starter')return 'on-teal';
+  return 'on-gold';
+}
+function nudgeFor(level){
+  if(level==='Level 2')return "<div class='nudge purple'>&#127775; This applies the concept to real data and asks for deeper analysis. This is what separates good from excellent on the SAC and exam. Give it a go.</div>";
+  if(level==='Starter')return "<div class='nudge teal'>&#9201;&#65039; A quick warm-up — two marks, two steps. Then push on to Level 1 and Level 2.</div>";
+  return "<div class='nudge gold'>&#128161; This question tests the core concept. Great place to start — but once you&rsquo;ve got this, push yourself to attempt Level 2. Exam success comes from handling the harder question.</div>";
+}
+function buildChecklist(q){
+  var items=['I have written in full sentences (no arrows, symbols or dot points)',"I used 'likely' or 'should', not 'will'"];
+  if(q.marks>=3)items.push("I used 'ceteris paribus' / 'all else remaining equal' in cause-effect chains");
+  var t=q.text.toLowerCase();
+  if(t.indexOf('describe')>-1&&(t.indexOf('trend')>-1||t.indexOf('behaviour')>-1))items.push('Trend uses DUDDS: Direction, Units, Data, Dates, So-what');
+  if(t.indexOf('living standard')>-1)items.push('I addressed BOTH material AND non-material living standards');
+  if(t.indexOf('goal')>-1||t.indexOf('objective')>-1||t.indexOf('charter')>-1)items.push('I defined any goal with its target rate (SSEG 3–3.5% | CPI 2–3% | NAIRU 4–4.25%)');
+  if(q.marks>=4)items.push('I explained the mechanism, not just the outcome');
+  if(t.indexOf('aggregate demand')>-1||q.kk.indexOf('KK5')>-1)items.push('I named the AD component affected (C, I, G or X−M)');
+  if(t.indexOf('analyse')>-1||t.indexOf('effectiveness')>-1)items.push('I included at least one strength AND one weakness, linked to current conditions');
+  var h="<div class='checklist'><h4>&#9989; Before you submit</h4>";
+  for(var i=0;i<items.length;i++){h+="<label><input type='checkbox'> "+items[i]+"</label>";}
+  h+="</div>";return h;
+}
+function renderLesson(){
+  var li=currentLesson,L=LESSONS[li],ti=tabIdx(L),q=L.qs[ti];
+  var h="<div class='card'>";
+  h+="<h2 style='font-size:20px'>"+L.title+"</h2>";
+  h+="<p style='font-size:13.5px;color:var(--text-sec);margin-top:4px'>"+L.desc+"</p>";
+  if(L.showData)h+="<div class='stim' style='margin-top:12px'>"+STIM_DATA_BOX+"</div>";
+  h+="<div class='tabs'>";
+  for(var t=0;t<L.qs.length;t++){
+    var qq=L.qs[t];
+    var done=attempts[qq.id]&&attempts[qq.id].length;
+    h+="<button class='"+(t===ti?tabClassFor(qq.level):'')+"' onclick='switchLevel("+li+","+t+")'>"+qq.tab+(done?"<span class='tick'>&#10003;</span>":'')+"</button>";
+  }
+  h+="</div>";
+  h+=nudgeFor(q.level);
+  h+="<div class='qmeta'><span class='marks-chip'>"+q.marks+" marks</span>";
+  for(var k=0;k<q.kk.length;k++){h+="<span class='kk-chip'>"+KK_MAP[q.kk[k]]+"</span>";}
+  h+="</div>";
+  h+="<div class='qtext'>"+q.text+"</div>";
+  if(q.stim)h+="<div class='stim'>"+q.stim+"</div>";
+  h+="<div class='tip-row'>";
+  h+="<button class='tip-btn' onclick='toggleTip(\"hint_"+q.id+"\")'>&#128161; Content tips</button>";
+  h+="<button class='tip-btn' onclick='toggleTip(\"proc_"+q.id+"\")'>&#129513; Process guide</button>";
+  h+="</div>";
+  h+="<div class='tip-box' id='hint_"+q.id+"'>"+q.hint+"</div>";
+  h+="<div class='tip-box' id='proc_"+q.id+"'>"+q.process+"</div>";
+
+  var hasAttempt=attempts[q.id]&&attempts[q.id].length;
+  if(!hasAttempt){
+    h+="<textarea id='ans_"+q.id+"' autocomplete='off' placeholder='Write your answer here in full sentences...'></textarea>";
+    h+=buildChecklist(q);
+    h+="<button class='btn "+(q.level==='Level 2'?'purple':'gold')+"' id='sub_"+q.id+"' onclick='submitQ(\""+q.id+"\")'>Submit for marking</button>";
+    h+="<div id='wait_"+q.id+"' class='notice'></div>";
+  }else{
+    h+="<div id='hist_"+q.id+"'>"+renderAllAttempts(q)+"</div>";
+  }
+  h+="</div>";
+  $('lessonPanel').innerHTML=h;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleTip(id){
+  var el=$(id);el.style.display=(el.style.display==='block')?'none':'block';
+}
+function findQ(qid){
+  for(var i=0;i<LESSONS.length;i++){for(var j=0;j<LESSONS[i].qs.length;j++){if(LESSONS[i].qs[j].id===qid)return LESSONS[i].qs[j];}}
+  return null;
+}
+
+/* ============================================================
+   ATTEMPT RENDERING
+   ============================================================ */
+function scoreColor(s,m){var p=m?s/m:0;return p>=0.8?'var(--green)':(p>=0.5?'var(--amber)':'var(--red)');}
+function listHtml(arr){
+  var h='<ul>';var any=false;
+  for(var i=0;i<(arr||[]).length;i++){if(arr[i]&&String(arr[i]).trim()){h+='<li>'+esc(arr[i])+'</li>';any=true;}}
+  h+='</ul>';return any?h:'<ul><li>—</li></ul>';
+}
+function renderAllAttempts(q){
+  var arr=attempts[q.id]||[],h='';
+  for(var i=0;i<arr.length;i++){
+    var a=arr[i];
+    var failed=attemptFailed(a);
+    h+="<div class='attempt-block'>";
+    h+="<div class='alabel'>Attempt "+(i+1)+(i===arr.length-1?' (latest)':'')+" &middot; "+esc(a.time||'')+" &nbsp; "+
+       (failed?"<span class='score-pill' style='background:#8a8478'>&#9888;&#65039; Marking failed</span>":
+               "<span class='score-pill' style='background:"+scoreColor(a.score,a.max)+"'>"+a.score+" / "+a.max+"</span>")+"</div>";
+    if(failed)h+="<div class='notice' style='color:var(--red)'>The marking service didn&rsquo;t return feedback for this attempt &mdash; this was not scored. Please retry below.</div>";
+    if(a.reflection)h+="<div class='reflect-box'><strong>Your reflection before retrying:</strong> "+esc(a.reflection)+"</div>";
+    h+="<div class='ans-quote'>"+esc(a.ans)+"</div>";
+    if(a.fb&&!failed){
+      h+="<div class='fb-panel'><div class='fb-head' style='background:"+scoreColor(a.score,a.max)+"'><span>AI feedback</span><span>"+a.score+" / "+a.max+"</span></div><div class='fb-body'>";
+      if(a.fb.encouragement)h+="<p style='margin-bottom:12px'><em>"+esc(a.fb.encouragement)+"</em></p>";
+      h+="<div class='fb-sec good'><h5>What you did well</h5>"+listHtml(a.fb.whatWorked)+"</div>";
+      h+="<div class='fb-sec improve'><h5>What to improve</h5>"+listHtml(a.fb.improvements)+"</div>";
+      var cm=(a.fb.commonMistakes||[]).filter?a.fb.commonMistakes.filter(function(x){return x&&String(x).trim();}):[];
+      if(cm.length)h+="<div class='fb-sec mistake'><h5>Common mistakes spotted</h5>"+listHtml(cm)+"</div>";
+      h+="<div class='model-wrap'><button class='btn ghost small' onclick='toggleTip(\"model_"+q.id+"_"+i+"\")'>&#128274; Reveal model answer</button><div class='model-box' id='model_"+q.id+"_"+i+"'><strong>Model answer:</strong><br>"+esc(a.fb.modelAnswer||'')+"</div></div>";
+      h+="</div></div>";
+    }
+    h+="</div>";
+  }
+  if(tFeedback[q.id]&&tFeedback[q.id].text){
+    h+="<div class='tfb'><h5>&#128172; Message from your teacher</h5>"+esc(tFeedback[q.id].text)+"<div style='font-size:11.5px;color:var(--text-sec);margin-top:6px'>"+esc(tFeedback[q.id].time||'')+"</div></div>";
+  }
+  var lastFailed=arr.length&&attemptFailed(arr[arr.length-1]);
+  if(lastFailed){
+    // Technical failure, not the student's fault - resubmit their existing
+    // answer with one click, no reflection required.
+    h+="<div class='reflect-box' id='fastretry_"+q.id+"'>";
+    h+="<strong>&#9888;&#65039; That attempt wasn&rsquo;t marked due to a technical problem, not your answer.</strong> You can resubmit the same answer, or edit it first:";
+    h+="<textarea id='rfans_"+q.id+"' autocomplete='off' style='margin-top:10px'>"+esc(arr[arr.length-1].ans)+"</textarea>";
+    h+="<div style='margin-top:10px'><button class='btn purple' id='rfsub_"+q.id+"' onclick='submitFastRetry(\""+q.id+"\")'>Resubmit for marking</button></div>";
+    h+="<div id='rfwait_"+q.id+"' class='notice'></div>";
+    h+="</div>";
+  }else{
+    h+="<div class='reflect-box' id='retry_"+q.id+"' style='display:none'>";
+    h+="<strong>Before you retry:</strong> what will you do differently this time?";
+    h+="<textarea id='refl_"+q.id+"' autocomplete='off' style='min-height:70px;margin-top:8px' placeholder='e.g. I will chain the exchange rate channel fully through capital flows and the demand for the AUD...'></textarea>";
+    h+="<textarea id='rans_"+q.id+"' autocomplete='off' style='margin-top:10px' placeholder='Your new answer...'></textarea>";
+    h+="<div style='margin-top:10px'><button class='btn purple' id='rsub_"+q.id+"' onclick='submitRetry(\""+q.id+"\")'>Submit retry</button></div>";
+    h+="<div id='rwait_"+q.id+"' class='notice'></div>";
+    h+="</div>";
+    h+="<div style='margin-top:14px'><button class='btn ghost small' onclick='retryQ(\""+q.id+"\")'>&#128260; Retry this question</button></div>";
+  }
+  return h;
+}
+async function submitFastRetry(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  var ans=$('rfans_'+qid).value.trim();
+  if(ans.length<20){alert('Your answer looks too short to mark.');return;}
+  _busy=true;$('rfsub_'+qid).disabled=true;
+  $('rfwait_'+qid).innerHTML="<span class='spin'></span>Marking your answer...";
+  try{
+    var fb=await markAnswer(q,ans);
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,time:nowStamp()});
+    saveState();maybeSync();
+    renderNav();renderLesson();
+  }catch(e){
+    $('rfwait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed again ("+esc(e.message)+"). Check your internet connection and try once more &mdash; nothing has been lost.</span>";
+    $('rfsub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+function retryQ(qid){
+  var el=$('retry_'+qid);
+  el.style.display='block';
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* ============================================================
+   MARKING (via Cloudflare Worker)
+   ============================================================ */
+async function markAnswer(q,ansText){
+  var prompt='QUESTION ID: '+q.id+'\nQUESTION ('+q.marks+' marks): '+q.text.replace(/<[^>]+>/g,'')+
+    (q.stim?'\nSTIMULUS PROVIDED TO STUDENT: '+q.stim.replace(/<[^>]+>/g,' '):'')+
+    '\nMAX SCORE: '+q.marks+
+    '\n\nSTUDENT ANSWER:\n'+ansText+
+    '\n\nMark this answer using the marking guide for '+q.id+'. Return ONLY the JSON object.';
+  var resp=await fetch(WORKER_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-5-20250929',max_tokens:1000,system:SYSTEM,messages:[{role:'user',content:prompt}]})
+  });
+  var data=await resp.json();
+  // The API (or the Worker) can return an error object instead of a marked
+  // response - e.g. an invalid/retired model name, a rate limit, or an
+  // auth problem. Treat that as a real failure instead of silently
+  // marking the student's answer as 0.
+  if(data && data.error){
+    throw new Error(data.error.message || 'The marking service returned an error.');
+  }
+  if(!data || !data.content || !data.content[0] || !data.content[0].text){
+    throw new Error('The marking service did not return a result. Please try again.');
+  }
+  var raw=data.content[0].text;
+  raw=raw.replace(/```json|```/g,'').trim();
+  var s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+  if(s>-1&&e>s)raw=raw.slice(s,e+1);
+  var fb=JSON.parse(raw);
+  // Guard against a response that parsed as JSON but doesn't actually
+  // contain marking content (e.g. {} ) - this is what silently produced
+  // false 0-mark attempts previously.
+  var hasContent=(Array.isArray(fb.whatWorked)&&fb.whatWorked.length)||
+                  (Array.isArray(fb.improvements)&&fb.improvements.length)||
+                  (fb.modelAnswer&&String(fb.modelAnswer).trim());
+  if(!hasContent){
+    throw new Error('The marking service returned an empty result. Please try again.');
+  }
+  fb.score=Math.max(0,Math.min(q.marks,parseInt(fb.score,10)||0));
+  fb.maxScore=q.marks;
+  return fb;
+}
+// An attempt saved before this fix could have a "successful" API call that
+// nonetheless carried no real marking content (blank whatWorked/improvements/
+// modelAnswer, score forced to 0). Recognise those old broken attempts so
+// they display honestly instead of as a genuine 0 mark.
+function attemptFailed(a){
+  if(!a||!a.fb)return true;
+  var hasContent=(Array.isArray(a.fb.whatWorked)&&a.fb.whatWorked.length)||
+                  (Array.isArray(a.fb.improvements)&&a.fb.improvements.length)||
+                  (a.fb.modelAnswer&&String(a.fb.modelAnswer).trim());
+  return !hasContent;
+}
+function nowStamp(){
+  var d=new Date();
+  return d.toLocaleDateString('en-AU')+' '+d.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+}
+async function submitQ(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  var ans=$('ans_'+qid).value.trim();
+  if(ans.length<20){alert('Your answer looks too short to mark — give it a proper attempt first.');return;}
+  _busy=true;$('sub_'+qid).disabled=true;
+  $('wait_'+qid).innerHTML="<span class='spin'></span>Marking your answer against the VCE criteria...";
+  try{
+    var fb=await markAnswer(q,ans);
+    if(!attempts[qid])attempts[qid]=[];
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,time:nowStamp()});
+    saveState();maybeSync();
+    renderNav();renderLesson();
+    refreshFeedback(false);
+  }catch(e){
+    $('wait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed ("+esc(e.message)+"). Check your internet connection and try again — your answer has not been lost.</span>";
+    $('sub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+async function submitRetry(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  var refl=$('refl_'+qid).value.trim();
+  var ans=$('rans_'+qid).value.trim();
+  if(refl.length<10){alert('Write a short reflection first — what will you do differently?');return;}
+  if(ans.length<20){alert('Your new answer looks too short to mark.');return;}
+  _busy=true;$('rsub_'+qid).disabled=true;
+  $('rwait_'+qid).innerHTML="<span class='spin'></span>Marking your retry...";
+  try{
+    var fb=await markAnswer(q,ans);
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,reflection:refl,time:nowStamp()});
+    saveState();maybeSync();
+    renderLesson();
+  }catch(e){
+    $('rwait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed ("+esc(e.message)+"). Try again.</span>";
+    $('rsub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+
+/* ============================================================
+   RESULTS SCREEN
+   ============================================================ */
+function bestScore(qid){
+  var arr=attempts[qid]||[],b=null;
+  for(var i=0;i<arr.length;i++){if(attemptFailed(arr[i]))continue;if(b===null||arr[i].score>b)b=arr[i].score;}
+  return b;
+}
+function buildResults(){
+  var kkAgg={};
+  for(var k in KK_MAP)kkAgg[k]={got:0,max:0};
+  var totGot=0,totMax=0,done=0,totalQ=0;
+  for(var i=0;i<LESSONS.length;i++){
+    for(var j=0;j<LESSONS[i].qs.length;j++){
+      var q=LESSONS[i].qs[j];totalQ++;
+      var b=bestScore(q.id);
+      if(b!==null){
+        done++;totGot+=b;totMax+=q.marks;
+        for(var x=0;x<q.kk.length;x++){kkAgg[q.kk[x]].got+=b;kkAgg[q.kk[x]].max+=q.marks;}
+      }
+    }
+  }
+  var h="<div class='card'><h2 style='font-size:21px'>Your results — "+esc(sName)+"</h2>";
+  h+="<p style='font-size:14px;color:var(--text-sec);margin-top:4px'>"+done+" of "+totalQ+" questions attempted"+(totMax?(" &middot; best-attempt total: <strong>"+totGot+" / "+totMax+"</strong>"):'')+"</p>";
+  h+="<div class='results-grid'>";
+  for(var k2 in KK_MAP){
+    var a=kkAgg[k2];
+    var pct=a.max?Math.round(100*a.got/a.max):0;
+    h+="<div class='kk-card'><div class='kk-name'>"+KK_MAP[k2]+"</div>";
+    if(a.max){
+      h+="<div class='kk-score'>"+a.got+" / "+a.max+"</div><div class='bar'><i style='width:"+pct+"%;background:"+(pct>=80?'var(--green)':(pct>=50?'var(--amber)':'var(--red)'))+"'></i></div>";
+    }else{
+      h+="<div class='kk-score' style='color:#b9b29f'>—</div><div style='font-size:11.5px;color:var(--text-sec)'>Not attempted yet</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  h+="<p class='notice'>Your work syncs to your teacher automatically — there is nothing to download or submit. Use the print button only if you want a paper copy for your own revision.</p>";
+  h+="<div style='margin-top:14px;display:flex;gap:10px;flex-wrap:wrap'><button class='btn' onclick='backToMain()'>&larr; Back to questions</button><button class='btn ghost' onclick='downloadPDF()'>&#128424;&#65039; Print / save a copy</button></div>";
+  h+="</div>";
+  return h;
+}
+function showResults(){
+  $('main').style.display='none';$('teacher').style.display='none';
+  $('results').style.display='block';
+  $('results').innerHTML=buildResults();
+  window.scrollTo({top:0});
+}
+function backToMain(){
+  $('results').style.display='none';$('teacher').style.display='none';
+  $('main').style.display='block';renderNav();renderLesson();
+}
+function downloadPDF(){window.print();}
+
+/* ============================================================
+   SYNC TO TEACHER (vce-results Worker)
+   ============================================================ */
+function maybeSync(){
+  if(!sName)return;
+  var payload={kind:'mark',tool:SAVE_KEY,name:sName,attempts:attempts,updated:new Date().toISOString()};
+  fetch(RES_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(e){});
+}
+function refreshFeedback(announce){
+  if(!sName)return;
+  fetch(RES_URL+'/?feedback=1&tool='+encodeURIComponent(SAVE_KEY)+'&student='+encodeURIComponent(safeName(sName)))
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d&&d.feedback){
+       var changed=JSON.stringify(d.feedback)!==JSON.stringify(tFeedback);
+       tFeedback=d.feedback||{};
+       saveState();
+       if(changed)renderLesson();
+       if(announce){
+         var n=0;for(var k in tFeedback){if(tFeedback[k]&&tFeedback[k].text)n++;}
+         alert(n?('You have teacher feedback on '+n+' question(s) — look for the red panels under your attempts.'):'No teacher feedback yet — check back later.');
+       }
+     }
+   }).catch(function(e){if(announce)alert('Could not check for feedback right now.');});
+}
+
+/* ============================================================
+   TEACHER VIEW
+   ============================================================ */
+let _tPin='',_tData=null;
+function openTeacher(){
+  $('entry').style.display='none';$('main').style.display='none';$('results').style.display='none';
+  $('teacher').style.display='block';
+  $('teacher').innerHTML="<div class='card'><span class='badge' style='background:var(--ink)'>STAFF</span><h2 style='font-size:21px;margin-top:8px'>Teacher view</h2><p style='font-size:14px;color:var(--text-sec);margin:8px 0 12px'>Enter your teacher PIN to load class progress and leave feedback.</p><input type='password' id='pinIn' placeholder='PIN' style='max-width:260px'> <button class='btn' style='margin-top:10px' onclick='loadTeacher()'>View class &rarr;</button><div id='tchOut' style='margin-top:18px'></div><div style='margin-top:16px'><span class='backlink' onclick='closeTeacher()'>&larr; Back to student view</span></div></div>";
+  window.scrollTo({top:0});
+}
+function closeTeacher(){
+  $('teacher').style.display='none';
+  if(sName){$('main').style.display='block';renderNav();renderLesson();}
+  else{$('entry').style.display='block';}
+}
+function loadTeacher(){
+  _tPin=$('pinIn').value.trim();
+  var out=$('tchOut');
+  out.innerHTML="<span class='spin'></span>Loading class results...";
+  fetch(RES_URL+'/?pin='+encodeURIComponent(_tPin)+'&tool='+encodeURIComponent(SAVE_KEY))
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d.error){out.innerHTML="<span style='color:var(--red)'>"+esc(d.error)+"</span>";return;}
+     _tData=d;
+     out.innerHTML=teacherGrid(d);
+   })
+   .catch(function(e){out.innerHTML="<span style='color:var(--red)'>Could not load results: "+esc(e.message)+"</span>";});
+}
+function allQs(){
+  var out=[];
+  for(var i=0;i<LESSONS.length;i++){for(var j=0;j<LESSONS[i].qs.length;j++){out.push(LESSONS[i].qs[j]);}}
+  return out;
+}
+function bestOf(rec,qid){
+  var arr=(rec.attempts&&rec.attempts[qid])||[],b=null;
+  for(var i=0;i<arr.length;i++){if(attemptFailed(arr[i]))continue;if(b===null||arr[i].score>b)b=arr[i].score;}
+  return b;
+}
+function teacherGrid(d){
+  var rows=d.marks||[];
+  if(!rows.length)return "<p>No student work yet. Results appear here automatically as students submit answers.</p>";
+  rows.sort(function(a,b){return (a.name||'').localeCompare(b.name||'');});
+  var qs=allQs();
+  var h="<p style='font-size:13px;color:var(--text-sec);margin-bottom:8px'>"+rows.length+" student(s) &middot; best score per question &middot; green &ge;80% &middot; amber 50&ndash;79% &middot; red &lt;50% &middot; click a student to read answers and leave feedback. <button class='btn ghost small' onclick='loadTeacher()'>&#8635; Refresh</button></p>";
+  h+="<div style='overflow-x:auto'><table class='tch'><tr><th>Student</th>";
+  for(var q=0;q<qs.length;q++){h+="<th>"+qs[q].id+"</th>";}
+  h+="<th>&#128172;</th><th>Updated</th></tr>";
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    var fbCount=0,fbMap=(d.feedback&&d.feedback[safeName(r.name||'')])||{};
+    for(var fk in fbMap){if(fbMap[fk]&&fbMap[fk].text)fbCount++;}
+    h+="<tr onclick='openStudent("+i+")'><td><strong>"+esc(r.name||'?')+"</strong></td>";
+    for(var q2=0;q2<qs.length;q2++){
+      var b=bestOf(r,qs[q2].id);
+      if(b===null){h+="<td style='color:#c5beac'>—</td>";}
+      else{
+        var pct=b/qs[q2].marks;
+        var col=pct>=0.8?'var(--green)':(pct>=0.5?'var(--amber)':'var(--red)');
+        h+="<td><span class='cell-score' style='background:"+col+"'>"+b+"/"+qs[q2].marks+"</span></td>";
+      }
+    }
+    h+="<td>"+(fbCount?fbCount:'')+"</td><td style='font-size:11.5px;color:var(--text-sec)'>"+esc((r.updated||'').slice(0,10))+"</td></tr>";
+  }
+  h+="</table></div>";
+  return h;
+}
+function openStudent(idx){
+  var rows=(_tData.marks||[]).slice().sort(function(a,b){return (a.name||'').localeCompare(b.name||'');});
+  var r=rows[idx];
+  var fbMap=(_tData.feedback&&_tData.feedback[safeName(r.name||'')])||{};
+  var qs=allQs();
+  var h="<div style='display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px'><h3 style='font-size:18px'>"+esc(r.name||'?')+"</h3><span class='backlink' onclick=\"$('tchOut').innerHTML=teacherGrid(_tData)\">&larr; Back to class grid</span></div>";
+  for(var q=0;q<qs.length;q++){
+    var qq=qs[q];
+    var arr=(r.attempts&&r.attempts[qq.id])||[];
+    h+="<div class='attempt-block' style='margin-top:16px'>";
+    h+="<div class='alabel'>"+qq.id+" &middot; "+qq.tab+" &middot; "+KK_MAP[qq.kk[0]]+"</div>";
+    h+="<div style='font-size:13.5px;margin-bottom:8px'>"+qq.text+"</div>";
+    if(!arr.length){h+="<div style='font-size:13px;color:#b9b29f'>Not attempted.</div>";}
+    for(var a=0;a<arr.length;a++){
+      var at=arr[a];
+      var afailed=attemptFailed(at);
+      h+="<div style='margin-top:10px'>"+
+         (afailed?"<span class='score-pill' style='background:#8a8478'>Attempt "+(a+1)+": &#9888;&#65039; marking failed (technical error, not scored)</span>":
+                  "<span class='score-pill' style='background:"+scoreColor(at.score,at.max)+"'>Attempt "+(a+1)+": "+at.score+" / "+at.max+"</span>")+
+         " <span style='font-size:11.5px;color:var(--text-sec)'>"+esc(at.time||'')+"</span></div>";
+      if(at.reflection)h+="<div style='font-size:12.5px;color:var(--purple);margin-top:4px'><em>Reflection: "+esc(at.reflection)+"</em></div>";
+      h+="<div class='ans-quote'>"+esc(at.ans)+"</div>";
+      if(at.fb&&!afailed){
+        h+="<details style='font-size:12.5px;margin-top:4px'><summary style='cursor:pointer;color:var(--text-sec)'>AI feedback given</summary><div style='padding:8px 0 0 8px'>";
+        h+="<strong>Well:</strong> "+esc((at.fb.whatWorked||[]).join(' | '))+"<br>";
+        h+="<strong>Improve:</strong> "+esc((at.fb.improvements||[]).join(' | '))+"<br>";
+        h+="<strong>Model:</strong> "+esc(at.fb.modelAnswer||'');
+        h+="</div></details>";
+      }
+    }
+    var existing=fbMap[qq.id]&&fbMap[qq.id].text?fbMap[qq.id].text:'';
+    h+="<div style='margin-top:12px'><div style='font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);margin-bottom:5px'>&#128172; Your feedback to "+esc((r.name||'').split(' ')[0])+"</div>";
+    h+="<textarea id='tfb_"+qq.id+"_"+idx+"' style='min-height:64px' placeholder='e.g. The AI marked this fairly, but also make sure you...'>"+esc(existing)+"</textarea>";
+    h+="<div style='margin-top:8px'><button class='btn small' style='background:var(--accent)' onclick='saveFeedback("+idx+",\""+qq.id+"\",\""+esc(r.name||'').replace(/"/g,'&quot;')+"\")'>Save feedback</button> <span id='tfbmsg_"+qq.id+"_"+idx+"' style='font-size:12.5px;color:var(--green)'></span></div></div>";
+    h+="</div>";
+  }
+  $('tchOut').innerHTML=h;
+  window.scrollTo({top:0});
+}
+function saveFeedback(idx,qid,studentName){
+  var txt=$('tfb_'+qid+'_'+idx).value.trim();
+  var msg=$('tfbmsg_'+qid+'_'+idx);
+  msg.style.color='var(--text-sec)';msg.textContent='Saving...';
+  fetch(RES_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({kind:'feedback',pin:_tPin,tool:SAVE_KEY,student:safeName(studentName),qid:qid,text:txt})})
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d.error){msg.style.color='var(--red)';msg.textContent=d.error;return;}
+     msg.style.color='var(--green)';msg.textContent='Saved — the student will see this next time they open the tool.';
+     if(!_tData.feedback)_tData.feedback={};
+     var sk=safeName(studentName);
+     if(!_tData.feedback[sk])_tData.feedback[sk]={};
+     _tData.feedback[sk][qid]={text:txt,time:new Date().toISOString().slice(0,10)};
+   })
+   .catch(function(e){msg.style.color='var(--red)';msg.textContent='Could not save: '+e.message;});
+}
+
+init();
+</script>
+</body>
+</html>
