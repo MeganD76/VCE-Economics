@@ -842,6 +842,15 @@
       <input type="text" id="s-avoidances" class="mb-field" placeholder="e.g. seafood, pumpkin, melon, boiled eggs">
     </div>
 
+    <!-- WORKER URL -->
+    <div class="settings-section">
+      <h2 class="settings-heading">🔧 Recipe scan setup</h2>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">Your Cloudflare Worker URL — saved here so you never need to edit the HTML file again.</p>
+      <p style="font-size:12px;color:var(--text-hint);margin-bottom:10px;">Find this in Cloudflare → Workers & Pages → your worker → Overview tab.</p>
+      <input type="url" id="s-worker-url" class="mb-field" placeholder="https://meal-plan-worker.megan-dyring.workers.dev">
+      <div id="s-worker-status" style="margin-top:6px;font-size:12px;"></div>
+    </div>
+
     <!-- SAVE -->
     <button onclick="saveSettings()" style="width:100%;padding:13px;background:var(--green);color:white;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;">✓ Save settings</button>
     <div id="s-saved-msg" style="display:none;text-align:center;font-size:13px;color:var(--green);margin-top:10px;font-weight:500;">✓ Settings saved!</div>
@@ -902,7 +911,16 @@ let userSettings = {
 };
 
 // ── CONFIG: paste your Cloudflare Worker URL here after deploying ──
-const WORKER_URL = 'PASTE_YOUR_WORKER_URL_HERE';
+// Worker URL — checks localStorage first so it persists across file updates
+// Set this once in Settings and it will survive every future upload
+const WORKER_URL_FALLBACK = 'PASTE_YOUR_WORKER_URL_HERE';
+function getWorkerUrl() {
+  return localStorage.getItem('mp_worker_url') || WORKER_URL_FALLBACK;
+}
+function workerUrlSet() {
+  const url = getWorkerUrl();
+  return url && url !== WORKER_URL_FALLBACK;
+}
 
 // ── PERSISTENCE ───────────────────────────────────────────────
 function saveState() {
@@ -1812,14 +1830,14 @@ function removeThumb(idx) {
 
 async function submitPhotos() {
   if(!scanImages.length) return;
-  if(!WORKER_URL || WORKER_URL === 'PASTE_YOUR_WORKER_URL_HERE') {
+  if(!workerUrlSet()) {
     showScanStatus('error','Worker URL not set — follow the setup guide first.'); return;
   }
   const count = scanImages.length;
   showScanStatus('loading', `🔍 Reading ${count>1?count+' photos':'your photo'}… about 10–15 seconds…`);
   document.getElementById('scan-result').style.display='none';
   try {
-    const resp = await fetch(WORKER_URL, {
+    const resp = await fetch(getWorkerUrl(), {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ images: scanImages.map(i=>({base64:i.base64,mediaType:i.mediaType})) })
     });
@@ -1837,13 +1855,13 @@ async function submitPhotos() {
 async function importFromUrl() {
   const url = document.getElementById('url-input').value.trim();
   if(!url || !url.startsWith('http')) { alert('Please paste a full URL starting with https://'); return; }
-  if(!WORKER_URL || WORKER_URL === 'PASTE_YOUR_WORKER_URL_HERE') {
+  if(!workerUrlSet()) {
     showScanStatus('error','Worker URL not set — follow the setup guide first.'); return;
   }
   document.getElementById('scan-result').style.display='none';
   showScanStatus('loading',`🔍 Fetching recipe from ${new URL(url).hostname}… about 15 seconds…`);
   try {
-    const resp = await fetch(WORKER_URL, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({recipeUrl:url})});
+    const resp = await fetch(getWorkerUrl(), {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({recipeUrl:url})});
     if(!resp.ok) throw new Error(await resp.text());
     const recipe = await resp.json();
     if(recipe.error) throw new Error(recipe.error);
@@ -1859,13 +1877,13 @@ async function importFromUrl() {
 async function submitTextRecipe() {
   const text = document.getElementById('text-recipe-input').value.trim();
   if(!text || text.length < 20) { alert('Please type or paste the recipe first.'); return; }
-  if(!WORKER_URL || WORKER_URL === 'PASTE_YOUR_WORKER_URL_HERE') {
+  if(!workerUrlSet()) {
     showScanStatus('error','Worker URL not set — follow the setup guide first.'); return;
   }
   document.getElementById('scan-result').style.display='none';
   showScanStatus('loading','🔍 Calculating macros and processing your recipe… about 10 seconds…');
   try {
-    const resp = await fetch(WORKER_URL, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({recipeText:text})});
+    const resp = await fetch(getWorkerUrl(), {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({recipeText:text})});
     if(!resp.ok) throw new Error(await resp.text());
     const recipe = await resp.json();
     if(recipe.error) throw new Error(recipe.error);
@@ -2600,6 +2618,15 @@ function saveSettings() {
   userSettings.lossRate = parseFloat(document.getElementById('s-rate').value)||0.5;
   userSettings.avoidances = document.getElementById('s-avoidances').value.trim();
 
+  // Save Worker URL to localStorage separately (persists across file updates)
+  const workerUrl = document.getElementById('s-worker-url').value.trim();
+  if(workerUrl && workerUrl.startsWith('http')) {
+    localStorage.setItem('mp_worker_url', workerUrl);
+    document.getElementById('s-worker-status').innerHTML = '✓ <span style="color:var(--green);">Worker URL saved — recipe scanning is active</span>';
+  } else if(workerUrl) {
+    document.getElementById('s-worker-status').innerHTML = '⚠️ <span style="color:var(--amber);">URL should start with https://</span>';
+  }
+
   // If targets haven't been previewed yet and profile is complete, calculate now
   // but only if the fields still show the old defaults (i.e. user hasn't touched them)
   const fieldsAreDefault =
@@ -2669,6 +2696,12 @@ function populateSettingsForm() {
   document.getElementById('s-t-carb').value = TARGETS.carb;
   document.getElementById('s-t-fat').value = TARGETS.fat;
   document.getElementById('s-t-fibre').value = TARGETS.fibre;
+  // Worker URL from localStorage
+  const savedWorkerUrl = localStorage.getItem('mp_worker_url') || '';
+  document.getElementById('s-worker-url').value = savedWorkerUrl;
+  document.getElementById('s-worker-status').innerHTML = savedWorkerUrl
+    ? '✓ <span style="color:var(--green);">Worker URL saved — recipe scanning is active</span>'
+    : '<span style="color:var(--text-hint);">Not set — paste your Worker URL above to enable recipe scanning</span>';
   updateSettingsUI();
 }
 
