@@ -1,0 +1,3052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Meal Planner</title>
+<style>
+  :root {
+    --green: #3B6D11; --green-light: #EAF3DE; --green-mid: #639922;
+    --teal: #0F6E56; --teal-light: #E1F5EE; --teal-mid: #1D9E75;
+    --amber: #854F0B; --amber-light: #FAEEDA; --amber-mid: #BA7517;
+    --coral: #993C1D; --coral-light: #FAECE7; --coral-mid: #D85A30;
+    --purple: #3C3489; --purple-light: #EEEDFE; --purple-mid: #7F77DD;
+    --gray: #444441; --gray-light: #F1EFE8; --gray-mid: #888780;
+    --text: #2C2C2A; --text-muted: #5F5E5A; --text-hint: #888780;
+    --bg: #ffffff; --bg-surface: #F8F7F4; --bg-page: #F1EFE8;
+    --border: rgba(0,0,0,0.12); --border-strong: rgba(0,0,0,0.22);
+    --radius: 10px; --radius-sm: 6px;
+    --target-cal: 1550; --target-prot: 115; --target-carb: 150; --target-fat: 55;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-page); color: var(--text); font-size: 15px; line-height: 1.5; }
+  
+  header { background: var(--green); color: white; padding: 1.25rem 1.5rem; display: flex; align-items: center; gap: 12px; }
+  header h1 { font-size: 20px; font-weight: 600; }
+  header span { font-size: 13px; opacity: 0.75; margin-left: auto; }
+
+  .tabs { display: flex; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0 1.5rem; gap: 0; }
+  .tab { padding: 12px 18px; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2.5px solid transparent; color: var(--text-muted); white-space: nowrap; }
+  .tab.active { border-bottom-color: var(--green); color: var(--green); }
+
+  .panel { display: none; padding: 1.25rem 1.5rem; }
+  .panel.active { display: block; }
+
+  /* PLANNER */
+  .week-toggle { display: flex; gap: 8px; margin-bottom: 1rem; }
+  .week-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border-strong); background: transparent; cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-muted); }
+  .week-btn.active { background: var(--green); color: white; border-color: var(--green); }
+
+  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 1rem; }
+  @media (max-width: 900px) { .day-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .day-col { background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+  .day-head { background: var(--green); color: white; padding: 6px 10px; font-size: 12px; font-weight: 600; text-align: center; }
+  .day-slots { padding: 6px; display: flex; flex-direction: column; gap: 5px; }
+
+  .slot { border-radius: var(--radius-sm); padding: 6px 8px; font-size: 12px; min-height: 52px; cursor: pointer; border: 1.5px dashed var(--border-strong); background: var(--bg-surface); position: relative; transition: background 0.15s; }
+  .slot:hover { border-color: var(--green-mid); }
+  .slot .slot-type { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-hint); margin-bottom: 2px; }
+  .slot.filled { border-style: solid; }
+  .slot.filled.breakfast { background: var(--amber-light); border-color: var(--amber-mid); }
+  .slot.filled.lunch { background: var(--teal-light); border-color: var(--teal-mid); }
+  .slot.filled.dinner { background: var(--purple-light); border-color: var(--purple-mid); }
+  .slot.filled.snack { background: var(--green-light); border-color: var(--green-mid); }
+  .slot .meal-name { font-size: 11px; font-weight: 500; color: var(--text); line-height: 1.3; }
+  .slot .slot-cals { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+  .slot .remove-btn { position: absolute; top: 4px; right: 4px; background: none; border: none; cursor: pointer; font-size: 14px; color: var(--text-hint); line-height: 1; display: none; }
+  .slot:hover .remove-btn { display: block; }
+
+  .day-totals { padding: 4px 8px 8px; }
+  .day-macro-bar { height: 4px; background: var(--bg-page); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+  .day-macro-fill { height: 100%; border-radius: 2px; background: var(--green-mid); transition: width 0.3s; }
+  .day-cal-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+  /* MACRO SUMMARY */
+  .macro-summary { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+  @media (max-width: 700px) { .macro-summary { grid-template-columns: repeat(3, 1fr); } }
+  .macro-card { background: var(--bg); border-radius: var(--radius); padding: 12px 14px; border: 1px solid var(--border); }
+  .macro-card .val { font-size: 22px; font-weight: 600; }
+  .macro-card .lbl { font-size: 11px; color: var(--text-muted); }
+  .macro-card .target { font-size: 11px; color: var(--text-hint); }
+  .macro-card.over .val { color: var(--coral); }
+  .macro-card.good .val { color: var(--green); }
+
+  /* RECIPE LIBRARY */
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+  .filter-btn { padding: 5px 12px; border-radius: 16px; border: 1px solid var(--border-strong); background: transparent; cursor: pointer; font-size: 13px; color: var(--text-muted); }
+  .filter-btn.active { background: var(--green); color: white; border-color: var(--green); }
+  .search-box { padding: 7px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); font-size: 14px; background: var(--bg); color: var(--text); flex: 1; min-width: 150px; }
+  .search-box:focus { outline: 2px solid var(--green-mid); outline-offset: 1px; }
+
+  .recipe-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .recipe-card { background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
+  .recipe-card .rc-head { padding: 10px 12px 6px; }
+  .recipe-card .rc-type { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+  .rc-type.breakfast { color: var(--amber); }
+  .rc-type.lunch { color: var(--teal); }
+  .rc-type.dinner { color: var(--purple); }
+  .rc-type.snack { color: var(--green); }
+  .rc-type.dessert { color: #B5338A; }
+  .rc-type.side { color: #2D7A3A; }
+  .recipe-card .rc-name { font-size: 14px; font-weight: 600; margin: 2px 0 4px; line-height: 1.3; }
+  .recipe-card .rc-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+  .recipe-card .rc-tags { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 12px; }
+  .tag { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 500; }
+  .tag.batch { background: var(--teal-light); color: var(--teal); }
+  .tag.kid { background: var(--amber-light); color: var(--amber); }
+  .tag.quick { background: var(--green-light); color: var(--green); }
+  .tag.slow { background: var(--purple-light); color: var(--purple); }
+  .tag.mexican { background: var(--coral-light); color: var(--coral); }
+  .tag.asian { background: #EEF2FB; color: #2D4A9A; }
+  .tag.curry { background: var(--amber-light); color: var(--amber); }
+  .recipe-card .rc-macros { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; border-top: 1px solid var(--border); }
+  .rc-macro { padding: 6px 4px; }
+  .rc-macro .mv { font-size: 13px; font-weight: 600; }
+  .rc-macro .ml { font-size: 10px; color: var(--text-hint); }
+  .recipe-card .rc-actions { padding: 8px 12px; border-top: 1px solid var(--border); display: flex; gap: 6px; }
+  .btn-add { flex: 1; padding: 6px; border-radius: var(--radius-sm); border: 1px solid var(--green); background: var(--green-light); color: var(--green); font-size: 12px; font-weight: 600; cursor: pointer; }
+  .btn-add:hover { background: var(--green); color: white; }
+  .btn-view { padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: transparent; color: var(--text-muted); font-size: 12px; cursor: pointer; }
+  .btn-view:hover { background: var(--bg-surface); }
+
+  /* RECIPE MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 100; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--bg); border-radius: var(--radius); max-width: 560px; width: 100%; max-height: 85vh; overflow-y: auto; }
+  .modal-head { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; position: sticky; top: 0; background: var(--bg); }
+  .modal-title { font-size: 17px; font-weight: 600; }
+  .modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); line-height: 1; padding: 0 4px; }
+  .modal-body { padding: 1rem 1.25rem; }
+  .modal-macros { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 1rem; }
+  .modal-macro { background: var(--bg-surface); border-radius: var(--radius-sm); padding: 8px; text-align: center; }
+  .modal-macro .v { font-size: 18px; font-weight: 600; }
+  .modal-macro .l { font-size: 11px; color: var(--text-muted); }
+  .modal h3 { font-size: 14px; font-weight: 600; margin: 1rem 0 6px; color: var(--text-muted); text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+  .modal ul, .modal ol { padding-left: 1.2rem; }
+  .modal li { font-size: 14px; margin-bottom: 4px; line-height: 1.5; }
+  .modal-add-btn { width: 100%; margin-top: 1rem; padding: 10px; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; }
+
+  /* ADD TO PLAN PICKER */
+  .picker { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 12px; }
+  .picker-day { padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--bg-surface); cursor: pointer; font-size: 13px; text-align: center; }
+  .picker-day:hover { background: var(--green-light); border-color: var(--green-mid); }
+  .picker-label { font-size: 13px; color: var(--text-muted); margin-top: 12px; margin-bottom: 4px; }
+
+  /* BATCH COOK */
+  .batch-section { background: var(--teal-light); border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 1rem; border: 1px solid var(--teal-mid); }
+  .batch-section h3 { font-size: 14px; font-weight: 600; color: var(--teal); margin-bottom: 8px; }
+  .batch-list { list-style: none; }
+  .batch-list li { font-size: 14px; padding: 4px 0; border-bottom: 1px solid rgba(0,0,0,0.07); display: flex; gap: 8px; align-items: baseline; }
+  .batch-list li:last-child { border-bottom: none; }
+  .batch-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal-mid); flex-shrink: 0; margin-top: 6px; }
+
+  .no-results { text-align: center; color: var(--text-muted); padding: 2rem; font-size: 14px; }
+  select.day-select { padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); font-size: 13px; background: var(--bg); color: var(--text); }
+
+  /* SCAN PANEL */
+  .scan-drop { border: 2px dashed var(--green-mid); border-radius: var(--radius); padding: 2rem; text-align: center; cursor: pointer; background: var(--green-light); transition: background 0.15s; margin-bottom: 1rem; }
+  .scan-drop:hover, .scan-drop.dragover { background: #d4eab8; }
+  .scan-drop input[type=file] { display: none; }
+  .scan-drop p { color: var(--green); font-size: 14px; margin-top: 8px; }
+  .scan-drop .scan-icon { font-size: 40px; }
+  .scan-preview { max-width: 100%; border-radius: var(--radius-sm); margin-bottom: 1rem; display: none; max-height: 280px; object-fit: contain; border: 1px solid var(--border); }
+  .scan-status { font-size: 14px; color: var(--text-muted); margin-bottom: 1rem; padding: 10px 14px; background: var(--bg-surface); border-radius: var(--radius-sm); border: 1px solid var(--border); display: none; }
+  .scan-status.loading { color: var(--amber); border-color: var(--amber-mid); background: var(--amber-light); }
+  .scan-status.error { color: var(--coral); border-color: var(--coral-mid); background: var(--coral-light); }
+  .scan-status.success { color: var(--green); border-color: var(--green-mid); background: var(--green-light); }
+  .scan-result { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; display: none; }
+  .scan-result h2 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+  .scan-result .sr-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 1rem; }
+  .field-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
+  .field-row label { font-size: 13px; color: var(--text-muted); width: 80px; flex-shrink: 0; }
+  .field-row input, .field-row select { flex: 1; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); font-size: 14px; background: var(--bg); color: var(--text); }
+  .field-row input:focus, .field-row select:focus { outline: 2px solid var(--green-mid); outline-offset: 1px; }
+  .macro-edit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 1rem 0; }
+  .macro-edit { background: var(--bg-surface); border-radius: var(--radius-sm); padding: 8px; text-align: center; }
+  .macro-edit label { font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+  .macro-edit input { width: 100%; padding: 4px 6px; border-radius: 4px; border: 1px solid var(--border-strong); font-size: 15px; font-weight: 600; text-align: center; background: var(--bg); color: var(--text); }
+  .macro-edit .macro-flag { font-size: 10px; margin-top: 3px; }
+  .macro-flag.over { color: var(--coral); }
+  .macro-flag.good { color: var(--green); }
+  .macro-flag.low { color: var(--amber); }
+  .adjust-note { font-size: 13px; color: var(--text-muted); background: var(--amber-light); border: 1px solid var(--amber-mid); border-radius: var(--radius-sm); padding: 10px 14px; margin: 10px 0; line-height: 1.5; display: none; }
+  .scan-ingredients { width: 100%; padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); font-size: 13px; min-height: 100px; resize: vertical; background: var(--bg); color: var(--text); font-family: inherit; line-height: 1.5; }
+  .scan-method { width: 100%; padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); font-size: 13px; min-height: 80px; resize: vertical; background: var(--bg); color: var(--text); font-family: inherit; line-height: 1.5; }
+  .tag-check-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+  .tag-check { display: flex; align-items: center; gap: 4px; font-size: 13px; cursor: pointer; }
+  .tag-check input { cursor: pointer; }
+  .meal-type-btn { padding:7px 14px; border-radius:20px; border:1.5px solid var(--border-strong); background:var(--bg-surface); color:var(--text-muted); font-size:13px; font-weight:500; cursor:pointer; transition:all 0.15s; }
+  .meal-type-btn.active { border-color:var(--green); background:var(--green); color:white; }
+  .save-scan-btn { width: 100%; padding: 12px; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 1rem; }
+  .save-scan-btn:hover { background: var(--green-mid); }
+  .save-scan-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .rescan-btn { width: 100%; padding: 8px; background: transparent; color: var(--text-muted); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 13px; cursor: pointer; margin-top: 6px; }
+  .section-divider { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-hint); margin: 1rem 0 6px; }
+
+  /* PRODUCTS PANEL */
+  .product-form { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem; }
+  .product-form h2 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .product-form p { font-size: 13px; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .product-grid .field-row { margin-bottom: 0; }
+  .product-tip { background: var(--amber-light); border: 1px solid var(--amber-mid); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 13px; color: var(--amber); line-height: 1.5; margin-bottom: 1rem; }
+  .product-tip strong { color: var(--amber); }
+  .add-product-btn { width: 100%; padding: 10px; background: var(--teal); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 1rem; }
+  .add-product-btn:hover { background: var(--teal-mid); }
+  .product-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+  .product-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .product-card .pc-head { padding: 10px 12px 6px; }
+  .product-card .pc-brand { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--teal); }
+  .product-card .pc-name { font-size: 14px; font-weight: 600; margin: 2px 0 2px; line-height: 1.3; }
+  .product-card .pc-serve { font-size: 12px; color: var(--text-muted); }
+  .product-card .pc-macros { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; border-top: 1px solid var(--border); }
+  .product-card .rc-actions { padding: 8px 12px; border-top: 1px solid var(--border); display: flex; gap: 6px; }
+  .btn-delete { padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--coral-mid); background: var(--coral-light); color: var(--coral); font-size: 12px; cursor: pointer; }
+  .btn-delete:hover { background: var(--coral); color: white; }
+  .no-products { text-align: center; color: var(--text-muted); padding: 2rem; font-size: 14px; }
+  .serving-note { font-size: 11px; color: var(--text-hint); margin-top: 4px; }
+  .per100-toggle { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); margin-bottom: 10px; cursor: pointer; }
+  .per100-toggle input { cursor: pointer; }
+
+
+  /* SHOPPING LIST */
+  .shop-top { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1rem; align-items: center; }
+  .shop-top input { flex: 1; min-width: 180px; padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); font-size: 14px; background: var(--bg); color: var(--text); }
+  .shop-top input:focus { outline: 2px solid var(--green-mid); outline-offset: 1px; }
+  .shop-add-btn { padding: 8px 16px; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .shop-add-btn:hover { background: var(--green-mid); }
+  .shop-actions { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .shop-action-btn { padding: 7px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--bg); color: var(--text-muted); font-size: 13px; cursor: pointer; font-weight: 500; }
+  .shop-action-btn:hover { background: var(--bg-surface); }
+  .shop-action-btn.danger { border-color: var(--coral-mid); color: var(--coral); }
+  .shop-action-btn.danger:hover { background: var(--coral-light); }
+  .shop-action-btn.copy { border-color: var(--teal-mid); color: var(--teal); }
+  .shop-action-btn.copy:hover { background: var(--teal-light); }
+  .shop-category { margin-bottom: 1.25rem; }
+  .shop-cat-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-hint); padding: 4px 0; border-bottom: 1px solid var(--border); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .shop-item { display: flex; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; gap: 12px; min-height: 56px; }
+  .shop-item:last-child { border-bottom: none; }
+  .shop-item:active { background: var(--bg-surface); }
+  .shop-item.done { opacity: 0.45; }
+  .shop-item.done .shop-item-text { text-decoration: line-through; }
+  .shop-checkbox { width: 26px; height: 26px; border-radius: 6px; border: 2px solid var(--border-strong); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; transition: all 0.15s; }
+  .shop-item.done .shop-checkbox { background: var(--green); border-color: var(--green); color: white; }
+  .shop-item-text { font-size: 15px; flex: 1; line-height: 1.4; }
+  .shop-item-source { font-size: 12px; color: var(--text-hint); margin-top: 2px; }
+  .shop-remove { background: var(--bg-surface); border: 1px solid var(--border-strong); border-radius: 6px; color: var(--text-muted); cursor: pointer; font-size: 16px; padding: 4px 10px; min-width: 36px; min-height: 36px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .shop-remove:active { background: var(--coral-light); border-color: var(--coral-mid); color: var(--coral); }
+  .shop-empty { text-align: center; color: var(--text-muted); padding: 3rem 1rem; font-size: 14px; line-height: 1.8; }
+  .qr-section { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-top: 1.5rem; text-align: center; }
+  .qr-section h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .qr-section p { font-size: 13px; color: var(--text-muted); margin-bottom: 1rem; }
+  #qr-canvas { border-radius: var(--radius-sm); }
+  .ing-add-btn { float: right; font-size: 11px; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--green-mid); background: var(--green-light); color: var(--green); cursor: pointer; font-weight: 600; margin-left: 8px; white-space: nowrap; }
+  .ing-add-btn:hover { background: var(--green); color: white; }
+  .ing-add-btn.added { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal); }
+
+  /* SCAN MODE TABS */
+  .scan-mode-tabs { display:flex; gap:8px; margin-bottom:1rem; }
+  .scan-mode-btn { flex:1; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border-strong); background:var(--bg); color:var(--text-muted); font-size:13px; font-weight:500; cursor:pointer; transition:all 0.15s; }
+  .scan-mode-btn.active { background:var(--green); color:white; border-color:var(--green); }
+  .scan-thumb { position:relative; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border); }
+  .scan-thumb img { width:100px; height:80px; object-fit:cover; display:block; }
+  .scan-thumb .thumb-del { position:absolute; top:3px; right:3px; background:rgba(0,0,0,0.6); color:white; border:none; border-radius:4px; cursor:pointer; font-size:14px; padding:1px 5px; line-height:1.4; }
+
+  /* URL IMPORT */
+  .rc-delete-btn { background: none; border: none; cursor: pointer; font-size: 14px; padding: 0; opacity: 0.4; transition: opacity 0.15s; }
+  .rc-delete-btn:hover { opacity: 1; }
+
+  /* SETTINGS PANEL */
+  .settings-section { background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem; margin-bottom:1rem; }
+  .settings-heading { font-size:15px; font-weight:600; margin-bottom:1rem; }
+  .settings-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:600px) { .settings-grid-2 { grid-template-columns:1fr; } }
+  .settings-field label { font-size:12px; color:var(--text-muted); display:block; margin-bottom:4px; font-weight:500; }
+  .mb-search-result { display:flex; align-items:center; padding:10px 12px; border-bottom:1px solid var(--border); cursor:pointer; gap:10px; }
+  .mb-search-result:hover, .mb-search-result:active { background:var(--green-light); }
+  .mb-search-result .mb-r-name { font-size:14px; flex:1; }
+  .mb-search-result .mb-r-cal { font-size:12px; color:var(--text-muted); white-space:nowrap; }
+  .mb-search-result .mb-r-badge { font-size:10px; padding:2px 6px; border-radius:8px; background:var(--bg-surface); color:var(--text-hint); }
+  .mb-ing-row { display:flex; align-items:center; padding:8px 12px; border-bottom:1px solid var(--border); gap:8px; }
+  .mb-ing-row:last-child { border-bottom:none; }
+  .mb-ing-name { font-size:14px; flex:1; line-height:1.3; }
+  .mb-ing-macros { font-size:11px; color:var(--text-muted); }
+  .mb-ing-del { background:none; border:none; cursor:pointer; font-size:18px; color:var(--text-hint); padding:0 4px; min-width:32px; min-height:32px; display:flex; align-items:center; justify-content:center; }
+  .mb-ing-del:active { color:var(--coral); }
+  .mb-field { width:100%; padding:9px 12px; border-radius:var(--radius-sm); border:1px solid var(--border-strong); font-size:14px; background:var(--bg); color:var(--text); }
+  .mb-field:focus { outline:2px solid var(--green-mid); outline-offset:1px; }
+
+  /* EATEN BUTTON on meal slots */
+  .eaten-btn { font-size:10px; padding:3px 7px; border-radius:8px; border:1px solid var(--border-strong); background:var(--bg-surface); color:var(--text-hint); cursor:pointer; white-space:nowrap; min-height:24px; }
+  .eaten-btn.active { background:var(--green); border-color:var(--green); color:white; }
+  .build-meal-btn { font-size:10px; padding:3px 7px; border-radius:8px; border:1px solid var(--teal-mid); background:var(--teal-light); color:var(--teal); cursor:pointer; white-space:nowrap; min-height:24px; text-align:left; }
+  .build-meal-btn:active { background:var(--teal); color:white; }
+  .slot-actions { display:flex; gap:4px; flex-wrap:wrap; margin-top:5px; }
+  .url-import-box { border: 2px solid var(--teal-mid); border-radius: var(--radius); padding: 1.25rem; text-align: center; background: var(--teal-light); margin-bottom: 0; }
+  .url-import-icon { font-size: 32px; margin-bottom: 6px; }
+  .url-import-btn { padding: 8px 18px; background: var(--teal); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+  .url-import-btn:hover { background: var(--teal-mid); }
+  .url-import-divider { text-align: center; margin: 1rem 0; position: relative; }
+  .url-import-divider::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--border); }
+  .url-import-divider span { background: var(--bg-page); padding: 0 12px; position: relative; font-size: 12px; color: var(--text-hint); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🥗 <span id="header-name">My Meal Planner</span></h1>
+  </div>
+  <span id="header-targets">Target: 1,550 cal · 115g protein/day</span>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('planner',this)">Weekly Planner</div>
+  <div class="tab" onclick="switchTab('library',this)">Recipe Library</div>
+  <div class="tab" onclick="switchTab('batch',this)">Batch Cook Guide</div>
+  <div class="tab" onclick="switchTab('scan',this)" id="scan-tab">📷 Scan Recipe</div>
+  <div class="tab" onclick="switchTab('products',this)">🛒 My Products</div>
+  <div class="tab" onclick="switchTab('shopping',this)">📋 Shopping List</div>
+  <div class="tab" onclick="switchTab('extras',this)">🍫 Extras</div>
+  <div class="tab" onclick="switchTab('settings',this)">⚙️ Settings</div>
+</div>
+
+<div id="planner" class="panel active">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:1rem;">
+    <span style="font-size:13px;font-weight:600;color:var(--text-muted);">Viewing:</span>
+    <button class="week-btn active" id="view-solo-btn" onclick="setViewWeek('solo')">Solo week</button>
+    <button class="week-btn" id="view-kid-btn" onclick="setViewWeek('kid')">Kid week 👦</button>
+    <button class="week-btn" id="view-both-btn" onclick="setViewWeek('both')">Both weeks</button>
+    <div style="flex:1;"></div>
+    <button onclick="clearWeek(currentWeek)" style="padding:5px 12px;border-radius:var(--radius-sm);border:1px solid var(--coral-mid);background:var(--coral-light);color:var(--coral);font-size:12px;cursor:pointer;font-weight:500;">🗑 Clear this week</button>
+  </div>
+
+  <div class="macro-summary" id="macro-summary">
+    <div class="macro-card" id="ms-cal"><div class="val">0</div><div class="lbl">Avg calories</div><div class="target">Target: 1,550</div></div>
+    <div class="macro-card" id="ms-prot"><div class="val">0g</div><div class="lbl">Avg protein</div><div class="target">Target: 115g</div></div>
+    <div class="macro-card" id="ms-carb"><div class="val">0g</div><div class="lbl">Avg carbs</div><div class="target">Target: 150g</div></div>
+    <div class="macro-card" id="ms-fat"><div class="val">0g</div><div class="lbl">Avg fat</div><div class="target">Target: 55g</div></div>
+    <div class="macro-card" id="ms-fibre"><div class="val">0g</div><div class="lbl">Avg fibre</div><div class="target">Target: 25g</div></div>
+  </div>
+
+  <div id="planner-weeks"></div>
+  <p style="font-size:12px;color:var(--text-hint);margin-top:8px;">Tap any meal slot to browse recipes and add a meal. Changes save automatically.</p>
+</div>
+
+<div id="library" class="panel">
+  <div class="filter-row">
+    <input class="search-box" type="text" placeholder="Search recipes or ingredients e.g. chicken, chickpeas, coconut milk…" oninput="filterRecipes()" id="search-input">
+    <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn" onclick="setFilter('breakfast',this)">Breakfast</button>
+    <button class="filter-btn" onclick="setFilter('lunch',this)">Lunch</button>
+    <button class="filter-btn" onclick="setFilter('dinner',this)">Dinner</button>
+    <button class="filter-btn" onclick="setFilter('snack',this)">Snack</button>
+    <button class="filter-btn" onclick="setFilter('dessert',this)">🍰 Dessert</button>
+    <button class="filter-btn" onclick="setFilter('side',this)">🥗 Side dish</button>
+    <button class="filter-btn" onclick="setFilter('batch',this)">🧊 Batch cook</button>
+    <button class="filter-btn" onclick="setFilter('kid',this)">👦 Kid-friendly</button>
+    <button class="filter-btn" onclick="setFilter('quick',this)">⚡ Quick</button>
+  </div>
+  <div class="recipe-grid" id="recipe-grid"></div>
+</div>
+
+<div id="batch" class="panel">
+  <div class="batch-section">
+    <h3>🕐 Sunday batch cook (2 hrs)</h3>
+    <p style="font-size:13px;color:var(--teal);margin-bottom:10px;">Make these once and they cover 4–5 weekday lunches.</p>
+    <ul class="batch-list" id="batch-sunday"></ul>
+  </div>
+  <div class="batch-section" style="background:var(--amber-light);border-color:var(--amber-mid);">
+    <h3 style="color:var(--amber);">🕑 Wednesday refresh (30 min)</h3>
+    <p style="font-size:13px;color:var(--amber);margin-bottom:10px;">Top up or swap mid-week if needed.</p>
+    <ul class="batch-list" id="batch-wed"></ul>
+  </div>
+  <div class="batch-section" style="background:var(--purple-light);border-color:var(--purple-mid);">
+    <h3 style="color:var(--purple);">💡 Slow cooker tips for winter</h3>
+    <ul class="batch-list" id="batch-slow"></ul>
+  </div>
+</div>
+
+<!-- SCAN PANEL -->
+<div id="scan" class="panel">
+
+  <!-- Mode selector tabs -->
+  <div class="scan-mode-tabs">
+    <button class="scan-mode-btn active" id="smode-photo-btn" onclick="setScanMode('photo',this)">📷 Photo(s)</button>
+    <button class="scan-mode-btn" id="smode-url-btn" onclick="setScanMode('url',this)">🔗 URL</button>
+    <button class="scan-mode-btn" id="smode-text-btn" onclick="setScanMode('text',this)">✏️ Type recipe</button>
+  </div>
+
+  <!-- PHOTO MODE (supports multiple) -->
+  <div id="scan-mode-photo">
+    <div class="scan-drop" id="scan-drop" onclick="document.getElementById('file-input').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+      <input type="file" id="file-input" accept="image/*" multiple onchange="handleFileSelect(event)">
+      <div class="scan-icon">📷</div>
+      <p><strong>Tap to upload one or more photos</strong></p>
+      <p style="font-size:12px;margin-top:4px;">Select multiple images — e.g. one for ingredients, one for method</p>
+    </div>
+    <!-- Image thumbnail previews -->
+    <div id="scan-thumbs" style="display:none;margin-bottom:1rem;">
+      <p style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:8px;" id="scan-thumb-label"></p>
+      <div id="scan-thumb-grid" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+      <button onclick="submitPhotos()" id="scan-submit-btn" style="width:100%;margin-top:12px;padding:11px;background:var(--green);color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;">Extract recipe from photo(s) →</button>
+      <button onclick="resetScan()" style="width:100%;margin-top:6px;padding:8px;background:transparent;border:1px solid var(--border-strong);border-radius:var(--radius-sm);font-size:13px;color:var(--text-muted);cursor:pointer;">✕ Clear and start again</button>
+    </div>
+  </div>
+
+  <!-- URL MODE -->
+  <div id="scan-mode-url" style="display:none;">
+    <div class="url-import-box" id="url-import-box">
+      <div class="url-import-icon">🔗</div>
+      <p style="font-weight:600;margin-bottom:4px;">Paste a recipe URL</p>
+      <p style="font-size:12px;color:var(--teal);margin-bottom:12px;">Works with RecipeTin Eats, Taste, Delicious, BBC Good Food, and most recipe sites</p>
+      <div style="display:flex;gap:8px;">
+        <input type="url" id="url-input" placeholder="https://www.recipetineats.com/butter-chicken/" style="flex:1;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);font-size:14px;background:var(--bg);color:var(--text);">
+        <button onclick="importFromUrl()" class="url-import-btn">Import →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEXT MODE -->
+  <div id="scan-mode-text" style="display:none;">
+    <div style="background:var(--purple-light);border:2px solid var(--purple-mid);border-radius:var(--radius);padding:1.25rem;">
+      <div style="font-size:32px;margin-bottom:6px;text-align:center;">✏️</div>
+      <p style="font-weight:600;text-align:center;margin-bottom:4px;">Type or paste a recipe</p>
+      <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:12px;">Copy from a website, type from a cookbook, or describe what you made</p>
+      <textarea id="text-recipe-input" placeholder="e.g.:&#10;Slow cooker chicken curry&#10;&#10;Ingredients:&#10;600g chicken thighs&#10;1 can coconut milk&#10;2 tbsp curry paste&#10;1 onion&#10;&#10;Method:&#10;Add everything to the slow cooker. Cook on low 6 hours." style="width:100%;min-height:200px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);font-size:14px;font-family:inherit;background:var(--bg);color:var(--text);resize:vertical;line-height:1.5;margin-bottom:10px;"></textarea>
+      <button onclick="submitTextRecipe()" style="width:100%;padding:11px;background:var(--purple-mid);color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;">Calculate macros & add to library →</button>
+    </div>
+  </div>
+
+  <!-- Shared status + result -->
+  <div id="scan-status" class="scan-status" style="margin-top:1rem;"></div>
+  <div id="scan-result" class="scan-result">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px;">
+      <div>
+        <div id="sr-type-badge" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;"></div>
+        <h2 id="sr-name">Recipe name</h2>
+        <p class="sr-desc" id="sr-desc"></p>
+      </div>
+    </div>
+
+    <div class="section-divider">Meal details</div>
+    <div class="field-row">
+      <label>Name</label>
+      <input type="text" id="sr-name-input" placeholder="Recipe name">
+    </div>
+    <div style="margin-bottom:10px;">
+      <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:8px;">Meal type <span style="font-weight:400;color:var(--text-hint);">— tap to change</span></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="meal-type-btn" id="mtype-breakfast" onclick="setMealType('breakfast')">🌅 Breakfast</button>
+        <button class="meal-type-btn" id="mtype-lunch" onclick="setMealType('lunch')">🥗 Lunch</button>
+        <button class="meal-type-btn active" id="mtype-dinner" onclick="setMealType('dinner')">🍽 Dinner</button>
+        <button class="meal-type-btn" id="mtype-snack" onclick="setMealType('snack')">🍎 Snack</button>
+        <button class="meal-type-btn" id="mtype-dessert" onclick="setMealType('dessert')">🍰 Dessert</button>
+        <button class="meal-type-btn" id="mtype-side" onclick="setMealType('side')">🥗 Side dish</button>
+      </div>
+      <input type="hidden" id="sr-type-select" value="dinner">
+    </div>
+    <div style="margin-bottom:10px;">
+      <label style="font-size:12px;font-weight:600;color:var(--text-muted);display:block;margin-bottom:4px;">Serves <span style="font-weight:400;color:var(--text-hint);">— change to recalculate macros per serve</span></label>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input type="number" id="sr-serves-input" placeholder="e.g. 4" min="1" max="30" oninput="recalcMacrosForServes()" style="width:90px;padding:7px 10px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);font-size:15px;font-weight:600;background:var(--bg);color:var(--text);">
+        <span id="sr-portion-size" style="font-size:13px;color:var(--teal);"></span>
+      </div>
+    </div>
+    <div id="sr-source-row" style="display:none;margin-bottom:8px;font-size:12px;color:var(--text-hint);">
+      📌 Source: <span id="sr-source-url" style="color:var(--teal);"></span>
+    </div>
+    <div id="sr-comparison-row" style="display:none;"></div>
+
+    <div class="section-divider">Macros per serve <span style="font-weight:400;text-transform:none;letter-spacing:0;">(edit if needed)</span></div>
+    <div class="macro-edit-grid">
+      <div class="macro-edit">
+        <label>Calories</label>
+        <input type="number" id="sr-cal" oninput="checkMacros()">
+        <div class="macro-flag" id="flag-cal"></div>
+      </div>
+      <div class="macro-edit">
+        <label>Protein (g)</label>
+        <input type="number" id="sr-prot" oninput="checkMacros()">
+        <div class="macro-flag" id="flag-prot"></div>
+      </div>
+      <div class="macro-edit">
+        <label>Carbs (g)</label>
+        <input type="number" id="sr-carb" oninput="checkMacros()">
+        <div class="macro-flag" id="flag-carb"></div>
+      </div>
+      <div class="macro-edit">
+        <label>Fat (g)</label>
+        <input type="number" id="sr-fat" oninput="checkMacros()">
+        <div class="macro-flag" id="flag-fat"></div>
+      </div>
+    </div>
+    <div class="adjust-note" id="adjust-note"></div>
+
+    <div class="section-divider">Ingredients (one per line)</div>
+    <textarea class="scan-ingredients" id="sr-ingredients" rows="6"></textarea>
+
+    <div class="section-divider">Method (one step per line)</div>
+    <textarea class="scan-method" id="sr-method" rows="5"></textarea>
+
+    <div class="section-divider">Tags</div>
+    <div class="tag-check-row">
+      <label class="tag-check"><input type="checkbox" id="tag-batch"> 🧊 Batch cook</label>
+      <label class="tag-check"><input type="checkbox" id="tag-kid"> 👦 Kid-friendly</label>
+      <label class="tag-check"><input type="checkbox" id="tag-quick"> ⚡ Quick</label>
+      <label class="tag-check"><input type="checkbox" id="tag-slow"> 🍲 Slow cooker</label>
+      <label class="tag-check"><input type="checkbox" id="tag-mexican"> 🌮 Mexican</label>
+      <label class="tag-check"><input type="checkbox" id="tag-asian"> 🥢 Asian</label>
+      <label class="tag-check"><input type="checkbox" id="tag-curry"> 🍛 Curry</label>
+    </div>
+
+    <button class="save-scan-btn" id="save-scan-btn" onclick="saveScannedRecipe()">✓ Save to my recipe library</button>
+    <button class="rescan-btn" onclick="resetScan()">↩ Scan a different photo</button>
+  </div>
+</div>
+
+<!-- PRODUCTS PANEL -->
+<div id="products" class="panel">
+  <div class="product-tip">
+    <strong>💡 How this works:</strong> Enter the nutritional info from any product label — Greek yoghurt, protein bars, crackers, whatever you buy regularly. Choose whether the numbers on the label are per 100g or per serve. It gets added to your recipe library so you can slot it into any day's plan and it counts toward your macros.
+  </div>
+
+  <div class="product-form">
+    <h2>Add a product from its label</h2>
+    <p>Fill in the details from the nutrition information panel. You can find this on the back or side of the packet.</p>
+
+    <div class="field-row" style="margin-bottom:8px;">
+      <label>Brand</label>
+      <input type="text" id="p-brand" placeholder="e.g. Chobani, Sanitarium, Nature's Way">
+    </div>
+    <div class="field-row" style="margin-bottom:8px;">
+      <label>Product name</label>
+      <input type="text" id="p-name" placeholder="e.g. High Protein Greek Yoghurt Plain">
+    </div>
+    <div class="field-row" style="margin-bottom:8px;">
+      <label>Serve size</label>
+      <input type="text" id="p-serve" placeholder="e.g. 170g, 1 bar (45g), 2 biscuits (20g)">
+    </div>
+    <div class="field-row" style="margin-bottom:12px;">
+      <label>Meal slot</label>
+      <select id="p-type">
+        <option value="snack" selected>Snack</option>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+      </select>
+    </div>
+
+    <label class="per100-toggle">
+      <input type="checkbox" id="p-per100" onchange="togglePer100()">
+      Label shows values per 100g (not per serve) — I'll enter my serve size separately
+    </label>
+    <div id="p-100g-row" style="display:none;" class="field-row" style="margin-bottom:8px;">
+      <label>My serve (g)</label>
+      <input type="number" id="p-myserve" placeholder="e.g. 170" oninput="calcPer100()">
+    </div>
+
+    <div class="section-divider">Nutrition per serve <span id="per100-label" style="font-weight:400;text-transform:none;letter-spacing:0;font-size:12px;"></span></div>
+    <div class="product-grid">
+      <div class="field-row">
+        <label>Calories</label>
+        <input type="number" id="p-cal" placeholder="e.g. 150" oninput="calcPer100()">
+      </div>
+      <div class="field-row">
+        <label>Protein (g)</label>
+        <input type="number" id="p-prot" placeholder="e.g. 17" oninput="calcPer100()">
+      </div>
+      <div class="field-row">
+        <label>Carbs (g)</label>
+        <input type="number" id="p-carb" placeholder="e.g. 9" oninput="calcPer100()">
+      </div>
+      <div class="field-row">
+        <label>Fat (g)</label>
+        <input type="number" id="p-fat" placeholder="e.g. 2" oninput="calcPer100()">
+      </div>
+    </div>
+    <div id="p-calc-preview" style="display:none;margin-top:8px;padding:10px;background:var(--teal-light);border-radius:var(--radius-sm);font-size:13px;color:var(--teal);"></div>
+
+    <div class="field-row" style="margin-top:8px;">
+      <label>Notes</label>
+      <input type="text" id="p-notes" placeholder="e.g. Available at Woolworths, great post-gym">
+    </div>
+    <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;">
+      <label class="tag-check"><input type="checkbox" id="ptag-kid"> 👦 Kid-friendly</label>
+      <label class="tag-check"><input type="checkbox" id="ptag-quick" checked> ⚡ Quick</label>
+      <label class="tag-check"><input type="checkbox" id="ptag-batch"> 🧊 Batch (buy in bulk)</label>
+    </div>
+
+    <button class="add-product-btn" onclick="addProduct()">+ Add to my library</button>
+  </div>
+
+  <div id="product-list-section">
+    <p style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px;">MY SAVED PRODUCTS</p>
+    <div class="product-list" id="product-list">
+      <div class="no-products">No products added yet. Fill in the form above to add your first one.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOPPING LIST PANEL -->
+<div id="shopping" class="panel">
+  <div class="shop-top">
+    <input type="text" id="shop-input" placeholder="Add an item, e.g. Sourdough bread" onkeydown="if(event.key==='Enter')addShopItem()">
+    <button class="shop-add-btn" onclick="addShopItem()">+ Add</button>
+  </div>
+  <div class="shop-actions">
+    <button class="shop-action-btn" onclick="generateFromPlan()" style="border-color:var(--green-mid);color:var(--green);background:var(--green-light);">📋 Generate from plan</button>
+    <button class="shop-action-btn copy" onclick="copyList()">📋 Copy list</button>
+    <button class="shop-action-btn" onclick="clearDone()">✓ Clear ticked</button>
+    <button class="shop-action-btn danger" onclick="clearAll()">🗑 Clear all</button>
+  </div>
+  <div id="shop-list-container"></div>
+  <div class="qr-section" id="qr-section" style="display:none;">
+    <h3>📱 Open on your phone</h3>
+    <p>Scan this QR code in the supermarket — opens your list directly in your phone browser.</p>
+    <canvas id="qr-canvas" width="180" height="180"></canvas>
+    <p style="font-size:11px;color:var(--text-hint);margin-top:8px;">QR code updates as you add items</p>
+  </div>
+</div>
+
+<!-- EXTRAS PANEL -->
+<div id="extras" class="panel">
+  <div style="background:var(--amber-light);border:1px solid var(--amber-mid);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem;font-size:13px;color:var(--amber);line-height:1.6;">
+    <strong>No judgement here.</strong> Log what you actually ate — chips, Tim Tams, pizza, whatever. The weekly balance below shows you the full picture so you can adjust if you want to.
+  </div>
+
+  <!-- WEEKLY BALANCE -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.25rem;">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
+      <p style="font-size:14px;font-weight:600;">This week's balance</p>
+      <p style="font-size:12px;color:var(--text-muted);">Target: 10,850 cal/week</p>
+    </div>
+    <div id="weekly-balance-bar-wrap" style="background:var(--bg-page);border-radius:4px;height:10px;margin-bottom:6px;overflow:hidden;">
+      <div id="weekly-balance-bar" style="height:100%;border-radius:4px;background:var(--green-mid);transition:width 0.4s;"></div>
+    </div>
+    <div id="weekly-balance-label" style="font-size:13px;color:var(--text-muted);"></div>
+    <div id="weekly-day-breakdown" style="margin-top:12px;display:grid;grid-template-columns:repeat(7,1fr);gap:6px;"></div>
+  </div>
+
+  <!-- LOG AN EXTRA -->
+  <p style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;">Log something you ate</p>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1.25rem;">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;" id="quick-treats-row"></div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <input type="text" id="extra-name-input" placeholder="Something else, e.g. Glass of wine" style="flex:1;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);font-size:14px;background:var(--bg);color:var(--text);">
+      <input type="number" id="extra-cal-input" placeholder="cal" style="width:80px;padding:8px 10px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);font-size:14px;background:var(--bg);color:var(--text);">
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+      <label style="font-size:13px;color:var(--text-muted);width:60px;flex-shrink:0;">Add to day</label>
+      <select id="extra-day-select" style="flex:1;padding:7px 10px;border-radius:var(--radius-sm);border:1px solid var(--border-strong);font-size:13px;background:var(--bg);color:var(--text);">
+        <option value="Mon">Monday</option><option value="Tue">Tuesday</option><option value="Wed">Wednesday</option>
+        <option value="Thu">Thursday</option><option value="Fri">Friday</option><option value="Sat">Saturday</option><option value="Sun">Sunday</option>
+      </select>
+    </div>
+    <button onclick="logExtra()" style="width:100%;padding:10px;background:var(--amber);color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;">+ Log this</button>
+  </div>
+
+  <!-- TODAY'S EXTRAS LOG -->
+  <p style="font-size:13px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;">Logged extras this week</p>
+  <div id="extras-log-list" style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;"></div>
+</div>
+
+<!-- MEAL BUILDER MODAL -->
+<div class="modal-overlay" id="mb-overlay" onclick="closeMBOverlay(event)">
+  <div class="modal" id="mb-modal" style="max-width:580px;">
+    <div class="modal-head" style="position:sticky;top:0;background:var(--bg);z-index:1;">
+      <div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--teal);margin-bottom:3px;">🍳 BUILD A MEAL</div>
+        <div class="modal-title">Add ingredients & calculate macros</div>
+      </div>
+      <button class="modal-close" onclick="closeMB()">×</button>
+    </div>
+    <div class="modal-body">
+      <!-- Name + slots -->
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px;">Meal name</label>
+        <input type="text" id="mb-name" class="mb-field" placeholder="e.g. Toasted cheese & tomato sandwich">
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem;">
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px;">Type</label>
+          <select id="mb-type" class="mb-field" style="padding:8px 10px;">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch" selected>Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snack">Snack</option>
+            <option value="dessert">🍰 Dessert</option>
+            <option value="side">🥗 Side dish</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px;">Day</label>
+          <select id="mb-day" class="mb-field" style="padding:8px 10px;">
+            <option>Mon</option><option>Tue</option><option>Wed</option><option>Thu</option><option>Fri</option><option>Sat</option><option>Sun</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px;">Week</label>
+          <select id="mb-week" class="mb-field" style="padding:8px 10px;">
+            <option value="solo">Solo</option>
+            <option value="kid">Kid week</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Ingredient search -->
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-hint);margin-bottom:8px;">Search ingredients</div>
+      <input type="text" id="mb-search" class="mb-field" placeholder="Search e.g. sourdough, butter, chicken breast…" oninput="mbSearch()" style="margin-bottom:6px;">
+      <div id="mb-results" style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm);display:none;background:var(--bg);margin-bottom:8px;"></div>
+
+      <!-- Selected ingredient qty picker -->
+      <div id="mb-qty-picker" style="display:none;background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:var(--radius-sm);padding:12px;margin-bottom:10px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:8px;" id="mb-sel-name"></div>
+        <div style="font-size:12px;color:var(--teal);margin-bottom:10px;" id="mb-sel-per100">per 100g</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <input type="number" id="mb-qty" class="mb-field" placeholder="Qty" min="1" oninput="mbUpdateQtyPreview()" style="width:90px;">
+          <select id="mb-unit" class="mb-field" onchange="mbUpdateQtyPreview()" style="width:110px;">
+            <option value="g">grams</option>
+            <option value="ml">ml</option>
+            <option value="tsp">tsp (~5g)</option>
+            <option value="tbsp">tbsp (~15g)</option>
+            <option value="cup">cup (~240ml)</option>
+            <option value="serving">serving</option>
+          </select>
+          <span id="mb-qty-preview" style="font-size:12px;color:var(--teal);flex:1;"></span>
+          <button onclick="mbAddIngredient()" style="padding:8px 16px;background:var(--green);color:white;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;">+ Add</button>
+        </div>
+      </div>
+
+      <!-- Ingredient list -->
+      <div id="mb-ing-list" style="border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);margin-bottom:1rem;min-height:40px;display:none;">
+        <div style="padding:8px 12px;font-size:12px;color:var(--text-hint);" id="mb-ing-empty">No ingredients added yet.</div>
+      </div>
+
+      <!-- Totals -->
+      <div id="mb-totals" style="display:none;background:var(--bg-surface);border-radius:var(--radius-sm);padding:14px;margin-bottom:1rem;">
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;margin-bottom:10px;">
+          <div><div style="font-size:20px;font-weight:600;color:var(--text);" id="mb-t-cal">0</div><div style="font-size:11px;color:var(--text-muted);">cal</div></div>
+          <div><div style="font-size:20px;font-weight:600;color:var(--text);" id="mb-t-prot">0g</div><div style="font-size:11px;color:var(--text-muted);">protein</div></div>
+          <div><div style="font-size:20px;font-weight:600;color:var(--text);" id="mb-t-carb">0g</div><div style="font-size:11px;color:var(--text-muted);">carbs</div></div>
+          <div><div style="font-size:20px;font-weight:600;color:var(--text);" id="mb-t-fat">0g</div><div style="font-size:11px;color:var(--text-muted);">fat</div></div>
+          <div><div style="font-size:20px;font-weight:600;color:var(--text);" id="mb-t-fibre">0g</div><div style="font-size:11px;color:var(--text-muted);">fibre</div></div>
+        </div>
+        <div id="mb-target-note" style="font-size:12px;color:var(--text-muted);text-align:center;line-height:1.5;"></div>
+      </div>
+
+      <button onclick="mbSave(false)" id="mb-save-btn" style="width:100%;padding:12px;background:var(--green);color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px;">✓ Add to planner</button>
+      <button onclick="mbSave(true)" style="width:100%;padding:9px;background:transparent;color:var(--green);border:1px solid var(--green-mid);border-radius:var(--radius-sm);font-size:13px;cursor:pointer;">+ Add to planner & save to recipe library</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div id="settings" class="panel">
+  <div style="max-width:640px;">
+
+    <!-- PROFILE -->
+    <div class="settings-section">
+      <h2 class="settings-heading">👤 Your profile</h2>
+      <div class="settings-grid-2">
+        <div class="settings-field">
+          <label>Your name</label>
+          <input type="text" id="s-name" class="mb-field" placeholder="e.g. Megan">
+        </div>
+        <div class="settings-field">
+          <label>Gender</label>
+          <select id="s-gender" class="mb-field" onchange="updateSettingsUI()">
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+            <option value="other">Other / prefer not to say</option>
+          </select>
+        </div>
+        <div class="settings-field">
+          <label>Age (years)</label>
+          <input type="number" id="s-age" class="mb-field" min="16" max="100" placeholder="e.g. 49">
+        </div>
+        <div class="settings-field">
+          <label>Current weight (kg)</label>
+          <input type="number" id="s-weight" class="mb-field" min="30" max="300" placeholder="e.g. 72" step="0.1">
+        </div>
+        <div class="settings-field">
+          <label>Height (cm)</label>
+          <input type="number" id="s-height" class="mb-field" min="100" max="230" placeholder="e.g. 165">
+        </div>
+        <div class="settings-field" id="s-postmeno-row">
+          <label>Hormonal status</label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg);">
+            <input type="checkbox" id="s-postmeno" style="width:16px;height:16px;cursor:pointer;" onchange="updateSettingsUI()">
+            Post-menopausal
+          </label>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Increases protein & calcium recommendations</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GOAL -->
+    <div class="settings-section">
+      <h2 class="settings-heading">🎯 Goal & activity</h2>
+      <div class="settings-grid-2">
+        <div class="settings-field">
+          <label>My goal</label>
+          <select id="s-goal" class="mb-field" onchange="updateSettingsUI()">
+            <option value="lose">Lose weight</option>
+            <option value="maintain">Maintain weight</option>
+            <option value="gain">Build muscle / gain</option>
+          </select>
+        </div>
+        <div class="settings-field" id="s-rate-row">
+          <label>Rate of change</label>
+          <select id="s-rate" class="mb-field">
+            <option value="0.25">0.25 kg/week — gentle</option>
+            <option value="0.5" selected>0.5 kg/week — moderate</option>
+            <option value="0.75">0.75 kg/week — faster</option>
+          </select>
+        </div>
+        <div class="settings-field" style="grid-column:1/-1;">
+          <label>Activity level</label>
+          <select id="s-activity" class="mb-field">
+            <option value="sedentary">Sedentary — desk job, little or no exercise</option>
+            <option value="light">Lightly active — light exercise 1–3 days/week</option>
+            <option value="moderate" selected>Moderately active — gym or exercise 3–5 days/week</option>
+            <option value="active">Very active — hard exercise 6–7 days/week</option>
+            <option value="very_active">Extremely active — physical job + daily exercise</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- CALCULATE -->
+    <div class="settings-section">
+      <h2 class="settings-heading">🧮 Recommended targets</h2>
+      <button onclick="runCalculation()" style="width:100%;padding:11px;background:var(--teal);color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:12px;">🧮 Preview calculated targets</button>
+      <div id="s-calc-working" style="display:none;background:var(--bg-surface);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px;font-size:13px;line-height:1.8;color:var(--text-muted);"></div>
+      <p style="font-size:12px;color:var(--text-hint);margin-bottom:10px;">Targets calculate automatically when you save. Preview them above first if you like. Edit any field if your GP or dietitian has given you different advice.</p>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+        <div class="settings-field">
+          <label>Calories</label>
+          <input type="number" id="s-t-cal" class="mb-field" style="text-align:center;">
+        </div>
+        <div class="settings-field">
+          <label>Protein (g)</label>
+          <input type="number" id="s-t-prot" class="mb-field" style="text-align:center;">
+        </div>
+        <div class="settings-field">
+          <label>Carbs (g)</label>
+          <input type="number" id="s-t-carb" class="mb-field" style="text-align:center;">
+        </div>
+        <div class="settings-field">
+          <label>Fat (g)</label>
+          <input type="number" id="s-t-fat" class="mb-field" style="text-align:center;">
+        </div>
+        <div class="settings-field">
+          <label>Fibre (g)</label>
+          <input type="number" id="s-t-fibre" class="mb-field" style="text-align:center;">
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOD AVOIDANCES -->
+    <div class="settings-section">
+      <h2 class="settings-heading">🚫 Foods I avoid</h2>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px;">Used as a reminder when importing recipes. Separate with commas.</p>
+      <input type="text" id="s-avoidances" class="mb-field" placeholder="e.g. seafood, pumpkin, melon, boiled eggs">
+    </div>
+
+    <!-- WORKER URL -->
+    <div class="settings-section">
+      <h2 class="settings-heading">🔧 Recipe scan setup</h2>
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">Your Cloudflare Worker URL — saved here so you never need to edit the HTML file again.</p>
+      <p style="font-size:12px;color:var(--text-hint);margin-bottom:10px;">Find this in Cloudflare → Workers & Pages → your worker → Overview tab.</p>
+      <input type="url" id="s-worker-url" class="mb-field" placeholder="https://meal-plan-worker.megan-dyring.workers.dev">
+      <div id="s-worker-status" style="margin-top:6px;font-size:12px;"></div>
+    </div>
+
+    <!-- SAVE -->
+    <button onclick="saveSettings()" style="width:100%;padding:13px;background:var(--green);color:white;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;">✓ Save settings</button>
+    <div id="s-saved-msg" style="display:none;text-align:center;font-size:13px;color:var(--green);margin-top:10px;font-weight:500;">✓ Settings saved!</div>
+
+  </div>
+</div>
+
+<!-- Recipe Modal -->
+
+
+
+
+
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <div class="modal-head">
+      <div>
+        <div id="modal-type-label" class="rc-type" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;"></div>
+        <div class="modal-title" id="modal-title"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-macros" id="modal-macros"></div>
+      <div id="modal-recipe-content"></div>
+      <div id="modal-day-picker" style="display:none;">
+        <div class="picker-label">Add to which day?</div>
+        <div class="picker" id="picker-grid"></div>
+      </div>
+      <button class="modal-add-btn" id="modal-add-btn" onclick="showDayPicker()">+ Add to planner</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const MEAL_TYPES = ['breakfast','lunch','snack','dinner'];
+let TARGETS = {cal:1550, prot:115, carb:150, fat:55, fibre:25};
+
+// ── USER SETTINGS (with Megan's current values as defaults) ──
+let userSettings = {
+  name: '',
+  gender: 'female',
+  age: 49,
+  weightKg: null,
+  heightCm: null,
+  postmenopausal: true,
+  activityLevel: 'moderate',
+  goal: 'lose',
+  lossRate: 0.5,
+  targetCal: 1550,
+  targetProt: 115,
+  targetCarb: 150,
+  targetFat: 55,
+  targetFibre: 25,
+  avoidances: 'seafood, pumpkin, melon',
+};
+
+// ── CONFIG: paste your Cloudflare Worker URL here after deploying ──
+// Worker URL — checks localStorage first so it persists across file updates
+// Set this once in Settings and it will survive every future upload
+const WORKER_URL_FALLBACK = 'PASTE_YOUR_WORKER_URL_HERE';
+function getWorkerUrl() {
+  return localStorage.getItem('mp_worker_url') || WORKER_URL_FALLBACK;
+}
+function workerUrlSet() {
+  const url = getWorkerUrl();
+  return url && url !== WORKER_URL_FALLBACK;
+}
+
+// ── PERSISTENCE ───────────────────────────────────────────────
+function saveState() {
+  try {
+    const planIds = {};
+    ['solo','kid'].forEach(week => {
+      planIds[week] = {};
+      DAYS.forEach(day => {
+        planIds[week][day] = {};
+        MEAL_TYPES.forEach(type => {
+          planIds[week][day][type] = plan[week][day][type]?.id || null;
+        });
+      });
+    });
+    localStorage.setItem('mp_plan', JSON.stringify(planIds));
+    localStorage.setItem('mp_eaten', JSON.stringify(planEaten));
+    localStorage.setItem('mp_products', JSON.stringify(userProducts));
+    const customRecipes = RECIPES.filter(r => r.id.startsWith('custom_') || r.id.startsWith('product_'));
+    localStorage.setItem('mp_custom_recipes', JSON.stringify(customRecipes));
+  } catch(e) { console.warn('Save failed:', e); }
+}
+
+function loadState() {
+  try {
+    const savedCustom = localStorage.getItem('mp_custom_recipes');
+    if(savedCustom) {
+      const customs = JSON.parse(savedCustom);
+      customs.forEach(r => { if(!RECIPES.find(x=>x.id===r.id)) RECIPES.push(r); });
+    }
+    const savedProducts = localStorage.getItem('mp_products');
+    if(savedProducts) userProducts = JSON.parse(savedProducts);
+    const savedPlan = localStorage.getItem('mp_plan');
+    if(savedPlan) {
+      const planIds = JSON.parse(savedPlan);
+      ['solo','kid'].forEach(week => {
+        DAYS.forEach(day => {
+          MEAL_TYPES.forEach(type => {
+            const id = planIds[week]?.[day]?.[type];
+            plan[week][day][type] = id ? (RECIPES.find(r=>r.id===id) || null) : null;
+          });
+        });
+      });
+    }
+    const savedEaten = localStorage.getItem('mp_eaten');
+    if(savedEaten) {
+      const e = JSON.parse(savedEaten);
+      ['solo','kid'].forEach(week => {
+        DAYS.forEach(day => {
+          MEAL_TYPES.forEach(type => {
+            if(e[week]?.[day]?.[type] !== undefined) planEaten[week][day][type] = e[week][day][type];
+          });
+        });
+      });
+    }
+  } catch(e) { console.warn('Load failed:', e); }
+}
+
+let currentWeek = 'solo';
+let activeFilter = 'all';
+let selectedRecipe = null;
+let userProducts = [];
+let plan = { solo: {}, kid: {} };
+let planEaten = { solo: {}, kid: {} };
+
+// Init empty plan structure
+DAYS.forEach(d => {
+  plan.solo[d] = {breakfast:null,lunch:null,snack:null,dinner:null};
+  plan.kid[d] = {breakfast:null,lunch:null,snack:null,dinner:null};
+  planEaten.solo[d] = {breakfast:false,lunch:false,snack:false,dinner:false};
+  planEaten.kid[d] = {breakfast:false,lunch:false,snack:false,dinner:false};
+});
+
+// ── CLIENT-SIDE NUTRITION DATABASE (for meal builder search, FSANZ sourced) ──
+// per 100g cooked/as consumed: {cal, prot, carb, fat, fibre}
+// Serving hints used for unit conversion
+const CLIENT_DB = [
+  // PROTEIN
+  {name:'Chicken breast cooked',            p100:{cal:165,prot:31,carb:0,fat:3.6,fibre:0},   serving:{g:150,label:'150g (medium breast)'}},
+  {name:'Chicken thigh cooked no skin',     p100:{cal:177,prot:25,carb:0,fat:8.1,fibre:0},   serving:{g:130,label:'130g'}},
+  {name:'Chicken mince cooked',             p100:{cal:171,prot:27,carb:0,fat:7,fibre:0},     serving:{g:100,label:'100g'}},
+  {name:'Beef mince lean cooked',           p100:{cal:215,prot:26,carb:0,fat:12,fibre:0},    serving:{g:100,label:'100g'}},
+  {name:'Beef chuck slow cooked',           p100:{cal:220,prot:29,carb:0,fat:11,fibre:0},    serving:{g:150,label:'150g'}},
+  {name:'Lamb leg roasted',                 p100:{cal:191,prot:28,carb:0,fat:8.4,fibre:0},   serving:{g:150,label:'150g'}},
+  {name:'Lamb shoulder slow cooked',        p100:{cal:235,prot:26,carb:0,fat:14,fibre:0},    serving:{g:150,label:'150g'}},
+  {name:'Pork shoulder roasted',            p100:{cal:250,prot:23,carb:0,fat:17,fibre:0},    serving:{g:150,label:'150g'}},
+  {name:'Pulled pork slow cooked',          p100:{cal:235,prot:25,carb:1,fat:14,fibre:0},    serving:{g:150,label:'150g'}},
+  {name:'Ham lean sliced',                  p100:{cal:113,prot:17,carb:1,fat:4,fibre:0},     serving:{g:60,label:'2 slices (60g)'}},
+  {name:'Bacon grilled',                    p100:{cal:345,prot:25,carb:0.5,fat:27,fibre:0},  serving:{g:30,label:'1 rasher (30g)'}},
+  {name:'Tinned tuna springwater',          p100:{cal:116,prot:26,carb:0,fat:1,fibre:0},     serving:{g:95,label:'1 tin (95g drained)'}},
+  {name:'Egg whole',                        p100:{cal:143,prot:13,carb:0.7,fat:9.5,fibre:0}, serving:{g:55,label:'1 egg (55g)'}},
+  {name:'Egg white',                        p100:{cal:52,prot:11,carb:0.7,fat:0.2,fibre:0},  serving:{g:35,label:'1 egg white (35g)'}},
+  // DAIRY
+  {name:'Greek yoghurt low fat',            p100:{cal:59,prot:10,carb:3.5,fat:0.4,fibre:0},  serving:{g:170,label:'170g tub'}},
+  {name:'Cottage cheese low fat',           p100:{cal:72,prot:12,carb:2.7,fat:1,fibre:0},    serving:{g:150,label:'150g'}},
+  {name:'Milk low fat',                     p100:{cal:42,prot:3.4,carb:5,fat:1,fibre:0},     serving:{g:250,label:'1 cup (250ml)'}},
+  {name:'Cheddar cheese reduced fat',       p100:{cal:270,prot:28,carb:0.6,fat:17,fibre:0},  serving:{g:30,label:'1 slice/30g'}},
+  {name:'Cheddar cheese full fat',          p100:{cal:402,prot:25,carb:0.1,fat:34,fibre:0},  serving:{g:30,label:'1 slice/30g'}},
+  {name:'Butter',                           p100:{cal:717,prot:0.6,carb:0.6,fat:81,fibre:0}, serving:{g:10,label:'1 tsp (10g)'}},
+  {name:'Cream cheese light',              p100:{cal:175,prot:7,carb:3.5,fat:15,fibre:0},   serving:{g:30,label:'2 tbsp (30g)'}},
+  {name:'Feta reduced fat',                 p100:{cal:180,prot:14,carb:1.4,fat:13,fibre:0},  serving:{g:30,label:'30g crumbled'}},
+  // BREAD & CARBS
+  {name:'Wholegrain bread',                 p100:{cal:238,prot:10,carb:40,fat:3.8,fibre:5},  serving:{g:40,label:'1 slice (40g)'}},
+  {name:'Lebanese bread / pita large',      p100:{cal:265,prot:9,carb:53,fat:2,fibre:2.5},  serving:{g:80,label:'1 large (80g)'}},
+  {name:'Flatbread / mountain bread',       p100:{cal:240,prot:8,carb:48,fat:2,fibre:2},    serving:{g:35,label:'1 wrap (35g)'}},
+  {name:'Flour tortilla medium',            p100:{cal:306,prot:8,carb:53,fat:7,fibre:3},    serving:{g:45,label:'1 medium (45g)'}},
+  {name:'Sourdough bread',                  p100:{cal:240,prot:9,carb:46,fat:2,fibre:3},     serving:{g:50,label:'1 slice (50g)'}},
+  {name:'White bread',                      p100:{cal:251,prot:8.6,carb:49,fat:2.3,fibre:2}, serving:{g:35,label:'1 slice (35g)'}},
+  {name:'Rice cakes',                       p100:{cal:392,prot:8,carb:86,fat:2,fibre:2.7},   serving:{g:15,label:'2 cakes (15g)'}},
+  {name:'Brown rice cooked',                p100:{cal:111,prot:2.6,carb:23,fat:0.9,fibre:1.8},serving:{g:150,label:'¾ cup cooked (150g)'}},
+  {name:'White rice cooked',                p100:{cal:130,prot:2.7,carb:28,fat:0.3,fibre:0.4},serving:{g:150,label:'¾ cup cooked (150g)'}},
+  {name:'Pasta cooked',                     p100:{cal:131,prot:4.5,carb:27,fat:0.6,fibre:1.8},serving:{g:150,label:'1 cup cooked (150g)'}},
+  {name:'Rolled oats',                      p100:{cal:389,prot:17,carb:66,fat:7,fibre:10},   serving:{g:50,label:'½ cup raw (50g)'}},
+  // FRUIT & VEG
+  {name:'Avocado',                          p100:{cal:160,prot:2,carb:2,fat:15,fibre:6.7},   serving:{g:50,label:'¼ avocado (50g)'}},
+  {name:'Banana',                           p100:{cal:89,prot:1.1,carb:22.8,fat:0.3,fibre:2.6},serving:{g:120,label:'1 medium (120g)'}},
+  {name:'Apple',                            p100:{cal:52,prot:0.3,carb:13,fat:0.2,fibre:2.4}, serving:{g:150,label:'1 medium (150g)'}},
+  {name:'Tomato sliced',                    p100:{cal:18,prot:0.9,carb:3.2,fat:0.2,fibre:1.2},serving:{g:80,label:'1 medium tomato (80g)'}},
+  {name:'Spinach raw',                      p100:{cal:23,prot:2.9,carb:1.4,fat:0.4,fibre:2.2},serving:{g:30,label:'1 cup packed (30g)'}},
+  {name:'Lettuce',                          p100:{cal:14,prot:1.3,carb:1.5,fat:0.2,fibre:1.3},serving:{g:30,label:'1 cup (30g)'}},
+  {name:'Capsicum raw',                     p100:{cal:26,prot:1,carb:4.9,fat:0.2,fibre:1.7}, serving:{g:80,label:'½ capsicum (80g)'}},
+  {name:'Cucumber',                         p100:{cal:15,prot:0.7,carb:2.4,fat:0.1,fibre:0.5},serving:{g:80,label:'½ cup sliced (80g)'}},
+  {name:'Onion',                            p100:{cal:38,prot:1,carb:8,fat:0.1,fibre:1.8},   serving:{g:80,label:'1 small (80g)'}},
+  {name:'Mushrooms cooked',                 p100:{cal:26,prot:2.5,carb:2.2,fat:0.5,fibre:1}, serving:{g:80,label:'½ cup (80g)'}},
+  // SPREADS & CONDIMENTS
+  {name:'Peanut butter',                    p100:{cal:588,prot:25,carb:20,fat:50,fibre:6},   serving:{g:15,label:'1 tbsp (15g)'}},
+  {name:'Vegemite',                         p100:{cal:173,prot:30,carb:17,fat:1,fibre:2.3},  serving:{g:5,label:'1 tsp (5g)'}},
+  {name:'Honey',                            p100:{cal:304,prot:0.3,carb:82,fat:0,fibre:0.2}, serving:{g:14,label:'1 tbsp (14g)'}},
+  {name:'Tomato sauce / ketchup',           p100:{cal:112,prot:1.4,carb:27,fat:0.1,fibre:0.7},serving:{g:15,label:'1 tbsp (15g)'}},
+  {name:'Mayonnaise light',                 p100:{cal:274,prot:0.6,carb:11,fat:25,fibre:0},  serving:{g:15,label:'1 tbsp (15g)'}},
+  {name:'Hummus',                           p100:{cal:166,prot:7.9,carb:14,fat:9.6,fibre:6}, serving:{g:45,label:'3 tbsp (45g)'}},
+  {name:'Olive oil',                        p100:{cal:884,prot:0,carb:0,fat:100,fibre:0},    serving:{g:5,label:'1 tsp (5g)'}},
+  // SAUCES, DIPS & SALAD SIDES (verified Australian brand data)
+  // Yumi's / Yumis
+  {name:"Yumi's Classic Hummus",           p100:{cal:315,prot:7.1,carb:16.6,fat:24.7,fibre:5}, serving:{g:40,label:'2 tbsp (40g)'}},
+  {name:"Yumi's Baba Ganoush",             p100:{cal:212,prot:3,carb:8,fat:18,fibre:3},         serving:{g:40,label:'2 tbsp (40g)'}},
+  {name:"Yumi's Avocado Dip",              p100:{cal:114,prot:0.3,carb:4.1,fat:10.8,fibre:2},   serving:{g:40,label:'2 tbsp (40g)'}},
+  {name:"Yumi's Roasted Beetroot Dip",     p100:{cal:205,prot:2,carb:22,fat:11,fibre:4},         serving:{g:40,label:'2 tbsp (40g)'}},
+  // Black Swan
+  {name:"Black Swan Skinny Tzatziki",      p100:{cal:89,prot:6.6,carb:9.9,fat:2.4,fibre:0.3},   serving:{g:40,label:'2 tbsp (40g)'}},
+  {name:"Black Swan Classic Tzatziki",     p100:{cal:100,prot:5,carb:8,fat:5.5,fibre:0.3},       serving:{g:40,label:'2 tbsp (40g)'}},
+  // Generic dips
+  {name:'Hummus commercial',               p100:{cal:166,prot:7.9,carb:14,fat:9.6,fibre:6},     serving:{g:45,label:'3 tbsp (45g)'}},
+  {name:'Tzatziki homemade',               p100:{cal:75,prot:5,carb:4,fat:4.5,fibre:0.3},       serving:{g:60,label:'2 tbsp (60g)'}},
+  {name:'Baba ganoush homemade',           p100:{cal:118,prot:2,carb:5,fat:10,fibre:2},          serving:{g:40,label:'2 tbsp (40g)'}},
+  {name:'Tahini',                          p100:{cal:595,prot:17,carb:21,fat:54,fibre:9},        serving:{g:15,label:'1 tbsp (15g)'}},
+  {name:'Guacamole',                       p100:{cal:155,prot:1.5,carb:8,fat:13,fibre:5},        serving:{g:50,label:'3 tbsp (50g)'}},
+  {name:'Sour cream',                      p100:{cal:193,prot:2.7,carb:3.8,fat:19,fibre:0},      serving:{g:30,label:'2 tbsp (30g)'}},
+  // Sauces
+  {name:'Sriracha hot sauce',              p100:{cal:93,prot:1.5,carb:18,fat:1,fibre:1},         serving:{g:10,label:'1 tbsp (10g)'}},
+  {name:'Sweet chilli sauce',              p100:{cal:216,prot:1,carb:53,fat:0.1,fibre:0.5},      serving:{g:15,label:'1 tbsp (15g)'}},
+  {name:'BBQ sauce',                       p100:{cal:135,prot:1,carb:33,fat:0.2,fibre:0.5},      serving:{g:20,label:'1 tbsp (20g)'}},
+  // Salad sides
+  {name:'Mixed salad leaves',              p100:{cal:15,prot:1.5,carb:1.5,fat:0.3,fibre:1.5},   serving:{g:50,label:'2 cups (50g)'}},
+  {name:'Red onion raw',                   p100:{cal:38,prot:1,carb:8,fat:0.1,fibre:1.8},        serving:{g:30,label:'¼ onion (30g)'}},
+  {name:'Kalamata olives',                 p100:{cal:115,prot:0.8,carb:6,fat:10.7,fibre:3.2},    serving:{g:20,label:'5 olives (20g)'}},
+  {name:'Feta cheese crumbled',            p100:{cal:180,prot:14,carb:1.4,fat:13,fibre:0},       serving:{g:30,label:'30g'}},
+
+  // SNACK ITEMS
+  {name:'Dark chocolate 70%',              p100:{cal:598,prot:7.8,carb:46,fat:43,fibre:10.9},serving:{g:20,label:'2 squares (20g)'}},
+  {name:'Chia seeds',                       p100:{cal:486,prot:17,carb:42,fat:31,fibre:34},  serving:{g:12,label:'1 tbsp (12g)'}},
+  {name:'Mixed seeds',                      p100:{cal:560,prot:25,carb:15,fat:47,fibre:7},   serving:{g:10,label:'1 tbsp (10g)'}},
+  {name:'Almonds',                          p100:{cal:579,prot:21,carb:22,fat:50,fibre:12.5},serving:{g:30,label:'small handful (30g)'}},
+  {name:'Protein powder vanilla',           p100:{cal:367,prot:73,carb:12,fat:5,fibre:1.7},  serving:{g:30,label:'1 scoop (30g)'}},
+];
+
+const RECIPES = [
+  // ── BREAKFASTS ───────────────────────────────────────────────
+  // Macros calculated from FSANZ NUTTAB data per ingredient
+  {id:'b1',type:'breakfast',name:'Greek yoghurt & berry smoothie bowl',cal:365,prot:30,carb:44,fat:5,fibre:4,tags:['quick','kid'],
+   desc:'Blended Greek yoghurt base with frozen berries, topped with banana and muesli.',
+   ingredients:['200g low-fat Greek yoghurt','½ cup (75g) frozen mixed berries','½ banana (60g)','2 tbsp low-sugar muesli (20g)','1 tsp honey'],
+   method:['Blend yoghurt and frozen berries until smooth.','Pour into a bowl.','Slice banana on top, sprinkle with muesli.','Drizzle with honey if using.'],
+   notes:'Prep the night before — blend and refrigerate in a jar, add toppings in the morning.'},
+  {id:'b2',type:'breakfast',name:'Cottage cheese & banana protein smoothie',cal:340,prot:36,carb:35,fat:5,fibre:2,tags:['quick'],
+   desc:'Blend cottage cheese until silky smooth — you won\'t taste it, just get the protein hit. Ninja-perfect.',
+   ingredients:['150g low-fat cottage cheese','1 banana frozen (120g)','1 cup low-fat milk (250ml)','1 tbsp peanut butter (15g)','1 tsp vanilla essence','4–5 ice cubes'],
+   method:['Add all ingredients to the Ninja.','Blend on high for 45 seconds until completely smooth.','Pour and drink immediately.'],
+   notes:'The cottage cheese blends completely smooth in the Ninja. Freeze bananas in advance for a thicker, colder smoothie.'},
+  {id:'b3',type:'breakfast',name:'Overnight oats with chia & strawberries',cal:385,prot:26,carb:52,fat:7,fibre:8,tags:['quick','batch','kid'],
+   desc:'Prep 4 jars on Sunday — grab and go all week. No cooking required.',
+   ingredients:['½ cup rolled oats (50g)','1 tbsp chia seeds (12g)','¾ cup low-fat milk (185ml)','100g low-fat Greek yoghurt','½ cup strawberries sliced (75g)','1 tsp maple syrup'],
+   method:['Combine oats, chia seeds, milk and yoghurt in a jar or container.','Stir well, seal and refrigerate overnight (or up to 4 days).','In the morning, top with strawberries and maple syrup.'],
+   notes:'Batch-prep 4–5 jars on Sunday. Stays fresh in the fridge for 4 days. The chia adds 4g fibre per serve.'},
+  {id:'b4',type:'breakfast',name:'Vegemite & avocado toast with egg',cal:390,prot:20,carb:30,fat:20,fibre:7,tags:['quick','kid'],
+   desc:'A proper Aussie brekkie — two slices of wholegrain toast, smashed avo, fried or scrambled egg.',
+   ingredients:['2 slices wholegrain bread (80g)','¼ avocado (50g)','2 eggs (100g)','Vegemite (thin scrape, 3g)','Lemon juice, salt, chilli flakes, spray oil'],
+   method:['Toast bread.','Smash avocado with lemon juice, salt and chilli flakes.','Scramble or fry eggs in spray oil (90 seconds in microwave in a mug works).','Spread Vegemite on toast, top with avo and egg.'],
+   notes:'No time for poaching? Scramble in a mug in the microwave — 90 seconds. Avocado adds 3.4g fibre.'},
+  {id:'b5',type:'breakfast',name:'Poached eggs on sourdough with spinach',cal:375,prot:22,carb:32,fat:14,fibre:4,tags:['kid'],
+   desc:'A weekend or slower morning classic. Wilted spinach, two eggs, good bread.',
+   ingredients:['2 eggs (100g)','2 slices sourdough (100g)','1 cup baby spinach (30g)','1 tsp olive oil (5ml)','Salt, pepper, pinch of paprika'],
+   method:['Bring a saucepan of water to a gentle simmer, add a dash of vinegar.','Wilt spinach in olive oil in a small pan.','Crack eggs into small cups, slide into simmering water. Cook 3 mins.','Toast sourdough. Top with spinach then eggs. Season well.'],
+   notes:'A weekend or teacher-day breakfast when you have more time.'},
+  {id:'b6',type:'breakfast',name:'High-protein mango & coconut smoothie',cal:360,prot:32,carb:40,fat:5,fibre:2,tags:['quick','kid'],
+   desc:'Tropical, filling, and ready in 2 minutes. Feels indulgent — isn\'t.',
+   ingredients:['1 scoop vanilla protein powder (30g)','½ cup frozen mango (75g)','200g low-fat Greek yoghurt','½ cup coconut water (125ml)','½ cup ice'],
+   method:['Add all ingredients to the Ninja.','Blend 30–40 seconds until smooth.','Pour and enjoy.'],
+   notes:'Frozen mango from Aldi or Coles. Great for school mornings with your son.'},
+  {id:'b7',type:'breakfast',name:'Egg & veggie muffin cups (batch)',cal:290,prot:26,carb:6,fat:17,fibre:2,tags:['batch','quick','kid'],
+   desc:'Bake a batch of 12 on Sunday — grab 2 each morning. Heat in microwave for 40 seconds.',
+   ingredients:['6 eggs (300g)','4 egg whites (140g)','½ cup capsicum diced (75g)','½ cup spinach chopped (15g)','¼ cup low-fat grated cheese (30g)','Salt, pepper, mixed herbs','Spray oil for tin'],
+   method:['Preheat oven to 180°C. Spray a 12-hole muffin tin with cooking spray.','Whisk eggs and egg whites together. Season.','Stir in capsicum, spinach and cheese.','Pour evenly into muffin holes. Bake 18–20 mins until set.','Cool, then refrigerate in an airtight container up to 4 days.'],
+   notes:'Makes 12 muffins — 2 per serve. Reheat 40 sec. Freeze for up to 1 month.'},
+
+  // ── LUNCHES ──────────────────────────────────────────────────
+  {id:'l1',type:'lunch',name:'Mexican chicken rice bowl',cal:445,prot:42,carb:45,fat:8,fibre:8,tags:['batch','kid','mexican'],
+   desc:'Spiced chicken thighs with brown rice, corn, black beans and salsa. Batch Sunday, eat all week.',
+   ingredients:['150g chicken thigh cooked no skin','½ cup brown rice cooked (100g)','3 tbsp black beans canned drained (45g)','2 tbsp corn kernels (30g)','2 tbsp salsa low sugar (30g)','2 tbsp low-fat Greek yoghurt','Lime wedge','1 tsp cumin, 1 tsp smoked paprika, ½ tsp garlic powder'],
+   method:['Rub chicken thighs with spices. Cook in oven 200°C 25 min or frypan until cooked through.','Rest and slice or shred the chicken.','Cook rice per packet. Cool completely.','Assemble containers: rice, beans, corn, chicken, salsa.','Refrigerate up to 4 days.'],
+   notes:'Batch cook on Sunday — makes 4 lunches. Your son will love this. Black beans add 3.9g fibre per serve.'},
+  {id:'l2',type:'lunch',name:'Asian chicken noodle salad',cal:415,prot:38,carb:38,fat:9,fibre:4,tags:['batch','kid','asian'],
+   desc:'Shredded rotisserie chicken, rice noodles, wombok, carrot and sesame-ginger dressing.',
+   ingredients:['130g rotisserie chicken breast shredded','80g vermicelli rice noodles cooked','1 cup wombok shredded (80g)','1 carrot julienned (80g)','2 spring onions sliced','Fresh coriander','Dressing: 2 tbsp soy sauce, 1 tbsp sesame oil, 1 tbsp rice vinegar, 1 tsp grated ginger, 1 tsp honey'],
+   method:['Cook noodles per packet, rinse under cold water, drain.','Mix all dressing ingredients.','Combine noodles, cabbage, carrot, chicken and spring onions.','Store dressing separately if batch prepping, add just before eating.'],
+   notes:'Store dressing in a small jar and add just before eating to keep the salad crisp.'},
+  {id:'l3',type:'lunch',name:'Chickpea, roasted veg & feta salad',cal:390,prot:18,carb:42,fat:14,fibre:10,tags:['batch','quick'],
+   desc:'Roast a big tray of veg on Sunday, toss with chickpeas and feta. 5 days of lunches sorted.',
+   ingredients:['120g chickpeas canned drained','1 zucchini (150g)','1 capsicum (150g)','1 red onion (100g)','100g cherry tomatoes','25g reduced-fat feta','1 cup rocket (30g)','1 tbsp olive oil (15ml)','Lemon juice, dried oregano, salt, pepper'],
+   method:['Preheat oven to 200°C. Toss vegetables in olive oil, salt, pepper, oregano.','Roast on a large tray for 25–30 mins until golden.','Cool completely, then combine with chickpeas.','Portion into containers. Add rocket and feta on serving day.','Drizzle with lemon juice.'],
+   notes:'Batch makes 4–5 serves. Add rocket and feta daily to keep them fresh. Chickpeas and veg deliver 10g fibre — excellent.'},
+  {id:'l4',type:'lunch',name:'Slow-cooker lentil & vegetable soup',cal:350,prot:20,carb:50,fat:4,fibre:14,tags:['batch','slow','kid'],
+   desc:'Winter warmer. Throw everything in the slow cooker Sunday morning — soup for the whole week.',
+   ingredients:['1 cup red lentils dry (200g, makes ~4 serves)','1 can diced tomatoes (400g)','1 onion (150g)','2 carrots (160g)','2 celery stalks (100g)','2 cloves garlic','4 cups low-sodium stock (1L)','1 tsp cumin, 1 tsp paprika, salt, pepper','Squeeze of lemon to serve','1 slice wholegrain bread to serve (optional)'],
+   method:['Add everything to the slow cooker.','Cook on LOW 6–8 hours or HIGH 3–4 hours.','Stir, adjust seasoning, squeeze lemon juice over.','Serve with 1 slice of wholegrain bread if needed.','Keeps 5 days in fridge, freezes well.'],
+   notes:'Highest fibre meal in the whole planner — 14g per serve. Red lentils are exceptional for gut health and blood sugar regulation.'},
+  {id:'l5',type:'lunch',name:'Rice paper rolls with chicken & veggie',cal:370,prot:30,carb:42,fat:5,fibre:4,tags:['batch','asian','kid'],
+   desc:'Prep the fillings on Sunday — assemble in 5 minutes each day. Feels like a treat.',
+   ingredients:['120g chicken breast cooked no skin','8 rice paper wrappers','60g vermicelli noodles cooked','½ carrot julienned (60g)','½ cucumber sliced (60g)','½ capsicum sliced (60g)','Lettuce leaves, fresh mint, coriander','Dipping sauce: sweet chilli + lime, or hoisin + sriracha'],
+   method:['Prep all fillings and store in containers in the fridge.','Each day: dip a rice paper round in warm water for 10 seconds.','Lay on a damp board. Add noodles, veg, chicken, herbs.','Roll tightly. Serve with dipping sauce.'],
+   notes:'Prep all fillings Sunday — rolls take 5 mins to assemble each day. Great fun for kids to roll their own.'},
+  {id:'l6',type:'lunch',name:'Mexican beef taco bowls',cal:455,prot:42,carb:38,fat:13,fibre:9,tags:['batch','kid','mexican'],
+   desc:'Spiced lean beef mince over rice with black beans, salsa and a yoghurt drizzle.',
+   ingredients:['130g beef mince lean cooked','120g black beans canned drained','100g brown rice cooked','2 tbsp salsa (30g)','Shredded lettuce (30g), cherry tomatoes (50g)','2 tbsp low-fat Greek yoghurt','Lime, 1 tsp cumin, 1 tsp chilli powder, ½ tsp garlic powder'],
+   method:['Brown beef mince in a pan, drain excess fat.','Add spices and 2 tbsp water, cook 2 more minutes.','Assemble bowls: rice, beef, beans, salsa, lettuce, tomatoes.','Top with Greek yoghurt and squeeze of lime.'],
+   notes:'A kid favourite. Make a big batch of spiced mince and rice on Sunday. Black beans add significant fibre.'},
+  {id:'l7',type:'lunch',name:'Chicken & veggie frittata slices',cal:330,prot:35,carb:6,fat:17,fibre:2,tags:['batch','quick'],
+   desc:'Big batch frittata baked in a tray — slice and pack for lunches all week.',
+   ingredients:['6 eggs (300g)','4 egg whites (140g)','150g chicken breast cooked shredded','1 zucchini grated (150g)','½ cup frozen peas (75g)','½ cup low-fat grated cheese (60g)','Spring onions, salt, pepper, mixed herbs','Spray oil'],
+   method:['Preheat oven to 180°C. Line a 20×30cm baking tray with paper.','Whisk eggs and egg whites together. Season well.','Stir in chicken, zucchini, peas, cheese and herbs.','Pour into tray. Bake 25–30 mins until set and golden.','Cool, slice into portions. Refrigerate 4 days or freeze.'],
+   notes:'No pumpkin — zucchini and peas instead. Serve with a green side salad to boost fibre.'},
+
+  // ── DINNERS ──────────────────────────────────────────────────
+  {id:'d1',type:'dinner',name:'Slow-cooker chicken tikka masala',cal:465,prot:46,carb:28,fat:14,fibre:4,tags:['slow','batch','kid','curry'],
+   desc:'Dump-and-go curry that fills the house with incredible smell. Serve over basmati.',
+   ingredients:['150g chicken thigh cooked no skin (per serve, from 600g raw)','100g basmati rice cooked (per serve)','100ml light coconut milk (per serve from 1 can)','2 tbsp tikka masala paste Pataks (per serve from whole batch)','¼ can diced tomatoes (per serve)','¼ onion sliced, ½ clove garlic','Low-fat Greek yoghurt drizzle to serve'],
+   method:['Add chicken, tomatoes, coconut milk, paste, onion and garlic to slow cooker.','Cook LOW 6–8 hrs or HIGH 3–4 hrs. Chicken should be pull-apart tender.','Shred chicken with two forks in the sauce.','Serve over steamed basmati rice, with Greek yoghurt drizzle.'],
+   notes:'Freezes perfectly. Make a double batch and freeze half in portions. Serves 4.'},
+  {id:'d2',type:'dinner',name:'Mexican slow-cooker chicken tacos',cal:445,prot:43,carb:36,fat:11,fibre:5,tags:['slow','kid','mexican'],
+   desc:'Shredded Mexican chicken — so tender. Serve in small corn tortillas or as a rice bowl.',
+   ingredients:['150g chicken breast cooked (per serve, from 700g raw)','2 small corn tortillas (50g) or ½ cup rice cooked','2 tbsp salsa (30g)','Shredded lettuce (30g), diced tomato (50g)','2 tbsp low-fat Greek yoghurt','Lime, 1 tsp cumin, 1 tsp paprika, ½ tsp garlic powder','Whole batch: 1 jar salsa (400g), spices above'],
+   method:['Place chicken in slow cooker. Pour over salsa and sprinkle with spices.','Cook LOW 6–8 hrs or HIGH 3–4 hrs.','Shred chicken with two forks directly in the sauce.','Serve in taco shells with toppings of your choice.'],
+   notes:'Serves 4–5. Shredded chicken keeps 4 days in the fridge. Your son can pile his high.'},
+  {id:'d3',type:'dinner',name:'Thai green chicken curry',cal:455,prot:44,carb:30,fat:14,fibre:5,tags:['curry','kid','asian'],
+   desc:'Quick 25-minute weeknight curry. Fragrant, coconut-y and genuinely better than takeaway.',
+   ingredients:['150g chicken breast cooked (per serve)','½ cup jasmine rice cooked (100g)','¼ can light coconut milk (50ml)','2 tbsp green curry paste (30g)','½ zucchini sliced (75g)','¼ cup frozen peas or beans (38g)','1 tbsp fish sauce, lime juice, fresh coriander'],
+   method:['Fry curry paste in a large pan for 1 min until fragrant.','Add chicken, cook until sealed.','Pour in coconut milk, bring to a simmer.','Add vegetables, simmer 10 mins.','Season with fish sauce and lime juice. Top with coriander.'],
+   notes:'Can be made in the slow cooker too — LOW 5–6 hrs. Omit zucchini until last 30 mins. Serves 4.'},
+  {id:'d4',type:'dinner',name:'Butter chicken (lightened up)',cal:460,prot:44,carb:30,fat:14,fibre:3,tags:['curry','kid','batch'],
+   desc:'A family-friendly crowd pleaser with all the flavour, less of the fat.',
+   ingredients:['150g chicken thigh cooked no skin (per serve, from 600g raw)','½ cup basmati rice cooked (100g)','¼ can diced tomatoes (100g)','50ml light coconut cream','2 tbsp butter chicken paste Pataks','¼ onion diced, 1 tsp garam masala','Low-fat Greek yoghurt drizzle to serve'],
+   method:['Sauté onion until soft. Add butter chicken paste, cook 2 mins.','Add chicken, cook until sealed.','Add tomatoes and coconut cream. Simmer 20 mins.','Stir in garam masala. Adjust seasoning.','Serve over rice with a Greek yoghurt drizzle.'],
+   notes:'Great slow cooker meal — cook LOW 6 hrs. Makes great leftovers. Serves 4.'},
+  {id:'d5',type:'dinner',name:'Beef & vegetable stir fry',cal:420,prot:40,carb:32,fat:12,fibre:6,tags:['kid','asian','quick'],
+   desc:'15-minute weeknight winner. Lean beef strips with loads of veg over rice.',
+   ingredients:['130g beef stir fry strips cooked','½ cup jasmine rice cooked (100g)','1 cup broccoli florets cooked (100g)','½ cup snow peas (60g)','½ capsicum sliced (75g)','½ cup bok choy (75g)','2 tbsp oyster sauce, 1 tbsp soy sauce low sodium, 1 tsp sesame oil','1 tsp grated ginger, 2 cloves garlic, spray oil'],
+   method:['Heat a wok on high heat. Add a little spray oil.','Cook beef in batches until browned. Set aside.','Add garlic and ginger, cook 30 seconds.','Add vegetables, stir fry 3–4 minutes.','Return beef. Add sauces. Toss well.','Serve over ½ cup cooked rice.'],
+   notes:'Use pre-cut stir fry beef strips to save time. Bags of fresh stir-fry veg from Coles/Woolworths work perfectly.'},
+  {id:'d6',type:'dinner',name:'Slow-cooker Mexican pulled beef',cal:450,prot:46,carb:25,fat:15,fibre:6,tags:['slow','kid','mexican','batch'],
+   desc:'Sunday in the slow cooker — pulled beef for burritos, rice bowls or tacos all week.',
+   ingredients:['160g beef chuck slow cooked (per serve, from 800g raw)','½ cup brown rice cooked (100g)','¼ can diced tomatoes (100g)','1 tbsp chipotle paste or 1 tsp each smoked paprika, cumin, chilli powder','¼ onion sliced, 1 clove garlic','Lettuce, salsa, Greek yoghurt to serve'],
+   method:['Place beef in slow cooker with tomatoes, paste, onion, garlic.','Cook LOW 8–10 hrs or HIGH 5–6 hrs until completely tender.','Shred beef with two forks in the sauce.','Serve in tacos, rice bowls or burritos with your usual toppings.'],
+   notes:'Makes 5–6 serves. Excellent for both your solo and kid weeks. Freezes perfectly.'},
+  {id:'d7',type:'dinner',name:'Baked chicken thighs with roasted veg',cal:430,prot:42,carb:22,fat:17,fibre:7,tags:['kid','quick','batch'],
+   desc:'Sheet-pan dinner — everything in one tray, 35 minutes, done.',
+   ingredients:['2 chicken thighs skinless (200g cooked per serve from 4 thighs total)','1 zucchini (150g)','1 capsicum (150g)','1 red onion (100g)','250g cherry tomatoes','1 tbsp olive oil (15ml)','1 tsp each paprika, garlic powder, dried Italian herbs','Salt and pepper, lemon wedges to serve'],
+   method:['Preheat oven to 200°C.','Toss vegetables in olive oil, salt, herbs. Spread on a large tray.','Rub chicken with remaining oil and spices. Place on top of veg.','Roast 35–40 mins until chicken is cooked through and golden.','Serve with a squeeze of lemon.'],
+   notes:'Double the veg for leftovers — great in next day\'s frittata or salad. Serves 4.'},
+  {id:'d8',type:'dinner',name:'Lamb koftas with tabbouleh',cal:460,prot:36,carb:34,fat:18,fibre:7,tags:['kid','quick'],
+   desc:'Middle Eastern-inspired. Kids love the koftas. Assemble like a kebab bowl.',
+   ingredients:['130g lamb mince cooked (per serve, from 400g raw)','½ cup bulgur wheat cooked (100g)','2 tomatoes diced (160g)','½ cucumber diced (75g)','Fresh parsley (20g), lemon juice, 1 tsp olive oil (5ml)','100g low-fat Greek yoghurt (tzatziki-style with garlic)','1 tsp cumin, ½ tsp cinnamon, 1 tsp garlic powder'],
+   method:['Mix lamb with spices and herbs. Shape into small oval koftas.','Grill or pan-fry 8–10 mins, turning, until cooked through.','Toss tabbouleh ingredients together. Season well.','Serve koftas over tabbouleh with a yoghurt dollop.'],
+   notes:'Koftas can be made and frozen raw — cook from frozen in 15 minutes. Serves 4.'},
+
+  // ── SNACKS ───────────────────────────────────────────────────
+  {id:'s1',type:'snack',name:'Cottage cheese & berry blended bowl',cal:185,prot:21,carb:18,fat:2,fibre:3,tags:['quick'],
+   desc:'Blend it completely smooth in the Ninja and it\'s like a thick cheesecake cream. Top with berries.',
+   ingredients:['150g low-fat cottage cheese','½ cup frozen raspberries or strawberries (75g)','1 tsp vanilla essence','1 tsp honey'],
+   method:['Add cottage cheese, half the berries and vanilla to Ninja.','Blend until completely smooth and creamy — about 40 seconds.','Pour or spoon into a bowl. Top with remaining fresh or thawed berries.','Drizzle with honey if desired.'],
+   notes:'The key is blending long enough — 40+ seconds transforms the texture completely. Tastes like a dessert.'},
+  {id:'s2',type:'snack',name:'Apple with peanut butter & Greek yoghurt',cal:210,prot:13,carb:24,fat:8,fibre:5,tags:['quick','kid'],
+   desc:'Classic combo — sweet, creamy, satisfying. Ready in 2 minutes.',
+   ingredients:['1 medium apple sliced (150g)','1 tbsp natural peanut butter (15g)','100g low-fat Greek yoghurt'],
+   method:['Slice apple.','Serve with peanut butter for dipping and yoghurt on the side.'],
+   notes:'Keep Greek yoghurt portioned in small containers on Sunday for grab-and-go all week. Apple adds 3.6g fibre.'},
+  {id:'s3',type:'snack',name:'Greek yoghurt with seeds & kiwi',cal:195,prot:17,carb:20,fat:6,fibre:5,tags:['quick','kid'],
+   desc:'Simple, satisfying, and the seeds add crunch plus omega-3s.',
+   ingredients:['150g low-fat Greek yoghurt','1 tbsp mixed seeds pepitas sunflower (10g)','2 kiwi fruit (150g)','1 tsp honey'],
+   method:['Spoon yoghurt into a bowl or jar.','Top with seeds and sliced kiwi.','Drizzle with honey.'],
+   notes:'Kiwi fruit has excellent fibre (4.5g per 2 kiwi) and vitamin C. Prep yoghurt and seeds into small jars on Sunday.'},
+  {id:'s4',type:'snack',name:'Cottage cheese choc-mint dip with rice cakes',cal:175,prot:19,carb:16,fat:3,fibre:1,tags:['quick'],
+   desc:'Ninja-blended cottage cheese with cocoa and peppermint — spread on rice cakes for a mint choc hit.',
+   ingredients:['150g low-fat cottage cheese','1 tsp cocoa powder (3g)','¼ tsp peppermint extract','1 tsp honey','4 rice cakes (30g)'],
+   method:['Blend cottage cheese, cocoa, peppermint and honey in the Ninja for 45 seconds.','Spread on rice cakes. Eat immediately.'],
+   notes:'Sounds odd, tastes surprisingly like mint chocolate cheesecake. The peppermint is key — don\'t skip it.'},
+  {id:'s5',type:'snack',name:'Hummus with veggie sticks & crackers',cal:195,prot:7,carb:24,fat:8,fibre:7,tags:['quick','kid','batch'],
+   desc:'Prep a big container of veggie sticks on Sunday — they last all week in water in the fridge.',
+   ingredients:['3 tbsp hummus (45g)','Carrot sticks (60g), celery (40g), capsicum strips (50g)','5–6 wholegrain crackers Vitaweat (20g)'],
+   method:['Arrange veg sticks and crackers on a plate.','Serve with hummus for dipping.'],
+   notes:'Store cut veg in a container of cold water in the fridge — stay crisp all week. Excellent fibre from veg + hummus (7g).'},
+  {id:'s6',type:'snack',name:'Protein hot cocoa',cal:155,prot:21,carb:12,fat:3,fibre:1,tags:['quick'],
+   desc:'Winter warmer — hot cocoa that\'s actually a protein hit. Perfect for an afternoon slump.',
+   ingredients:['1 scoop chocolate protein powder (30g)','1 cup low-fat milk (250ml)','1 tsp cocoa powder (3g)','Pinch of cinnamon','Sweetener to taste'],
+   method:['Heat milk in a mug in the microwave (90 seconds) or saucepan.','Whisk in protein powder and cocoa until smooth.','Add cinnamon and sweetener if needed.'],
+   notes:'Great winter snack. If it goes lumpy, blend with the Ninja.'},
+  {id:'s7',type:'snack',name:'Ninja blueberry cheesecake smoothie',cal:180,prot:22,carb:17,fat:3,fibre:3,tags:['quick'],
+   desc:'Cottage cheese blended silky smooth with blueberries and lemon — tastes like liquid cheesecake.',
+   ingredients:['150g low-fat cottage cheese','½ cup frozen blueberries (75g)','Zest of ½ lemon + squeeze of juice (10ml)','1 tsp honey','½ cup low-fat milk (125ml)','4–5 ice cubes'],
+   method:['Add all ingredients to the Ninja.','Blend on high 45–60 seconds until completely smooth.','Pour into a glass and drink immediately, or pour into a bowl and top with fresh blueberries.'],
+   notes:'Frozen blueberries make it thicker and colder. The lemon is what makes it taste like cheesecake — don\'t skip it.'},
+  {id:'s8',type:'snack',name:'Banana & peanut butter protein bliss balls (batch)',cal:175,prot:10,carb:22,fat:6,fibre:3,tags:['batch','kid','quick'],
+   desc:'Make 12 on Sunday — grab 2 each day. Kids love these too.',
+   ingredients:['1 ripe banana mashed (120g)','1 cup rolled oats (100g)','2 tbsp natural peanut butter (30g)','1 scoop vanilla protein powder (30g)','2 tbsp honey (40g)','2 tbsp dark choc chips optional (30g)'],
+   method:['Mix all ingredients together in a bowl until combined.','Roll into 12 balls (about 1 tbsp each).','Place on a lined tray and refrigerate 30 mins to firm up.','Store in an airtight container in the fridge up to 5 days, or freeze.'],
+   notes:'Makes 12 balls — 2 balls = 1 serve. Great for lunchboxes too. Freeze half for following week.'},
+  {id:'s9',type:'snack',name:'Savoury cottage cheese & Vegemite rice cakes',cal:165,prot:18,carb:15,fat:3,fibre:1,tags:['quick'],
+   desc:'Ninja-blended cottage cheese with a Vegemite swirl — savoury, creamy, properly Australian.',
+   ingredients:['150g low-fat cottage cheese','¼ tsp Vegemite (2g)','4 rice cakes (30g)','Sliced cucumber or tomato to top (50g)'],
+   method:['Blend cottage cheese in the Ninja for 40 seconds until smooth.','Stir through Vegemite (adjust to taste — it\'s salty).','Spread on rice cakes. Top with cucumber or tomato slices.'],
+   notes:'If you like Vegemite, this is oddly addictive. Start with a tiny amount — a little goes a long way.'},
+  {id:'s10',type:'snack',name:'Edamame with sea salt',cal:122,prot:11,carb:8,fat:5,fibre:5,tags:['quick','kid'],
+   desc:'Frozen edamame cooked in 5 minutes — protein-packed and genuinely satisfying.',
+   ingredients:['1 cup frozen edamame in pods (155g cooked, ~100g edamame)','Sea salt flakes'],
+   method:['Bring a small pot of water to the boil. Add edamame, cook 4–5 mins.','Drain. Sprinkle generously with sea salt.','Eat by squeezing pods — discard the shells.'],
+   notes:'From Woolworths or Coles. Great desk snack. Microwave works too — 3 mins covered. Excellent fibre (5.2g).'},
+  {id:'s11',type:'snack',name:'Nut & seed trail mix with dark choc',cal:200,prot:6,carb:13,fat:14,fibre:4,tags:['quick','kid','batch'],
+   desc:'Portion into small bags on Sunday — 30g serves, no overeating.',
+   ingredients:['15g raw almonds','10g pepitas','5g sunflower seeds','10g dark chocolate chips 70%+'],
+   method:['Combine all ingredients.','Portion into 30g serves in small zip-lock bags or containers.','Grab and go.'],
+   notes:'Pre-portioning is everything here — trail mix is easy to overeat from a big bag. Portion 5 bags on Sunday.'},
+  {id:'s12',type:'snack',name:'Ninja mango lassi smoothie',cal:180,prot:19,carb:22,fat:2,fibre:2,tags:['quick','kid'],
+   desc:'Tropical, creamy and high-protein. Like a mango lassi but actually good for you.',
+   ingredients:['150g low-fat Greek yoghurt','½ cup frozen mango (75g)','½ cup low-fat milk (125ml)','Pinch of cardamom','1 tsp honey'],
+   method:['Add all ingredients to the Ninja.','Blend 30–40 seconds until smooth.','Pour into a glass and enjoy.'],
+   notes:'Kids love this one too. Swap cardamom for a pinch of cinnamon if you prefer.'},
+  {id:'s13',type:'snack',name:'Vegemite toast with avocado',cal:170,prot:5,carb:18,fat:8,fibre:4,tags:['quick','kid'],
+   desc:'Thin scrape of Vegemite, smashed avo on wholegrain — salty, satisfying, properly Australian.',
+   ingredients:['1 slice wholegrain bread (40g)','¼ avocado (50g)','Vegemite (thin scrape, 3g)','Lemon juice, salt, chilli flakes'],
+   method:['Toast bread. Scrape with Vegemite.','Smash avocado with lemon juice, salt and chilli flakes.','Pile on toast.'],
+   notes:'Quick desk snack or after-school option. Avocado adds 3.4g fibre. Add a slice of tomato if you have one.'},
+  {id:'s14',type:'snack',name:'Warm spiced milk with protein (golden milk)',cal:165,prot:20,carb:14,fat:3,fibre:0,tags:['quick'],
+   desc:'Cosy winter warmer — turmeric and cinnamon spiced warm milk with a protein boost.',
+   ingredients:['1 cup low-fat milk (250ml)','1 scoop vanilla protein powder (30g)','¼ tsp turmeric','¼ tsp cinnamon','Pinch of black pepper','1 tsp honey'],
+   method:['Warm milk in a small saucepan or microwave (90 sec) — don\'t boil.','Whisk in protein powder, turmeric, cinnamon, pepper and honey.','Pour into a mug and sip slowly.'],
+   notes:'The black pepper activates the turmeric. Great evening snack. If clumpy, blend with the Ninja.'},
+];
+
+const BATCH_SUNDAY = [
+  'Batch overnight oats — make 4 jars (10 min)',
+  'Bake egg & veggie muffin cups — 12 pieces (30 min)',
+  'Cook Mexican chicken or beef mince (30 min) + brown rice (25 min)',
+  'Roast a big tray of vegetables (30 min)',
+  'Portion trail mix into small bags — grab and go all week',
+  'Prep veggie sticks — store in cold water in the fridge',
+  'Start slow cooker: curry, pulled beef or lentil soup (set and forget)',
+];
+const BATCH_WED = [
+  'Check overnight oat jars — make 2 more if needed (5 min)',
+  'Refresh veggie sticks container (5 min)',
+  'Cook a fresh batch of rice or noodles if running low (20 min)',
+  'Swap lunch protein if you\'ve had the same one 3 days (chicken → chickpeas or beef)',
+];
+const BATCH_SLOW = [
+  'Put the slow cooker on before school drop-off — dinner is ready when you get home',
+  'Mexican pulled beef & chicken tikka masala both freeze in individual portions',
+  'Lentil soup fills the house with warmth and keeps 5 days in the fridge',
+  'Double any curry recipe and freeze half — future-you will be very grateful',
+  'Use a liner bag in the slow cooker for zero cleaning',
+];
+
+function renderBatch() {
+  ['sunday','wed','slow'].forEach(key => {
+    const el = document.getElementById('batch-'+key);
+    const items = key==='sunday'?BATCH_SUNDAY:key==='wed'?BATCH_WED:BATCH_SLOW;
+    el.innerHTML = items.map(t=>`<li><span class="batch-dot"></span>${t}</li>`).join('');
+  });
+}
+
+let viewMode = 'solo'; // 'solo', 'kid', 'both'
+
+function setViewWeek(mode) {
+  viewMode = mode;
+  currentWeek = (mode === 'kid') ? 'kid' : 'solo';
+  document.querySelectorAll('.week-btn').forEach(b=>b.classList.remove('active'));
+  const btnId = `view-${mode}-btn`;
+  const btn = document.getElementById(btnId);
+  if(btn) btn.classList.add('active');
+  renderPlanner();
+}
+
+function setWeek(w) { setViewWeek(w); }
+
+function clearWeek(week) {
+  if(!confirm(`Clear all meals from your ${week === 'kid' ? 'kid' : 'solo'} week?`)) return;
+  DAYS.forEach(d => MEAL_TYPES.forEach(type => { plan[week][d][type] = null; }));
+  saveState();
+  renderPlanner();
+}
+
+function renderPlanner() {
+  const container = document.getElementById('planner-weeks');
+  if(!container) return;
+  container.innerHTML = '';
+  const weeksToShow = viewMode === 'both' ? ['solo','kid'] : [currentWeek];
+  weeksToShow.forEach(week => {
+    const section = document.createElement('div');
+    section.style.marginBottom = '1.5rem';
+    if(viewMode === 'both') {
+      const hdr = document.createElement('div');
+      hdr.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;';
+      hdr.innerHTML = `<p style="font-size:13px;font-weight:600;color:var(--text-muted);">${week==='solo'?'SOLO WEEK':'KID WEEK 👦'}</p>
+        <button onclick="clearWeek('${week}')" style="padding:4px 10px;border-radius:var(--radius-sm);border:1px solid var(--coral-mid);background:var(--coral-light);color:var(--coral);font-size:11px;cursor:pointer;">🗑 Clear</button>`;
+      section.appendChild(hdr);
+    }
+    const grid = document.createElement('div');
+    grid.className = 'day-grid';
+    section.appendChild(grid);
+    container.appendChild(section);
+    DAYS.forEach(day => {
+      const col = document.createElement('div');
+      col.className = 'day-col';
+      col.innerHTML = `<div class="day-head">${day}</div><div class="day-slots" id="slots-${week}-${day}"></div><div class="day-totals" id="totals-${week}-${day}"></div>`;
+      grid.appendChild(col);
+    });
+    DAYS.forEach(day => renderDaySlots(day, week));
+  });
+  updateMacroSummary();
+}
+
+function renderDaySlots(day, week) {
+  const w = week || currentWeek;
+  const container = document.getElementById(`slots-${w}-${day}`);
+  if(!container) return;
+  container.innerHTML = '';
+  MEAL_TYPES.forEach(type => {
+    const meal = plan[w][day][type];
+    const eaten = planEaten[w]?.[day]?.[type] || false;
+    const slot = document.createElement('div');
+    slot.className = `slot ${type} ${meal ? 'filled' : ''}`;
+    if(eaten) slot.style.opacity = '0.75';
+    slot.onclick = (e) => {
+      if(e.target.classList.contains('remove-btn') || e.target.classList.contains('eaten-btn') || e.target.classList.contains('build-meal-btn')) return;
+      openLibraryForSlot(day, type, w);
+    };
+    if(meal) {
+      const mealDisplay = meal.isCombined
+        ? `<div class="meal-name">${meal.components.map((c,i)=>`${c.name} <button class="remove-btn" style="font-size:11px;background:none;border:1px solid var(--border-strong);border-radius:8px;padding:1px 5px;cursor:pointer;color:var(--text-hint);" onclick="removeComponent('${day}','${type}','${w}',${i})">×</button>`).join('<span style="color:var(--text-hint);font-size:11px;margin:0 3px;">+</span>')}</div>`
+        : `<div class="meal-name">${meal.name}</div>`;
+      slot.innerHTML = `
+        <div class="slot-type">${type}${eaten?' ✓':''}</div>
+        ${mealDisplay}
+        <div class="slot-cals">${meal.cal} cal · ${meal.prot}g P · ${meal.fibre||0}g F</div>
+        <div class="slot-actions">
+          <button class="eaten-btn ${eaten?'active':''}" onclick="toggleEaten('${day}','${type}','${w}')">${eaten?'✓ Eaten':'○ Eaten?'}</button>
+          <button class="build-meal-btn" onclick="event.stopPropagation();openMealBuilder('${day}','${type}','${w}')" style="border-color:var(--teal-mid);background:var(--teal-light);color:var(--teal);">+ Add sides</button>
+          ${!meal.isCombined ? `<button class="remove-btn" onclick="removeMeal('${day}','${type}','${w}')" style="font-size:13px;background:none;border:none;cursor:pointer;color:var(--text-hint);padding:2px 6px;">× remove</button>` : ''}
+        </div>`;
+    } else {
+      slot.innerHTML = `
+        <div class="slot-type">${type}</div>
+        <div class="meal-name" style="color:var(--text-hint);font-style:italic;font-size:11px;">Tap to browse recipes</div>
+        <div class="slot-actions">
+          <button class="build-meal-btn" onclick="event.stopPropagation();openMealBuilder('${day}','${type}','${w}')">🍳 Build a meal</button>
+        </div>`;
+    }
+    container.appendChild(slot);
+  });
+  updateDayTotal(day, w);
+}
+
+function updateDayTotal(day, week) {
+  const w = week || currentWeek;
+  const meals = Object.values(plan[w][day]).filter(Boolean);
+  const mealCal = meals.reduce((a,m)=>a+m.cal,0);
+  const extraCal = w === currentWeek ? getExtraCaloriesForDay(day) : 0;
+  const total = mealCal + extraCal;
+  const pct = Math.min(100, Math.round((total/TARGETS.cal)*100));
+  const color = total > TARGETS.cal+100 ? 'var(--coral-mid)' : total >= TARGETS.cal-150 ? 'var(--green-mid)' : 'var(--amber-mid)';
+  const el = document.getElementById(`totals-${w}-${day}`);
+  if(!el) return;
+  el.innerHTML = `<div class="day-macro-bar"><div class="day-macro-fill" style="width:${pct}%;background:${color};"></div></div>
+    <div class="day-cal-label">${total} / ${TARGETS.cal} cal${extraCal ? ` <span style="color:var(--amber);">(+${extraCal})</span>` : ''}</div>`;
+}
+
+function updateMacroSummary() {
+  const days = DAYS.map(d => {
+    const meals = Object.values(plan[currentWeek][d]).filter(Boolean);
+    return {cal:meals.reduce((a,m)=>a+m.cal,0),prot:meals.reduce((a,m)=>a+m.prot,0),carb:meals.reduce((a,m)=>a+m.carb,0),fat:meals.reduce((a,m)=>a+m.fat,0),fibre:meals.reduce((a,m)=>a+(m.fibre||0),0),count:meals.length};
+  }).filter(d=>d.count>0);
+  if(!days.length) return;
+  const avg = k => Math.round(days.reduce((a,d)=>a+d[k],0)/days.length);
+  const set = (id,val,tgt,unit='') => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.querySelector('.val').textContent = val+unit;
+    const over = val > tgt+50; const good = val >= tgt-80 && val <= tgt+50;
+    el.className = `macro-card ${over?'over':good?'good':''}`;
+  };
+  set('ms-cal',avg('cal'),TARGETS.cal);
+  set('ms-prot',avg('prot'),TARGETS.prot,'g');
+  set('ms-carb',avg('carb'),TARGETS.carb,'g');
+  set('ms-fat',avg('fat'),TARGETS.fat,'g');
+  set('ms-fibre',avg('fibre'),TARGETS.fibre,'g');
+}
+
+function removeMeal(day, type, week) {
+  const w = week || currentWeek;
+  plan[w][day][type] = null;
+  planEaten[w][day][type] = false;
+  renderDaySlots(day, w);
+  updateMacroSummary();
+  saveState();
+}
+
+function removeComponent(day, type, week, componentIdx) {
+  const w = week || currentWeek;
+  const meal = plan[w][day][type];
+  if(!meal?.isCombined) return;
+  if(meal.components.length <= 2) {
+    // Only 2 components — removing one leaves just the other
+    plan[w][day][type] = meal.components[componentIdx === 0 ? 1 : 0];
+  } else {
+    // 3+ components — rebuild combined without this one
+    const remaining = meal.components.filter((_,i)=>i!==componentIdx);
+    plan[w][day][type] = remaining.reduce((acc,r) => combineRecipes(acc,r));
+  }
+  renderDaySlots(day, w);
+  updateMacroSummary();
+  saveState();
+}
+
+function toggleEaten(day, type, week) {
+  const w = week || currentWeek;
+  if(!planEaten[w]) planEaten[w] = {};
+  if(!planEaten[w][day]) planEaten[w][day] = {};
+  planEaten[w][day][type] = !planEaten[w][day][type];
+  renderDaySlots(day, w);
+  saveState();
+}
+
+// ── MEAL BUILDER ──────────────────────────────────────────────
+let mbIngredients = [];
+let mbSelectedItem = null;
+
+function openMealBuilder(day, type, week) {
+  const w = week || currentWeek;
+  const slotType = (type === 'dessert' || type === 'side') ? 'snack' : type;
+  const existingMeal = plan[w]?.[day]?.[slotType];
+  document.getElementById('mb-day').value = day || 'Mon';
+  document.getElementById('mb-type').value = type || 'lunch';
+  document.getElementById('mb-week').value = w;
+  // Update modal title based on context
+  const modalTitle = document.querySelector('#mb-modal .modal-title');
+  if(modalTitle) {
+    modalTitle.textContent = existingMeal
+      ? `Add sides to ${existingMeal.isCombined ? 'combined meal' : existingMeal.name}`
+      : 'Add ingredients & calculate macros';
+  }
+  mbIngredients = [];
+  mbSelectedItem = null;
+  document.getElementById('mb-name').value = existingMeal ? 'Side / salad' : '';
+  document.getElementById('mb-search').value = '';
+  document.getElementById('mb-results').style.display = 'none';
+  document.getElementById('mb-qty-picker').style.display = 'none';
+  document.getElementById('mb-ing-list').style.display = 'none';
+  document.getElementById('mb-totals').style.display = 'none';
+  mbRenderIngredients();
+  document.getElementById('mb-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('mb-search').focus(), 200);
+}
+function closeMB() { document.getElementById('mb-overlay').classList.remove('open'); }
+function closeMBOverlay(e) { if(e.target===document.getElementById('mb-overlay')) closeMB(); }
+
+function mbSearch() {
+  const q = document.getElementById('mb-search').value.trim().toLowerCase();
+  const results = document.getElementById('mb-results');
+  if(q.length < 2) { results.style.display='none'; return; }
+  const local = CLIENT_DB.filter(item => item.name.toLowerCase().includes(q));
+  let html = local.slice(0,8).map(item => `
+    <div class="mb-search-result" onclick="mbSelectItem(${JSON.stringify(item).replace(/"/g,'&quot;')})">
+      <span class="mb-r-name">${item.name}</span>
+      <span class="mb-r-cal">${item.p100.cal} cal/100g</span>
+      <span class="mb-r-badge">built-in</span>
+    </div>`).join('');
+  results.innerHTML = html || `<div style="padding:12px;font-size:13px;color:var(--text-muted);">No local results — searching online…</div>`;
+  results.style.display = 'block';
+  if(local.length < 4) mbSearchOFF(q);
+}
+
+async function mbSearchOFF(q) {
+  try {
+    const resp = await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&fields=product_name,brands,nutriments&page_size=5&lc=en&cc=au`);
+    const data = await resp.json();
+    const results = document.getElementById('mb-results');
+    if(!data.products?.length) return;
+    const offItems = data.products.filter(p => (p.nutriments?.['energy-kcal_100g']||0) > 0).slice(0,4);
+    if(!offItems.length) return;
+    const offHtml = offItems.map(p => {
+      const n = p.nutriments;
+      const item = {
+        name: [p.brands, p.product_name].filter(Boolean).join(' — '),
+        p100: {cal:Math.round(n['energy-kcal_100g']||0), prot:Math.round((n['proteins_100g']||0)*10)/10, carb:Math.round((n['carbohydrates_100g']||0)*10)/10, fat:Math.round((n['fat_100g']||0)*10)/10, fibre:Math.round((n['fiber_100g']||0)*10)/10},
+        serving: null
+      };
+      return `<div class="mb-search-result" onclick="mbSelectItem(${JSON.stringify(item).replace(/"/g,'&quot;')})">
+        <span class="mb-r-name">${item.name}</span>
+        <span class="mb-r-cal">${item.p100.cal} cal/100g</span>
+        <span class="mb-r-badge" style="background:#EEF2FB;color:#2D4A9A;">🌐 online</span>
+      </div>`;
+    }).join('');
+    const existing = results.innerHTML;
+    results.innerHTML = (existing.includes('No local') ? '' : existing + `<div style="padding:5px 12px;font-size:10px;font-weight:600;color:var(--text-hint);text-transform:uppercase;letter-spacing:.05em;border-top:1px solid var(--border);">Also found online</div>`) + offHtml;
+  } catch(e) {}
+}
+
+function mbSelectItem(item) {
+  mbSelectedItem = typeof item === 'string' ? JSON.parse(item) : item;
+  document.getElementById('mb-results').style.display = 'none';
+  document.getElementById('mb-search').value = '';
+  document.getElementById('mb-sel-name').textContent = mbSelectedItem.name;
+  const p = mbSelectedItem.p100;
+  document.getElementById('mb-sel-per100').textContent = `per 100g: ${p.cal} cal · ${p.prot}g protein · ${p.carb}g carbs · ${p.fat}g fat · ${p.fibre||0}g fibre`;
+  document.getElementById('mb-qty').value = mbSelectedItem.serving?.g || 100;
+  document.getElementById('mb-unit').value = 'g';
+  document.getElementById('mb-qty-picker').style.display = 'block';
+  mbUpdateQtyPreview();
+  document.getElementById('mb-qty').focus();
+  document.getElementById('mb-qty').select();
+}
+
+function mbUnitToGrams(qty, unit) {
+  return qty * ({g:1,ml:1,tsp:5,tbsp:15,cup:240,serving:mbSelectedItem?.serving?.g||100}[unit]||1);
+}
+
+function mbUpdateQtyPreview() {
+  if(!mbSelectedItem) return;
+  const qty = parseFloat(document.getElementById('mb-qty').value)||0;
+  const grams = mbUnitToGrams(qty, document.getElementById('mb-unit').value);
+  const p = mbSelectedItem.p100;
+  document.getElementById('mb-qty-preview').textContent = grams>0 ? `→ ${Math.round(grams)}g = ${Math.round(grams/100*p.cal)} cal, ${Math.round(grams/100*p.prot*10)/10}g protein` : '';
+}
+
+function mbAddIngredient() {
+  if(!mbSelectedItem) return;
+  const qty = parseFloat(document.getElementById('mb-qty').value)||0;
+  const unit = document.getElementById('mb-unit').value;
+  const grams = mbUnitToGrams(qty, unit);
+  if(grams <= 0) { alert('Please enter a quantity.'); return; }
+  const p = mbSelectedItem.p100;
+  const f = grams/100;
+  mbIngredients.push({
+    name: mbSelectedItem.name,
+    displayQty: `${qty}${unit}`,
+    grams,
+    macros: {cal:Math.round(p.cal*f), prot:Math.round(p.prot*f*10)/10, carb:Math.round(p.carb*f*10)/10, fat:Math.round(p.fat*f*10)/10, fibre:Math.round((p.fibre||0)*f*10)/10}
+  });
+  mbSelectedItem = null;
+  document.getElementById('mb-qty-picker').style.display = 'none';
+  mbRenderIngredients();
+  mbUpdateTotals();
+  document.getElementById('mb-search').focus();
+}
+
+function mbRemoveIngredient(idx) {
+  mbIngredients.splice(idx,1);
+  mbRenderIngredients();
+  mbUpdateTotals();
+}
+
+function mbRenderIngredients() {
+  const el = document.getElementById('mb-ing-list');
+  if(!mbIngredients.length) { el.style.display='none'; return; }
+  el.style.display='block';
+  el.innerHTML = mbIngredients.map((ing,i) => `
+    <div class="mb-ing-row">
+      <div style="flex:1;">
+        <div class="mb-ing-name">${ing.name} <span style="color:var(--text-hint);font-size:12px;">(${ing.displayQty}, ${Math.round(ing.grams)}g)</span></div>
+        <div class="mb-ing-macros">${ing.macros.cal} cal · ${ing.macros.prot}g P · ${ing.macros.carb}g C · ${ing.macros.fat}g F · ${ing.macros.fibre}g fibre</div>
+      </div>
+      <button class="mb-ing-del" onclick="mbRemoveIngredient(${i})">×</button>
+    </div>`).join('');
+}
+
+function mbUpdateTotals() {
+  if(!mbIngredients.length) { document.getElementById('mb-totals').style.display='none'; return; }
+  const t = mbIngredients.reduce((a,ing)=>({cal:a.cal+ing.macros.cal,prot:a.prot+ing.macros.prot,carb:a.carb+ing.macros.carb,fat:a.fat+ing.macros.fat,fibre:a.fibre+ing.macros.fibre}),{cal:0,prot:0,carb:0,fat:0,fibre:0});
+  document.getElementById('mb-t-cal').textContent = Math.round(t.cal);
+  document.getElementById('mb-t-prot').textContent = Math.round(t.prot)+'g';
+  document.getElementById('mb-t-carb').textContent = Math.round(t.carb)+'g';
+  document.getElementById('mb-t-fat').textContent = Math.round(t.fat)+'g';
+  document.getElementById('mb-t-fibre').textContent = Math.round(t.fibre*10)/10+'g';
+  const type = document.getElementById('mb-type').value;
+  const tgts = {breakfast:{cal:[350,430],prot:[25,40]},lunch:{cal:[380,480],prot:[30,45]},dinner:{cal:[420,520],prot:[38,52]},snack:{cal:[150,230],prot:[10,25]},dessert:{cal:[150,300],prot:[5,20]}};
+  const tg = tgts[type]||tgts.lunch;
+  const notes = [];
+  if(t.cal < tg.cal[0]) notes.push(`💛 Calories a bit low (target ${tg.cal[0]}–${tg.cal[1]})`);
+  else if(t.cal > tg.cal[1]) notes.push(`🟠 Calories a bit high (target ${tg.cal[0]}–${tg.cal[1]})`);
+  else notes.push(`✅ Calories on target`);
+  if(t.prot < tg.prot[0]) notes.push(`💛 Protein low — consider adding a protein source`);
+  else notes.push(`✅ Protein on target`);
+  document.getElementById('mb-target-note').textContent = notes.join(' · ');
+  document.getElementById('mb-totals').style.display='block';
+}
+
+function mbSave(saveToLibrary) {
+  if(!mbIngredients.length) { alert('Add at least one ingredient first.'); return; }
+  const name = document.getElementById('mb-name').value.trim() || 'Custom meal';
+  const day = document.getElementById('mb-day').value;
+  const type = document.getElementById('mb-type').value;
+  const week = document.getElementById('mb-week').value;
+  const t = mbIngredients.reduce((a,ing)=>({cal:a.cal+ing.macros.cal,prot:a.prot+ing.macros.prot,carb:a.carb+ing.macros.carb,fat:a.fat+ing.macros.fat,fibre:a.fibre+ing.macros.fibre}),{cal:0,prot:0,carb:0,fat:0,fibre:0});
+  const recipe = {
+    id:'custom_'+Date.now(), type, name,
+    cal:Math.round(t.cal), prot:Math.round(t.prot), carb:Math.round(t.carb), fat:Math.round(t.fat), fibre:Math.round(t.fibre*10)/10,
+    desc:`Built from ${mbIngredients.length} ingredients`,
+    tags:['quick'],
+    ingredients:mbIngredients.map(i=>`${i.displayQty} ${i.name} (${Math.round(i.grams)}g)`),
+    method:['Prepare and combine ingredients as needed.'],
+    notes:'🍳 Built with the meal builder',
+    serves:null,
+  };
+  if(saveToLibrary) RECIPES.push(recipe);
+  addMealToSlot(recipe, day, type, week);
+  closeMB();
+  switchTab('planner');
+  saveState();
+}
+
+let pendingSlot = null;
+
+
+function openLibraryForSlot(day, type, week) {
+  pendingSlot = {day, type, week: week || currentWeek};
+  switchTab('library');
+  setFilter(type, document.querySelectorAll('.filter-btn')[MEAL_TYPES.indexOf(type)+2]);
+}
+
+let currentFilter = 'all';
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  filterRecipes();
+}
+
+function filterRecipes() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const filtered = RECIPES.filter(r => {
+    const matchType = currentFilter==='all'||r.type===currentFilter||r.tags.includes(currentFilter);
+    const matchQ = !q ||
+      r.name.toLowerCase().includes(q) ||
+      r.desc.toLowerCase().includes(q) ||
+      r.tags.some(t=>t.includes(q)) ||
+      (r.ingredients||[]).some(i=>i.toLowerCase().includes(q));
+    return matchType && matchQ;
+  });
+  const grid = document.getElementById('recipe-grid');
+  if(!filtered.length) { grid.innerHTML = '<div class="no-results">No recipes match. Try a different filter.</div>'; return; }
+  grid.innerHTML = filtered.map(r => `
+    <div class="recipe-card">
+      <div class="rc-head">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div class="rc-type ${r.type}">${r.type}</div>
+        <button class="rc-delete-btn" onclick="deleteRecipe('${r.id}',event)" title="Delete recipe">🗑</button>
+        </div>
+        <div class="rc-name">${r.name}</div>
+        <div class="rc-desc">${r.desc}</div>
+        ${r.serves ? `<div style="font-size:11px;color:var(--teal);margin-top:3px;">Makes ${r.serves} serves${r.portionSize ? ` · ${r.portionSize}` : ''}</div>` : ''}
+      </div>
+      <div class="rc-tags">${r.tags.map(t=>`<span class="tag ${t}">${t==='batch'?'🧊 batch cook':t==='kid'?'👦 kid-friendly':t==='quick'?'⚡ quick':t==='slow'?'🍲 slow cooker':t==='mexican'?'🌮 mexican':t==='asian'?'🥢 asian':t==='curry'?'🍛 curry':t}</span>`).join('')}</div>      <div class="rc-macros">
+        <div class="rc-macro"><div class="mv">${r.cal}</div><div class="ml">cal</div></div>
+        <div class="rc-macro"><div class="mv">${r.prot}g</div><div class="ml">prot</div></div>
+        <div class="rc-macro"><div class="mv">${r.carb}g</div><div class="ml">carbs</div></div>
+        <div class="rc-macro"><div class="mv">${r.fat}g</div><div class="ml">fat</div></div>
+      </div>
+      <div class="rc-actions">
+        <button class="btn-add" onclick="openRecipeModal('${r.id}', true)">+ Add to plan</button>
+        <button class="btn-view" onclick="openRecipeModal('${r.id}', false)">Recipe</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function deleteRecipe(id, event) {
+  event.stopPropagation();
+  if(!confirm('Delete this recipe from your library?')) return;
+  const idx = RECIPES.findIndex(r=>r.id===id);
+  if(idx>-1) RECIPES.splice(idx,1);
+  // Also remove from plan if it's there
+  ['solo','kid'].forEach(week => {
+    DAYS.forEach(day => {
+      MEAL_TYPES.forEach(type => {
+        if(plan[week][day][type]?.id === id) plan[week][day][type] = null;
+      });
+    });
+  });
+  saveState();
+  filterRecipes();
+  if(document.getElementById('planner').classList.contains('active')) renderPlanner();
+}
+
+function openRecipeModal(id, addMode) {
+  selectedRecipe = RECIPES.find(r=>r.id===id);
+  if(!selectedRecipe) return;
+  document.getElementById('modal-type-label').textContent = selectedRecipe.type;
+  document.getElementById('modal-type-label').className = `rc-type ${selectedRecipe.type}`;
+  document.getElementById('modal-title').textContent = selectedRecipe.name;
+  document.getElementById('modal-macros').innerHTML = ['cal','prot','carb','fat','fibre'].map(k=>`<div class="modal-macro"><div class="v">${selectedRecipe[k]||0}${k==='cal'?'':' g'}</div><div class="l">${k}</div></div>`).join('');
+  document.getElementById('modal-recipe-content').innerHTML = `
+    ${selectedRecipe.serves ? `<div style="background:var(--teal-light);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;color:var(--teal);margin-bottom:12px;">🍽 Makes <strong>${selectedRecipe.serves} serves</strong>${selectedRecipe.portionSize ? ` · <strong>${selectedRecipe.portionSize}</strong>` : ''} — your portion is <strong>1/${selectedRecipe.serves} of the batch</strong></div>` : ''}
+    <h3>Ingredients <span style="font-size:11px;font-weight:400;color:var(--text-hint);text-transform:none;letter-spacing:0;">— tap + to add to shopping list</span></h3>
+    <ul style="list-style:none;padding:0;">${selectedRecipe.ingredients.map((ing,i)=>`
+      <li style="display:flex;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);gap:8px;">
+        <span style="flex:1;font-size:14px;">${ing}</span>
+        <button class="ing-add-btn" id="ing-btn-${selectedRecipe.id}-${i}" onclick="addIngredientToList('${selectedRecipe.id}','${ing.replace(/'/g,"\\'")}','${selectedRecipe.name.replace(/'/g,"\\'")}',${i})">+ list</button>
+      </li>`).join('')}
+    </ul>
+    <h3 style="margin-top:1rem;">Method</h3>
+    <ol>${selectedRecipe.method.map(s=>`<li>${s}</li>`).join('')}</ol>
+    ${selectedRecipe.notes ? `<div style="margin-top:1rem;padding:10px 14px;background:var(--amber-light);border-radius:var(--radius-sm);font-size:13px;color:var(--amber);line-height:1.6;">${selectedRecipe.notes}</div>` : ''}
+  `;
+  document.getElementById('modal-day-picker').style.display = 'none';
+  document.getElementById('modal-add-btn').style.display = addMode||pendingSlot ? 'block' : 'block';
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function showDayPicker() {
+  if(pendingSlot) {
+    addMealToSlot(selectedRecipe, pendingSlot.day, pendingSlot.type, pendingSlot.week);
+    pendingSlot = null;
+    closeModalDirect();
+    switchTab('planner');
+    return;
+  }
+  // No pending slot — show full day/week picker
+  const picker = document.getElementById('modal-day-picker');
+  picker.style.display = 'block';
+  const grid = document.getElementById('picker-grid');
+  grid.innerHTML = `
+    <div style="grid-column:1/-1;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:4px;">Solo week</div>
+    ${DAYS.map(d=>`<div class="picker-day" onclick="addMealFromModal('${d}','solo')">${d}</div>`).join('')}
+    <div style="grid-column:1/-1;font-size:12px;font-weight:600;color:var(--text-muted);margin:8px 0 4px;">Kid week 👦</div>
+    ${DAYS.map(d=>`<div class="picker-day" onclick="addMealFromModal('${d}','kid')">${d}</div>`).join('')}
+  `;
+  document.getElementById('modal-add-btn').textContent = 'Choose a day above ↑';
+}
+
+function addMealFromModal(day, week) {
+  if(!selectedRecipe) return;
+  const targetWeek = week || currentWeek;
+  addMealToSlot(selectedRecipe, day, selectedRecipe.type, targetWeek);
+  closeModalDirect();
+  // Switch to planner to show result
+  switchTab('planner');
+}
+
+function combineRecipes(r1, r2) {
+  return {
+    id: 'combined_' + Date.now(),
+    type: r1.type,
+    name: `${r1.name} + ${r2.name}`,
+    desc: `Combined meal: ${r1.name} and ${r2.name}`,
+    cal:   (r1.cal||0)   + (r2.cal||0),
+    prot:  (r1.prot||0)  + (r2.prot||0),
+    carb:  (r1.carb||0)  + (r2.carb||0),
+    fat:   (r1.fat||0)   + (r2.fat||0),
+    fibre: (r1.fibre||0) + (r2.fibre||0),
+    tags: [...new Set([...(r1.tags||[]), ...(r2.tags||[])])],
+    ingredients: [
+      `--- ${r1.name} ---`,
+      ...(r1.ingredients||[]),
+      `--- ${r2.name} ---`,
+      ...(r2.ingredients||[]),
+    ],
+    method: [
+      ...(r1.method||[]).map(s=>`[${r1.name}] ${s}`),
+      ...(r2.method||[]).map(s=>`[${r2.name}] ${s}`),
+    ],
+    notes: [r1.notes, r2.notes].filter(Boolean).join(' · '),
+    serves: null,
+    isCombined: true,
+    components: [r1, r2],
+  };
+}
+
+function addMealToSlot(recipe, day, type, week) {
+  const targetWeek = week || currentWeek;
+  const slotType = (type === 'dessert' || type === 'side') ? 'snack' : type;
+  const existing = plan[targetWeek][day][slotType];
+  if(existing && !existing.isCombined) {
+    // Combine the two recipes — show a quick toast notification
+    plan[targetWeek][day][slotType] = combineRecipes(existing, recipe);
+    showToast(`Combined with ${existing.name} — tap × on either to remove`);
+  } else if(existing && existing.isCombined) {
+    // Already combined — add a third
+    plan[targetWeek][day][slotType] = combineRecipes(existing, recipe);
+    showToast(`Added to meal — macros combined`);
+  } else {
+    plan[targetWeek][day][slotType] = recipe;
+  }
+  if(document.getElementById('planner').classList.contains('active')) {
+    renderDaySlots(day, targetWeek);
+    updateMacroSummary();
+  }
+  saveState();
+}
+
+function showToast(msg) {
+  let toast = document.getElementById('mp-toast');
+  if(!toast) {
+    toast = document.createElement('div');
+    toast.id = 'mp-toast';
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#222;color:white;padding:10px 20px;border-radius:20px;font-size:13px;z-index:999;opacity:0;transition:opacity 0.3s;pointer-events:none;max-width:320px;text-align:center;';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.opacity = '1';
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+}
+
+function closeModal(e) { if(e.target===document.getElementById('modal-overlay')) closeModalDirect(); }
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.getElementById('modal-day-picker').style.display='none';
+  document.getElementById('modal-add-btn').textContent='+ Add to planner';
+  pendingSlot=null;
+}
+
+
+// ── SCAN RECIPE ──────────────────────────────────────────────
+// Dynamic meal targets — calculated from user's actual TARGETS settings
+// Meal splits: breakfast 25%, lunch 30%, dinner 35%, snack 10%
+function getMealTargets(mealType) {
+  const splits = {
+    breakfast: {cal:0.25, prot:0.25, carb:0.28, fat:0.22},
+    lunch:     {cal:0.30, prot:0.30, carb:0.32, fat:0.28},
+    dinner:    {cal:0.35, prot:0.35, carb:0.32, fat:0.35},
+    snack:     {cal:0.10, prot:0.10, carb:0.08, fat:0.15},
+    dessert:   {cal:0.10, prot:0.05, carb:0.13, fat:0.12},
+    side:      {cal:0.05, prot:0.03, carb:0.06, fat:0.06},
+  };
+  const s = splits[mealType] || splits.dinner;
+  const tol = 0.18; // ±18% tolerance band so minor variations don't flag as outside
+  return {
+    cal:  [Math.round(TARGETS.cal  * s.cal  * (1-tol)), Math.round(TARGETS.cal  * s.cal  * (1+tol))],
+    prot: [Math.round(TARGETS.prot * s.prot * (1-tol)), Math.round(TARGETS.prot * s.prot * (1+tol))],
+    carb: [Math.round(TARGETS.carb * s.carb * (1-tol)), Math.round(TARGETS.carb * s.carb * (1+tol))],
+    fat:  [Math.round(TARGETS.fat  * s.fat  * (1-tol)), Math.round(TARGETS.fat  * s.fat  * (1+tol))],
+  };
+}
+
+// Keep MEAL_TARGETS as a static fallback for the meal builder (uses inline tgts)
+const MEAL_TARGETS = {
+  breakfast: {cal:[350,430],prot:[25,40],carb:[35,55],fat:[6,18]},
+  lunch:     {cal:[380,480],prot:[30,45],carb:[35,55],fat:[8,16]},
+  dinner:    {cal:[420,520],prot:[38,52],carb:[25,50],fat:[10,20]},
+  snack:     {cal:[150,230],prot:[10,25],carb:[12,28],fat:[3,12]},
+  dessert:   {cal:[150,300],prot:[5,20], carb:[20,45],fat:[5,18]},
+  side:      {cal:[50,200], prot:[2,10],  carb:[5,25], fat:[2,15]},
+};
+
+function switchTab(id, triggerEl) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(triggerEl) {
+    triggerEl.classList.add('active');
+  } else {
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(t => { if(t.getAttribute('onclick') && t.getAttribute('onclick').includes(`'${id}'`)) t.classList.add('active'); });
+  }
+  if(id === 'extras') { renderWeeklyBalance(); renderExtrasLog(); }
+  if(id === 'settings') populateSettingsForm();
+}
+
+// ── SCAN / IMPORT ─────────────────────────────────────────────
+let scanImages = []; // array of {base64, mediaType, dataUrl}
+
+function setScanMode(mode, btn) {
+  document.querySelectorAll('.scan-mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('scan-mode-photo').style.display = mode==='photo' ? 'block' : 'none';
+  document.getElementById('scan-mode-url').style.display   = mode==='url'   ? 'block' : 'none';
+  document.getElementById('scan-mode-text').style.display  = mode==='text'  ? 'block' : 'none';
+  // Reset status/result when switching mode
+  document.getElementById('scan-status').style.display = 'none';
+  document.getElementById('scan-result').style.display = 'none';
+}
+
+function handleDragOver(e) { e.preventDefault(); document.getElementById('scan-drop').classList.add('dragover'); }
+function handleDragLeave() { document.getElementById('scan-drop').classList.remove('dragover'); }
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('scan-drop').classList.remove('dragover');
+  const files = [...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
+  if(files.length) addImagesToQueue(files);
+}
+function handleFileSelect(e) {
+  const files = [...e.target.files].filter(f=>f.type.startsWith('image/'));
+  if(files.length) addImagesToQueue(files);
+  e.target.value = ''; // reset so same file can be re-selected
+}
+
+function addImagesToQueue(files) {
+  let loaded = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      scanImages.push({ base64: dataUrl.split(',')[1], mediaType: file.type||'image/jpeg', dataUrl });
+      loaded++;
+      if(loaded === files.length) renderThumbs();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderThumbs() {
+  const thumbsEl = document.getElementById('scan-thumbs');
+  const grid = document.getElementById('scan-thumb-grid');
+  const label = document.getElementById('scan-thumb-label');
+  if(!scanImages.length) { thumbsEl.style.display='none'; document.getElementById('scan-drop').style.display='block'; return; }
+  document.getElementById('scan-drop').style.display = 'none';
+  thumbsEl.style.display = 'block';
+  label.textContent = `${scanImages.length} image${scanImages.length>1?'s':''} selected${scanImages.length>1?' — all will be read together as one recipe':''}`;
+  grid.innerHTML = scanImages.map((img,i)=>`
+    <div class="scan-thumb">
+      <img src="${img.dataUrl}" alt="Recipe photo ${i+1}">
+      <button class="thumb-del" onclick="removeThumb(${i})">×</button>
+    </div>`).join('') +
+    `<div class="scan-thumb" onclick="document.getElementById('file-input').click()" style="width:100px;height:80px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px dashed var(--green-mid);border-radius:var(--radius-sm);color:var(--green);font-size:24px;background:var(--green-light);">+</div>`;
+}
+
+function removeThumb(idx) {
+  scanImages.splice(idx,1);
+  renderThumbs();
+}
+
+async function submitPhotos() {
+  if(!scanImages.length) return;
+  if(!workerUrlSet()) {
+    showScanStatus('error','Worker URL not set — follow the setup guide first.'); return;
+  }
+  const count = scanImages.length;
+  showScanStatus('loading', `🔍 Reading ${count>1?count+' photos':'your photo'}… about 10–15 seconds…`);
+  document.getElementById('scan-result').style.display='none';
+  try {
+    const resp = await fetch(getWorkerUrl(), {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ images: scanImages.map(i=>({base64:i.base64,mediaType:i.mediaType})) })
+    });
+    if(!resp.ok) throw new Error(await resp.text());
+    const recipe = await resp.json();
+    if(recipe.error) throw new Error(recipe.error);
+    populateScanResult(recipe);
+    showScanStatus('success',`✓ Recipe extracted from ${count} image${count>1?'s':''}! Review below and save to your library.`);
+  } catch(err) {
+    showScanStatus('error',`Could not read the recipe: ${err.message}. Try clearer photos with good lighting.`);
+  }
+}
+
+// ── URL IMPORT ────────────────────────────────────────────────
+async function importFromUrl() {
+  const url = document.getElementById('url-input').value.trim();
+  if(!url || !url.startsWith('http')) { alert('Please paste a full URL starting with https://'); return; }
+  if(!workerUrlSet()) {
+    showScanStatus('error','Worker URL not set — follow the setup guide first.'); return;
+  }
+  document.getElementById('scan-result').style.display='none';
+  showScanStatus('loading',`🔍 Fetching recipe from ${new URL(url).hostname}… about 15 seconds…`);
+  try {
+    const resp = await fetch(getWorkerUrl(), {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({recipeUrl:url})});
+    if(!resp.ok) throw new Error(await resp.text());
+    const recipe = await resp.json();
+    if(recipe.error) throw new Error(recipe.error);
+    populateScanResult(recipe);
+    showScanStatus('success',`✓ Recipe imported from ${new URL(url).hostname}! Review below and save.`);
+  } catch(err) {
+    showScanStatus('error',`Could not import: ${err.message}`);
+    resetScan();
+  }
+}
+
+// ── TEXT RECIPE INPUT ─────────────────────────────────────────
+async function submitTextRecipe() {
+  const text = document.getElementById('text-recipe-input').value.trim();
+  if(!text || text.length < 20) { alert('Please type or paste the recipe first.'); return; }
+  if(!workerUrlSet()) {
+    showScanStatus('error','Worker URL not set — follow the setup guide first.'); return;
+  }
+  document.getElementById('scan-result').style.display='none';
+  showScanStatus('loading','🔍 Calculating macros and processing your recipe… about 10 seconds…');
+  try {
+    const resp = await fetch(getWorkerUrl(), {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({recipeText:text})});
+    if(!resp.ok) throw new Error(await resp.text());
+    const recipe = await resp.json();
+    if(recipe.error) throw new Error(recipe.error);
+    populateScanResult(recipe);
+    showScanStatus('success','✓ Recipe processed! Review macros below and save to your library.');
+  } catch(err) {
+    showScanStatus('error',`Could not process recipe: ${err.message}`);
+  }
+}
+
+function showScanStatus(type, message) {
+  const el = document.getElementById('scan-status');
+  el.style.display = 'block';
+  el.className = `scan-status ${type}`;
+  el.textContent = message;
+}
+
+function resetScan() {
+  scanImages = [];
+  document.getElementById('scan-thumbs').style.display = 'none';
+  document.getElementById('scan-drop').style.display = 'block';
+  document.getElementById('scan-status').style.display = 'none';
+  document.getElementById('scan-result').style.display = 'none';
+  document.getElementById('file-input').value = '';
+  document.getElementById('url-input').value = '';
+  document.getElementById('text-recipe-input').value = '';
+}
+
+function populateScanResult(recipe) {
+  document.getElementById('sr-name').textContent = recipe.name;
+  document.getElementById('sr-desc').textContent = recipe.desc;
+  document.getElementById('sr-name-input').value = recipe.name;
+  document.getElementById('sr-type-select').value = recipe.type || 'dinner';
+  setMealType(recipe.type || 'dinner');
+  const typeBadge = document.getElementById('sr-type-badge');
+  typeBadge.textContent = recipe.type;
+  typeBadge.className = `rc-type ${recipe.type}`;
+  const servesInput = document.getElementById('sr-serves-input');
+  if(servesInput) servesInput.value = recipe.serves || '';
+  const sourceRow = document.getElementById('sr-source-row');
+  const sourceUrl = document.getElementById('sr-source-url');
+  if(recipe.sourceUrl) {
+    sourceUrl.textContent = recipe.sourceUrl;
+    sourceRow.style.display = 'block';
+  } else {
+    sourceRow.style.display = 'none';
+  }
+  // Site vs calculated nutrition comparison
+  const compRow = document.getElementById('sr-comparison-row');
+  if(compRow) {
+    if(recipe.siteNutrition && recipe.nutritionComparison) {
+      const sn = recipe.siteNutrition;
+      const c = recipe.nutritionComparison;
+      const bgColor = c.level === 'significant' ? 'var(--coral-light)' : c.level === 'warning' ? 'var(--amber-light)' : 'var(--green-light)';
+      const borderColor = c.level === 'significant' ? 'var(--coral-mid)' : c.level === 'warning' ? 'var(--amber-mid)' : 'var(--green-mid)';
+      const textColor = c.level === 'significant' ? 'var(--coral)' : c.level === 'warning' ? 'var(--amber)' : 'var(--green)';
+      compRow.style.display = 'block';
+      compRow.innerHTML = `
+        <div style="background:${bgColor};border:1px solid ${borderColor};border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:10px;">
+          <div style="font-size:12px;font-weight:600;color:${textColor};margin-bottom:6px;">
+            ${c.level === 'significant' ? '⚠️ Significant' : c.level === 'warning' ? '💛 Moderate' : '✅ Good'} match with site's nutrition data
+          </div>
+          <div style="display:grid;grid-template-columns:auto repeat(5,1fr);gap:6px;font-size:12px;text-align:center;">
+            <div></div><div><strong>cal</strong></div><div><strong>prot</strong></div><div><strong>carb</strong></div><div><strong>fat</strong></div><div><strong>fibre</strong></div>
+            <div style="text-align:left;color:var(--text-muted);">Site says</div>
+            <div>${sn.cal||'—'}</div><div>${sn.prot||'—'}g</div><div>${sn.carb||'—'}g</div><div>${sn.fat||'—'}g</div><div>${sn.fibre||'—'}g</div>
+            <div style="text-align:left;color:var(--text-muted);">Calculated</div>
+            <div>${recipe.cal}</div><div>${recipe.prot}g</div><div>${recipe.carb}g</div><div>${recipe.fat}g</div><div>${recipe.fibre||0}g</div>
+          </div>
+          ${c.level !== 'ok' ? `<div style="margin-top:8px;font-size:12px;color:${textColor};">
+            ${c.message}
+            <button onclick="useSiteNutrition()" style="margin-left:8px;padding:3px 10px;border-radius:10px;border:1px solid ${borderColor};background:white;color:${textColor};font-size:11px;cursor:pointer;font-weight:600;">Use site's values</button>
+          </div>` : ''}
+        </div>`;
+    } else {
+      compRow.style.display = 'none';
+    }
+  }
+  // Store site nutrition on window for the "use site values" button
+  window._pendingSiteNutrition = recipe.siteNutrition || null;
+  // Store TOTAL batch macros so recalculation works when serves changes
+  const serves = parseInt(recipe.serves) || 1;
+  window._recipeTotalMacros = {
+    cal:   (recipe.cal   || 0) * serves,
+    prot:  (recipe.prot  || 0) * serves,
+    carb:  (recipe.carb  || 0) * serves,
+    fat:   (recipe.fat   || 0) * serves,
+    fibre: (recipe.fibre || 0) * serves,
+  };
+  // Store total portion value for scaling when serves changes
+  if(recipe.portionSize) {
+    // Convert unicode fractions to decimals for easier math
+    const cleanStr = recipe.portionSize
+      .replace(/½/g,'0.5').replace(/¼/g,'0.25').replace(/¾/g,'0.75')
+      .replace(/⅓/g,'0.33').replace(/⅔/g,'0.67');
+    const numMatch = cleanStr.match(/(\d+(?:\.\d+)?)/);
+    if(numMatch) {
+      window._recipeTotalPortionValue = parseFloat(numMatch[1]) * serves;
+      // Store the unit part (g, cups, pieces, etc.)
+      window._recipePortionUnit = recipe.portionSize
+        .replace(/[~≈\d.,½¼¾⅓⅔\s]/g,'').replace('per serve','').replace('perserve','').trim().split(' ')[0] || '';
+    } else {
+      window._recipeTotalPortionValue = null;
+    }
+  } else {
+    window._recipeTotalPortionValue = null;
+  }
+  document.getElementById('sr-cal').value = recipe.cal;
+  document.getElementById('sr-prot').value = recipe.prot;
+  document.getElementById('sr-carb').value = recipe.carb;
+  document.getElementById('sr-fat').value = recipe.fat;
+  // Show portion size estimate if provided
+  const portionEl = document.getElementById('sr-portion-size');
+  if(portionEl) portionEl.textContent = recipe.portionSize ? `≈ ${recipe.portionSize}` : '';
+  document.getElementById('sr-ingredients').value = (recipe.ingredients||[]).join('\n');
+  document.getElementById('sr-method').value = (recipe.method||[]).join('\n');
+  const adjNote = document.getElementById('adjust-note');
+  if(recipe.adjustments) {
+    adjNote.style.display = 'block';
+    adjNote.innerHTML = `<strong>💡 Macro note (saved with recipe):</strong> ${recipe.adjustments}`;
+  } else {
+    adjNote.style.display = 'none';
+  }
+  ['batch','kid','quick','slow','mexican','asian','curry'].forEach(tag => {
+    const cb = document.getElementById('tag-'+tag);
+    if(cb) cb.checked = (recipe.tags||[]).includes(tag);
+  });
+  checkMacros();
+  document.getElementById('scan-result').style.display = 'block';
+}
+
+function useSiteNutrition() {
+  const sn = window._pendingSiteNutrition;
+  if(!sn) return;
+  if(sn.cal) document.getElementById('sr-cal').value = sn.cal;
+  if(sn.prot) document.getElementById('sr-prot').value = sn.prot;
+  if(sn.carb) document.getElementById('sr-carb').value = sn.carb;
+  if(sn.fat) document.getElementById('sr-fat').value = sn.fat;
+  checkMacros();
+}
+
+function setMealType(type) {
+  document.getElementById('sr-type-select').value = type;
+  ['breakfast','lunch','dinner','snack','dessert','side'].forEach(t => {
+    const btn = document.getElementById('mtype-'+t);
+    if(btn) btn.classList.toggle('active', t === type);
+  });
+  // Update the type badge at the top of the result
+  const badge = document.getElementById('sr-type-badge');
+  if(badge) { badge.textContent = type; badge.className = `rc-type ${type}`; }
+  // Re-check macros against new meal type targets
+  checkMacros();
+}
+
+function recalcMacrosForServes() {
+  const newServes = parseInt(document.getElementById('sr-serves-input').value) || 1;
+  const totals = window._recipeTotalMacros;
+  if(!totals || !totals.cal) return;
+  // Round to sensible decimal places
+  const r = (v, dp=0) => Math.round(v / newServes * Math.pow(10,dp)) / Math.pow(10,dp);
+  document.getElementById('sr-cal').value  = r(totals.cal);
+  document.getElementById('sr-prot').value = r(totals.prot, 1);
+  document.getElementById('sr-carb').value = r(totals.carb, 1);
+  document.getElementById('sr-fat').value  = r(totals.fat,  1);
+  const fibreField = document.getElementById('sr-fibre');
+  if(fibreField) fibreField.value = r(totals.fibre, 1);
+  // Update portion size text
+  const portionEl = document.getElementById('sr-portion-size');
+  if(portionEl && window._recipeTotalPortionValue) {
+    const newVal = window._recipeTotalPortionValue / newServes;
+    // Round to something sensible: to nearest 10 if large, 1 decimal if small
+    const rounded = newVal >= 200 ? Math.round(newVal / 10) * 10
+                  : newVal >= 20  ? Math.round(newVal)
+                  : newVal >= 2   ? Math.round(newVal * 10) / 10
+                  :                 Math.round(newVal * 100) / 100;
+    const unit = window._recipePortionUnit || '';
+    portionEl.textContent = `≈ ~${rounded}${unit} per serve`;
+  }
+  checkMacros();
+}
+
+function checkMacros() {
+  const type = document.getElementById('sr-type-select').value;
+  const targets = getMealTargets(type);
+  const fields = {cal:'sr-cal',prot:'sr-prot',carb:'sr-carb',fat:'sr-fat'};
+  Object.entries(fields).forEach(([k,id]) => {
+    const val = parseInt(document.getElementById(id).value)||0;
+    const [lo,hi] = targets[k];
+    const flag = document.getElementById('flag-'+k);
+    if(flag) {
+      if(val > hi)      { flag.textContent = `↑ above target (${lo}–${hi})`; flag.className='macro-flag over'; }
+      else if(val < lo) { flag.textContent = `↓ below target (${lo}–${hi})`; flag.className='macro-flag low'; }
+      else              { flag.textContent = `✓ on target (${lo}–${hi})`;    flag.className='macro-flag good'; }
+    }
+  });
+}
+
+function saveScannedRecipe() {
+  const name = document.getElementById('sr-name-input').value.trim();
+  if(!name) { alert('Please give the recipe a name.'); return; }
+  const tags = ['batch','kid','quick','slow','mexican','asian','curry'].filter(t=>document.getElementById('tag-'+t).checked);
+  const ingredients = document.getElementById('sr-ingredients').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const method = document.getElementById('sr-method').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  const adjNote = document.getElementById('adjust-note');
+  const adjustments = adjNote.style.display !== 'none' ? adjNote.textContent.replace('💡 Macro note:','').trim() : '';
+  const servesInput = document.getElementById('sr-serves-input');
+  const serves = servesInput ? parseInt(servesInput.value)||0 : 0;
+  const portionSize = document.getElementById('sr-portion-size')?.textContent?.replace('≈ ','') || '';
+  // Build notes — source URL + adjustment note
+  const sourceNote = document.getElementById('sr-source-url') ? document.getElementById('sr-source-url').textContent : '';
+  const noteParts = [];
+  if(sourceNote) noteParts.push(`📌 Source: ${sourceNote}`);
+  if(adjustments) noteParts.push(`💡 ${adjustments}`);
+  if(!sourceNote && !adjustments) noteParts.push('📷 Added from photo scan');
+  const newRecipe = {
+    id: 'custom_' + Date.now(),
+    type: document.getElementById('sr-type-select').value,
+    name,
+    cal:   parseInt(document.getElementById('sr-cal').value)  || 0,
+    prot:  parseFloat(document.getElementById('sr-prot').value) || 0,
+    carb:  parseFloat(document.getElementById('sr-carb').value) || 0,
+    fat:   parseFloat(document.getElementById('sr-fat').value)  || 0,
+    fibre: parseFloat(document.getElementById('sr-fibre')?.value || '0') || 0,
+    desc: document.getElementById('sr-desc').textContent || name,
+    serves: serves || null,
+    portionSize: portionSize || null,
+    tags,
+    ingredients,
+    method,
+    notes: noteParts.join(' · '),
+  };
+  RECIPES.push(newRecipe);
+  saveState();
+  resetScan();
+  document.querySelectorAll('.tab')[1].click();
+  setFilter('all', document.querySelector('.filter-btn'));
+  const status2 = document.getElementById('scan-status');
+  status2.style.display='none';
+  setTimeout(()=>{
+    const cards = document.querySelectorAll('.recipe-card');
+    if(cards.length) cards[cards.length-1].scrollIntoView({behavior:'smooth'});
+  }, 200);
+}
+
+
+
+// ── PRODUCTS ─────────────────────────────────────────────────
+
+function togglePer100() {
+  const on = document.getElementById('p-per100').checked;
+  document.getElementById('p-100g-row').style.display = on ? 'flex' : 'none';
+  document.getElementById('per100-label').textContent = on ? '(per 100g on label — calculated for your serve below)' : '';
+  document.getElementById('p-calc-preview').style.display = 'none';
+  calcPer100();
+}
+
+function calcPer100() {
+  const on = document.getElementById('p-per100').checked;
+  if(!on) { document.getElementById('p-calc-preview').style.display='none'; return; }
+  const myServe = parseFloat(document.getElementById('p-myserve').value)||0;
+  const cal100 = parseFloat(document.getElementById('p-cal').value)||0;
+  const prot100 = parseFloat(document.getElementById('p-prot').value)||0;
+  const carb100 = parseFloat(document.getElementById('p-carb').value)||0;
+  const fat100 = parseFloat(document.getElementById('p-fat').value)||0;
+  if(!myServe || !cal100) return;
+  const factor = myServe/100;
+  const preview = document.getElementById('p-calc-preview');
+  preview.style.display = 'block';
+  preview.innerHTML = `For your ${myServe}g serve: <strong>${Math.round(cal100*factor)} cal · ${Math.round(prot100*factor)}g protein · ${Math.round(carb100*factor)}g carbs · ${Math.round(fat100*factor)}g fat</strong>`;
+}
+
+function getAdjustedMacros() {
+  const on = document.getElementById('p-per100').checked;
+  const myServe = parseFloat(document.getElementById('p-myserve').value)||100;
+  const factor = on ? myServe/100 : 1;
+  return {
+    cal: Math.round((parseFloat(document.getElementById('p-cal').value)||0)*factor),
+    prot: Math.round((parseFloat(document.getElementById('p-prot').value)||0)*factor),
+    carb: Math.round((parseFloat(document.getElementById('p-carb').value)||0)*factor),
+    fat: Math.round((parseFloat(document.getElementById('p-fat').value)||0)*factor),
+  };
+}
+
+function addProduct() {
+  const brand = document.getElementById('p-brand').value.trim();
+  const name = document.getElementById('p-name').value.trim();
+  const serve = document.getElementById('p-serve').value.trim();
+  const type = document.getElementById('p-type').value;
+  const notes = document.getElementById('p-notes').value.trim();
+  if(!name) { alert('Please enter a product name.'); return; }
+  const macros = getAdjustedMacros();
+  if(!macros.cal) { alert('Please enter at least the calories.'); return; }
+  const tags = [];
+  if(document.getElementById('ptag-kid').checked) tags.push('kid');
+  if(document.getElementById('ptag-quick').checked) tags.push('quick');
+  if(document.getElementById('ptag-batch').checked) tags.push('batch');
+  const product = {
+    id: 'product_' + Date.now(),
+    type,
+    name: brand ? `${brand} — ${name}` : name,
+    brand,
+    cal: macros.cal, prot: macros.prot, carb: macros.carb, fat: macros.fat,
+    desc: `${serve ? serve + ' serve. ' : ''}Packaged product.`,
+    serve,
+    tags,
+    ingredients: [serve ? `${name} — ${serve}` : name],
+    method: ['Ready to eat.'],
+    notes: notes || (brand ? `${brand} product` : '') ,
+    isProduct: true,
+  };
+  userProducts.push(product);
+  RECIPES.push(product);
+  saveState();
+  renderProductList();
+  clearProductForm();
+}
+
+function clearProductForm() {
+  ['p-brand','p-name','p-serve','p-notes','p-cal','p-prot','p-carb','p-fat','p-myserve'].forEach(id=>{
+    const el = document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('p-per100').checked = false;
+  document.getElementById('p-100g-row').style.display = 'none';
+  document.getElementById('p-calc-preview').style.display = 'none';
+  document.getElementById('per100-label').textContent = '';
+  document.getElementById('ptag-kid').checked = false;
+  document.getElementById('ptag-quick').checked = true;
+  document.getElementById('ptag-batch').checked = false;
+  document.getElementById('p-type').value = 'snack';
+}
+
+function deleteProduct(id) {
+  userProducts = userProducts.filter(p=>p.id!==id);
+  const idx = RECIPES.findIndex(r=>r.id===id);
+  if(idx>-1) RECIPES.splice(idx,1);
+  saveState();
+  renderProductList();
+  filterRecipes();
+}
+
+function renderProductList() {
+  const el = document.getElementById('product-list');
+  if(!userProducts.length) {
+    el.innerHTML = '<div class="no-products">No products added yet. Fill in the form above to add your first one.</div>';
+    return;
+  }
+  el.innerHTML = userProducts.map(p=>`
+    <div class="product-card">
+      <div class="pc-head">
+        ${p.brand?`<div class="pc-brand">${p.brand}</div>`:'<div class="pc-brand">Product</div>'}
+        <div class="pc-name">${p.name.replace(p.brand ? p.brand+' — ':'','')}</div>
+        <div class="pc-serve">${p.serve||'Per serve'} · ${p.type}</div>
+      </div>
+      <div class="pc-macros rc-macros">
+        <div class="rc-macro"><div class="mv">${p.cal}</div><div class="ml">cal</div></div>
+        <div class="rc-macro"><div class="mv">${p.prot}g</div><div class="ml">prot</div></div>
+        <div class="rc-macro"><div class="mv">${p.carb}g</div><div class="ml">carbs</div></div>
+        <div class="rc-macro"><div class="mv">${p.fat}g</div><div class="ml">fat</div></div>
+      </div>
+      <div class="rc-actions">
+        <button class="btn-add" style="font-size:11px;" onclick="openRecipeModal('${p.id}',true)">+ Add to plan</button>
+        <button class="btn-delete" onclick="deleteProduct('${p.id}')">Delete</button>
+      </div>
+      ${p.notes?`<div style="padding:6px 12px 8px;font-size:11px;color:var(--text-hint);">${p.notes}</div>`:''}
+    </div>
+  `).join('');
+  filterRecipes();
+}
+
+
+// ── SHOPPING LIST ─────────────────────────────────────────────
+const CATEGORIES = {
+  'Produce': ['spinach','lettuce','rocket','wombok','bok choy','kale','silverbeet','broccoli','zucchini','capsicum','onion','tomato','carrot','celery','cucumber','avocado','mushroom','snow peas','eggplant','beans','peas','corn','potato','sweet potato','lemon','lime','apple','banana','blueberr','strawberr','mango','kiwi','pear','berry','berries','herb','coriander','mint','parsley','spring onion','garlic','ginger'],
+  'Meat & Poultry': ['chicken','beef','lamb','mince','steak','thigh','breast','rump','chuck','fillet','kofta','turkey'],
+  'Dairy & Eggs': ['egg','milk','yoghurt','cheese','feta','cottage cheese','cream'],
+  'Frozen': ['frozen','edamame','ice'],
+  'Pantry': ['rice','pasta','noodle','oat','bread','cracker','vitaweat','tin','can','chickpea','lentil','bean','black bean','quinoa','bulgur','flour','sugar','honey','maple','oil','olive oil','coconut oil','spray','vegemite','soy sauce','fish sauce','oyster sauce','hoisin','sesame oil','vinegar','stock','tomato','salsa','hummus','peanut butter','chia','seed','nut','almond','pepita','sunflower','choc','cocoa','protein powder','vanilla','spice','cumin','paprika','cinnamon','turmeric','cardamom','curry','masala','chipotle','chilli','pepper','salt','herb'],
+  'Drinks & Other': [],
+};
+
+let shoppingList = [];
+
+function categorise(item) {
+  const lower = item.toLowerCase();
+  for(const [cat, keywords] of Object.entries(CATEGORIES)) {
+    if(keywords.some(k => lower.includes(k))) return cat;
+  }
+  return 'Other';
+}
+
+function addIngredientToList(recipeId, ingredient, recipeName, idx) {
+  const existing = shoppingList.find(i => i.text.toLowerCase() === ingredient.toLowerCase());
+  if(!existing) {
+    shoppingList.push({ id: Date.now()+'_'+idx, text: ingredient, source: recipeName, done: false, category: categorise(ingredient) });
+    saveShoppingList();
+    renderShoppingList();
+  }
+  // Mark button as added
+  const btn = document.getElementById(`ing-btn-${recipeId}-${idx}`);
+  if(btn) { btn.textContent = '✓ added'; btn.classList.add('added'); btn.disabled = true; }
+}
+
+function generateFromPlan() {
+  const weeks = ['solo','kid'];
+  let added = 0;
+  const alreadyInList = new Set(shoppingList.map(i=>i.text.toLowerCase()));
+  weeks.forEach(week => {
+    DAYS.forEach(day => {
+      MEAL_TYPES.forEach(type => {
+        const meal = plan[week][day][type];
+        if(!meal) return;
+        (meal.ingredients||[]).forEach(ing => {
+          // Skip section dividers like "--- BBQ SAUCE ---"
+          if(ing.startsWith('---')) return;
+          if(!alreadyInList.has(ing.toLowerCase())) {
+            shoppingList.push({
+              id: Date.now() + Math.random(),
+              text: ing,
+              source: meal.name,
+              done: false,
+              category: categorise(ing)
+            });
+            alreadyInList.add(ing.toLowerCase());
+            added++;
+          }
+        });
+      });
+    });
+  });
+  if(added === 0) {
+    alert('All ingredients are already on your list, or your plan is empty.');
+    return;
+  }
+  saveShoppingList();
+  renderShoppingList();
+}
+
+function addShopItem() {
+  const input = document.getElementById('shop-input');
+  const text = input.value.trim();
+  if(!text) return;
+  shoppingList.push({ id: Date.now(), text, source: '', done: false, category: categorise(text) });
+  input.value = '';
+  saveShoppingList();
+  renderShoppingList();
+}
+
+function toggleItem(id) {
+  const item = shoppingList.find(i=>i.id===id);
+  if(item) { item.done = !item.done; saveShoppingList(); renderShoppingList(); }
+}
+
+function removeItem(id) {
+  shoppingList = shoppingList.filter(i=>i.id!==id);
+  saveShoppingList();
+  renderShoppingList();
+}
+
+function clearDone() {
+  shoppingList = shoppingList.filter(i=>!i.done);
+  saveShoppingList();
+  renderShoppingList();
+}
+
+function clearAll() {
+  if(confirm('Clear the entire shopping list?')) {
+    shoppingList = [];
+    saveShoppingList();
+    renderShoppingList();
+  }
+}
+
+function copyList() {
+  const byCat = groupByCategory();
+  const text = Object.entries(byCat).map(([cat, items]) =>
+    `${cat}:\n${items.map(i=>`  ${i.done?'✓ ':''}${i.text}`).join('\n')}`
+  ).join('\n\n');
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.querySelector('.shop-action-btn.copy');
+    btn.textContent = '✓ Copied!';
+    setTimeout(()=>{ btn.textContent = '📋 Copy list'; }, 2000);
+  });
+}
+
+function groupByCategory() {
+  const groups = {};
+  shoppingList.forEach(item => {
+    if(!groups[item.category]) groups[item.category] = [];
+    groups[item.category].push(item);
+  });
+  // Sort: undone first within each category
+  Object.values(groups).forEach(arr => arr.sort((a,b)=>a.done-b.done));
+  return groups;
+}
+
+function renderShoppingList() {
+  const container = document.getElementById('shop-list-container');
+  const qrSection = document.getElementById('qr-section');
+
+  if(!shoppingList.length) {
+    container.innerHTML = `<div class="shop-empty">
+      Your list is empty.<br>
+      Open any recipe and tap <strong>+ list</strong> next to ingredients you need,<br>
+      or type items in the box above.
+    </div>`;
+    qrSection.style.display = 'none';
+    return;
+  }
+
+  const groups = groupByCategory();
+  const total = shoppingList.length;
+  const done = shoppingList.filter(i=>i.done).length;
+
+  container.innerHTML = `
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:1rem;">${done} of ${total} items ticked off</p>
+    ${Object.entries(groups).map(([cat, items]) => `
+      <div class="shop-category">
+        <div class="shop-cat-head"><span>${cat}</span><span>${items.filter(i=>!i.done).length} remaining</span></div>
+        ${items.map(item => `
+          <div class="shop-item ${item.done?'done':''}" onclick="toggleItem(${item.id})">
+            <div class="shop-checkbox">${item.done?'✓':''}</div>
+            <div style="flex:1;">
+              <div class="shop-item-text">${item.text}</div>
+              ${item.source?`<div class="shop-item-source">for ${item.source}</div>`:''}
+            </div>
+            <button class="shop-remove" onclick="event.stopPropagation();removeItem(${item.id})">×</button>
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}
+  `;
+
+  // Show QR and regenerate it
+  qrSection.style.display = 'block';
+  generateQR();
+}
+
+function saveShoppingList() {
+  try { localStorage.setItem('mp_shopping', JSON.stringify(shoppingList)); } catch(e) {}
+}
+
+function loadShoppingList() {
+  try {
+    const saved = localStorage.getItem('mp_shopping');
+    if(saved) shoppingList = JSON.parse(saved);
+  } catch(e) {}
+}
+
+// Simple QR code generator (no library needed — encodes the list as a data URL page)
+function generateQR() {
+  const canvas = document.getElementById('qr-canvas');
+  if(!canvas) return;
+
+  // Build a simple shareable list page as a URL using the current page URL + hash
+  // We encode the shopping list as a compact text and use a data URI approach
+  const byCat = groupByCategory();
+  const listText = Object.entries(byCat).map(([cat, items]) =>
+    `*${cat}*\n` + items.map(i=>`${i.done?'[x]':'[ ]'} ${i.text}`).join('\n')
+  ).join('\n\n');
+
+  // Encode and build a simple data page URL
+  const encoded = encodeURIComponent(listText);
+  const listUrl = `data:text/html;charset=utf-8,<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width,initial-scale=1'><title>Shopping List</title><style>body{font-family:-apple-system,sans-serif;padding:1.5rem;max-width:500px;margin:0 auto;line-height:1.6}h1{font-size:20px;margin-bottom:1rem;color:#3B6D11}pre{white-space:pre-wrap;font-family:inherit;font-size:15px}</style></head><body><h1>🛒 Shopping List</h1><pre>${encoded}</pre></body></html>`;
+
+  // Use the current window URL with a shopping list hash for the QR
+  // Since data URIs are long, we'll encode a compact version
+  drawQRCode(canvas, window.location.href.split('#')[0] + '#shop');
+}
+
+// Minimal QR code drawer using a simple matrix approach
+// For a real QR we use a CDN library loaded inline
+function drawQRCode(canvas, url) {
+  // Load qrcode library dynamically if not present
+  if(window.QRCode) {
+    renderQR(canvas, url);
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+  script.onload = () => renderQR(canvas, url);
+  script.onerror = () => {
+    // Fallback: show the URL as text
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#f1efe8';
+    ctx.fillRect(0,0,180,180);
+    ctx.fillStyle = '#3B6D11';
+    ctx.font = '11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('QR unavailable offline', 90, 90);
+    ctx.fillText('Copy the list instead', 90, 108);
+  };
+  document.head.appendChild(script);
+}
+
+function renderQR(canvas, url) {
+  try {
+    // Clear canvas and use QRCode lib to draw into a temp div, then copy to canvas
+    const temp = document.createElement('div');
+    temp.style.display = 'none';
+    document.body.appendChild(temp);
+    new QRCode(temp, { text: url, width: 180, height: 180, colorDark: '#3B6D11', colorLight: '#ffffff' });
+    setTimeout(() => {
+      const img = temp.querySelector('img');
+      if(img) {
+        const ctx = canvas.getContext('2d');
+        const i = new Image();
+        i.onload = () => { ctx.drawImage(i, 0, 0, 180, 180); };
+        i.src = img.src;
+      }
+      document.body.removeChild(temp);
+    }, 200);
+  } catch(e) { console.warn('QR error:', e); }
+}
+
+
+// ── EXTRAS / TREATS LOG ───────────────────────────────────────
+const PRESET_TREATS = [
+  {name:'Tim Tam (Original)', cal:98, prot:1, carb:12, fat:5},
+  {name:'Tim Tam (Double Coat)', cal:117, prot:1, carb:13, fat:6},
+  {name:'Smith\'s Chips (small bag)', cal:137, prot:2, carb:14, fat:9},
+  {name:'Poppin Popcorn M&M (serve)', cal:120, prot:2, carb:16, fat:5},
+  {name:'South Melbourne Dim Sim (each)', cal:166, prot:7, carb:21, fat:6},
+  {name:'Takeaway pizza slice (margherita)', cal:250, prot:10, carb:30, fat:9},
+  {name:'Takeaway pizza slice (meat/supreme)', cal:300, prot:12, carb:32, fat:13},
+  {name:'Glass of wine (150ml)', cal:120, prot:0, carb:4, fat:0},
+  {name:'Beer (375ml can)', cal:145, prot:1, carb:11, fat:0},
+  {name:'Chocolate square (dark 70%)', cal:60, prot:1, carb:5, fat:4},
+  {name:'Shapes (serve ~20 shapes)', cal:150, prot:2, carb:18, fat:7},
+  {name:'Zooper Dooper', cal:45, prot:0, carb:11, fat:0},
+  {name:'Milo (1 tsp in milk)', cal:35, prot:1, carb:7, fat:0},
+];
+
+let extrasLog = []; // [{id, day, name, cal, prot, fat, carb, qty, timestamp}]
+
+function loadExtras() {
+  try {
+    const saved = localStorage.getItem('mp_extras');
+    if(saved) extrasLog = JSON.parse(saved);
+  } catch(e) {}
+}
+
+function saveExtras() {
+  try { localStorage.setItem('mp_extras', JSON.stringify(extrasLog)); } catch(e) {}
+}
+
+function renderQuickTreats() {
+  const row = document.getElementById('quick-treats-row');
+  if(!row) return;
+  row.innerHTML = PRESET_TREATS.map((t,i) => `
+    <button onclick="selectTreat(${i})" style="padding:5px 10px;border-radius:16px;border:1px solid var(--amber-mid);background:var(--amber-light);color:var(--amber);font-size:12px;font-weight:500;cursor:pointer;white-space:nowrap;">${t.name}</button>
+  `).join('');
+}
+
+function selectTreat(idx) {
+  const t = PRESET_TREATS[idx];
+  document.getElementById('extra-name-input').value = t.name;
+  document.getElementById('extra-cal-input').value = t.cal;
+  // Set day to today
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const today = days[new Date().getDay()];
+  const sel = document.getElementById('extra-day-select');
+  if(sel) sel.value = today;
+}
+
+function logExtra() {
+  const name = document.getElementById('extra-name-input').value.trim();
+  const cal = parseInt(document.getElementById('extra-cal-input').value)||0;
+  const day = document.getElementById('extra-day-select').value;
+  if(!name) { alert('What did you eat?'); return; }
+  if(!cal) { alert('Add the calories too.'); return; }
+  // Find preset for full macros
+  const preset = PRESET_TREATS.find(t=>t.name===name);
+  extrasLog.push({
+    id: Date.now(),
+    day, name, cal,
+    prot: preset?.prot||0,
+    carb: preset?.carb||0,
+    fat: preset?.fat||0,
+    timestamp: new Date().toISOString()
+  });
+  document.getElementById('extra-name-input').value = '';
+  document.getElementById('extra-cal-input').value = '';
+  saveExtras();
+  renderExtrasLog();
+  renderWeeklyBalance();
+  renderPlanner(); // Update day totals
+}
+
+function deleteExtra(id) {
+  extrasLog = extrasLog.filter(e=>e.id!==id);
+  saveExtras();
+  renderExtrasLog();
+  renderWeeklyBalance();
+  renderPlanner();
+}
+
+function getExtrasForDay(day) {
+  return extrasLog.filter(e=>e.day===day);
+}
+
+function getExtraCaloriesForDay(day) {
+  return getExtrasForDay(day).reduce((sum,e)=>sum+e.cal, 0);
+}
+
+function renderExtrasLog() {
+  const el = document.getElementById('extras-log-list');
+  if(!el) return;
+  // Group by day
+  const byDay = {};
+  DAYS.forEach(d => {
+    const items = getExtrasForDay(d);
+    if(items.length) byDay[d] = items;
+  });
+  if(!Object.keys(byDay).length) {
+    el.innerHTML = '<div style="padding:1.5rem;text-align:center;font-size:14px;color:var(--text-hint);">Nothing logged yet this week.</div>';
+    return;
+  }
+  el.innerHTML = Object.entries(byDay).map(([day, items]) => `
+    <div style="border-bottom:1px solid var(--border);">
+      <div style="padding:8px 14px;background:var(--bg-surface);font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;display:flex;justify-content:space-between;">
+        <span>${day}</span><span>${items.reduce((s,e)=>s+e.cal,0)} extra cal</span>
+      </div>
+      ${items.map(e=>`
+        <div style="display:flex;align-items:center;padding:8px 14px;border-top:1px solid var(--border);gap:10px;">
+          <span style="flex:1;font-size:14px;">${e.name}</span>
+          <span style="font-size:13px;font-weight:600;color:var(--amber);">${e.cal} cal</span>
+          <button onclick="deleteExtra(${e.id})" style="background:none;border:none;cursor:pointer;font-size:15px;color:var(--text-hint);padding:0 4px;">×</button>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function renderWeeklyBalance() {
+  const WEEKLY_TARGET = TARGETS.cal * 7;
+  let totalPlanned = 0;
+  let totalExtras = 0;
+  const dayBreakdown = document.getElementById('weekly-day-breakdown');
+  if(!dayBreakdown) return;
+
+  const dayData = DAYS.map(day => {
+    const meals = Object.values(plan[currentWeek][day]).filter(Boolean);
+    const plannedCal = meals.reduce((s,m)=>s+m.cal, 0);
+    const extraCal = getExtraCaloriesForDay(day);
+    const totalCal = plannedCal + extraCal;
+    totalPlanned += plannedCal;
+    totalExtras += extraCal;
+    return {day, plannedCal, extraCal, totalCal};
+  });
+
+  const grandTotal = totalPlanned + totalExtras;
+  const pct = Math.min(110, Math.round((grandTotal/WEEKLY_TARGET)*100));
+  const barColor = grandTotal > WEEKLY_TARGET + 200 ? 'var(--coral-mid)' : grandTotal >= WEEKLY_TARGET - 500 ? 'var(--green-mid)' : 'var(--amber-mid)';
+
+  document.getElementById('weekly-balance-bar').style.width = pct+'%';
+  document.getElementById('weekly-balance-bar').style.background = barColor;
+
+  const remaining = WEEKLY_TARGET - grandTotal;
+  const label = remaining > 0
+    ? `${grandTotal.toLocaleString()} of ${WEEKLY_TARGET.toLocaleString()} cal used — ${remaining.toLocaleString()} cal to go this week`
+    : `${grandTotal.toLocaleString()} cal — ${Math.abs(remaining).toLocaleString()} cal over weekly target`;
+  document.getElementById('weekly-balance-label').textContent = label;
+  document.getElementById('weekly-balance-label').style.color = remaining < 0 ? 'var(--coral)' : 'var(--text-muted)';
+
+  dayBreakdown.innerHTML = dayData.map(d => {
+    const pctDay = Math.min(100, Math.round((d.totalCal/1550)*100));
+    const color = d.totalCal > 1700 ? 'var(--coral-mid)' : d.totalCal > 1200 ? 'var(--green-mid)' : 'var(--border-strong)';
+    return `<div style="text-align:center;">
+      <div style="font-size:10px;font-weight:600;color:var(--text-hint);margin-bottom:4px;">${d.day}</div>
+      <div style="height:40px;background:var(--bg-page);border-radius:3px;overflow:hidden;display:flex;align-items:flex-end;">
+        <div style="width:100%;background:${color};height:${pctDay}%;transition:height 0.3s;"></div>
+      </div>
+      <div style="font-size:10px;color:var(--text-muted);margin-top:3px;">${d.totalCal}</div>
+      ${d.extraCal ? `<div style="font-size:9px;color:var(--amber);">+${d.extraCal}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+
+// ── SETTINGS ─────────────────────────────────────────────────
+function loadSettings() {
+  try {
+    const saved = localStorage.getItem('mp_settings');
+    if(saved) {
+      userSettings = {...userSettings, ...JSON.parse(saved)};
+      // Apply saved targets to TARGETS object
+      TARGETS = {
+        cal: userSettings.targetCal,
+        prot: userSettings.targetProt,
+        carb: userSettings.targetCarb,
+        fat: userSettings.targetFat,
+        fibre: userSettings.targetFibre,
+      };
+    }
+  } catch(e) { console.warn('Settings load failed:', e); }
+}
+
+function saveSettings() {
+  // Read profile fields
+  userSettings.name = document.getElementById('s-name').value.trim();
+  userSettings.gender = document.getElementById('s-gender').value;
+  userSettings.age = parseInt(document.getElementById('s-age').value)||null;
+  userSettings.weightKg = parseFloat(document.getElementById('s-weight').value)||null;
+  userSettings.heightCm = parseFloat(document.getElementById('s-height').value)||null;
+  userSettings.postmenopausal = document.getElementById('s-postmeno').checked;
+  userSettings.activityLevel = document.getElementById('s-activity').value;
+  userSettings.goal = document.getElementById('s-goal').value;
+  userSettings.lossRate = parseFloat(document.getElementById('s-rate').value)||0.5;
+  userSettings.avoidances = document.getElementById('s-avoidances').value.trim();
+
+  // Save Worker URL to localStorage separately (persists across file updates)
+  const workerUrl = document.getElementById('s-worker-url').value.trim();
+  if(workerUrl && workerUrl.startsWith('http')) {
+    localStorage.setItem('mp_worker_url', workerUrl);
+    document.getElementById('s-worker-status').innerHTML = '✓ <span style="color:var(--green);">Worker URL saved — recipe scanning is active</span>';
+  } else if(workerUrl) {
+    document.getElementById('s-worker-status').innerHTML = '⚠️ <span style="color:var(--amber);">URL should start with https://</span>';
+  }
+
+  // If targets haven't been previewed yet and profile is complete, calculate now
+  // but only if the fields still show the old defaults (i.e. user hasn't touched them)
+  const fieldsAreDefault =
+    parseInt(document.getElementById('s-t-cal').value) === userSettings.targetCal &&
+    parseInt(document.getElementById('s-t-prot').value) === userSettings.targetProt;
+  if(fieldsAreDefault && userSettings.age && userSettings.weightKg && userSettings.heightCm) {
+    runCalculation();
+  }
+
+  // Save exactly what is in the target fields — respects manual overrides
+  userSettings.targetCal   = parseInt(document.getElementById('s-t-cal').value)   || TARGETS.cal;
+  userSettings.targetProt  = parseInt(document.getElementById('s-t-prot').value)  || TARGETS.prot;
+  userSettings.targetCarb  = parseInt(document.getElementById('s-t-carb').value)  || TARGETS.carb;
+  userSettings.targetFat   = parseInt(document.getElementById('s-t-fat').value)   || TARGETS.fat;
+  userSettings.targetFibre = parseInt(document.getElementById('s-t-fibre').value) || TARGETS.fibre;
+
+  TARGETS = {
+    cal:   userSettings.targetCal,
+    prot:  userSettings.targetProt,
+    carb:  userSettings.targetCarb,
+    fat:   userSettings.targetFat,
+    fibre: userSettings.targetFibre,
+  };
+  try { localStorage.setItem('mp_settings', JSON.stringify(userSettings)); } catch(e) {}
+  applySettingsToUI();
+  const msg = document.getElementById('s-saved-msg');
+  msg.style.display = 'block';
+  setTimeout(() => { msg.style.display = 'none'; }, 2500);
+}
+
+function applySettingsToUI() {
+  // Update header
+  const nameEl = document.getElementById('header-name');
+  if(nameEl) nameEl.textContent = userSettings.name ? `${userSettings.name}'s Meal Planner` : 'My Meal Planner';
+  const targetsEl = document.getElementById('header-targets');
+  if(targetsEl) targetsEl.textContent = `Target: ${TARGETS.cal.toLocaleString()} cal · ${TARGETS.prot}g protein/day`;
+  // Update macro summary card labels
+  const cards = {
+    'ms-cal': {val: '0', lbl: 'Avg calories', target: `Target: ${TARGETS.cal.toLocaleString()}`},
+    'ms-prot': {val: '0g', lbl: 'Avg protein', target: `Target: ${TARGETS.prot}g`},
+    'ms-carb': {val: '0g', lbl: 'Avg carbs', target: `Target: ${TARGETS.carb}g`},
+    'ms-fat': {val: '0g', lbl: 'Avg fat', target: `Target: ${TARGETS.fat}g`},
+    'ms-fibre': {val: '0g', lbl: 'Avg fibre', target: `Target: ${TARGETS.fibre}g`},
+  };
+  Object.entries(cards).forEach(([id, c]) => {
+    const el = document.getElementById(id);
+    if(el) el.querySelector('.target').textContent = c.target;
+  });
+  // Re-render planner to update day bars against new targets
+  renderPlanner();
+  updateMacroSummary();
+}
+
+function populateSettingsForm() {
+  document.getElementById('s-name').value = userSettings.name || '';
+  document.getElementById('s-gender').value = userSettings.gender || 'female';
+  document.getElementById('s-age').value = userSettings.age || '';
+  document.getElementById('s-weight').value = userSettings.weightKg || '';
+  document.getElementById('s-height').value = userSettings.heightCm || '';
+  document.getElementById('s-postmeno').checked = userSettings.postmenopausal || false;
+  document.getElementById('s-activity').value = userSettings.activityLevel || 'moderate';
+  document.getElementById('s-goal').value = userSettings.goal || 'lose';
+  document.getElementById('s-rate').value = userSettings.lossRate || 0.5;
+  document.getElementById('s-avoidances').value = userSettings.avoidances || '';
+  document.getElementById('s-t-cal').value = TARGETS.cal;
+  document.getElementById('s-t-prot').value = TARGETS.prot;
+  document.getElementById('s-t-carb').value = TARGETS.carb;
+  document.getElementById('s-t-fat').value = TARGETS.fat;
+  document.getElementById('s-t-fibre').value = TARGETS.fibre;
+  // Worker URL from localStorage
+  const savedWorkerUrl = localStorage.getItem('mp_worker_url') || '';
+  document.getElementById('s-worker-url').value = savedWorkerUrl;
+  document.getElementById('s-worker-status').innerHTML = savedWorkerUrl
+    ? '✓ <span style="color:var(--green);">Worker URL saved — recipe scanning is active</span>'
+    : '<span style="color:var(--text-hint);">Not set — paste your Worker URL above to enable recipe scanning</span>';
+  updateSettingsUI();
+}
+
+function updateSettingsUI() {
+  // Show/hide post-menopausal only for female
+  const gender = document.getElementById('s-gender').value;
+  document.getElementById('s-postmeno-row').style.display = gender === 'female' ? 'block' : 'none';
+  // Show/hide rate only for lose/gain
+  const goal = document.getElementById('s-goal').value;
+  document.getElementById('s-rate-row').style.display = goal === 'maintain' ? 'none' : 'block';
+}
+
+function runCalculation() {
+  const age = parseInt(document.getElementById('s-age').value);
+  const weightKg = parseFloat(document.getElementById('s-weight').value);
+  const heightCm = parseFloat(document.getElementById('s-height').value);
+  const gender = document.getElementById('s-gender').value;
+  const postmeno = document.getElementById('s-postmeno').checked;
+  const activity = document.getElementById('s-activity').value;
+  const goal = document.getElementById('s-goal').value;
+  const lossRate = parseFloat(document.getElementById('s-rate').value)||0.5;
+
+  if(!age || !weightKg || !heightCm) {
+    document.getElementById('s-calc-working').style.display = 'block';
+    document.getElementById('s-calc-working').innerHTML = '⚠️ Please enter your age, weight and height to calculate targets.';
+    return;
+  }
+
+  // Mifflin-St Jeor BMR
+  const bmr = gender === 'male'
+    ? Math.round((10 * weightKg) + (6.25 * heightCm) - (5 * age) + 5)
+    : Math.round((10 * weightKg) + (6.25 * heightCm) - (5 * age) - 161);
+
+  const activityLabels = {sedentary:'sedentary (×1.2)',light:'lightly active (×1.375)',moderate:'moderately active (×1.55)',active:'very active (×1.725)',very_active:'extremely active (×1.9)'};
+  const activityFactors = {sedentary:1.2,light:1.375,moderate:1.55,active:1.725,very_active:1.9};
+  const tdee = Math.round(bmr * activityFactors[activity]);
+
+  // Calorie deficit/surplus
+  const dailyCalsPer500g = 3850; // ~7,700 cal/kg ÷ 2 (conservative, accounting for metabolism adaptation)
+  let deficit = 0;
+  let deficitLabel = '';
+  if(goal === 'lose') {
+    deficit = Math.round(lossRate * dailyCalsPer500g * 2 / 7);
+    deficitLabel = `-${deficit} cal deficit (for ${lossRate}kg/week loss)`;
+  } else if(goal === 'gain') {
+    deficit = -250;
+    deficitLabel = `+250 cal surplus (for gradual muscle gain)`;
+  } else {
+    deficitLabel = 'no deficit (maintenance)';
+  }
+  const minCal = gender === 'male' ? 1500 : 1200;
+  const targetCal = Math.max(minCal, tdee - deficit);
+
+  // Protein
+  let protFactor, protLabel;
+  if(goal === 'lose') {
+    if(postmeno || age >= 45) { protFactor = 1.8; protLabel = '1.8g/kg (post-menopausal/45+ for muscle preservation)'; }
+    else { protFactor = 1.6; protLabel = '1.6g/kg (weight loss, muscle preservation)'; }
+  } else if(goal === 'gain') {
+    protFactor = 2.0; protLabel = '2.0g/kg (muscle building)';
+  } else {
+    protFactor = 1.4; protLabel = '1.4g/kg (maintenance)';
+  }
+  const targetProt = Math.round(weightKg * protFactor);
+
+  // Fat: 27% of calories
+  const targetFat = Math.round((targetCal * 0.27) / 9);
+
+  // Fibre: gender-based Australian guidelines
+  const targetFibre = gender === 'male' ? 30 : 25;
+
+  // Carbs: remaining calories
+  const calFromProt = targetProt * 4;
+  const calFromFat = targetFat * 9;
+  const targetCarb = Math.max(50, Math.round((targetCal - calFromProt - calFromFat) / 4));
+
+  // Show working
+  const working = document.getElementById('s-calc-working');
+  working.style.display = 'block';
+  working.innerHTML = `
+    <strong>Mifflin-St Jeor calculation:</strong><br>
+    BMR (base metabolic rate): <strong>${bmr.toLocaleString()} cal/day</strong> — the calories your body burns at complete rest<br>
+    Activity level: ${activityLabels[activity]} → TDEE: <strong>${tdee.toLocaleString()} cal/day</strong><br>
+    Goal adjustment: ${deficitLabel}<br>
+    <strong>Recommended daily calorie target: ${targetCal.toLocaleString()} cal</strong><br><br>
+    Protein: ${weightKg}kg × ${protFactor}g = <strong>${targetProt}g</strong> (${protLabel})<br>
+    Fat: 27% of ${targetCal} cal = <strong>${targetFat}g</strong><br>
+    Carbs: remaining calories = <strong>${targetCarb}g</strong><br>
+    Fibre: Australian guidelines = <strong>${targetFibre}g</strong> (${gender === 'male' ? 'men 30g' : 'women 25g'})
+  `;
+
+  // Fill target fields
+  document.getElementById('s-t-cal').value = targetCal;
+  document.getElementById('s-t-prot').value = targetProt;
+  document.getElementById('s-t-carb').value = targetCarb;
+  document.getElementById('s-t-fat').value = targetFat;
+  document.getElementById('s-t-fibre').value = targetFibre;
+}
+
+// Update switchTab to populate settings form when opening
+
+loadSettings();
+loadState();
+loadShoppingList();
+loadExtras();
+applySettingsToUI();
+renderPlanner();
+filterRecipes();
+renderBatch();
+renderProductList();
+renderShoppingList();
+renderQuickTreats();
+renderExtrasLog();
+renderWeeklyBalance();
+</script>
+</body>
+</html>
