@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U2 AOS1 Revision</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F2E23; --bg2:#0A2019; --paper:#EFE6CC; --paper2:#E4D8B0;
+  --ink:#1C2A20; --ink-soft:#4A5B4D; --gold:#C9A227; --gold-light:#E7C965;
+  --good:#4C8C5F; --good-light:#DCEBDF; --bad:#B33A3A; --bad-light:#F3DCDA;
+  --cream:#F3ECD8; --line:rgba(28,42,32,0.14); --shadow:0 10px 30px rgba(0,0,0,0.25);
+  --radius:14px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:radial-gradient(circle at 20% -10%, #17402F 0%, var(--bg) 45%, var(--bg2) 100%);
+  color:var(--cream); font-family:'IBM Plex Sans',sans-serif; min-height:100vh; padding-bottom:60px;
+}
+@media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;} }
+h1,h2,h3{font-family:'Fraunces',serif; font-weight:600; margin:0;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+button{font-family:inherit; cursor:pointer;}
+:focus-visible{outline:3px solid var(--gold-light); outline-offset:2px;}
+
+/* ---------- Header ---------- */
+header.top{padding:34px 20px 20px; text-align:center; position:relative;}
+header.top .eyebrow{font-family:'IBM Plex Mono',monospace; letter-spacing:0.18em; text-transform:uppercase; font-size:12px; color:var(--gold-light); margin-bottom:10px;}
+header.top h1{font-size:clamp(30px,5vw,48px); color:var(--cream); letter-spacing:0.01em;}
+header.top p.sub{color:#C9D9CC; max-width:560px; margin:10px auto 0; font-size:15px; line-height:1.5;}
+
+.hud{display:flex; flex-wrap:wrap; gap:14px; justify-content:center; align-items:center; margin-top:26px;}
+.wallet{
+  background:var(--paper); color:var(--ink); border-radius:999px; padding:10px 20px;
+  display:flex; align-items:center; gap:8px; box-shadow:var(--shadow); font-family:'IBM Plex Mono',monospace; font-weight:600;
+}
+.wallet .coin{width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 70%); display:inline-block; box-shadow:inset 0 0 0 2px rgba(0,0,0,0.15);}
+
+.vault{background:var(--bg2); border:1px solid rgba(233,214,140,0.25); border-radius:16px; padding:12px 16px; box-shadow:var(--shadow);}
+.vault-label{font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold-light); margin-bottom:8px; text-align:center;}
+.dial{display:flex; gap:6px;}
+.dial .slot{
+  width:30px; height:38px; background:var(--paper2); border-radius:6px; display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:18px; color:var(--ink-soft);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.2);
+  transition:transform .5s cubic-bezier(.2,1.4,.4,1), background .3s, color .3s;
+}
+.dial .slot.filled{background:linear-gradient(180deg, var(--gold-light), var(--gold)); color:#2A2007; transform:rotateX(360deg);}
+
+/* ---------- Hub grid ---------- */
+main#hub{max-width:1080px; margin:38px auto; padding:0 20px; display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:18px;}
+.card{
+  background:var(--paper); color:var(--ink); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow);
+  display:flex; flex-direction:column; gap:8px; position:relative; border:1px solid rgba(0,0,0,0.05);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+.card:not(.locked):hover{transform:translateY(-3px); box-shadow:0 16px 34px rgba(0,0,0,0.32);}
+.card .tag{font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); opacity:0.75;}
+.card h3{font-size:19px; color:var(--ink);}
+.card p{font-size:13.5px; color:var(--ink-soft); line-height:1.4; margin:0; flex-grow:1;}
+.card button.enter{
+  align-self:flex-start; background:var(--ink); color:var(--paper); border:none; padding:9px 16px; border-radius:999px;
+  font-weight:600; font-size:13px; margin-top:6px;
+}
+.card.done{outline:2px solid var(--good);}
+.card.done .tag::after{content:" · done"; color:var(--good);}
+.card.locked{opacity:0.55;}
+.card.locked button.enter{background:#8A8064; cursor:not-allowed;}
+.card .letter-badge{position:absolute; top:14px; right:14px; width:30px; height:30px; border-radius:50%; background:var(--gold); color:#2A2007; font-family:'IBM Plex Mono',monospace; font-weight:700; display:flex; align-items:center; justify-content:center; font-size:15px;}
+
+/* ---------- Panel (activity view) ---------- */
+.panel{max-width:840px; margin:20px auto; padding:0 20px;}
+.panel.hidden{display:none;}
+.sheet{background:var(--paper); color:var(--ink); border-radius:20px; padding:28px; box-shadow:var(--shadow);}
+.sheet-head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:18px;}
+.sheet-head h2{font-size:26px;}
+.backbtn{background:none; border:1px solid var(--ink); color:var(--ink); border-radius:999px; padding:7px 14px; font-size:13px; font-weight:600;}
+.progress-note{font-size:13px; color:var(--ink-soft); margin-bottom:14px;}
+
+.feedback{border-radius:10px; padding:12px 14px; font-size:14px; margin-top:14px; display:none;}
+.feedback.good{background:var(--good-light); color:#1E4A2C; display:block;}
+.feedback.bad{background:var(--bad-light); color:#6E2323; display:block;}
+
+.btnrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
+.primary{background:var(--ink); color:var(--paper); border:none; padding:10px 20px; border-radius:999px; font-weight:600;}
+.primary:disabled{opacity:0.4; cursor:not-allowed;}
+.ghost{background:none; border:1px solid var(--ink-soft); color:var(--ink); padding:10px 18px; border-radius:999px; font-weight:600;}
+
+/* term match */
+.match-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px 16px;}
+.match-col{display:flex; flex-direction:column; gap:8px;}
+.match-item{
+  background:var(--paper2); border-radius:10px; padding:10px 12px; font-size:14px; text-align:left; border:2px solid transparent;
+  line-height:1.35;
+}
+.match-item.term{font-weight:600;}
+.match-item.selected{border-color:var(--ink);}
+.match-item.correct{background:var(--good-light); border-color:var(--good);}
+.match-item.wrong{background:var(--bad-light); border-color:var(--bad); animation:shake .3s;}
+@keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+.match-item.used{opacity:0.35; pointer-events:none;}
+
+/* circular flow */
+.flow-wrap{position:relative; max-width:560px; margin:0 auto;}
+.flow-wrap svg{width:100%; height:auto;}
+.flow-slots{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:16px;}
+.flow-slot{background:var(--paper2); border-radius:8px; padding:8px 10px; font-size:13px; display:flex; justify-content:space-between; align-items:center; gap:8px;}
+.flow-slot select{font-family:inherit; font-size:13px; border-radius:6px; border:1px solid var(--ink-soft); padding:4px;}
+
+/* sort */
+.sort-buckets{display:flex; gap:12px; flex-wrap:wrap; margin-top:14px;}
+.bucket{flex:1; min-width:150px; background:var(--paper2); border-radius:12px; padding:12px; min-height:110px;}
+.bucket h4{font-size:13px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; color:var(--ink-soft);}
+.bucket .chip{background:var(--paper); border-radius:8px; padding:6px 9px; font-size:12.5px; margin-bottom:6px;}
+.pool{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;}
+.pool .item{background:var(--ink); color:var(--paper); border:none; padding:8px 13px; border-radius:999px; font-size:13px;}
+.pool .item.gone{display:none;}
+.dualrow{display:flex; align-items:center; justify-content:space-between; background:var(--paper2); border-radius:10px; padding:10px 12px; margin-bottom:8px; font-size:14px; gap:10px; flex-wrap:wrap;}
+.dualrow label{display:flex; align-items:center; gap:5px; font-size:13px;}
+
+/* chain builder */
+.chain-pool{display:flex; flex-direction:column; gap:8px; margin-top:10px;}
+.chain-item{background:var(--paper2); border-radius:10px; padding:10px 12px; font-size:13.5px; text-align:left; border:2px solid transparent; width:100%;}
+.chain-order{display:flex; flex-direction:column; gap:6px; margin-top:14px; min-height:40px; border:2px dashed rgba(28,42,32,0.25); border-radius:10px; padding:10px;}
+.chain-order .step{background:var(--ink); color:var(--paper); border-radius:8px; padding:9px 12px; font-size:13.5px; display:flex; gap:8px;}
+.chain-order .step .num{font-family:'IBM Plex Mono',monospace; color:var(--gold-light); font-weight:700;}
+.chain-order .step.correct{background:var(--good);}
+.chain-order .step.wrong{background:var(--bad);}
+.tier-tabs{display:flex; gap:8px; margin-bottom:12px;}
+.tier-tabs button{background:var(--paper2); border:none; padding:7px 14px; border-radius:999px; font-size:13px; font-weight:600; color:var(--ink-soft);}
+.tier-tabs button.active{background:var(--ink); color:var(--paper);}
+.chain-select{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;}
+.chain-select button{background:var(--paper2); border:none; border-radius:999px; padding:7px 14px; font-size:12.5px;}
+.chain-select button.active{background:var(--gold); color:#2A2007; font-weight:700;}
+.branch-options{display:flex; flex-direction:column; gap:8px; margin-top:12px;}
+.branch-options button{text-align:left; background:var(--paper2); border:none; border-radius:10px; padding:10px 12px; font-size:13.5px;}
+
+/* cloze */
+.cloze-text{font-size:16px; line-height:1.9;}
+.cloze-text select{font-family:'IBM Plex Sans',sans-serif; font-weight:700; border-radius:6px; border:2px solid var(--ink); background:var(--paper2); padding:3px 8px; margin:0 2px;}
+
+/* mcq */
+.mcq-q{font-size:16px; font-weight:600; margin-bottom:12px;}
+.mcq-opt{display:block; width:100%; text-align:left; background:var(--paper2); border:2px solid transparent; border-radius:10px; padding:11px 14px; margin-bottom:8px; font-size:14px;}
+.mcq-opt.correct{background:var(--good-light); border-color:var(--good);}
+.mcq-opt.wrong{background:var(--bad-light); border-color:var(--bad);}
+.mcq-opt:disabled{cursor:default;}
+.mcq-opt.hide-opt{display:none;}
+
+/* marker */
+.flawed-box{background:var(--bad-light); border-radius:10px; padding:12px 14px; font-size:14px; font-style:italic; margin-bottom:12px; color:#6E2323;}
+.fixed-box{background:var(--good-light); border-radius:10px; padding:12px 14px; font-size:14px; margin-top:10px; color:#1E4A2C; display:none;}
+
+/* boom or bust */
+.bb-stage{display:flex; flex-direction:column; align-items:center; gap:16px; margin-top:10px;}
+.bb-card{background:var(--paper2); border-radius:16px; padding:26px 20px; font-size:18px; font-weight:600; text-align:center; width:100%; max-width:420px;}
+.bb-choices{display:flex; gap:14px; width:100%; max-width:420px;}
+.bb-choices button{flex:1; padding:14px; border-radius:12px; border:none; font-weight:700; font-size:14px;}
+.bb-boom{background:var(--gold); color:#2A2007;}
+.bb-bust{background:#3B5A6B; color:#EAF3F6;}
+.bb-stats{font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink-soft);}
+
+/* skooland */
+.skoo-table{width:100%; border-collapse:collapse; margin:14px 0; font-size:14px;}
+.skoo-table td,.skoo-table th{padding:8px 10px; border-bottom:1px solid var(--line); text-align:left;}
+.skoo-input{padding:9px 10px; border-radius:8px; border:1px solid var(--ink-soft); font-size:15px; width:140px; font-family:'IBM Plex Mono',monospace;}
+
+/* beat the clock */
+.clock-big{font-family:'IBM Plex Mono',monospace; font-size:44px; font-weight:700; text-align:center; color:var(--ink);}
+.bc-term{font-size:20px; font-weight:700; text-align:center; margin:16px 0;}
+
+/* shop */
+.shop{display:flex; gap:10px; flex-wrap:wrap; background:var(--bg2); border-radius:12px; padding:12px; margin-bottom:16px; align-items:center;}
+.shop span.label{font-size:12px; color:var(--gold-light); text-transform:uppercase; letter-spacing:0.08em; font-family:'IBM Plex Mono',monospace;}
+.shop button{background:var(--paper); color:var(--ink); border:none; border-radius:999px; padding:7px 13px; font-size:12.5px; font-weight:600;}
+.shop button:disabled{opacity:0.4;}
+
+/* toast */
+#toast{position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--gold); color:#2A2007; font-weight:700; padding:12px 22px; border-radius:999px; box-shadow:var(--shadow); z-index:50; opacity:0; pointer-events:none; transition:opacity .3s, transform .3s;}
+#toast.show{opacity:1; transform:translateX(-50%) translateY(-6px);}
+
+/* finale */
+.finale{text-align:center;}
+.finale .word{font-family:'IBM Plex Mono',monospace; font-size:34px; letter-spacing:0.15em; color:var(--gold); margin:14px 0;}
+.finale-stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:18px 0; text-align:left;}
+.finale-stats div{background:var(--paper2); border-radius:10px; padding:12px;}
+.finale-stats .num{font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:700;}
+.finale-stats .lbl{font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft);}
+
+footer{text-align:center; color:#8AA093; font-size:12px; margin-top:50px;}
+footer button{background:none; border:1px solid #4A5B4D; color:#8AA093; border-radius:999px; padding:6px 14px; font-size:12px; margin-top:10px;}
+footer button.confirm{border-color:var(--bad); color:#E8B4B4;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="eyebrow">VCE Economics · Escape the Recession</div>
+  <h1>U2 AOS1 Revision</h1>
+  <p class="sub">Complete each vault activity to earn a letter and EconoDollars. Crack the whole code to escape — then take on the finale for bonus points.</p>
+  <div class="hud">
+    <div class="wallet"><span class="coin"></span><span id="walletAmt">0</span> EconoDollars</div>
+    <div class="vault">
+      <div class="vault-label">Vault code</div>
+      <div class="dial" id="dial"></div>
+    </div>
+  </div>
+</header>
+
+<main id="hub"></main>
+
+<div class="panel hidden" id="panel"><div class="sheet" id="sheetContent"></div></div>
+
+<footer>
+  Built for VCE Unit 2 Economics · AOS1 revision<br>
+  Your progress saves automatically on this device.
+  <br><button id="resetBtn">Reset my progress</button>
+</footer>
+<div id="toast"></div>
+
+<script>
+/* ============================= DATA ============================= */
+const DEF_ROUNDS = [
+  { title:'Round 1 — AD & AS core', terms:[
+    ['Aggregate Demand','The total expenditure on final Australian-made goods and services over a period of time.'],
+    ['Aggregate Supply','The total volume of Australian-made goods and services producers are prepared to supply to the market.'],
+    ['Economic growth','An increase in the level of national production over a period of time, most commonly measured by changes in real GDP.'],
+    ['Real GDP','GDP adjusted for inflation, giving a more accurate picture of the change in the volume of goods and services produced.'],
+    ['Real GDP per capita','Real GDP divided by population — the standard measure of material living standards.'],
+    ['Disposable income','Income received after tax and government transfers — total spending power.'],
+    ['Discretionary income','Income remaining after paying for essential living expenses.'],
+    ['Consumption expenditure (C)','Spending by households and non-profit organisations on goods and services — the largest component of AD.']
+  ]},
+  { title:'Round 2 — Circular flow & indicators', terms:[
+    ['Leakages','Withdrawals from the circular flow of income: savings, taxation and imports.'],
+    ['Injections','Additions to the circular flow of income: investment, government spending and exports.'],
+    ['Leading indicator','An indicator that gives a guide to the future state of the economy, e.g. consumer confidence.'],
+    ['Lagging indicator','An indicator that reflects the past state of the economy, e.g. the unemployment rate.'],
+    ['Coincident indicator','An indicator that moves closely with current activity and is published at short intervals, e.g. retail sales.'],
+    ['Participation rate','The percentage of the working-age population that is part of the labour force.'],
+    ['Terms of trade','The prices a country receives for its exports relative to the prices it pays for its imports.'],
+    ['Productive capacity','The potential output of an economy based on its available resources.']
+  ]},
+  { title:'Round 3 — Growth, costs & alternative measures', terms:[
+    ['Strong and sustainable growth','Growth of around 3–3.5% — the fastest rate achievable without triggering unacceptable inflation or environmental pressure.'],
+    ['Negative externality','A cost imposed on a third party who was not involved in the production or consumption of a good.'],
+    ['Common access resources','Resources with no owner or price that anyone can use, such as fish stocks in open seas — vulnerable to overuse.'],
+    ['Affluenza','A sense of dissatisfaction pursued through the relentless acquisition of material goods.'],
+    ['Human Development Index (HDI)','A measure of wellbeing combining income, education levels and life expectancy.'],
+    ['Green GDP','Real GDP with the estimated cost of environmental damage subtracted — an alternative measure of sustainable growth.'],
+    ["Measure of Australia's Progress (MAP)",'A set of statistical measures covering society, the economy, governance and the environment.'],
+    ['Gross National Happiness (GNH)','A composite wellbeing index including income, health, education and freedom to make life choices.']
+  ]}
+];
+
+const FLOW_ARROWS = [
+  {n:1, label:'Resources (land, labour, capital, enterprise) flow from households to businesses'},
+  {n:2, label:'Income (wages, rent, interest, profit) flows from businesses to households'},
+  {n:3, label:'Consumption spending (C)'},
+  {n:4, label:'Goods and services flow from businesses to households'},
+  {n:5, label:'Savings (S) — a leakage'},
+  {n:6, label:'Investment (I) — an injection'},
+  {n:7, label:'Taxation (T) — a leakage'},
+  {n:8, label:'Government spending (G) — an injection'},
+  {n:9, label:'Import spending (M) — a leakage'},
+  {n:10, label:'Export income (X) — an injection'},
+  {n:11, label:'Imported goods and services'},
+  {n:12, label:'Exported goods and services'}
+];
+
+const FIX_ERRORS = [
+  {n:5, wrong:'Taxation (T) — a leakage', correct:'Savings (S) — a leakage'},
+  {n:7, wrong:'Savings (S) — a leakage', correct:'Taxation (T) — a leakage'},
+  {n:9, wrong:'Export income (X) — an injection', correct:'Import spending (M) — a leakage'},
+  {n:10, wrong:'Import spending (M) — a leakage', correct:'Export income (X) — an injection'}
+];
+
+const CHAINS = [
+ { id:'c1', title:'Interest rates fall', popup:'Businesses benefit too — cheaper borrowing also encourages business investment (I), a second channel pushing AD up.',
+   steps:['The RBA cuts interest rates','The cost of borrowing decreases','Mortgage and loan repayments decrease',"Households' discretionary income rises",'Households spend more on goods and services','Consumption spending (C) increases','Aggregate Demand (AD) increases','Economic activity increases'],
+   intruder:"Households' disposable income rises" },
+ { id:'c2', title:'Consumer confidence rises',
+   steps:['Households feel optimistic about the future of the economy','Households are more willing to spend and less likely to save','Consumption spending (C) increases','Aggregate Demand (AD) increases','Production and employment increase'] },
+ { id:'c3', title:'Government infrastructure spending increases',
+   steps:['The government announces new infrastructure spending','Government spending (G) is a direct component of AD, so AD increases immediately','Construction firms receive contracts and hire workers','Income flows to households, who spend more','Consumption spending (C) increases further','Production and employment increase'] },
+ { id:'c4', title:'The Australian dollar depreciates',
+   steps:['The AUD falls in value against foreign currencies','Australian exports become cheaper for overseas buyers','Export income (X) increases','Imports become more expensive for Australians','Import spending (M) decreases','Net exports (X−M) increase','Aggregate Demand (AD) increases','Economic activity increases'],
+   intruder:'Import spending (M) increases' },
+ { id:'c5', title:'Growth flows through to living standards',
+   steps:['Economic growth increases','The level of production/economic activity rises','Demand for factors of production rises, especially labour','Unemployment falls and average incomes rise',"Households' access to goods and services increases",'Material living standards rise'],
+   intruder:'Aggregate Supply decreases' },
+ { id:'c6', title:'Leakages exceed injections',
+   steps:['Leakages (S, T, M) exceed injections (I, G, X)','Total expenditure in the economy falls','Businesses face weaker demand','Businesses cut production','Demand for factors of production falls','Unemployment rises and incomes fall','Economic activity contracts','Material living standards fall'] },
+ { id:'c7', title:'The circular flow loops back',
+   steps:['Incomes and material living standards rise','Households feel more confident and spend more','Consumption spending (C) rises further','Aggregate Demand (AD) rises further','Businesses expand production again','Demand for factors of production rises again','Incomes rise again — the cycle continues'] }
+];
+const TIER2_CHAINS = ['c1','c4','c5'];
+const ALL_STEPS = CHAINS.flatMap(c=>c.steps);
+
+const SORT_ROUNDS = [
+ { id:'s1', title:'Leakage or Injection?', buckets:['Leakage','Injection'],
+   items:[['Savings','Leakage'],['Taxation','Leakage'],['Imports','Leakage'],['Investment','Injection'],['Government spending','Injection'],['Exports','Injection']] },
+ { id:'s2', title:'Leading, Lagging, or Coincident?', buckets:['Leading','Lagging','Coincident'],
+   items:[['Consumer confidence','Leading'],['Job advertisements','Leading'],['New home loan approvals','Leading'],['Unemployment rate','Lagging'],['Inflation (CPI)','Lagging'],['Weekly earnings','Lagging'],['Monthly retail sales','Coincident'],['Share prices','Coincident'],['New car registrations','Coincident']] },
+ { id:'s3', title:'AD factor or AS factor?', buckets:['AD factor','AS factor'],
+   items:[['Consumer confidence','AD factor'],['Business confidence','AD factor'],['Rate of overseas economic growth','AD factor'],['Real disposable income','AD factor'],['Government spending','AD factor'],['Productivity','AS factor'],['Participation rate','AS factor'],['Climatic or geopolitical events','AS factor'],['Cost of production (e.g. raw materials)','AS factor']] },
+ { id:'s4', title:'Benefit or Cost of growth?', buckets:['Benefit','Cost'],
+   items:[['Rising material living standards','Benefit'],['Falling unemployment','Benefit'],['Improved non-material living standards','Benefit'],['Economic development','Benefit'],['Improved government finances','Benefit'],['Inflation from demand exceeding capacity','Cost'],['Boom and bust cycles','Cost'],['Congestion and pollution','Cost'],['Widening inequality','Cost'],['Affluenza','Cost'],['Depletion of natural resources','Cost']] },
+ { id:'s5', title:'Quantity or Quality of resources?', buckets:['Quantity','Quality'],
+   items:[['Skilled migration (more workers)','Quantity'],['Population growth','Quantity'],['New mining regions opened','Quantity'],['Education and training','Quality'],['New technology/machinery','Quality'],['Improved efficiency','Quality']] }
+];
+const DUAL_FACTORS = [
+  {factor:'Interest rates', why:'Changes discretionary income (AD, via C) AND businesses\u2019 cost of borrowing/production (AS).'},
+  {factor:'Tax rates', why:'Changes disposable income and consumption (AD) AND businesses\u2019 willingness to supply via after-tax profit (AS).'},
+  {factor:'Exchange rate', why:'Changes net exports (AD) AND the cost of imported inputs used in production (AS).'},
+  {factor:'Terms of trade', why:'Changes export income and profits (AD) AND the relative cost of imported inputs (AS).'}
+];
+
+const CLOZE = [
+ { text:"The Reserve Bank raises the cash rate. This increases the cost of borrowing, reducing households' ___ income as mortgage repayments rise, and reducing Consumption spending.",
+   opts:['disposable','discretionary','nominal','real'], ans:'discretionary' },
+ { text:"The government cuts income tax rates. This increases households' ___ income, as they keep more of what they earn after tax.",
+   opts:['disposable','discretionary','nominal','real'], ans:'disposable' },
+ { text:'Aggregate Demand refers to the total expenditure on ___ Australian-made goods and services over a ___.',
+   two:true, opts:['final','all','imported'], ans:'final', opts2:['period of time','financial year','decade'], ans2:'period of time' },
+ { text:'Aggregate Supply refers to the total ___ of Australian-made goods and services producers are willing and able to supply.',
+   opts:['value','volume','price'], ans:'volume' },
+ { text:'Material living standards are measured using ___ GDP per capita.',
+   opts:['nominal','real','gross'], ans:'real' },
+ { text:"Unit labour costs grew strongly over the period. This is an ___ development for Aggregate Supply, because producers' costs of production have risen.",
+   opts:['favourable','unfavourable'], ans:'unfavourable' }
+];
+
+const MCQ = [
+ {q:'In the five-sector circular flow model, which group of flows are all leakages?', opts:['Investment, Government spending, Exports','Saving, Taxation, Imports','Consumption, Investment, Saving','Exports, Imports, Investment'], a:1, fb:'G and X are injections, not leakages — don\u2019t mix up the sector.'},
+ {q:'A government wants real GDP to keep growing year after year without pushing up the general price level. Which is necessary?', opts:['Aggregate demand needs to increase faster than aggregate supply','Aggregate supply needs to increase to keep pace with aggregate demand','Aggregate demand alone needs to increase','Neither needs to change'], a:1, fb:'If AD grows faster than AS, the economy pushes against a fixed productive capacity — that\u2019s what causes inflation.'},
+ {q:'If the Australian dollar depreciates against the US dollar, what happens to import spending (M) and AD?', opts:['M rises, AD falls','M falls, AD rises','No effect on either','X falls, M unaffected'], a:1, fb:'A depreciation makes imports dearer for Australians, so M falls; net exports rise, pushing AD up.'},
+ {q:'Which of these would have a different effect on growth than the other three?', opts:['A rise in the RBA cash rate','A sharp fall in business confidence','A cut to the company tax rate','A severe bushfire season damaging agricultural output'], a:2, fb:'The other three all reduce growth. A company tax cut encourages investment, raising AD — the odd one out.'},
+ {q:'Which best describes a benefit typically associated with strong economic growth?', opts:['Rising unemployment and falling average incomes','Increased material living standards and lower unemployment','Higher prices with no change in output','Reduced access to goods and services'], a:1, fb:''},
+ {q:'Which indicator moves closely with current conditions and is published frequently, e.g. monthly retail sales?', opts:['Leading indicator','Lagging indicator','Coincident indicator','Structural indicator'], a:2, fb:''},
+ {q:'If total injections rise relative to total leakages, what happens to economic activity?', opts:['It increases','It decreases','No impact','Inflation falls'], a:0, fb:''},
+ {q:'Which statement about growth and material living standards is most accurate?', opts:['Growth always guarantees higher living standards for everyone','Growth tends to raise material living standards on average, mainly via higher incomes and employment','Growth has no impact on living standards','Growth always improves environmental outcomes'], a:1, fb:'Watch for absolute words like \u201calways\u201d in VCE multiple choice — they\u2019re usually the trap.'},
+ {q:'What is generally considered the core purpose of economic activity?', opts:['To maximise government tax revenue','To satisfy the wants and needs of society and improve overall wellbeing','To increase exports at the expense of imports','To minimise the use of all resources'], a:1, fb:''},
+ {q:'Which of the following is NOT considered an aggregate supply factor?', opts:['Productivity','Participation rate','Consumer confidence','Climatic or geopolitical events'], a:2, fb:'Consumer confidence changes spending behaviour — it\u2019s an AD factor, not an AS factor.'},
+ {q:'A transaction likely to increase the Investment (I) component of AD is:', opts:['Buying a laptop for homework','Building a new set of townhouses','Renting a hotel room to a tourist','Buying an existing piece of artwork'], a:1, fb:'I = spending on new capital goods. A laptop is C; a hotel room is a service export; an existing artwork is just an asset changing hands.'},
+ {q:'A severe drought is likely to:', opts:['Shift AD and AS both right','Shift AD left and AS right','Shift AD and AS both left','Shift AD right and AS left'], a:2, fb:'Drought reduces farm incomes (AD) and destroys output (AS) — both curves shift left.'},
+ {q:'Material living standards are most likely to improve if:', opts:['Population grows faster than real GDP','Productivity falls','Real GDP grows faster than population, and productivity increases','Export prices fall while import prices rise'], a:2, fb:''},
+ {q:'Which is the best definition of Aggregate Supply?', opts:['The total value of goods and services demanded in an economy','The total volume of final Australian-made goods and services producers are willing and able to supply','The total amount of money circulating in the economy','The total volume of imported goods and services'], a:1, fb:'Watch the word \u201cvolume\u201d — \u201camount\u201d or \u201cvalue\u201d refer to dollars, not physical quantity produced.'}
+];
+
+const MARKER = [
+ {q:'Explain one benefit of Economic growth', flawed:'Increase in growth will lead to increase in demand for labour which will lower unemployment levels and increasing disposable incomes, and material living standards.', opts:['Missing a definition of growth','Skips the \u201cincrease in activity/production\u201d step — jumps straight from growth to labour demand','Missing the AD component'], a:1, fixed:'Economic growth means higher levels of production are occurring, this will lead to an increase in demand for factors of production, including labour. As demand for labour increases, unemployment will fall and average income will increase, leading to higher material living standards.'},
+ {q:'Explain the relationship between AD and economic growth', flawed:'AD is the total value of goods and services demanded in an economy. Economic growth refers to the increase in spending. An increase in economic growth will cause an increase in the value of goods and services demanded.', opts:['AD definition is missing','Growth is defined incorrectly and the causation is backwards — rising AD causes growth, not the reverse','Missing the AD component'], a:1, fixed:'AD refers to total expenditure on final Australian-made goods and services over a period of time. Economic growth refers to the increase in production, measured by real GDP. An increase in AD will lead to an increase in economic growth as greater levels of production and economic activity occur.'},
+ {q:'Describe how the exchange rate would impact on AD', flawed:'If the exchange rate is worth less people will buy more of our exports.', opts:['Missing the definition of exchange rate and the mechanism — why a cheaper AUD leads to more exports','Missing the AD component named','Too much unnecessary detail'], a:0, fixed:'The exchange rate refers to the value of one currency compared to another. A depreciation of the AUD means each unit of foreign currency buys more AUD, making our exports relatively cheaper, increasing our international competitiveness and, all else remaining equal, increasing Net exports and AD.'},
+ {q:'Describe how disposable income would impact on AD', flawed:'An increase in disposable income means people have more money to spend increasing AD.', opts:['Missing the definition of disposable income and the named AD component (C)','Too much unnecessary detail','Missing a definition of AD'], a:0, fixed:'Disposable income refers to income available for spending after tax. An increase in disposable income increases people\u2019s willingness to consume, leading to an increase in Consumption spending (C) and, all else remaining equal, an increase in AD.'},
+ {q:'The Government aims for strong and sustainable growth — explain one consequence of growth that is too strong', flawed:'One cost of growth is too high inflation which will decrease people\u2019s material living standards due to the cost of goods and services being too high.', opts:['Doesn\u2019t say what \u201ctoo strong\u201d actually means (e.g. consistently above 4%)','Explains the EFFECTS of inflation rather than HOW growth causes inflation — answers a different question','Missing the AD component'], a:1, fixed:'One consequence of growth that is too strong, such as consistently above 4%, would be inflation. Due to AD reaching or exceeding our productive potential, shortages in the market would occur and drive up prices, leading to higher levels of inflation.'},
+ {q:'Distinguish leading from lagging indicators', flawed:'Leading indicators are able to provide details about the future. Lagging indicators tell us about the past.', opts:['No examples given for either type','Missing a definition of AD','Too much unnecessary detail'], a:0, fixed:'Leading indicators, such as consumer confidence, provide a guide as to the future state of the economy. Lagging indicators, such as the unemployment rate, provide information about the previous state of the economy. The key difference is timing — leading indicators move ahead of changes in economic activity, lagging indicators move after them.'},
+ {q:'Explain one Aggregate Supply factor and describe its impact on productive capacity', flawed:'One supply factor is productivity which is increasing the amount of resources. An increase in the amount of resources will increase Aggregate supply meaning we can get more out of our resources and produce more increasing productive capacity.', opts:['Confuses productivity (output per unit of input) with an increase in the quantity of resources — these are different AS factors','Missing the AD component','Too much unnecessary detail'], a:0, fixed:'One AS factor is productivity, which refers to the amount of output produced per unit of input. An increase in productivity means producers get more output from the same resources, decreasing the cost of production and increasing producers\u2019 willingness and ability to supply. This increases AS and expands productive capacity, the potential output of the economy based on its available resources.'},
+ {q:'Explain one limitation of using real GDP to measure living standards', flawed:'One limitation of using GDP to measure living standards is that is doesn\u2019t account for damage to the environment.', opts:['The limitation is only identified, not explained — doesn\u2019t show HOW this plays out','Missing a definition of GDP','Too much unnecessary detail'], a:0, fixed:'One limitation of real GDP per capita is that it fails to account for environmental damage caused by production. For example, real GDP could rise while pollution and resource depletion increase, meaning material living standards may appear to improve while non-material living standards — such as health and quality of environment — actually decline.'},
+ {q:'Describe one alternative measure of living standards', flawed:'One alternative measure of living standards is Green GDP which considers damage to the environment and is therefore a better indicator of living standards.', opts:['Explanation is too shallow — doesn\u2019t say HOW Green GDP is actually calculated','Missing a definition of GDP','Too much unnecessary detail'], a:0, fixed:'One alternative measure of living standards is Green GDP, which is calculated by taking real GDP and subtracting the estimated cost of environmental damage, such as resource depletion and the costs of climate change. This gives a more realistic measure of sustainable economic progress than real GDP alone.'}
+];
+
+const BOOMBUST = [
+  ['Unemployment below 4%','Boom'],['Consumer confidence over 110','Boom'],['Inflation above 3%','Boom'],['New home approvals strong','Boom'],['Retail sales strong','Boom'],['Household debt growing quickly','Boom'],
+  ['Unemployment above 7%','Downturn'],['Confidence under 100','Downturn'],['Inflation low or falling','Downturn'],['New home approvals weak','Downturn'],['Retail sales declining','Downturn'],['Debt growth stalling','Downturn']
+];
+
+/* ============================= ACTIVITY REGISTRY ============================= */
+const ACTIVITIES = [
+  {id:'match', letter:'R', title:'Definition Match', tag:'Warm-up', desc:'Tap a term, then its definition. Three rounds, 8 terms each.', build:buildMatch},
+  {id:'flow', letter:'E', title:'Circular Flow Labeller', tag:'Diagram', desc:'Label all 12 flows of the five-sector circular flow model.', build:buildFlow},
+  {id:'fix', letter:'C', title:'Fix the Flow', tag:'Diagram · harder', desc:'The diagram is fully labelled — but 4 labels are wrong. Find and fix them.', build:buildFix, locks:'flow'},
+  {id:'sort', letter:'E', title:'Sort It', tag:'Classify', desc:'Five rapid sorting rounds, plus a dual-factor challenge.', build:buildSort},
+  {id:'chain', letter:'S', title:'Chain Builder', tag:'Sequence', desc:'Order the steps in seven economics chains — three difficulty tiers.', build:buildChain},
+  {id:'cloze', letter:'S', title:'Fill the Blanks', tag:'Precision', desc:'Choose the exact word that earns the mark.', build:buildCloze},
+  {id:'mcq', letter:'I', title:'Multiple Choice', tag:'SAC style', desc:'14 exam-style questions with feedback on every wrong answer.', build:buildMCQ},
+  {id:'marker', letter:'O', title:'Be the Marker', tag:'Diagnose', desc:'Real flawed answers — spot what\u2019s missing before seeing the fix.', build:buildMarker},
+  {id:'boom', letter:'N', title:'Boom or Bust', tag:'Speed round', desc:'Rapid-fire: sort each signal into boom or downturn.', build:buildBoom},
+  {id:'skoo', letter:null, title:'Skoo-land Randomiser', tag:'Unlimited practice', desc:'Fresh growth-rate and per-capita calculations every round.', build:buildSkoo},
+  {id:'clock', letter:null, title:'Beat the Clock', tag:'Finale', desc:'60 seconds. How many terms can you nail?', build:buildClock, locks:'ALL'}
+];
+const RECESSION = 'RECESSION'.split('');
+
+/* ============================= STATE ============================= */
+const state = { wallet:0, earnedGross:0, spent:0, completed:{}, dialFilled:0 };
+
+function earn(n){ state.wallet+=n; state.earnedGross+=n; updateHUD(); toast('+ '+n+' EconoDollars'); saveState(); }
+function spend(n){ if(state.wallet<n){ toast('Not enough EconoDollars'); return false;} state.wallet-=n; state.spent+=n; updateHUD(); saveState(); return true; }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(window._tt); window._tt=setTimeout(()=>t.classList.remove('show'),1400); }
+function updateHUD(){ document.getElementById('walletAmt').textContent=state.wallet; }
+
+function markComplete(id){
+  if(state.completed[id]) return;
+  state.completed[id]=true;
+  const act = ACTIVITIES.find(a=>a.id===id);
+  if(act && act.letter){
+    state.dialFilled++;
+    renderDial();
+    if(state.dialFilled===9){ setTimeout(showFinale, 500); }
+  }
+  renderHub();
+  saveState();
+}
+
+/* ============================= SAVE / LOAD ============================= */
+const STORAGE_KEY='escapeTheRecession_v1';
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e){ /* storage unavailable (e.g. private browsing) — progress just won't persist */ }
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const loaded=JSON.parse(raw);
+      Object.assign(state, loaded);
+    }
+  }catch(e){ /* ignore corrupt/unavailable storage, start fresh */ }
+}
+function resetProgress(){
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+  state.wallet=0; state.earnedGross=0; state.spent=0; state.completed={}; state.dialFilled=0;
+  renderDial(); renderHub(); updateHUD();
+  toast('Progress reset');
+}
+
+/* ============================= HUB / DIAL ============================= */
+function renderDial(){
+  const dial=document.getElementById('dial'); dial.innerHTML='';
+  const lettersEarned = ACTIVITIES.filter(a=>a.letter && state.completed[a.id]).map(a=>a.letter);
+  RECESSION.forEach((ch,i)=>{
+    const slot=document.createElement('div'); slot.className='slot';
+    const earnedThisSlot = ACTIVITIES.filter(a=>a.letter).map(a=>state.completed[a.id]);
+    if(earnedThisSlot[i]){ slot.classList.add('filled'); slot.textContent=RECESSION[i]; }
+    else slot.textContent='_';
+    dial.appendChild(slot);
+  });
+}
+
+function renderHub(){
+  const hub=document.getElementById('hub'); hub.innerHTML='';
+  ACTIVITIES.forEach(act=>{
+    const locked = act.locks && act.locks!=='ALL' ? !state.completed[act.locks] : (act.locks==='ALL' ? state.dialFilled<9 : false);
+    const done = state.completed[act.id];
+    const card=document.createElement('div');
+    card.className='card'+(locked?' locked':'')+(done?' done':'');
+    card.innerHTML = `
+      ${act.letter?`<div class="letter-badge">${done?act.letter:'?'}</div>`:''}
+      <div class="tag">${act.tag}</div>
+      <h3>${act.title}</h3>
+      <p>${locked ? (act.locks==='ALL' ? 'Unlocks once all 9 vault letters are found.' : 'Unlocks after completing "'+ACTIVITIES.find(a=>a.id===act.locks).title+'".') : act.desc}</p>
+      <button class="enter" ${locked?'disabled':''}>${done?'Play again':'Start'}</button>
+    `;
+    if(!locked) card.querySelector('button').onclick=()=>openActivity(act);
+    hub.appendChild(card);
+  });
+}
+
+function openActivity(act){
+  document.getElementById('hub').parentElement; // noop
+  document.querySelector('main#hub').style.display='none';
+  const panel=document.getElementById('panel'); panel.classList.remove('hidden');
+  const sheet=document.getElementById('sheetContent');
+  sheet.innerHTML = `<div class="sheet-head"><h2>${act.title}</h2><button class="backbtn" id="backBtn">← Back to vault</button></div><div id="activityBody"></div>`;
+  document.getElementById('backBtn').onclick=closeActivity;
+  act.build(document.getElementById('activityBody'));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function closeActivity(){
+  document.getElementById('panel').classList.add('hidden');
+  document.querySelector('main#hub').style.display='grid';
+}
+
+/* ============================= 1. DEFINITION MATCH ============================= */
+function buildMatch(root){
+  let roundIdx=0, correctCount=0, roundsDone=0;
+  function renderRound(){
+    const round=DEF_ROUNDS[roundIdx];
+    const terms=[...round.terms]; const defs=shuffle([...round.terms]);
+    let selectedTerm=null, matched=0;
+    root.innerHTML = `<div class="progress-note">${round.title} (${roundIdx+1} of ${DEF_ROUNDS.length})</div>
+      <div class="match-grid"><div class="match-col" id="colTerms"></div><div class="match-col" id="colDefs"></div></div>
+      <div class="feedback" id="mfb"></div>`;
+    const colT=root.querySelector('#colTerms'), colD=root.querySelector('#colDefs');
+    terms.forEach(([term])=>{
+      const b=document.createElement('button'); b.className='match-item term'; b.textContent=term; b.dataset.term=term;
+      b.onclick=()=>{ if(b.classList.contains('used'))return; colT.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); selectedTerm=term; };
+      colT.appendChild(b);
+    });
+    defs.forEach(([term,def])=>{
+      const b=document.createElement('button'); b.className='match-item'; b.textContent=def;
+      b.onclick=()=>{
+        if(b.classList.contains('used')||!selectedTerm) return;
+        const termBtn=[...colT.children].find(x=>x.dataset.term===selectedTerm);
+        if(term===selectedTerm){
+          b.classList.add('used','correct'); termBtn.classList.add('used','correct'); matched++; correctCount++;
+          earn(8);
+          if(matched===terms.length){
+            roundsDone++;
+            root.querySelector('#mfb').className='feedback good';
+            root.querySelector('#mfb').textContent = roundIdx<DEF_ROUNDS.length-1 ? 'Round complete!' : 'All rounds complete!';
+            if(roundIdx<DEF_ROUNDS.length-1){ setTimeout(()=>{roundIdx++; renderRound();},900); }
+            else { markComplete('match'); }
+          }
+        } else {
+          b.classList.add('wrong'); termBtn.classList.add('wrong');
+          setTimeout(()=>{b.classList.remove('wrong'); termBtn.classList.remove('wrong');},450);
+        }
+        selectedTerm=null; colT.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));
+      };
+      colD.appendChild(b);
+    });
+  }
+  renderRound();
+}
+
+/* ============================= 2. CIRCULAR FLOW LABELLER ============================= */
+function buildFlow(root){
+  const answers={};
+  root.innerHTML = `<p style="font-size:14px;color:var(--ink-soft);margin-bottom:8px;">Assign each numbered flow (1–12) the correct label. Households ↔ Businesses at top; Financial, Government, Overseas sectors below.</p>
+    <div class="flow-slots" id="flowSlots"></div>
+    <div class="btnrow"><button class="primary" id="checkFlow">Check answers</button></div>
+    <div class="feedback" id="flowFb"></div>`;
+  const wrap=root.querySelector('#flowSlots');
+  const pool=shuffle(FLOW_ARROWS.map(a=>a.label));
+  FLOW_ARROWS.forEach(a=>{
+    const div=document.createElement('div'); div.className='flow-slot';
+    div.innerHTML = `<strong>${a.n}.</strong> <select data-n="${a.n}"><option value="">— choose label —</option></select>`;
+    const sel=div.querySelector('select');
+    pool.forEach(l=>{ const o=document.createElement('option'); o.value=l; o.textContent=l; sel.appendChild(o); });
+    wrap.appendChild(div);
+  });
+  root.querySelector('#checkFlow').onclick=()=>{
+    let correct=0;
+    FLOW_ARROWS.forEach(a=>{
+      const sel=wrap.querySelector(`select[data-n="${a.n}"]`);
+      if(sel.value===a.label){ correct++; sel.style.borderColor='var(--good)'; } else { sel.style.borderColor='var(--bad)'; }
+    });
+    const fb=root.querySelector('#flowFb');
+    fb.className='feedback '+(correct===12?'good':'bad');
+    fb.textContent = correct===12 ? 'All 12 correct — nice work!' : `${correct} of 12 correct. Fix the red ones and check again.`;
+    if(correct===12){ earn(40); markComplete('flow'); }
+  };
+}
+
+/* ============================= 3. FIX THE FLOW ============================= */
+function buildFix(root){
+  root.innerHTML = `<p style="font-size:14px;color:var(--ink-soft);margin-bottom:8px;">This diagram is fully labelled, but 4 labels are wrong. Click every label you think is incorrect, then check.</p>
+    <div class="flow-slots" id="fixSlots"></div>
+    <div class="btnrow"><button class="primary" id="checkFix">Check selections</button></div>
+    <div class="feedback" id="fixFb"></div>`;
+  const wrap=root.querySelector('#fixSlots');
+  const display = FLOW_ARROWS.map(a=>{
+    const err=FIX_ERRORS.find(e=>e.n===a.n);
+    return {n:a.n, shown: err?err.wrong:a.label, isWrong:!!err};
+  });
+  display.forEach(d=>{
+    const b=document.createElement('button'); b.className='flow-slot'; b.style.cssText='text-align:left;border:2px solid transparent;';
+    b.innerHTML=`<span><strong>${d.n}.</strong> ${d.shown}</span>`;
+    b.dataset.wrong=d.isWrong; b.dataset.selected='false';
+    b.onclick=()=>{ const sel=b.dataset.selected==='true'; b.dataset.selected=(!sel).toString(); b.style.borderColor=!sel?'var(--ink)':'transparent'; };
+    wrap.appendChild(b);
+  });
+  root.querySelector('#checkFix').onclick=()=>{
+    let correctPicks=0, wrongPicks=0;
+    [...wrap.children].forEach(b=>{
+      const isWrong=b.dataset.wrong==='true', selected=b.dataset.selected==='true';
+      if(isWrong && selected){ correctPicks++; b.style.background='var(--good-light)'; }
+      else if(!isWrong && selected){ wrongPicks++; b.style.background='var(--bad-light)'; }
+      else if(isWrong && !selected){ b.style.background='var(--bad-light)'; }
+    });
+    const fb=root.querySelector('#fixFb');
+    const success = correctPicks===4 && wrongPicks===0;
+    fb.className='feedback '+(success?'good':'bad');
+    fb.textContent = success ? 'Found all 4 planted errors!' : `Found ${correctPicks} of 4 real errors${wrongPicks?`, and flagged ${wrongPicks} correct label(s) by mistake`:''}. Correct labels are highlighted — try again.`;
+    if(success){ earn(35); markComplete('fix'); }
+  };
+}
+
+/* ============================= 4. SORT IT ============================= */
+function buildSort(root){
+  let idx=0;
+  function renderRound(){
+    if(idx>=SORT_ROUNDS.length){ renderDual(); return; }
+    const r=SORT_ROUNDS[idx];
+    root.innerHTML = `<div class="progress-note">${r.title} (${idx+1} of ${SORT_ROUNDS.length+1})</div>
+      <div class="sort-buckets" id="buckets"></div>
+      <div class="pool" id="pool"></div>
+      <div class="feedback" id="sortFb"></div>`;
+    const bucketsEl=root.querySelector('#buckets'), poolEl=root.querySelector('#pool');
+    r.buckets.forEach(b=>{
+      const div=document.createElement('div'); div.className='bucket'; div.dataset.bucket=b;
+      div.innerHTML=`<h4>${b}</h4>`;
+      bucketsEl.appendChild(div);
+    });
+    let placed=0, selected=null;
+    const items=shuffle([...r.items]);
+    items.forEach(([label,correct])=>{
+      const chip=document.createElement('button'); chip.className='item'; chip.textContent=label;
+      chip.onclick=()=>{
+        poolEl.querySelectorAll('.item').forEach(x=>x.style.outline='none');
+        selected={label,correct,el:chip}; chip.style.outline='2px solid var(--gold)';
+      };
+      poolEl.appendChild(chip);
+    });
+    bucketsEl.querySelectorAll('.bucket').forEach(b=>{
+      b.onclick=()=>{
+        if(!selected) return;
+        if(b.dataset.bucket===selected.correct){
+          const c=document.createElement('div'); c.className='chip'; c.textContent=selected.label; b.appendChild(c);
+          selected.el.classList.add('gone'); placed++; earn(6); selected=null;
+          if(placed===items.length){
+            root.querySelector('#sortFb').className='feedback good';
+            root.querySelector('#sortFb').textContent='Round complete!';
+            idx++; setTimeout(renderRound,700);
+          }
+        } else {
+          toast('Not quite — try another bucket');
+        }
+      };
+    });
+  }
+  function renderDual(){
+    root.innerHTML = `<div class="progress-note">Dual factors — tick every box that applies (${SORT_ROUNDS.length+1} of ${SORT_ROUNDS.length+1})</div>
+      <p style="font-size:13.5px;color:var(--ink-soft);">These four factors affect BOTH sides of the economy at once.</p>
+      <div id="dualWrap"></div>
+      <div class="btnrow"><button class="primary" id="checkDual">Check</button></div>
+      <div class="feedback" id="dualFb"></div>`;
+    const wrap=root.querySelector('#dualWrap');
+    DUAL_FACTORS.forEach((d,i)=>{
+      const row=document.createElement('div'); row.className='dualrow';
+      row.innerHTML=`<strong>${d.factor}</strong>
+        <span><label><input type="checkbox" data-i="${i}" data-side="AD"> AD</label>
+        <label><input type="checkbox" data-i="${i}" data-side="AS"> AS</label></span>`;
+      wrap.appendChild(row);
+    });
+    root.querySelector('#checkDual').onclick=()=>{
+      let allGood=true;
+      wrap.querySelectorAll('input').forEach(cb=>{ if(!cb.checked) allGood=false; });
+      const fb=root.querySelector('#dualFb');
+      if(allGood){
+        fb.className='feedback good';
+        fb.innerHTML='Correct — all four affect both AD and AS.<br><br>'+DUAL_FACTORS.map(d=>`<strong>${d.factor}:</strong> ${d.why}`).join('<br>');
+        earn(30); markComplete('sort');
+      } else {
+        fb.className='feedback bad'; fb.textContent='Tick BOTH boxes for every factor — they all work through AD and AS simultaneously.';
+      }
+    };
+  }
+  renderRound();
+}
+
+/* ============================= 5. CHAIN BUILDER ============================= */
+function buildChain(root){
+  let tier=1, chainId=CHAINS[0].id;
+  function shell(){
+    root.innerHTML = `
+      <div class="tier-tabs">
+        <button data-t="1" class="active">Tier 1 — Order it</button>
+        <button data-t="2">Tier 2 — Spot the intruder</button>
+        <button data-t="3">Tier 3 — Build it live</button>
+      </div>
+      <div class="chain-select" id="chainSelect"></div>
+      <div id="chainBody"></div>`;
+    root.querySelectorAll('.tier-tabs button').forEach(b=>{
+      b.onclick=()=>{ tier=parseInt(b.dataset.t); root.querySelectorAll('.tier-tabs button').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+        const avail = tier===2 ? CHAINS.filter(c=>TIER2_CHAINS.includes(c.id)) : CHAINS;
+        if(!avail.find(c=>c.id===chainId)) chainId=avail[0].id;
+        renderSelect(); renderTier(); };
+    });
+    renderSelect(); renderTier();
+  }
+  function renderSelect(){
+    const sel=root.querySelector('#chainSelect'); sel.innerHTML='';
+    const avail = tier===2 ? CHAINS.filter(c=>TIER2_CHAINS.includes(c.id)) : CHAINS;
+    avail.forEach(c=>{
+      const b=document.createElement('button'); b.textContent=c.title; if(c.id===chainId) b.classList.add('active');
+      b.onclick=()=>{ chainId=c.id; renderSelect(); renderTier(); };
+      sel.appendChild(b);
+    });
+  }
+  function renderTier(){
+    const body=root.querySelector('#chainBody');
+    const chain=CHAINS.find(c=>c.id===chainId);
+    if(tier===1) return tier1(body,chain,false);
+    if(tier===2) return tier1(body,chain,true);
+    if(tier===3) return tier3(body,chain);
+  }
+  function tier1(body,chain,intrudeMode){
+    let pool = intrudeMode && chain.intruder ? shuffle([...chain.steps, chain.intruder]) : shuffle([...chain.steps]);
+    let order=[];
+    body.innerHTML = `<p style="font-size:13.5px;color:var(--ink-soft);">${intrudeMode?'One step doesn\u2019t belong. Leave it out, then order the rest.':'Tap the steps in the correct order.'}</p>
+      <div class="chain-pool" id="cpool"></div>
+      <div class="chain-order" id="corder"></div>
+      <div class="btnrow"><button class="primary" id="cCheck" disabled>Check order</button><button class="ghost" id="cReset">Reset</button></div>
+      <div class="feedback" id="cFb"></div>`;
+    const poolEl=body.querySelector('#cpool'), orderEl=body.querySelector('#corder');
+    function draw(){
+      poolEl.innerHTML=''; orderEl.innerHTML='';
+      pool.forEach(step=>{
+        if(order.includes(step)) return;
+        const b=document.createElement('button'); b.className='chain-item'; b.textContent=step;
+        b.onclick=()=>{ order.push(step); draw(); };
+        poolEl.appendChild(b);
+      });
+      order.forEach((step,i)=>{
+        const d=document.createElement('div'); d.className='step';
+        d.innerHTML=`<span class="num">${i+1}</span><span>${step}</span>`;
+        orderEl.appendChild(d);
+      });
+      body.querySelector('#cCheck').disabled = order.length !== chain.steps.length;
+    }
+    body.querySelector('#cReset').onclick=()=>{ order=[]; draw(); body.querySelector('#cFb').className='feedback'; };
+    body.querySelector('#cCheck').onclick=()=>{
+      let correct=0;
+      [...orderEl.children].forEach((el,i)=>{
+        if(order[i]===chain.steps[i]){ el.classList.add('correct'); correct++; } else el.classList.add('wrong');
+      });
+      const fb=body.querySelector('#cFb'); const perfect=correct===chain.steps.length;
+      fb.className='feedback '+(perfect?'good':'bad');
+      fb.textContent = perfect ? 'Perfect chain!' : `${correct} of ${chain.steps.length} in the right spot. Green = correct position.`;
+      if(perfect){
+        earn(intrudeMode?25:15);
+        if(chain.popup) setTimeout(()=>toast(chain.popup), 600);
+        markComplete('chain');
+      }
+    };
+    draw();
+  }
+  function tier3(body,chain){
+    let stepIdx=1; // step 0 given
+    body.innerHTML = `<p style="font-size:13.5px;color:var(--ink-soft);">Build the chain live — pick the correct next link at each step.</p>
+      <div class="chain-order" id="liveOrder"></div>
+      <div class="branch-options" id="liveOpts"></div>
+      <div class="feedback" id="liveFb"></div>`;
+    const orderEl=body.querySelector('#liveOrder'), optsEl=body.querySelector('#liveOpts');
+    function addStep(text,cls){ const d=document.createElement('div'); d.className='step'+(cls?' '+cls:''); d.innerHTML=`<span class="num">${orderEl.children.length+1}</span><span>${text}</span>`; orderEl.appendChild(d); }
+    function next(){
+      optsEl.innerHTML='';
+      if(stepIdx===0){ addStep(chain.steps[0]); }
+      if(stepIdx>=chain.steps.length){
+        body.querySelector('#liveFb').className='feedback good'; body.querySelector('#liveFb').textContent='Chain complete!';
+        earn(30); markComplete('chain');
+        return;
+      }
+      const correct=chain.steps[stepIdx];
+      const distractors = shuffle(ALL_STEPS.filter(s=>!chain.steps.includes(s))).slice(0,2);
+      const options=shuffle([correct,...distractors]);
+      options.forEach(opt=>{
+        const b=document.createElement('button'); b.textContent=opt;
+        b.onclick=()=>{
+          if(opt===correct){ addStep(opt); stepIdx++; next(); }
+          else { toast('Not the next link — try again'); }
+        };
+        optsEl.appendChild(b);
+      });
+    }
+    stepIdx=0; addStep(chain.steps[0]); stepIdx=1; next();
+  }
+  shell();
+}
+
+/* ============================= 6. FILL THE BLANKS ============================= */
+function buildCloze(root){
+  let idx=0, correct=0;
+  function render(){
+    if(idx>=CLOZE.length){
+      root.innerHTML=`<div class="feedback good">All ${CLOZE.length} complete — ${correct} correct on first try.</div>`;
+      earn(40); markComplete('cloze'); return;
+    }
+    const c=CLOZE[idx];
+    root.innerHTML = `<div class="progress-note">Question ${idx+1} of ${CLOZE.length}</div><div class="cloze-text" id="ctext"></div>
+      <div class="btnrow"><button class="primary" id="cSubmit">Check</button></div>
+      <div class="feedback" id="cFb"></div>`;
+    const ctext=root.querySelector('#ctext');
+    if(c.two){
+      const parts=c.text.split('___');
+      ctext.innerHTML='';
+      ctext.append(parts[0]);
+      const s1=document.createElement('select'); s1.appendChild(new Option('— choose —',''));
+      shuffle([...c.opts]).forEach(o=>s1.appendChild(new Option(o,o)));
+      ctext.appendChild(s1);
+      ctext.append(parts[1]);
+      const s2=document.createElement('select'); s2.appendChild(new Option('— choose —',''));
+      shuffle([...c.opts2]).forEach(o=>s2.appendChild(new Option(o,o)));
+      ctext.appendChild(s2);
+      ctext.append(parts[2]);
+      root.querySelector('#cSubmit').onclick=()=>check([s1.value===c.ans, s2.value===c.ans2]);
+    } else {
+      const parts=c.text.split('___');
+      ctext.innerHTML=''; ctext.append(parts[0]);
+      const s1=document.createElement('select'); s1.appendChild(new Option('— choose —',''));
+      shuffle([...c.opts]).forEach(o=>s1.appendChild(new Option(o,o)));
+      ctext.appendChild(s1); ctext.append(parts[1]);
+      root.querySelector('#cSubmit').onclick=()=>check([s1.value===c.ans]);
+    }
+    function check(results){
+      const ok=results.every(Boolean);
+      const fb=root.querySelector('#cFb');
+      fb.className='feedback '+(ok?'good':'bad');
+      fb.textContent = ok ? 'Correct!' : 'Not quite — check disposable vs discretionary, or the exact wording needed for the mark.';
+      if(ok){ correct++; earn(10); idx++; setTimeout(render,700); }
+    }
+  }
+  render();
+}
+
+/* ============================= 7. MULTIPLE CHOICE ============================= */
+function buildMCQ(root){
+  const order=shuffle([...MCQ.map((_,i)=>i)]);
+  let pos=0, score=0, fiftyUsed=false, doubleActive=false;
+  function render(){
+    if(pos>=order.length){
+      root.innerHTML=`<div class="feedback good">Finished! ${score} of ${MCQ.length} correct.</div>`;
+      earn(20); markComplete('mcq'); return;
+    }
+    const q=MCQ[order[pos]];
+    root.innerHTML = `<div class="shop">
+        <span class="label">Shop</span>
+        <button id="buy5050">50:50 (15)</button>
+        <button id="buyDouble">Double points (20)</button>
+      </div>
+      <div class="progress-note">Question ${pos+1} of ${order.length}</div>
+      <div class="mcq-q">${q.q}</div>
+      <div id="mcqOpts"></div>
+      <div class="feedback" id="mcqFb"></div>`;
+    const optsEl=root.querySelector('#mcqOpts');
+    let hidden=[];
+    function drawOpts(){
+      optsEl.innerHTML='';
+      q.opts.forEach((o,i)=>{
+        const b=document.createElement('button'); b.className='mcq-opt'+(hidden.includes(i)?' hide-opt':'');
+        b.textContent=o;
+        b.onclick=()=>{
+          [...optsEl.children].forEach(x=>x.disabled=true);
+          if(i===q.a){ b.classList.add('correct'); score++; earn(doubleActive?20:10); doubleActive=false; }
+          else { b.classList.add('wrong'); optsEl.children[q.a].classList.add('correct'); }
+          const fb=root.querySelector('#mcqFb');
+          fb.className='feedback '+(i===q.a?'good':'bad');
+          fb.textContent = i===q.a ? 'Correct!' : (q.fb || 'Not quite — review why the correct answer works.');
+          setTimeout(()=>{ pos++; render(); }, 1600);
+        };
+        optsEl.appendChild(b);
+      });
+    }
+    drawOpts();
+    root.querySelector('#buy5050').onclick=()=>{
+      if(fiftyUsed){ toast('Already used this question'); return; }
+      if(spend(15)){
+        const wrongIdx=q.opts.map((_,i)=>i).filter(i=>i!==q.a);
+        hidden=shuffle(wrongIdx).slice(0,2); fiftyUsed=true; drawOpts();
+      }
+    };
+    root.querySelector('#buyDouble').onclick=()=>{ if(spend(20)){ doubleActive=true; toast('Next correct answer worth double!'); } };
+  }
+  render();
+}
+
+/* ============================= 8. BE THE MARKER ============================= */
+function buildMarker(root){
+  const order=shuffle([...MARKER.map((_,i)=>i)]);
+  let pos=0;
+  function render(){
+    if(pos>=order.length){
+      root.innerHTML=`<div class="feedback good">All ${MARKER.length} answers reviewed.</div>`;
+      earn(25); markComplete('marker'); return;
+    }
+    const m=MARKER[order[pos]];
+    root.innerHTML = `<div class="progress-note">Answer ${pos+1} of ${order.length}</div>
+      <p style="font-weight:600;">${m.q}</p>
+      <div class="flawed-box">${m.flawed}</div>
+      <p style="font-size:13.5px;color:var(--ink-soft);">What\u2019s missing?</p>
+      <div id="markOpts"></div>
+      <div class="fixed-box" id="fixedBox"><strong>Full-mark version:</strong><br>${m.fixed}</div>
+      <div class="btnrow"><button class="primary" id="nextMark" style="display:none;">Next →</button></div>`;
+    const optsEl=root.querySelector('#markOpts');
+    m.opts.forEach((o,i)=>{
+      const b=document.createElement('button'); b.className='mcq-opt'; b.textContent=o;
+      b.onclick=()=>{
+        [...optsEl.children].forEach(x=>x.disabled=true);
+        if(i===m.a){ b.classList.add('correct'); earn(15); } else { b.classList.add('wrong'); optsEl.children[m.a].classList.add('correct'); }
+        root.querySelector('#fixedBox').style.display='block';
+        root.querySelector('#nextMark').style.display='inline-block';
+      };
+      optsEl.appendChild(b);
+    });
+    root.querySelector('#nextMark').onclick=()=>{ pos++; render(); };
+  }
+  render();
+}
+
+/* ============================= 9. BOOM OR BUST ============================= */
+function buildBoom(root){
+  const items=shuffle([...BOOMBUST]);
+  let idx=0, correct=0, streak=0, best=0;
+  root.innerHTML = `<p style="font-size:13.5px;color:var(--ink-soft);">Tap the right side, fast. Build a streak for bonus EconoDollars.</p>
+    <div class="bb-stage">
+      <div class="bb-card" id="bbCard"></div>
+      <div class="bb-choices"><button class="bb-boom" id="bbLeft">Boom</button><button class="bb-bust" id="bbRight">Downturn</button></div>
+      <div class="bb-stats" id="bbStats"></div>
+    </div>
+    <div class="feedback" id="bbFb"></div>`;
+  const card=root.querySelector('#bbCard'), stats=root.querySelector('#bbStats');
+  function render(){
+    if(idx>=items.length){
+      root.querySelector('.bb-stage').innerHTML='';
+      root.querySelector('#bbFb').className='feedback good';
+      root.querySelector('#bbFb').textContent=`Done! ${correct} of ${items.length} correct, best streak ${best}.`;
+      earn(25); markComplete('boom'); return;
+    }
+    card.textContent=items[idx][0];
+    stats.textContent=`Item ${idx+1}/${items.length} · Streak ${streak}`;
+  }
+  function answer(choice){
+    const correctAns = items[idx][1]==='Boom' ? 'Boom' : 'Downturn';
+    if(choice===correctAns){
+      correct++; streak++; best=Math.max(best,streak);
+      earn(streak%5===0?20:5);
+      card.style.background='var(--good-light)';
+    } else { streak=0; card.style.background='var(--bad-light)'; }
+    setTimeout(()=>{ card.style.background=''; idx++; render(); },350);
+  }
+  root.querySelector('#bbLeft').onclick=()=>answer('Boom');
+  root.querySelector('#bbRight').onclick=()=>answer('Downturn');
+  render();
+}
+
+/* ============================= 10. SKOO-LAND RANDOMISER ============================= */
+function buildSkoo(root){
+  let mode='growth', data={};
+  function newRound(){
+    mode = Math.random()<0.5?'growth':'percapita';
+    const startGDP = randInt(15,30)*1000000;
+    const growth = Math.round((Math.random()*11-3)*10)/10;
+    const endGDP = Math.round(startGDP*(1+growth/100));
+    if(mode==='growth'){
+      data={startGDP,endGDP,growth};
+      root.innerHTML = `<p style="font-size:14px;">Skoo-land's real GDP was <strong class="mono">$${startGDP.toLocaleString()}</strong> last year and <strong class="mono">$${endGDP.toLocaleString()}</strong> this year.</p>
+        <p>What is the rate of economic growth (%)? Round to 1 decimal place.</p>
+        <input class="skoo-input" id="skooAns" type="number" step="0.1" placeholder="e.g. 4.2">
+        <div class="btnrow"><button class="primary" id="skooCheck">Check</button><button class="ghost" id="skooNext">New round</button></div>
+        <div class="feedback" id="skooFb"></div>`;
+    } else {
+      const pop = randInt(1500,3000);
+      data={startGDP:endGDP,pop};
+      root.innerHTML = `<p style="font-size:14px;">Skoo-land's real GDP is <strong class="mono">$${endGDP.toLocaleString()}</strong> and its population is <strong class="mono">${pop.toLocaleString()}</strong>.</p>
+        <p>What is real GDP per capita? Round to the nearest whole dollar.</p>
+        <input class="skoo-input" id="skooAns" type="number" step="1" placeholder="e.g. 11000">
+        <div class="btnrow"><button class="primary" id="skooCheck">Check</button><button class="ghost" id="skooNext">New round</button></div>
+        <div class="feedback" id="skooFb"></div>`;
+    }
+    root.querySelector('#skooCheck').onclick=checkAns;
+    root.querySelector('#skooNext').onclick=newRound;
+  }
+  function checkAns(){
+    const val=parseFloat(root.querySelector('#skooAns').value);
+    let correctVal, tolerance;
+    if(mode==='growth'){ correctVal=data.growth; tolerance=0.15; }
+    else { correctVal=Math.round(data.startGDP/data.pop); tolerance=1; }
+    const fb=root.querySelector('#skooFb');
+    const ok = !isNaN(val) && Math.abs(val-correctVal)<=tolerance;
+    fb.className='feedback '+(ok?'good':'bad');
+    fb.textContent = ok ? 'Correct!' : `Not quite — correct answer: ${mode==='growth'?correctVal+'%':'$'+correctVal.toLocaleString()}.`;
+    if(ok){ earn(12); markComplete('skoo'); }
+  }
+  newRound();
+}
+
+/* ============================= 11. BEAT THE CLOCK ============================= */
+function buildClock(root){
+  const bank = DEF_ROUNDS.flatMap(r=>r.terms);
+  let score=0, timeLeft=60, running=false, timer=null;
+  root.innerHTML = `<p style="font-size:14px;">60 seconds. Pick the correct term for each definition. Score as many as you can.</p>
+    <div class="shop"><span class="label">Shop</span><button id="buyFreeze">Freeze +10s (25)</button></div>
+    <div class="clock-big" id="clockTime">60</div>
+    <div class="bc-term" id="bcDef"></div>
+    <div id="bcOpts" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"></div>
+    <div class="btnrow"><button class="primary" id="startClock">Start</button></div>
+    <div class="feedback" id="clockFb"></div>`;
+  root.querySelector('#buyFreeze').onclick=()=>{ if(running && spend(25)){ timeLeft+=10; updateClock(); } };
+  function updateClock(){ root.querySelector('#clockTime').textContent=timeLeft; }
+  function nextQ(){
+    const correct = bank[randInt(0,bank.length-1)];
+    const distractors = shuffle(bank.filter(t=>t[0]!==correct[0])).slice(0,3).map(t=>t[0]);
+    const opts = shuffle([correct[0],...distractors]);
+    root.querySelector('#bcDef').textContent = correct[1];
+    const optsEl=root.querySelector('#bcOpts'); optsEl.innerHTML='';
+    opts.forEach(o=>{
+      const b=document.createElement('button'); b.className='mcq-opt'; b.textContent=o;
+      b.onclick=()=>{
+        if(!running) return;
+        if(o===correct[0]){ score++; earn(10); } 
+        nextQ();
+      };
+      optsEl.appendChild(b);
+    });
+  }
+  root.querySelector('#startClock').onclick=()=>{
+    running=true; score=0; timeLeft=60; updateClock();
+    root.querySelector('#startClock').style.display='none';
+    nextQ();
+    timer=setInterval(()=>{
+      timeLeft--; updateClock();
+      if(timeLeft<=0){
+        clearInterval(timer); running=false;
+        root.querySelector('#bcOpts').innerHTML=''; root.querySelector('#bcDef').textContent='';
+        root.querySelector('#clockFb').className='feedback good';
+        root.querySelector('#clockFb').textContent=`Time! You scored ${score}.`;
+        earn(score*2); markComplete('clock');
+      }
+    },1000);
+  };
+}
+
+/* ============================= FINALE ============================= */
+function showFinale(){
+  const hypothetical = Math.round(state.earnedGross*1.25);
+  document.querySelector('main#hub').style.display='none';
+  const panel=document.getElementById('panel'); panel.classList.remove('hidden');
+  document.getElementById('sheetContent').innerHTML = `
+    <div class="finale">
+      <div class="progress-note">VAULT CRACKED</div>
+      <h2>You've escaped the recession!</h2>
+      <div class="word">RECESSION</div>
+      <div class="finale-stats">
+        <div><div class="num">${state.earnedGross}</div><div class="lbl">Total earned</div></div>
+        <div><div class="num">${state.spent}</div><div class="lbl">Spent on power-ups</div></div>
+        <div><div class="num">${state.wallet}</div><div class="lbl">Final balance</div></div>
+        <div><div class="num">${hypothetical}</div><div class="lbl">If you'd saved it all (25% return)</div></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink-soft);">One more round: Beat the Clock is now unlocked from the vault for bonus EconoDollars.</p>
+      <button class="primary" id="finaleBack">Back to the vault</button>
+    </div>`;
+  document.getElementById('finaleBack').onclick=closeActivity;
+}
+
+/* ============================= UTILS ============================= */
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+
+/* ============================= INIT ============================= */
+loadState();
+renderDial(); renderHub(); updateHUD();
+
+const resetBtn=document.getElementById('resetBtn');
+let resetArmed=false, resetTimer=null;
+resetBtn.onclick=()=>{
+  if(!resetArmed){
+    resetArmed=true; resetBtn.textContent='Click again to confirm'; resetBtn.classList.add('confirm');
+    clearTimeout(resetTimer);
+    resetTimer=setTimeout(()=>{ resetArmed=false; resetBtn.textContent='Reset my progress'; resetBtn.classList.remove('confirm'); },3500);
+  } else {
+    resetArmed=false; resetBtn.textContent='Reset my progress'; resetBtn.classList.remove('confirm');
+    clearTimeout(resetTimer);
+    resetProgress();
+  }
+};
+</script>
+</body>
+</html>
