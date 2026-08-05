@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U2 AOS1 GAP Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0891b2; --primaryl:#ecfeff; --primaryd:#0e7490;
+  --red:#dc2626; --redl:#fef2f2;
+  --amber:#d97706; --amberl:#fffbeb;
+  --green:#16a34a; --greenl:#f0fdf4;
+  --blue:#2563eb; --bluel:#eff6ff;
+  --purple:#7c3aed; --purplel:#f5f3ff;
+  --gray:#64748b;
+  --bg:#fafafa; --white:#ffffff;
+  --border:#e2e8f0; --text:#1e293b; --muted:#94a3b8;
+}
+*{box-sizing:border-box;}
+body{margin:0; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); line-height:1.5;}
+h1,h2,h3,.serif{font-family:'DM Serif Display',serif; font-weight:400;}
+button{font-family:inherit; cursor:pointer;}
+.screen{display:none;}
+.screen.active{display:block;}
+.wrap{max-width:860px; margin:0 auto; padding:0 20px;}
+.no-print{}
+
+/* ---------- Entry ---------- */
+#screen-entry .wrap{max-width:560px; padding-top:60px; padding-bottom:60px;}
+.badge{display:inline-block; background:var(--primary); color:white; padding:5px 14px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase;}
+.entry-card{background:var(--white); border-radius:16px; padding:32px; box-shadow:0 4px 20px rgba(0,0,0,0.06); margin-top:16px;}
+.entry-card h1{font-size:30px; margin:14px 0 10px;}
+.entry-card p{color:#475569; font-size:15px;}
+.tip-box{background:var(--primaryl); border-left:4px solid var(--primary); border-radius:8px; padding:14px 16px; font-size:13.5px; margin:18px 0; color:#0e5e6f;}
+.name-input{width:100%; padding:13px 14px; border-radius:10px; border:1.5px solid var(--border); font-size:15px; font-family:inherit; margin-top:6px;}
+.btn-primary{background:var(--primary); color:white; border:none; border-radius:10px; padding:14px 20px; font-size:15px; font-weight:700; width:100%; margin-top:16px;}
+.btn-primary:disabled{opacity:0.4; cursor:not-allowed;}
+.btn-outline{background:none; border:1.5px solid var(--border); color:var(--text); border-radius:10px; padding:12px 20px; font-size:14px; font-weight:600;}
+.teacher-link{display:block; text-align:center; margin-top:20px; font-size:12.5px; color:var(--muted); text-decoration:none; background:none; border:none;}
+
+/* ---------- PIN modal ---------- */
+#pinModal{position:fixed; inset:0; background:rgba(15,23,42,0.6); display:none; align-items:center; justify-content:center; z-index:100; padding:20px;}
+#pinModal.active{display:flex;}
+.pin-box{background:white; border-radius:16px; padding:28px; max-width:340px; width:100%;}
+.pin-box h3{font-size:20px; margin:0 0 14px;}
+.pin-box input{width:100%; padding:12px; border-radius:8px; border:1.5px solid var(--border); font-size:16px; letter-spacing:0.2em; text-align:center;}
+.pin-error{color:var(--red); font-size:13px; min-height:18px; margin-top:8px;}
+.pin-btns{display:flex; gap:10px; margin-top:16px;}
+.pin-btns button{flex:1;}
+
+/* ---------- Survey ---------- */
+.survey-header{position:sticky; top:0; z-index:20; background:white; border-bottom:1px solid var(--border); padding:14px 20px;}
+.survey-header-inner{max-width:860px; margin:0 auto;}
+.progress-text{font-size:13px; font-weight:600; color:var(--primaryd); margin-bottom:6px; display:flex; justify-content:space-between;}
+.progress-bar{height:8px; background:#e2e8f0; border-radius:999px; overflow:hidden;}
+.progress-bar-fill{height:100%; background:var(--primary); border-radius:999px; transition:width .3s;}
+.survey-body{max-width:860px; margin:24px auto 100px; padding:0 20px;}
+.kk-card{background:white; border-radius:14px; margin-bottom:16px; overflow:hidden; border:2px solid var(--border);}
+.kk-card.all-rated{border-color:var(--green);}
+.kk-head{background:#fafafa; padding:16px 18px; border-bottom:1px solid var(--border);}
+.kk-head-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
+.kk-num{font-family:'DM Serif Display',serif; font-size:26px; color:var(--primary); line-height:1;}
+.kk-cat{font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); font-weight:700; margin-bottom:2px;}
+.kk-title{font-size:14.5px; color:#334155; margin-top:4px;}
+.kk-pill{background:white; border:1px solid var(--border); border-radius:999px; padding:4px 11px; font-size:12px; font-weight:600; color:var(--muted); white-space:nowrap;}
+.sub-row{display:flex; flex-direction:column; gap:10px; padding:14px 18px; border-bottom:1px solid #f1f5f9;}
+.sub-row:last-child{border-bottom:none;}
+.sub-row.rated-1{background:var(--redl);} .sub-row.rated-2{background:var(--amberl);} .sub-row.rated-3{background:var(--greenl);} .sub-row.rated-4{background:var(--primaryl);}
+.sub-row-top{display:flex; align-items:flex-start; gap:10px;}
+.type-badge{font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; padding:3px 8px; border-radius:6px; white-space:nowrap; margin-top:2px;}
+.type-definition{background:#fce7f3; color:#9d174d;}
+.type-content{background:#dbeafe; color:#1e40af;}
+.type-application{background:#d1fae5; color:#065f46;}
+.type-eval{background:#ede9fe; color:#5b21b6;}
+.sub-label{flex:1; font-size:14px;}
+.rate-btns{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; width:100%;}
+.rate-btn{border:1.5px solid var(--border); background:white; border-radius:8px; padding:10px 6px; font-size:12px; font-weight:600; text-align:center; color:#475569; line-height:1.25;}
+.rate-btn.sel-1{background:var(--redl); border-color:var(--red); color:var(--red);}
+.rate-btn.sel-2{background:var(--amberl); border-color:var(--amber); color:var(--amber);}
+.rate-btn.sel-3{background:var(--greenl); border-color:var(--green); color:var(--green);}
+.rate-btn.sel-4{background:var(--primaryl); border-color:var(--primary); color:var(--primaryd);}
+.bottom-bar{position:fixed; bottom:0; left:0; right:0; background:white; border-top:1px solid var(--border); padding:14px 20px; z-index:20; box-shadow:0 -4px 14px rgba(0,0,0,0.06);}
+.bottom-bar-inner{max-width:860px; margin:0 auto;}
+@media (max-width:480px){ .rate-btns{grid-template-columns:1fr 1fr;} }
+
+/* ---------- Results ---------- */
+.results-header{background:var(--primary); color:white; padding:36px 20px; text-align:center;}
+.results-header h1{font-size:28px; margin:6px 0 4px;}
+.results-header p{opacity:0.9; font-size:14px; margin:0;}
+.results-body{max-width:860px; margin:0 auto; padding:28px 20px 60px;}
+.tiles{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:28px;}
+.tile{background:white; border-radius:12px; padding:16px; text-align:center; border:1px solid var(--border);}
+.tile .n{font-family:'DM Serif Display',serif; font-size:30px;}
+.tile .l{font-size:11.5px; color:var(--muted); font-weight:600; margin-top:2px;}
+@media (max-width:600px){ .tiles{grid-template-columns:1fr 1fr;} }
+.section-h{font-size:19px; margin:30px 0 12px; display:flex; align-items:center; gap:8px;}
+.alert-box{border-radius:10px; padding:16px 18px; font-size:14px; margin-bottom:14px;}
+.alert-amber{background:var(--amberl); border-left:4px solid var(--amber); color:#7c4a03;}
+.alert-green{background:var(--greenl); border-left:4px solid var(--green); color:#14532d;}
+.priority-row{background:white; border:1px solid var(--border); border-radius:10px; margin-bottom:8px; overflow:hidden;}
+.priority-row-head{display:flex; justify-content:space-between; align-items:center; padding:13px 16px; cursor:pointer;}
+.priority-row-body{display:none; padding:0 16px 14px; border-top:1px solid #f1f5f9;}
+.priority-row-body.open{display:block;}
+.pq-item{display:flex; align-items:center; gap:10px; padding:8px 0; font-size:13.5px; border-bottom:1px solid #f8fafc;}
+.dot{width:9px; height:9px; border-radius:50%; flex-shrink:0;}
+.dot-1{background:var(--red);} .dot-2{background:var(--amber);} .dot-3{background:var(--green);} .dot-4{background:var(--primary);}
+.rev-kk-card{background:white; border-radius:12px; border:1px solid var(--border); border-left-width:4px; margin-bottom:14px; padding:16px 18px;}
+.rev-urgent{border-left-color:var(--red);} .rev-needs{border-left-color:var(--amber);} .rev-cons{border-left-color:var(--green);} .rev-strong{border-left-color:var(--primary);}
+.rev-hub-rec{background:#f8fafc; border-radius:10px; border:1px solid var(--border); padding:12px 14px; margin-top:10px;}
+.resource-stack{display:flex; flex-direction:column; gap:8px; margin-top:10px;}
+.resource-row{background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:10px 12px;}
+.resource-row .r-label{font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); margin-bottom:3px;}
+.resource-row .r-name{font-weight:600; font-size:13.5px; margin-bottom:2px;}
+.resource-row .r-note{color:#475569; font-size:12.5px; margin-bottom:4px;}
+.resource-row a{font-size:12px; font-weight:700; color:var(--primaryd); text-decoration:none;}
+.general-support{background:var(--primaryl); border:1px solid #a5e4ee; border-radius:12px; padding:16px 18px; margin:20px 0;}
+.general-support h4{font-size:15px; margin:0 0 8px; font-family:'DM Sans',sans-serif; font-weight:700;}
+.general-support a{color:var(--primaryd); font-weight:700; font-size:13.5px; display:block; margin-top:4px;}
+.example-q-box{background:#fff7ed; border:1.5px solid #fdba74; border-radius:12px; padding:14px 16px; margin-top:10px;}
+.example-q-box .eq-label{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:#c2410c; margin-bottom:6px;}
+.example-q-box .eq-text{font-size:14px; font-weight:600; margin-bottom:8px;}
+.example-q-box summary{cursor:pointer; font-size:12.5px; font-weight:700; color:#c2410c;}
+.example-q-box ul{margin:8px 0 0; padding-left:18px; font-size:12.5px; color:#7c2d12;}
+.example-q-box ul li{margin-bottom:3px;}
+.page-ref{color:var(--muted); font-size:12px;}
+.hub-badge{display:inline-block; font-size:10.5px; font-weight:700; text-transform:uppercase; padding:3px 9px; border-radius:6px; margin-bottom:6px;}
+.supp-list{margin-top:10px; font-size:13px; color:#475569;}
+.supp-list div{padding:4px 0;}
+.avg-pill{font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap;}
+.footer-btns{display:flex; gap:12px; margin-top:30px;}
+.footer-btns button{flex:1;}
+.breakdown-card{background:white; border:1px solid var(--border); border-radius:10px; border-left-width:4px; margin-bottom:8px; overflow:hidden;}
+.breakdown-head{padding:13px 16px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; gap:10px;}
+.breakdown-body{display:none; padding:0 16px 12px; border-top:1px solid #f1f5f9;}
+.breakdown-body.open{display:block;}
+.submit-status{border-radius:10px; padding:12px 16px; font-size:13.5px; margin-top:16px;}
+.status-pending{background:#f1f5f9; color:#475569;} .status-ok{background:var(--greenl); color:#14532d;} .status-fail{background:var(--redl); color:#7f1d1d;}
+
+/* ---------- Dashboard ---------- */
+.dash-top{position:sticky; top:0; z-index:20; background:#0f172a; color:white; padding:14px 20px;}
+.dash-top-inner{max-width:1100px; margin:0 auto; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;}
+.dash-title{font-family:'DM Serif Display',serif; font-size:19px;}
+.dash-chips{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+.chip{background:rgba(255,255,255,0.1); padding:5px 12px; border-radius:999px; font-size:12px;}
+.dash-btn{background:rgba(255,255,255,0.12); color:white; border:none; border-radius:8px; padding:7px 13px; font-size:12.5px; font-weight:600;}
+.dash-btn.danger{background:var(--red);}
+.dash-body{max-width:1100px; margin:24px auto 60px; padding:0 20px;}
+.dash-tiles{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:26px;}
+@media (max-width:700px){ .dash-tiles{grid-template-columns:repeat(2,1fr);} }
+.stackbar{display:flex; height:10px; border-radius:999px; overflow:hidden; width:100%; margin-top:6px;}
+.stackbar div{height:100%;}
+.dash-table{width:100%; border-collapse:collapse; background:white; border-radius:10px; overflow:hidden; font-size:13.5px;}
+.dash-table th,.dash-table td{padding:10px 12px; text-align:left; border-bottom:1px solid var(--border);}
+.dash-table th{background:#f8fafc; font-size:11.5px; text-transform:uppercase; color:var(--muted);}
+.struggle-flag{color:var(--red); font-weight:700; font-size:11.5px;}
+
+@media print{
+  .no-print{display:none !important;}
+  .bottom-bar,.survey-header{position:static !important;}
+  .breakdown-body,.priority-row-body{display:block !important;}
+  .kk-card,.breakdown-card,.priority-row{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== ENTRY ========== -->
+<section id="screen-entry" class="screen active">
+  <div class="wrap">
+    <span class="badge">VCE Economics · Unit 2 AOS1</span>
+    <div class="entry-card">
+      <h1>U2 AOS1 GAP Analysis</h1>
+      <p>Rate your confidence on every individual "I can…" statement below. You'll get a personalised report showing exactly what to revise, and your results are saved so we can see what the whole class needs help with.</p>
+      <div class="tip-box">💡 Be honest with yourself — this only helps if your ratings are accurate. There are no wrong answers, only useful ones.</div>
+      <label style="font-size:13px;font-weight:600;">Your first name</label>
+      <input class="name-input" id="nameInput" placeholder="e.g. Jordan" autocomplete="off">
+      <button class="btn-primary" id="startBtn" disabled>Start the GAP Analysis</button>
+    </div>
+    <button class="teacher-link" id="teacherLinkBtn">🔒 Teacher Dashboard</button>
+  </div>
+</section>
+
+<!-- ========== PIN MODAL ========== -->
+<div id="pinModal">
+  <div class="pin-box">
+    <h3>🔒 Teacher Access</h3>
+    <input type="password" id="pinInput" placeholder="Enter PIN" maxlength="8">
+    <div class="pin-error" id="pinError"></div>
+    <div class="pin-btns">
+      <button class="btn-outline" id="pinCancel">Cancel</button>
+      <button class="btn-primary" id="pinEnter" style="margin-top:0;">Enter Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SURVEY ========== -->
+<section id="screen-survey" class="screen">
+  <div class="survey-header">
+    <div class="survey-header-inner">
+      <div class="progress-text"><span id="progressLabel">0 of 115 rated</span><span id="progressPct">0%</span></div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="progressFill" style="width:0%;"></div></div>
+    </div>
+  </div>
+  <div class="survey-body" id="surveyBody"></div>
+  <div class="bottom-bar">
+    <div class="bottom-bar-inner">
+      <button class="btn-primary" id="submitBtn" style="margin-top:0;" disabled>Generate My Feedback Report →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== RESULTS ========== -->
+<section id="screen-results" class="screen">
+  <div class="results-header">
+    <div id="resultsName" style="font-size:14px;opacity:0.85;"></div>
+    <h1>GAP Analysis Report</h1>
+    <p>U2 AOS1 · Personalised study plan</p>
+  </div>
+  <div class="results-body" id="resultsBody"></div>
+</section>
+
+<!-- ========== DASHBOARD ========== -->
+<section id="screen-dashboard" class="screen">
+  <div class="dash-top">
+    <div class="dash-top-inner">
+      <div class="dash-title">📊 U2 AOS1 — Teacher Dashboard</div>
+      <div class="dash-chips">
+        <span class="chip" id="dashCount">0 students</span>
+        <span class="chip" id="dashUpdated">—</span>
+        <span class="chip" id="dashCountdown">Refresh in 30s</span>
+        <button class="dash-btn" id="dashRefresh">Refresh</button>
+        <button class="dash-btn" id="dashPrint">Print</button>
+        <button class="dash-btn danger" id="dashClear">Clear All</button>
+        <button class="dash-btn" id="dashExit">Exit</button>
+      </div>
+    </div>
+  </div>
+  <div class="dash-body" id="dashBody">Loading…</div>
+</section>
+
+<script>
+/* ============================= CONFIG ============================= */
+const WORKER_URL   = "https://u3aos2gap.megan-dyring.workers.dev";
+const GITHUB_OWNER = "megand76";
+const GITHUB_REPO  = "VCE-Economics";
+const GITHUB_FILE  = "gap-data-u2-aos1.json";
+const TEACHER_PIN  = "0904";
+const AUTO_REFRESH = 30;
+const HUB_URL = "https://megand76.github.io/VCE-Economics/u2-aos1-revision.html";
+
+/* Example SAC-style question per KK — shown to students who rate themselves confident, with a self-check rather than a full model answer so it stays genuine retrieval practice */
+const EXAMPLE_Q = {
+ 1:{q:"Explain the purpose of economic activity.",marks:2,needs:["States that economic activity aims to satisfy society's wants and improve wellbeing","Links this to living standards"]},
+ 2:{q:"Explain ONE way non-material living standards could improve without any change in real GDP.",marks:3,needs:["Names a non-material factor (e.g. crime, environment, health)","Explains the mechanism, not just names it","Doesn't rely on GDP/income anywhere in the explanation"]},
+ 3:{q:"Explain the impact on the level of economic activity if leakages exceed injections in a given year.",marks:4,needs:["Defines leakages and injections (or names S,T,M / I,G,X)","States total expenditure falls","Traces the flow-on to production and employment","Links back to economic activity, not just 'spending'"]},
+ 4:{q:"Explain why an economy is unlikely to sustain a peak (boom) indefinitely.",marks:3,needs:["Names the self-correcting mechanism (e.g. inflation, rising costs)","Explains WHY this forces a contraction","References the business cycle by name"]},
+ 5:{q:"Identify and explain ONE leading indicator and ONE lagging indicator, with an example of each.",marks:4,needs:["Def: what a leading indicator is + example","Def: what a lagging indicator is + example","Clear timing distinction between the two (Def-Def-Dif)"]},
+ 6:{q:"Explain what would likely be happening to the unemployment rate and consumer confidence during a contraction.",marks:4,needs:["States unemployment rising and why","States confidence falling and why","Links both back to the contraction phase specifically"]},
+ 7:{q:"Define Aggregate Demand and explain ONE of its components.",marks:3,needs:["Full AD definition — final, Australian-made, period of time","Names the correct component (C, I, G or X-M)","Explains what that component actually measures"]},
+ 8:{q:"Explain the impact of a fall in the cash rate on the level of Aggregate Demand.",marks:4,needs:["Names discretionary income (not disposable) as what changes","Traces the mechanism step by step, not just 'AD increases'","Names the AD component affected (C, and/or I)","Concludes with the impact on AD"]},
+ 9:{q:"Define Aggregate Supply and explain its relationship to a nation's Production Possibility Frontier (PPF).",marks:3,needs:["Full AS definition — total volume, Australian-made, willing AND able","Explains what the PPF represents","Links a shift of the PPF to a change in AS"]},
+ 10:{q:"Explain how a rise in the cost of production would affect a business's willingness and/or ability to supply.",marks:3,needs:["Names a specific cost driver (wages, oil, raw materials etc.)","Explains the impact on profitability","States the effect on willingness AND/OR ability to supply"]},
+ 11:{q:"Distinguish between nominal GDP and real GDP.",marks:2,needs:["Defines nominal GDP","Defines real GDP (inflation-adjusted)","States clearly which one reflects the true change in volume of output"]},
+ 12:{q:"Explain ONE benefit of strong economic growth on material living standards.",marks:3,needs:["States growth raises production/incomes","Links this to greater access to goods and services","Explicitly uses the term 'material living standards'"]},
+ 13:{q:"Explain how economic growth that is too strong could lead to inflation.",marks:3,needs:["States AD approaching/exceeding productive capacity","Explains shortages driving prices up","Concludes with 'inflation', not just 'higher prices'"]},
+ 14:{q:"Explain ONE limitation of using real GDP per capita to measure living standards.",marks:3,needs:["Names a genuine limitation (distribution, non-market production, environment etc.)","Explains HOW it distorts the measure, not just names it","Doesn't just restate the definition of GDP"]},
+ 15:{q:"Explain ONE alternative measure of living standards and how it differs from real GDP.",marks:4,needs:["Names a real alternative measure (GPI, MAP, HDI, Green GDP, GNH)","Explains what it actually includes/calculates","States clearly what it captures that GDP misses"]},
+ 16:{q:"Using the DUDD structure, describe the trend in the RBA cash rate over the past two years.",marks:2,needs:["Direction stated","Unit of measurement included (%)","Data/figures quoted","Dates/timeframe specified"]}
+};
+const WORKBOOK_ROUTING = {
+ 1:{lesson:"Lesson 1: Living Standards",note:"Covers the purpose of economic activity and how it connects to living standards.",page:3},
+ 2:{lesson:"Lesson 1: Living Standards",note:"Direct coverage of material vs non-material living standards, with an Economist's Hint box on each.",page:3},
+ 3:{lesson:"Lesson 2: The Five-Sector Circular Flow Model",note:"Full walkthrough of every sector and flow, worked step by step.",page:5},
+ 4:{lesson:"Lesson 5: The Business Cycle",note:"Covers all four phases, plus the Business Cycle Phases Quick Reference at the back of the book.",page:18},
+ 5:{lesson:"Lesson 6: Economic Indicators",note:"Covers leading, lagging and coincident indicators with examples.",page:20},
+ 6:{lesson:"Lesson 6: Economic Indicators",note:"Cross-reference with Lesson 5 (Business Cycle) to connect indicators to each phase.",page:20},
+ 7:{lesson:"Lesson 3: Aggregate Demand",note:"Covers the AD definition and each component, plus the AD Formula quick reference at the back.",page:8},
+ 8:{lesson:"Lesson 4: Factors Affecting Aggregate Demand",note:"The big one \u2014 worked examples on interest rates and income tax, plus a dedicated section for each of the 6 AD factors.",page:9},
+ 9:{lesson:"Lesson 7: Aggregate Supply",note:"Covers the AS definition and its relationship to the PPF.",page:22},
+ 10:{lesson:"Lesson 7: Aggregate Supply",note:"Same lesson covers the individual AS factors.",page:22},
+ 11:{lesson:"Lesson 8: Measuring Economic Growth",note:"Covers GDP, real GDP and the chain volume measure.",page:25},
+ 12:{lesson:"Lesson 9: Costs and Benefits of Economic Growth",note:"Covers all the benefits with worked explanations.",page:28},
+ 13:{lesson:"Lesson 9: Costs and Benefits of Economic Growth",note:"Covers all the costs with worked explanations.",page:28},
+ 14:{lesson:"Lesson 8: Measuring Economic Growth",note:"Includes a step-by-step Economist's Hint specifically on answering limitation questions: state it, explain WHY, give an example.",page:25},
+ 15:{lesson:"Lesson 10: Alternative Measures of Living Standards",note:"Covers GPI, MAP and HDI and how each differs from GDP.",page:30},
+ 16:{lesson:"Lesson 11: Current Factors Affecting Aggregate Demand",note:"Built specifically for current-conditions analysis using the AD Response Framework.",page:32}
+};
+const BOOKLET_ROUTING = {
+ 3:{task:"Task 1: The Circular Flow of Income",note:null,page:3},
+ 4:{task:"Task 2: The Business Cycle and Economic Indicators",note:null,page:4},
+ 5:{task:"Task 2: The Business Cycle and Economic Indicators",note:null,page:4},
+ 6:{task:"Task 2: The Business Cycle and Economic Indicators",note:null,page:4},
+ 8:{task:"Task 6: Factors Affecting Economic Growth",note:"Includes the AD/AS Response Framework skills booster and a full worked example.",page:13},
+ 9:{task:"Task 3: Aggregate Supply and Unit Labour Costs",note:"Includes the Analysing Charts skills booster.",page:5},
+ 10:{task:"Task 3: Aggregate Supply and Unit Labour Costs",note:"Also see Task 6 for AS-factor scenarios like drought.",page:5},
+ 11:{task:"Task 4: Measuring Economic Growth \u2014 Skoo-land (Part A)",note:"Includes the Calculating Rates of Growth skills booster.",page:7},
+ 12:{task:"Task 4: Measuring Economic Growth \u2014 Skoo-land (Part B)",note:"Covers material living standards calculations directly.",page:7},
+ 13:{task:"Task 6: Factors Affecting Economic Growth",note:"Five real scenarios to practice on.",page:13},
+ 14:{task:"Task 5: Limitations of Real GDP \u2014 The Floss National Product",note:null,page:11},
+ 15:{task:"Task 5: Limitations of Real GDP \u2014 The Floss National Product",note:"Part c covers alternative measures directly.",page:11},
+ 16:{task:"Task 7: Interpreting Charts \u2014 Aggregate Factors",note:"Includes the Analysing Charts (aggregate factors) skills booster.",page:16}
+};
+
+/* ============================= KKS DATA ============================= */
+const KKS = [
+ { id:1, cat:"Purpose of Economic Activity", title:"The purpose of economic activity", subs:[
+   {id:"1a", label:"I can define what is meant by economic activity", type:"definition"},
+   {id:"1b", label:"I can explain the purpose of economic activity", type:"content"},
+   {id:"1c", label:"I can explain the sequence through which economic activity impacts on living standards", type:"application"},
+   {id:"1d", label:"I can identify examples of economic activity", type:"content"}
+ ]},
+ { id:2, cat:"Living Standards", title:"The meaning of material and non-material living standards", subs:[
+   {id:"2a", label:"I can define material living standards", type:"definition"},
+   {id:"2b", label:"I can define non-material living standards", type:"definition"},
+   {id:"2c", label:"I can identify the difference between material and non-material living standards", type:"definition"},
+   {id:"2d", label:"I can explain how access to goods and services can impact on material living standards", type:"application"},
+   {id:"2e", label:"I can explain how changes to the environment can impact on non-material living standards", type:"application"},
+   {id:"2f", label:"I can explain how changes to physical and mental health can impact on non-material living standards", type:"application"},
+   {id:"2g", label:"I can explain how changes to physical and mental health can impact on material living standards", type:"application"},
+   {id:"2h", label:"I can explain how crime rates can impact on non-material living standards", type:"application"},
+   {id:"2i", label:"I can explain how literacy rates can impact on material living standards", type:"application"}
+ ]},
+ { id:3, cat:"Circular Flow Model", title:"The five-sector circular flow model of the economy", subs:[
+   {id:"3a", label:"I can explain the role of households in the circular flow model", type:"content"},
+   {id:"3b", label:"I can explain the role of businesses in the circular flow model", type:"content"},
+   {id:"3c", label:"I can explain the role of financial institutions in the circular flow model", type:"content"},
+   {id:"3d", label:"I can explain what is meant by the external (overseas) sector and its role in the circular flow model", type:"content"},
+   {id:"3e", label:"I can explain the sequence through which a change in the balance of leakages and injections impacts on economic activity", type:"application"},
+   {id:"3f", label:"I can draw the circular flow of income and explain each flow", type:"content"},
+   {id:"3g", label:"I can explain the sequence through which a change in one flow impacts on other flows in the circular flow model", type:"application"}
+ ]},
+ { id:4, cat:"The Business Cycle", title:"The business cycle", subs:[
+   {id:"4a", label:"I can explain what is meant by the business cycle (what does it show us)", type:"definition"},
+   {id:"4b", label:"I can explain what is meant by an expansion", type:"definition"},
+   {id:"4c", label:"I can explain what is meant by a peak (boom)", type:"definition"},
+   {id:"4d", label:"I can explain what is meant by a contraction", type:"definition"},
+   {id:"4e", label:"I can explain what is meant by a trough (recession)", type:"definition"},
+   {id:"4f", label:"I can explain why it is difficult to maintain steady economic growth", type:"content"},
+   {id:"4g", label:"I can explain the sequence through which an economy automatically moves from a boom into a contraction", type:"application"},
+   {id:"4h", label:"I can explain the sequence through which an economy automatically moves from a trough into an expansion", type:"application"}
+ ]},
+ { id:5, cat:"Economic Indicators", title:"Types of economic indicators, such as leading, lagging and coincident", subs:[
+   {id:"5a", label:"I can explain what an economic indicator is", type:"definition"},
+   {id:"5b", label:"I can explain what a leading indicator is", type:"definition"},
+   {id:"5c", label:"I can provide examples of leading indicators", type:"content"},
+   {id:"5d", label:"I can explain what a coincident indicator is", type:"definition"},
+   {id:"5e", label:"I can provide examples of coincident indicators", type:"content"},
+   {id:"5f", label:"I can explain what a lagging indicator is", type:"definition"},
+   {id:"5g", label:"I can provide examples of lagging indicators", type:"content"}
+ ]},
+ { id:6, cat:"Indicators & Business Cycle", title:"The relationship between economic indicators and the business cycle", subs:[
+   {id:"6a", label:"I can explain how leading indicators can be used to tell us about future economic conditions", type:"content"},
+   {id:"6b", label:"I can explain how lagging indicators can be used to tell us about the past state of the economy", type:"content"},
+   {id:"6c", label:"I can explain how coincident indicators can tell us about what is currently happening in the economy", type:"content"},
+   {id:"6d", label:"I can explain what would be happening to key indicators (unemployment, growth, inflation, confidence) during an expansion", type:"content"},
+   {id:"6e", label:"I can explain what would be happening to key indicators during a trough", type:"content"},
+   {id:"6f", label:"I can explain what would be happening to key indicators during a contraction", type:"content"},
+   {id:"6g", label:"I can explain what would be happening to key indicators during a peak", type:"content"},
+   {id:"6h", label:"I can explain how indicators are able to identify the stages of the business cycle", type:"content"}
+ ]},
+ { id:7, cat:"Aggregate Demand", title:"The meaning and importance of aggregate demand and its components", subs:[
+   {id:"7a", label:"I can define Aggregate Demand", type:"definition"},
+   {id:"7b", label:"I can state the Aggregate Demand equation (AD = C+I+G+(X\u2212M))", type:"definition"},
+   {id:"7c", label:"I can explain each of the AD components", type:"content"},
+   {id:"7d", label:"I can explain the sequence through which a change in AD impacts on the level of economic activity", type:"application"}
+ ]},
+ { id:8, cat:"AD Factors", title:"The factors that may affect the level of aggregate demand and the level of economic activity", subs:[
+   {id:"8a", label:"I can identify factors that would impact on the level of disposable income", type:"content"},
+   {id:"8b", label:"I can explain the sequence through which a change in disposable income impacts on the level of AD", type:"application"},
+   {id:"8c", label:"I can identify factors that would impact on the level of interest rates", type:"content"},
+   {id:"8d", label:"I can explain the sequence through which a change in interest rates impacts on the level of AD", type:"application"},
+   {id:"8e", label:"I can identify factors that would impact on the level of consumer confidence", type:"content"},
+   {id:"8f", label:"I can explain the sequence through which a change in consumer confidence impacts on the level of AD", type:"application"},
+   {id:"8g", label:"I can identify factors that would impact on the level of business confidence", type:"content"},
+   {id:"8h", label:"I can explain the sequence through which a change in business confidence impacts on the level of AD", type:"application"},
+   {id:"8i", label:"I can identify factors that would impact on the level of the Australian dollar (AUD)", type:"content"},
+   {id:"8j", label:"I can explain the sequence through which a change in the exchange rate impacts on the level of AD", type:"application"},
+   {id:"8k", label:"I can identify factors that would impact on the level of economic growth in our trading partners", type:"content"},
+   {id:"8l", label:"I can explain the sequence through which a change in overseas economic growth impacts on the level of AD", type:"application"}
+ ]},
+ { id:9, cat:"Aggregate Supply", title:"The meaning and importance of aggregate supply", subs:[
+   {id:"9a", label:"I can define Aggregate Supply", type:"definition"},
+   {id:"9b", label:"I can explain the relationship between Aggregate Supply and the Production Possibility Frontier (PPF)", type:"content"},
+   {id:"9c", label:"I can explain the difference between a movement along and a shift of the Aggregate Supply curve", type:"definition"},
+   {id:"9d", label:"I can explain the sequence through which AD exceeding AS leads to inflation", type:"application"}
+ ]},
+ { id:10, cat:"AS Factors", title:"The factors that may affect the level of aggregate supply and the level of economic activity", subs:[
+   {id:"10a", label:"I can explain what is meant by Aggregate Supply factors", type:"definition"},
+   {id:"10b", label:"I can explain the sequence through which a change in AS factors impacts on a nation's productive capacity", type:"application"},
+   {id:"10c", label:"I can explain the sequence through which a change in AS factors impacts on businesses' willingness and/or ability to produce", type:"application"},
+   {id:"10d", label:"I can define productivity", type:"definition"},
+   {id:"10e", label:"I can identify factors that would impact on the level of productivity", type:"content"},
+   {id:"10f", label:"I can explain the sequence through which a change in productivity impacts on businesses' willingness and/or ability to supply", type:"application"},
+   {id:"10g", label:"I can explain the sequence through which a change in the AUD impacts on businesses' willingness and/or ability to supply", type:"application"},
+   {id:"10h", label:"I can explain the sequence through which climatic factors impact on businesses' willingness and/or ability to supply", type:"application"},
+   {id:"10i", label:"I can provide examples of factors that would change the cost of production for a business", type:"content"},
+   {id:"10j", label:"I can explain the sequence through which a change in the cost of production impacts on businesses' willingness and/or ability to supply", type:"application"}
+ ]},
+ { id:11, cat:"Measuring Economic Growth", title:"The measurement of economic growth using changes in real Gross Domestic Product (GDP)", subs:[
+   {id:"11a", label:"I can explain how growth is measured using GDP and real GDP per capita", type:"content"},
+   {id:"11b", label:"I can define GDP", type:"definition"},
+   {id:"11c", label:"I can define real GDP per capita", type:"definition"},
+   {id:"11d", label:"I can explain the difference between nominal and real GDP", type:"definition"},
+   {id:"11e", label:"I can explain what is meant by the chain volume measure of GDP", type:"definition"},
+   {id:"11f", label:"I can explain how GDP is calculated using the 'total value added' approach", type:"content"}
+ ]},
+ { id:12, cat:"Benefits of Growth", title:"The potential benefits of economic growth", subs:[
+   {id:"12a", label:"I can define the government's goal of strong and sustainable economic growth", type:"definition"},
+   {id:"12b", label:"I can explain the sequence through which economic growth increases material living standards", type:"application"},
+   {id:"12c", label:"I can explain the sequence through which economic growth improves non-material living standards", type:"application"},
+   {id:"12d", label:"I can explain the sequence through which economic growth impacts on employment opportunities", type:"application"},
+   {id:"12e", label:"I can define economic development", type:"definition"},
+   {id:"12f", label:"I can explain the sequence through which an increase in GDP can lead to an increase in economic development", type:"application"},
+   {id:"12g", label:"I can explain why an increase in GDP may not lead to an increase in material living standards", type:"eval"}
+ ]},
+ { id:13, cat:"Costs of Growth", title:"The potential costs of economic growth", subs:[
+   {id:"13a", label:"I can explain the sequence through which failing to achieve the goal of strong and sustainable economic growth impacts on the level of employment", type:"application"},
+   {id:"13b", label:"I can explain what is meant by a boom-bust cycle and how it occurs", type:"content"},
+   {id:"13c", label:"I can explain the sequence through which growth that is too strong leads to inflation", type:"application"},
+   {id:"13d", label:"I can explain the sequence through which economic growth leads to environmental degradation", type:"application"},
+   {id:"13e", label:"I can explain the sequence through which economic growth leads to congestion and pollution", type:"application"},
+   {id:"13f", label:"I can explain the sequence through which economic growth can lead to an increase in inequality", type:"application"},
+   {id:"13g", label:"I can define 'affluenza'", type:"definition"},
+   {id:"13h", label:"I can explain the sequence through which increased economic growth can lead to affluenza", type:"application"},
+   {id:"13i", label:"I can explain the sequence through which growth that is too low leads to higher unemployment", type:"application"}
+ ]},
+ { id:14, cat:"Limitations of Real GDP", title:"The limitations associated with using real GDP and real GDP per capita to measure changes in living standards", subs:[
+   {id:"14a", label:"I can explain why the exclusion of some goods and services (e.g. non-market production) is a limitation of using real GDP as a measure of living standards", type:"eval"},
+   {id:"14b", label:"I can explain how estimating the value of goods and services is a limitation of using real GDP as a measure of living standards", type:"eval"},
+   {id:"14c", label:"I can explain how using real GDP is a limitation of measuring non-material living standards", type:"eval"},
+   {id:"14d", label:"I can explain how using real GDP per capita is a limitation of measuring living standards, as it doesn't factor in the distribution of goods, services and income", type:"eval"},
+   {id:"14e", label:"I can explain how real GDP fails to account for environmental damage caused by production", type:"eval"}
+ ]},
+ { id:15, cat:"Alternative Measures", title:"Alternative measures of economic activity and living standards", subs:[
+   {id:"15a", label:"I can explain the need for alternative measures of living standards", type:"eval"},
+   {id:"15b", label:"I can explain the Genuine Progress Indicator (GPI) and how it measures living standards", type:"definition"},
+   {id:"15c", label:"I can explain how the GPI differs from real GDP", type:"definition"},
+   {id:"15d", label:"I can explain the Measure of Australia's Progress (MAP) and how it measures living standards", type:"definition"},
+   {id:"15e", label:"I can explain how MAP differs from GDP", type:"definition"},
+   {id:"15f", label:"I can explain the Human Development Index (HDI) and how it measures living standards", type:"definition"},
+   {id:"15g", label:"I can explain how the HDI differs from GDP", type:"definition"},
+   {id:"15h", label:"I can explain Green GDP and how it measures living standards", type:"definition"},
+   {id:"15i", label:"I can explain how Green GDP differs from real GDP", type:"definition"},
+   {id:"15j", label:"I can explain Gross National Happiness (GNH) and how it measures living standards", type:"definition"}
+ ]},
+ { id:16, cat:"Current Economic Conditions", title:"Current data and trends across key AD factors", subs:[
+   {id:"16a", label:"I can describe the trend in disposable incomes over the past two years", type:"content"},
+   {id:"16b", label:"I can identify the current cash rate and describe the trend over the past two years", type:"content"},
+   {id:"16c", label:"I can describe the trend in consumer confidence over the past two years", type:"content"},
+   {id:"16d", label:"I can describe the trend in the rate of economic growth of a major trading partner (e.g. China) over the past two years", type:"content"},
+   {id:"16e", label:"I can describe a trend using the DUDD structure (Direction, Unit of measurement, Data, Dates)", type:"content"}
+ ]}
+];
+const ALL_SUB_IDS = KKS.flatMap(k => k.subs.map(s => s.id));
+const TOTAL_SUBS = ALL_SUB_IDS.length;
+const FOUNDATIONAL_KKS = [1,3,4,7,9,11];
+
+/* ============================= ROUTING ============================= */
+const ROUTING = {
+ 1:{f:{activity:"Definition Match",note:"Start with Round 1 to lock in the core terms before tackling the purpose of economic activity."},c:{activity:"Multiple Choice",note:"Question 9 tests this directly \u2014 work through the full set for spaced practice."},e:{activity:"Be the Marker",note:"Practice spotting missing structure in real flawed answers."}},
+ 2:{f:{activity:"Definition Match",note:"Round 1 covers Real GDP per capita, a key living-standards term."},c:{activity:"Multiple Choice",note:"Several questions test the growth\u2013living standards link."},e:{activity:"Be the Marker",note:"The GDP-limitation rounds touch directly on non-material living standards."}},
+ 3:{f:{activity:"Circular Flow Labeller",note:"Label all 12 flows of the five-sector model from scratch."},c:{activity:"Fix the Flow",note:"Spot four planted errors in a fully-labelled diagram \u2014 harder than labelling alone."},e:{activity:"Chain Builder",note:"Chains 5, 6 and 7 trace how growth and leakages ripple through the whole flow."}},
+ 4:{f:{activity:"Definition Match",note:"Round 2 covers business cycle phase definitions."},c:{activity:"Boom or Bust",note:"Rapid-fire sorting of signals into boom or downturn."},e:{activity:"Multiple Choice",note:"The drought and growth-driver questions test this at exam level."}},
+ 5:{f:{activity:"Definition Match",note:"Round 2 covers leading, lagging and coincident indicators."},c:{activity:"Sort It",note:"Round 2 sorts real indicators into all three categories."},e:{activity:"Multiple Choice",note:"Question 6 is SAC-style practice on coincident indicators."}},
+ 6:{f:{activity:"Sort It",note:"Round 2 builds the leading/lagging/coincident distinction this KK relies on."},c:{activity:"Boom or Bust",note:"Connects indicator behaviour to each business cycle phase."},e:{activity:"Multiple Choice",note:"Question 6 tests this at exam level."}},
+ 7:{f:{activity:"Definition Match",note:"Round 1 covers the AD definition and components."},c:{activity:"Fill the Blanks",note:"The AD-definition cloze locks in the exact wording (final, Australian-made, period of time)."},e:{activity:"Multiple Choice",note:"Questions 1 and 14 test AD at exam precision."}},
+ 8:{f:{activity:"Chain Builder",note:"Chains 1\u20134 walk through interest rates, confidence, government spending and the exchange rate step by step."},c:{activity:"Fill the Blanks",note:"The disposable vs discretionary income cloze targets the most common mix-up."},e:{activity:"Multiple Choice",note:"Questions 3 and 4 test AD factors at exam level."}},
+ 9:{f:{activity:"Definition Match",note:"Round 1 covers the AS definition."},c:{activity:"Fill the Blanks",note:"The AS-definition cloze locks in 'volume' vs 'value'."},e:{activity:"Multiple Choice",note:"Questions 2 and 14 test AS at exam precision."}},
+ 10:{f:{activity:"Sort It",note:"Round 3 and the dual-factor round build the AD/AS factor distinction."},c:{activity:"Chain Builder",note:"Reinforces how individual AS factors move through to supply decisions."},e:{activity:"Multiple Choice",note:"Questions 10, 11 and 13 test AS factors at exam level."}},
+ 11:{f:{activity:"Definition Match",note:"Round 1 covers GDP and real GDP per capita."},c:{activity:"Skoo-land Randomiser",note:"Practice the growth-rate and per-capita calculations with fresh numbers each round."},e:{activity:"Skoo-land Randomiser",note:"Keep going \u2014 unlimited rounds at full difficulty."}},
+ 12:{f:{activity:"Chain Builder",note:"Chain 5 traces growth through to living standards step by step."},c:{activity:"Sort It",note:"Round 4 sorts real outcomes into benefit or cost."},e:{activity:"Be the Marker",note:"Practice building complete, exam-ready answers on growth benefits."}},
+ 13:{f:{activity:"Sort It",note:"Round 4 sorts real outcomes into benefit or cost."},c:{activity:"Be the Marker",note:"Several rounds target inflation and growth-cost reasoning directly."},e:{activity:"Multiple Choice",note:"Questions 4 and 13 test this at exam level."}},
+ 14:{f:{activity:"Definition Match",note:"Round 3 covers the core terms behind GDP's limitations."},c:{activity:"Be the Marker",note:"The GDP-limitation round practices explaining HOW, not just naming the limitation."},e:{activity:"Multiple Choice",note:"Question 8 tests this at exam level."}},
+ 15:{f:{activity:"Definition Match",note:"Round 3 covers GPI, MAP, HDI, Green GDP and GNH."},c:{activity:"Be the Marker",note:"Practice explaining HOW an alternative measure is actually calculated, not just naming it."},e:{activity:"Be the Marker",note:"The Green GDP round is the hardest of the set \u2014 good stretch practice."}},
+ 16:{f:{activity:null,note:"This is current-affairs content \u2014 head to the RBA Chart Pack or ABS website for the latest data, since a static revision tool can't stay current."},c:{activity:null,note:"Refresh your trend descriptions against the latest RBA/ABS releases."},e:{activity:null,note:"Just keep your trend data current closer to the SAC."}}
+};
+
+/* ============================= SUPP TASKS ============================= */
+function suppTasks(kk, band){
+  const c = kk.cat;
+  const specific = {
+    3: {1:["Draw the 12-arrow circular flow diagram from memory, then check against your notes."]},
+    4: {1:["Sketch the business cycle curve and label all 4 phases from memory."]},
+    7: {1:["Write the AD equation and all 6 AD factors from memory."]},
+    8: {1:["Write the full interest-rate chain from memory: rate cut \u2192 repayments \u2192 discretionary income \u2192 C \u2192 AD."]},
+    9: {1:["Sketch a PPF and explain how a shift relates to a change in Aggregate Supply."]},
+    11:{1:["Write the real GDP per capita formula, then calculate a worked example with made-up numbers."]},
+    15:{2:["Build a comparison table: GPI vs MAP vs HDI vs Green GDP vs GNH, one line each on what it measures."]}
+  };
+  const byBand = {
+    1: [`Flashcard the key terms in ${c} — term on one side, definition on the other.`, `Rewrite the ${c} content from memory, then check what you missed.`],
+    2: [`Mind map ${c}, branching out from the core definition.`, `Blank-page summary: write everything you know about ${c} in 5 minutes, no notes.`],
+    3: [`Write a PEEL paragraph explaining one key relationship from ${c}.`],
+    4: [`Retrieval practice: explain ${c} out loud with zero notes.`, `Write a "however" argument — state the main point on ${c}, then add a counterpoint.`]
+  };
+  let tasks = (specific[kk.id] && specific[kk.id][band]) ? specific[kk.id][band].concat(byBand[band]) : byBand[band];
+  return tasks.slice(0,2);
+}
+
+/* ============================= STATE ============================= */
+let state = { name:"", ratings:{} };
+
+/* ============================= UTILS ============================= */
+function $(sel){ return document.querySelector(sel); }
+function $all(sel){ return [...document.querySelectorAll(sel)]; }
+function showScreen(id){ $all('.screen').forEach(s=>s.classList.remove('active')); $('#'+id).classList.add('active'); window.scrollTo(0,0); }
+function avgOf(subIds, ratings){ const vals=subIds.map(id=>ratings[id]).filter(v=>v!=null); if(!vals.length) return 0; return vals.reduce((a,b)=>a+b,0)/vals.length; }
+function bandColor(avg){ if(avg===0) return 'var(--muted)'; if(avg<2) return 'var(--red)'; if(avg<2.75) return 'var(--amber)'; if(avg<3.5) return 'var(--green)'; return 'var(--primary)'; }
+function bandBg(avg){ if(avg<2) return 'var(--redl)'; if(avg<2.75) return 'var(--amberl)'; if(avg<3.5) return 'var(--greenl)'; return 'var(--primaryl)'; }
+const TYPE_LABEL = {definition:'Definition',content:'Content',application:'Application',eval:'Evaluate'};
+
+/* ============================= ENTRY ============================= */
+$('#nameInput').addEventListener('input', e=>{ $('#startBtn').disabled = e.target.value.trim().length===0; });
+$('#startBtn').addEventListener('click', ()=>{
+  state.name = $('#nameInput').value.trim();
+  state.ratings = {};
+  buildSurvey();
+  showScreen('screen-survey');
+});
+
+/* ============================= PIN MODAL ============================= */
+$('#teacherLinkBtn').addEventListener('click', ()=>{ $('#pinModal').classList.add('active'); $('#pinInput').value=''; $('#pinError').textContent=''; $('#pinInput').focus(); });
+$('#pinCancel').addEventListener('click', ()=>{ $('#pinModal').classList.remove('active'); });
+function tryPin(){
+  if($('#pinInput').value === TEACHER_PIN){
+    $('#pinModal').classList.remove('active');
+    showScreen('screen-dashboard');
+    loadDashboard();
+  } else {
+    $('#pinError').textContent = 'Incorrect PIN';
+  }
+}
+$('#pinEnter').addEventListener('click', tryPin);
+$('#pinInput').addEventListener('keydown', e=>{ if(e.key==='Enter') tryPin(); });
+
+/* ============================= SURVEY ============================= */
+function buildSurvey(){
+  const body = $('#surveyBody'); body.innerHTML='';
+  KKS.forEach(kk=>{
+    const card=document.createElement('div'); card.className='kk-card'; card.dataset.kk=kk.id;
+    const head=document.createElement('div'); head.className='kk-head';
+    head.innerHTML = `<div class="kk-head-top">
+        <div><div class="kk-cat">${kk.cat}</div><div class="kk-num">KK${kk.id}</div></div>
+        <div class="kk-pill" id="pill-${kk.id}">0 of ${kk.subs.length} rated</div>
+      </div>
+      <div class="kk-title">${kk.title}</div>`;
+    card.appendChild(head);
+    kk.subs.forEach(s=>{
+      const row=document.createElement('div'); row.className='sub-row'; row.id='row-'+s.id;
+      row.innerHTML = `<div class="sub-row-top">
+          <span class="type-badge type-${s.type}">${TYPE_LABEL[s.type]}</span>
+          <span class="sub-label">${s.label}</span>
+        </div>
+        <div class="rate-btns" data-sub="${s.id}">
+          <button class="rate-btn" data-v="1">🚨 Don't remember</button>
+          <button class="rate-btn" data-v="2">⚠️ Basic knowledge</button>
+          <button class="rate-btn" data-v="3">✅ Good knowledge</button>
+          <button class="rate-btn" data-v="4">⭐ Could teach it!</button>
+        </div>`;
+      card.appendChild(row);
+    });
+    body.appendChild(card);
+  });
+  body.querySelectorAll('.rate-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const wrap=btn.closest('.rate-btns'); const subId=wrap.dataset.sub; const val=parseInt(btn.dataset.v);
+      state.ratings[subId]=val;
+      wrap.querySelectorAll('.rate-btn').forEach(b=>b.className='rate-btn');
+      btn.classList.add('sel-'+val);
+      const row=document.getElementById('row-'+subId); row.className='sub-row rated-'+val;
+      updateSurveyProgress();
+    });
+  });
+  updateSurveyProgress();
+}
+function updateSurveyProgress(){
+  const rated = Object.keys(state.ratings).length;
+  $('#progressLabel').textContent = `${rated} of ${TOTAL_SUBS} rated`;
+  const pct = Math.round(rated/TOTAL_SUBS*100);
+  $('#progressPct').textContent = pct+'%';
+  $('#progressFill').style.width = pct+'%';
+  $('#submitBtn').disabled = rated < TOTAL_SUBS;
+  KKS.forEach(kk=>{
+    const ratedInKK = kk.subs.filter(s=>state.ratings[s.id]!=null).length;
+    $('#pill-'+kk.id).textContent = `${ratedInKK} of ${kk.subs.length} rated`;
+    const card = document.querySelector(`.kk-card[data-kk="${kk.id}"]`);
+    if(ratedInKK===kk.subs.length) card.classList.add('all-rated'); else card.classList.remove('all-rated');
+  });
+}
+$('#submitBtn').addEventListener('click', async ()=>{
+  renderResults();
+  showScreen('screen-results');
+  submitToGitHub();
+});
+
+/* ============================= RESULTS ============================= */
+function renderResults(){
+  $('#resultsName').textContent = state.name + "'s Report — " + new Date().toLocaleDateString();
+  const body = $('#resultsBody'); body.innerHTML='';
+
+  const counts = {1:0,2:0,3:0,4:0};
+  ALL_SUB_IDS.forEach(id=>{ const v=state.ratings[id]; if(v) counts[v]++; });
+
+  // Section 1: tiles
+  const tiles=document.createElement('div'); tiles.className='tiles';
+  tiles.innerHTML = `
+    <div class="tile" style="border-color:var(--red);"><div class="n" style="color:var(--red);">${counts[1]}</div><div class="l">🚨 Not Studied</div></div>
+    <div class="tile" style="border-color:var(--amber);"><div class="n" style="color:var(--amber);">${counts[2]}</div><div class="l">⚠️ Basic Knowledge</div></div>
+    <div class="tile" style="border-color:var(--green);"><div class="n" style="color:var(--green);">${counts[3]}</div><div class="l">✅ Good Knowledge</div></div>
+    <div class="tile" style="border-color:var(--primary);"><div class="n" style="color:var(--primary);">${counts[4]}</div><div class="l">⭐ Expert</div></div>`;
+  body.appendChild(tiles);
+
+  const kkAverages = KKS.map(kk=>({kk, avg:avgOf(kk.subs.map(s=>s.id), state.ratings)}));
+  const weakKKs = kkAverages.filter(x=>x.avg < 2.75 && x.avg>0);
+
+  // Section 2: what to work on
+  const h2=document.createElement('h2'); h2.className='section-h'; h2.textContent='⚠️ What You Need to Work On'; body.appendChild(h2);
+  if(weakKKs.length===0){
+    const box=document.createElement('div'); box.className='alert-box alert-green';
+    box.textContent="Strong across the board — no weak areas found! Keep up retrieval practice so it stays that way.";
+    body.appendChild(box);
+  } else {
+    const intro=document.createElement('div'); intro.className='alert-box alert-amber';
+    intro.textContent='Focus your revision on these areas — tap any row to see the specific questions:';
+    body.appendChild(intro);
+    weakKKs.sort((a,b)=>a.avg-b.avg).forEach(({kk,avg})=>{
+      const weakSubs = kk.subs.filter(s=>state.ratings[s.id]<=2);
+      const urgent = kk.subs.filter(s=>state.ratings[s.id]===1).length;
+      const row=document.createElement('div'); row.className='priority-row';
+      row.innerHTML = `<div class="priority-row-head">
+          <div><strong>KK${kk.id}</strong> — ${kk.cat}</div>
+          <div style="color:${urgent>0?'var(--red)':'var(--amber)'};font-weight:700;font-size:13px;">${weakSubs.length} items${urgent?` — ${urgent} urgent`:''}</div>
+        </div>
+        <div class="priority-row-body">${weakSubs.map(s=>`<div class="pq-item"><span class="dot dot-${state.ratings[s.id]}"></span><span style="flex:1;">${s.label}</span><span class="type-badge type-${s.type}">${TYPE_LABEL[s.type]}</span></div>`).join('')}</div>`;
+      row.querySelector('.priority-row-head').addEventListener('click', ()=>{ row.querySelector('.priority-row-body').classList.toggle('open'); });
+      body.appendChild(row);
+    });
+  }
+
+  // Section 3: full breakdown
+  const h3=document.createElement('h3'); h3.className='section-h'; h3.textContent='📋 Full Knowledge Breakdown'; body.appendChild(h3);
+  const sub3=document.createElement('p'); sub3.style.cssText='font-size:13px;color:var(--muted);margin-top:-6px;'; sub3.textContent=`All ${KKS.length} KK areas sorted weakest first. Tap any card to see your ratings.`; body.appendChild(sub3);
+  kkAverages.slice().sort((a,b)=>a.avg-b.avg).forEach(({kk,avg})=>{
+    const card=document.createElement('div'); card.className='breakdown-card'; card.style.borderLeftColor=bandColor(avg);
+    card.innerHTML = `<div class="breakdown-head">
+        <div><strong>KK${kk.id}</strong> — ${kk.cat}<div style="font-size:12px;color:var(--muted);">${kk.title}</div></div>
+        <div class="avg-pill" style="background:${bandBg(avg)};color:${bandColor(avg)};">${avg.toFixed(1)}/4</div>
+      </div>
+      <div class="breakdown-body">${kk.subs.map(s=>`<div class="pq-item"><span class="dot dot-${state.ratings[s.id]||1}"></span><span style="flex:1;">${s.label}</span><span class="type-badge type-${s.type}">${TYPE_LABEL[s.type]}</span></div>`).join('')}</div>`;
+    card.querySelector('.breakdown-head').addEventListener('click', ()=>{ card.querySelector('.breakdown-body').classList.toggle('open'); });
+    body.appendChild(card);
+  });
+
+  // Section 4: revision plan
+  const h4=document.createElement('h4'); h4.className='section-h'; h4.textContent='📚 Your Revision Plan'; body.appendChild(h4);
+
+  const weakFoundational = FOUNDATIONAL_KKS.filter(id => kkAverages.find(x=>x.kk.id===id).avg <= 2 && kkAverages.find(x=>x.kk.id===id).avg>0);
+  if(weakFoundational.length>=2){
+    const names = weakFoundational.map(id=>'KK'+id).join(', ');
+    const alert=document.createElement('div'); alert.className='alert-box alert-amber';
+    alert.innerHTML = `Your GAP Analysis shows several <strong>foundational</strong> areas need attention (${names}). Start there first — Definition Match and Circular Flow Labeller in the <a href="${HUB_URL}" target="_blank">Revision Hub</a> are the best entry points. These underpin everything else and will make the rest of the plan much more approachable.`;
+    body.appendChild(alert);
+  }
+
+  const genSupport=document.createElement('div'); genSupport.className='general-support';
+  genSupport.innerHTML = `<h4>✍️ Need help with HOW to answer, not just WHAT to say?</h4>
+    <div style="font-size:13px;color:#0e5e6f;">Every workbook lesson has "Economist's Hint" boxes on approach and structure — but these two sections in your own copy are worth a look regardless of which KKs you're weak on:</div>
+    <div style="margin-top:8px;font-size:13.5px;color:#0e5e6f;"><strong>📘 How to Answer Economics Questions</strong> — Writing Framework, Command Terms & Connectors <span class="page-ref">(front matter, pg. 2 in your workbook)</span></div>
+    <div style="margin-top:4px;font-size:13.5px;color:#0e5e6f;"><strong>📘 Key Formulas & Frameworks Quick Reference</strong> <span class="page-ref">(back matter, pg. 36 in your workbook)</span></div>`;
+  body.appendChild(genSupport);
+
+  const allStrong = kkAverages.every(x=>x.avg>=3.5);
+  if(allStrong){
+    const card=document.createElement('div'); card.className='rev-kk-card rev-strong';
+    card.innerHTML = `<strong>Strong across all areas!</strong> Head to <a href="${HUB_URL}" target="_blank">Be the Marker</a> and the full Multiple Choice bank for exam-level stretch practice.`;
+    body.appendChild(card);
+  } else {
+    kkAverages.slice().sort((a,b)=>a.avg-b.avg).forEach(({kk,avg})=>{
+      if(avg===0) return;
+      const band = avg<2 ? 1 : avg<2.75 ? 2 : avg<3.5 ? 3 : 4;
+      const cls = band===1?'rev-urgent':band===2?'rev-needs':band===3?'rev-cons':'rev-strong';
+      const routeKey = band<=2 ? 'f' : band===3 ? 'c' : 'e';
+      const rec = ROUTING[kk.id][routeKey];
+      const wb = WORKBOOK_ROUTING[kk.id];
+      const bk = BOOKLET_ROUTING[kk.id];
+
+      let stackHtml = '<div class="resource-stack">';
+      stackHtml += `<div class="resource-row">
+          <div class="r-label">📘 1. Learn it — Your Workbook</div>
+          <div class="r-name">${wb.lesson} <span class="page-ref">(pg. ${wb.page} in your copy)</span></div>
+          <div class="r-note">${wb.note}</div>
+        </div>`;
+      if(bk){
+        stackHtml += `<div class="resource-row">
+            <div class="r-label">✏️ 2. Practice it — Your Revision Booklet</div>
+            <div class="r-name">${bk.task} <span class="page-ref">(pg. ${bk.page} in your copy)</span></div>
+            ${bk.note ? `<div class="r-note">${bk.note}</div>` : ''}
+          </div>`;
+      }
+      if(rec.activity){
+        stackHtml += `<div class="resource-row">
+            <div class="r-label">🎮 ${bk?'3':'2'}. Drill it — Online Hub</div>
+            <div class="r-name">${rec.activity}</div>
+            <div class="r-note">${rec.note}</div>
+            <a href="${HUB_URL}" target="_blank">Open revision hub →</a>
+          </div>`;
+      } else {
+        stackHtml += `<div class="resource-row"><div class="r-note">${rec.note}</div></div>`;
+      }
+      stackHtml += '</div>';
+
+      const eq = EXAMPLE_Q[kk.id];
+      let eqHtml = '';
+      if(band>=3 && eq){
+        eqHtml = `<div class="example-q-box">
+            <div class="eq-label">🎯 You said you're confident — try this</div>
+            <div class="eq-text">${eq.q} <span class="page-ref">(${eq.marks} mark${eq.marks===1?'':'s'})</span></div>
+            <details><summary>What should a full-mark answer include?</summary>
+              <ul>${eq.needs.map(n=>`<li>${n}</li>`).join('')}</ul>
+            </details>
+          </div>`;
+      }
+
+      const supp = suppTasks(kk, band);
+      const card=document.createElement('div'); card.className='rev-kk-card '+cls;
+      card.innerHTML = `<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <div><strong>KK${kk.id}</strong> — ${kk.cat}</div>
+          <div class="avg-pill" style="background:${bandBg(avg)};color:${bandColor(avg)};">${avg.toFixed(1)}/4</div>
+        </div>
+        ${stackHtml}
+        ${eqHtml}
+        ${supp.length ? `<div class="supp-list"><strong style="font-size:12.5px;">Also try:</strong>${supp.map(t=>`<div>• ${t}</div>`).join('')}</div>` : ''}`;
+      body.appendChild(card);
+    });
+  }
+
+  const statusBox=document.createElement('div'); statusBox.className='submit-status status-pending'; statusBox.id='submitStatus';
+  statusBox.textContent='Saving your results to the class record…';
+  body.appendChild(statusBox);
+
+  const footer=document.createElement('div'); footer.className='footer-btns no-print';
+  footer.innerHTML = `<button class="btn-outline" id="restartBtn">← Start Again</button><button class="btn-primary" id="printBtn" style="margin-top:0;">🖨 Print / Save as PDF</button>`;
+  body.appendChild(footer);
+  $('#restartBtn').onclick = ()=>{ $('#nameInput').value=''; $('#startBtn').disabled=true; showScreen('screen-entry'); };
+  $('#printBtn').onclick = ()=> window.print();
+}
+
+/* ============================= GITHUB STORAGE ============================= */
+async function ghRead(){
+  const params = new URLSearchParams({owner:GITHUB_OWNER, repo:GITHUB_REPO, file:GITHUB_FILE});
+  const res = await fetch(`${WORKER_URL}/gap-read?${params}`);
+  if(!res.ok) throw new Error('Read failed: '+res.status);
+  const json = await res.json();
+  return { data: JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,''))))), sha: json.sha };
+}
+async function ghWrite(data, sha){
+  const res = await fetch(`${WORKER_URL}/gap-write`, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ owner:GITHUB_OWNER, repo:GITHUB_REPO, file:GITHUB_FILE, content:JSON.stringify(data), sha })
+  });
+  if(!res.ok) throw new Error('Write failed: '+res.status);
+}
+async function submitToGitHub(){
+  const statusEl = ()=>document.getElementById('submitStatus');
+  try{
+    let existing=[], sha=undefined;
+    try{ const r = await ghRead(); existing=r.data||[]; sha=r.sha; }catch(e){ existing=[]; }
+    existing = existing.filter(s=>s.name!==state.name);
+    existing.push({ name:state.name, submittedAt:new Date().toISOString(), ratings:state.ratings });
+    await ghWrite(existing, sha);
+    if(statusEl()){ statusEl().className='submit-status status-ok'; statusEl().textContent='✅ Saved to the class record.'; }
+  }catch(e){
+    if(statusEl()){ statusEl().className='submit-status status-fail'; statusEl().textContent='⚠️ Couldn\u2019t save automatically — your report above is still valid, just let your teacher know.'; }
+  }
+}
+
+/* ============================= DASHBOARD ============================= */
+let dashTimer=null, dashCountdown=AUTO_REFRESH;
+async function loadDashboard(){
+  $('#dashBody').innerHTML = 'Loading…';
+  let data=[];
+  try{ const r = await ghRead(); data=r.data||[]; }
+  catch(e){ $('#dashBody').innerHTML = `<div class="alert-box alert-amber">Couldn't load class data. Check the Worker is reachable and gap-data-u2-aos1.json exists in the repo.</div>`; return; }
+  renderDashboard(data);
+  $('#dashUpdated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  resetDashTimer();
+}
+function resetDashTimer(){
+  clearInterval(dashTimer); dashCountdown=AUTO_REFRESH;
+  dashTimer=setInterval(()=>{
+    dashCountdown--; $('#dashCountdown').textContent = `Refresh in ${dashCountdown}s`;
+    if(dashCountdown<=0){ loadDashboard(); }
+  },1000);
+}
+function renderDashboard(students){
+  const body=$('#dashBody'); body.innerHTML='';
+  $('#dashCount').textContent = students.length + ' students';
+
+  const counts={1:0,2:0,3:0,4:0};
+  students.forEach(s=>ALL_SUB_IDS.forEach(id=>{ const v=s.ratings[id]; if(v) counts[v]++; }));
+
+  const tiles=document.createElement('div'); tiles.className='dash-tiles';
+  tiles.innerHTML = `
+    <div class="tile"><div class="n">${students.length}</div><div class="l">Students</div></div>
+    <div class="tile"><div class="n" style="color:var(--red);">${counts[1]}</div><div class="l">Not Studied</div></div>
+    <div class="tile"><div class="n" style="color:var(--amber);">${counts[2]}</div><div class="l">Basic</div></div>
+    <div class="tile"><div class="n" style="color:var(--green);">${counts[3]}</div><div class="l">Good</div></div>
+    <div class="tile"><div class="n" style="color:var(--primary);">${counts[4]}</div><div class="l">Expert</div></div>`;
+  body.appendChild(tiles);
+
+  if(students.length===0){ body.innerHTML += `<div class="alert-box alert-amber">No submissions yet.</div>`; return; }
+
+  // Class priority areas
+  const kkClassAvg = KKS.map(kk=>{
+    const allVals = students.flatMap(s=>kk.subs.map(sub=>s.ratings[sub.id]).filter(v=>v!=null));
+    const avg = allVals.length ? allVals.reduce((a,b)=>a+b,0)/allVals.length : 0;
+    const structPct = students.length ? Math.round(students.filter(s=>kk.subs.some(sub=>(s.ratings[sub.id]||0)<=2)).length/students.length*100) : 0;
+    return {kk,avg,structPct};
+  });
+  const priority = kkClassAvg.filter(x=>x.avg<2.5 && x.avg>0).sort((a,b)=>a.avg-b.avg);
+  const h1=document.createElement('h2'); h1.className='section-h'; h1.textContent='🎯 Class Priority Areas'; body.appendChild(h1);
+  if(priority.length===0){ body.appendChild(Object.assign(document.createElement('div'),{className:'alert-box alert-green',textContent:'No class-wide weak areas (all KK averages ≥2.5).'})); }
+  priority.forEach(({kk,avg,structPct})=>{
+    const row=document.createElement('div'); row.className='priority-row';
+    row.innerHTML = `<div class="priority-row-head" style="cursor:default;"><div><strong>KK${kk.id}</strong> — ${kk.cat}</div><div style="font-size:13px;color:var(--red);font-weight:700;">avg ${avg.toFixed(1)} · ${structPct}% struggling</div></div>`;
+    body.appendChild(row);
+  });
+
+  // Top 10 weakest sub-questions
+  const h2=document.createElement('h2'); h2.className='section-h'; h2.textContent='🔎 Top 10 Weakest Sub-Questions'; body.appendChild(h2);
+  const subStats = ALL_SUB_IDS.map(id=>{
+    const vals = students.map(s=>s.ratings[id]).filter(v=>v!=null);
+    const avg = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+    const dist = {1:0,2:0,3:0,4:0}; vals.forEach(v=>dist[v]++);
+    const struggling = vals.length ? Math.round(vals.filter(v=>v<=2).length/vals.length*100) : 0;
+    const label = KKS.flatMap(k=>k.subs).find(s=>s.id===id)?.label || id;
+    return {id,avg,dist,struggling,label,n:vals.length};
+  }).filter(x=>x.n>0).sort((a,b)=>a.avg-b.avg).slice(0,10);
+  subStats.forEach(s=>{
+    const total = s.dist[1]+s.dist[2]+s.dist[3]+s.dist[4];
+    const row=document.createElement('div'); row.className='priority-row'; row.style.padding='10px 16px';
+    row.innerHTML = `<div style="font-size:13px;margin-bottom:4px;">${s.label} ${s.struggling>=60?'<span class="struggle-flag">⚠️ '+s.struggling+'% struggling</span>':''}</div>
+      <div class="stackbar">
+        <div style="width:${s.dist[1]/total*100}%;background:var(--red);"></div>
+        <div style="width:${s.dist[2]/total*100}%;background:var(--amber);"></div>
+        <div style="width:${s.dist[3]/total*100}%;background:var(--green);"></div>
+        <div style="width:${s.dist[4]/total*100}%;background:var(--primary);"></div>
+      </div>`;
+    body.appendChild(row);
+  });
+
+  // Full KK breakdown accordion
+  const h3=document.createElement('h2'); h3.className='section-h'; h3.textContent='📊 Full KK Breakdown'; body.appendChild(h3);
+  kkClassAvg.slice().sort((a,b)=>a.avg-b.avg).forEach(({kk,avg})=>{
+    const card=document.createElement('div'); card.className='breakdown-card'; card.style.borderLeftColor=bandColor(avg);
+    const subsHtml = kk.subs.map(s=>{
+      const vals = students.map(st=>st.ratings[s.id]).filter(v=>v!=null);
+      const dist={1:0,2:0,3:0,4:0}; vals.forEach(v=>dist[v]++);
+      const total = vals.length||1;
+      return `<div style="padding:6px 0;"><div style="font-size:12.5px;margin-bottom:3px;">${s.label}</div>
+        <div class="stackbar"><div style="width:${dist[1]/total*100}%;background:var(--red);"></div><div style="width:${dist[2]/total*100}%;background:var(--amber);"></div><div style="width:${dist[3]/total*100}%;background:var(--green);"></div><div style="width:${dist[4]/total*100}%;background:var(--primary);"></div></div></div>`;
+    }).join('');
+    card.innerHTML = `<div class="breakdown-head"><div><strong>KK${kk.id}</strong> — ${kk.cat}</div><div class="avg-pill" style="background:${bandBg(avg)};color:${bandColor(avg)};">${avg.toFixed(1)}/4</div></div>
+      <div class="breakdown-body">${subsHtml}</div>`;
+    card.querySelector('.breakdown-head').addEventListener('click', ()=>card.querySelector('.breakdown-body').classList.toggle('open'));
+    body.appendChild(card);
+  });
+
+  // Individual student table
+  const h4=document.createElement('h2'); h4.className='section-h'; h4.textContent='👤 Individual Students'; body.appendChild(h4);
+  const studentRows = students.map(s=>{
+    const vals = ALL_SUB_IDS.map(id=>s.ratings[id]).filter(v=>v!=null);
+    const avg = vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+    const dist={1:0,2:0,3:0,4:0}; vals.forEach(v=>dist[v]++);
+    const kkAvgs = KKS.map(kk=>({kk,avg:avgOf(kk.subs.map(x=>x.id), s.ratings)})).filter(x=>x.avg>0);
+    kkAvgs.sort((a,b)=>a.avg-b.avg);
+    const weakest = kkAvgs[0] ? `KK${kkAvgs[0].kk.id}` : '—';
+    return {name:s.name, time:new Date(s.submittedAt).toLocaleString(), avg, dist, weakest};
+  }).sort((a,b)=>a.avg-b.avg);
+  const table=document.createElement('table'); table.className='dash-table';
+  table.innerHTML = `<thead><tr><th>Name</th><th>Submitted</th><th>Avg</th><th>🚨</th><th>⚠️</th><th>✅</th><th>⭐</th><th>Weakest KK</th><th></th></tr></thead>
+    <tbody>${studentRows.map(r=>`<tr><td>${r.name}</td><td>${r.time}</td><td><strong style="color:${bandColor(r.avg)};">${r.avg.toFixed(1)}</strong></td><td>${r.dist[1]}</td><td>${r.dist[2]}</td><td>${r.dist[3]}</td><td>${r.dist[4]}</td><td>${r.weakest}</td><td><button class="dash-btn danger delStudentBtn" data-name="${r.name}" style="padding:4px 9px;font-size:11px;">Delete</button></td></tr>`).join('')}</tbody>`;
+  body.appendChild(table);
+  body.querySelectorAll('.delStudentBtn').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      try{
+        const {data,sha} = await ghRead();
+        const updated = data.filter(s=>s.name!==btn.dataset.name);
+        await ghWrite(updated, sha);
+        loadDashboard();
+      }catch(e){ alert('Could not delete — try refreshing and again.'); }
+    });
+  });
+}
+
+$('#dashRefresh').addEventListener('click', loadDashboard);
+$('#dashPrint').addEventListener('click', ()=>window.print());
+$('#dashExit').addEventListener('click', ()=>{ clearInterval(dashTimer); showScreen('screen-entry'); });
+
+let clearArmed=false, clearTimer=null;
+$('#dashClear').addEventListener('click', async ()=>{
+  if(!clearArmed){
+    clearArmed=true; $('#dashClear').textContent='Click again to confirm';
+    clearTimeout(clearTimer);
+    clearTimer=setTimeout(()=>{ clearArmed=false; $('#dashClear').textContent='Clear All'; },3500);
+  } else {
+    clearArmed=false; $('#dashClear').textContent='Clear All'; clearTimeout(clearTimer);
+    try{ const {sha} = await ghRead(); await ghWrite([], sha); loadDashboard(); }
+    catch(e){ try{ await ghWrite([], undefined); loadDashboard(); }catch(e2){ alert('Could not clear data.'); } }
+  }
+});
+</script>
+</body>
+</html>
