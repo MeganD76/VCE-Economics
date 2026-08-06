@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BP GAP Analysis | VCE Economics</title>
+<style>
+:root{
+  --primary:#0284c7; --primary-dark:#0369a1; --primary-light:#e0f2fe;
+  --band1:#dc2626; --band1-bg:#fee2e2;
+  --band2:#d97706; --band2-bg:#fef3c7;
+  --band3:#16a34a; --band3-bg:#dcfce7;
+  --band4:#7c3aed; --band4-bg:#ede9fe;
+  --ink:#0f172a; --ink-soft:#475569; --line:#e2e8f0; --bg:#f8fafc; --card:#ffffff;
+  --radius:12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--bg); color:var(--ink); line-height:1.5;}
+button{font-family:inherit; cursor:pointer;}
+.hidden{display:none !important;}
+.wrap{max-width:900px; margin:0 auto; padding:20px;}
+.badge{display:inline-block; background:var(--primary); color:#fff; font-size:12px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:4px 10px; border-radius:999px;}
+h1{font-size:28px; margin:14px 0 6px;}
+h2{font-size:20px; margin:0 0 10px;}
+p.lead{color:var(--ink-soft); font-size:15px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; margin-bottom:16px;}
+.tip{background:var(--primary-light); border-left:4px solid var(--primary); border-radius:8px; padding:14px 16px; font-size:14px; color:#0c4a6e; margin:16px 0;}
+input[type=text]{width:100%; padding:12px 14px; font-size:16px; border:2px solid var(--line); border-radius:8px; margin-top:6px;}
+input[type=text]:focus, input[type=password]:focus{outline:none; border-color:var(--primary);}
+.btn{background:var(--primary); color:#fff; border:none; padding:12px 22px; border-radius:8px; font-size:15px; font-weight:600;}
+.btn:disabled{background:#cbd5e1; cursor:not-allowed;}
+.btn:hover:not(:disabled){background:var(--primary-dark);}
+.btn-secondary{background:#fff; color:var(--primary); border:2px solid var(--primary); padding:10px 18px; border-radius:8px; font-weight:600;}
+.btn-danger{background:#fff; color:#dc2626; border:2px solid #dc2626; padding:8px 14px; border-radius:8px; font-size:13px; font-weight:600;}
+.link-btn{background:none; border:none; color:var(--ink-soft); font-size:13px; text-decoration:underline; padding:6px;}
+
+/* Entry */
+#entryScreen{text-align:center; padding-top:40px;}
+#entryScreen .card{text-align:left;}
+
+/* PIN modal */
+#pinModal{position:fixed; inset:0; background:rgba(15,23,42,.55); display:flex; align-items:center; justify-content:center; z-index:100;}
+#pinModal .box{background:#fff; border-radius:var(--radius); padding:28px; width:320px;}
+#pinError{color:#dc2626; font-size:13px; margin-top:8px; min-height:16px;}
+
+/* Survey */
+.progress-header{position:sticky; top:0; background:#fff; border-bottom:1px solid var(--line); padding:12px 20px; z-index:10;}
+.progress-bar-track{background:var(--line); height:8px; border-radius:99px; margin-top:8px; overflow:hidden;}
+.progress-bar-fill{background:var(--primary); height:100%; transition:width .3s;}
+.progress-text{display:flex; justify-content:space-between; font-size:13px; color:var(--ink-soft); font-weight:600;}
+.kk-card{border:1px solid var(--line); background:#fff;}
+.kk-card.complete{border-color:var(--band3);}
+.kk-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:14px;}
+.kk-cat{color:var(--primary); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;}
+.kk-title{font-size:15px; font-weight:600; margin-top:2px;}
+.kk-pill{flex-shrink:0; font-size:12px; font-weight:700; padding:4px 10px; border-radius:999px; background:var(--line); color:var(--ink-soft); white-space:nowrap;}
+.kk-card.complete .kk-pill{background:var(--band3-bg); color:var(--band3);}
+.sub-row{display:flex; flex-direction:column; gap:10px; padding:12px 0; border-top:1px solid var(--line);}
+.sub-row:first-of-type{border-top:none;}
+.sub-row-top{display:flex; align-items:flex-start; gap:10px;}
+.type-chip{flex-shrink:0; font-size:10px; font-weight:700; text-transform:uppercase; padding:3px 7px; border-radius:5px; margin-top:2px;}
+.type-definition{background:#dbeafe; color:#1e40af;}
+.type-content{background:#f1f5f9; color:#334155;}
+.type-application{background:#fce7f3; color:#9d174d;}
+.type-eval{background:#fef9c3; color:#854d0e;}
+.sub-label{font-size:14px;}
+.rate-btns{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; width:100%;}
+.rate-btn{border:2px solid var(--line); background:#fff; border-radius:8px; padding:8px 4px; font-size:12px; font-weight:600; text-align:center; color:var(--ink-soft); line-height:1.3;}
+.rate-btn.active[data-band="1"]{background:var(--band1-bg); border-color:var(--band1); color:var(--band1);}
+.rate-btn.active[data-band="2"]{background:var(--band2-bg); border-color:var(--band2); color:var(--band2);}
+.rate-btn.active[data-band="3"]{background:var(--band3-bg); border-color:var(--band3); color:var(--band3);}
+.rate-btn.active[data-band="4"]{background:var(--band4-bg); border-color:var(--band4); color:var(--band4);}
+.sticky-submit{position:sticky; bottom:0; background:#fff; border-top:1px solid var(--line); padding:14px 20px; text-align:center; margin-top:20px;}
+
+/* Results */
+.tiles{display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:20px;}
+.tile{background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center;}
+.tile .num{font-size:26px; font-weight:800;}
+.tile .lbl{font-size:11px; color:var(--ink-soft); text-transform:uppercase; font-weight:700;}
+.tile.b1 .num{color:var(--band1);} .tile.b2 .num{color:var(--band2);} .tile.b3 .num{color:var(--band3);} .tile.b4 .num{color:var(--band4);}
+.alert-foundational{background:#fef2f2; border:1px solid #fecaca; border-radius:10px; padding:14px 16px; margin-bottom:16px; font-size:14px;}
+.result-row{border:1px solid var(--line); border-radius:10px; margin-bottom:10px; overflow:hidden;}
+.result-row summary{list-style:none; cursor:pointer; padding:14px 16px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px;}
+.result-row summary::-webkit-details-marker{display:none;}
+.result-row .band-tag{font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px;}
+.result-row .rbody{padding:0 16px 16px; font-size:14px;}
+.res-block{background:var(--bg); border-radius:8px; padding:12px 14px; margin-top:10px;}
+.res-block h4{margin:0 0 6px; font-size:13px; text-transform:uppercase; letter-spacing:.03em; color:var(--ink-soft);}
+details.eq{border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin-top:8px; background:#fff;}
+details.eq summary{padding:0; font-size:13px; font-weight:600; color:var(--primary);}
+.eq-body{margin-top:8px; font-size:13px;}
+.eq-checklist{margin:6px 0 0; padding-left:18px;}
+.practice-toggle summary{color:var(--ink-soft); font-weight:600; font-size:13px;}
+.study-skills{background:var(--primary-light); border-radius:10px; padding:16px; margin:16px 0; font-size:14px;}
+.save-pill{display:inline-block; font-size:13px; padding:6px 14px; border-radius:999px; margin:16px 0;}
+.save-pill.ok{background:var(--band3-bg); color:var(--band3);}
+.save-pill.err{background:var(--band1-bg); color:var(--band1);}
+
+/* Dashboard */
+#dashScreen{max-width:1100px;}
+.dash-header{position:sticky; top:0; background:#0f172a; color:#fff; padding:14px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; z-index:10;}
+.dash-header .btn-secondary{background:transparent; border-color:#fff; color:#fff;}
+.dash-tiles{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin:16px 0;}
+.dash-tile{background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center;}
+.dash-tile .num{font-size:22px; font-weight:800; color:var(--primary);}
+.dash-tile .lbl{font-size:11px; color:var(--ink-soft); text-transform:uppercase; font-weight:700;}
+table{width:100%; border-collapse:collapse; font-size:13px;}
+th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line);}
+th{color:var(--ink-soft); text-transform:uppercase; font-size:11px;}
+.stack-bar{display:flex; height:16px; border-radius:4px; overflow:hidden; width:100%; min-width:120px;}
+.stack-bar div{height:100%;}
+.confirm-btn{background:#fff; border:2px solid #dc2626; color:#dc2626; font-size:12px; padding:5px 10px; border-radius:6px;}
+.confirm-btn.armed{background:#dc2626; color:#fff;}
+
+@media (max-width:640px){
+  .tiles{grid-template-columns:repeat(2,1fr);}
+  .dash-tiles{grid-template-columns:repeat(2,1fr);}
+}
+@media print{
+  .progress-header,.sticky-submit,#pinModal,.btn,.btn-secondary,.link-btn,.dash-header{display:none !important;}
+  body{background:#fff;}
+  .card{border:1px solid #ccc; break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ ENTRY ============ -->
+<div id="entryScreen" class="wrap">
+  <span class="badge">Unit 4 · AOS 1 · Budgetary Policy</span>
+  <h1>BP GAP Analysis</h1>
+  <p class="lead">Rate your confidence on 72 specific "I can…" statements across the 12 key knowledge areas for Budgetary Policy. This isn't a quiz — be honest with yourself. You'll get a personalised revision plan built from your own workbook, GBY practice questions, and the BP Hub.</p>
+  <div class="tip">💡 Read each statement and actually try to answer it in your head before rating. Rating from memory of "did we cover this" rather than "can I actually do this" will give you a less accurate plan.</div>
+  <div class="card">
+    <label for="studentName" style="font-weight:600; font-size:14px;">Your first name</label>
+    <input type="text" id="studentName" placeholder="e.g. Alex" autocomplete="off">
+    <div style="margin-top:16px; text-align:center;">
+      <button class="btn" id="startBtn" disabled onclick="startSurvey()">Start GAP Analysis</button>
+    </div>
+  </div>
+  <button class="link-btn" onclick="openPin()">🔒 Teacher Dashboard</button>
+</div>
+
+<!-- ============ PIN MODAL ============ -->
+<div id="pinModal" class="hidden">
+  <div class="box">
+    <h2 style="margin-bottom:10px;">Teacher Access</h2>
+    <input type="password" id="pinInput" placeholder="Enter PIN" autocomplete="off">
+    <div id="pinError"></div>
+    <div style="display:flex; gap:10px; margin-top:14px;">
+      <button class="btn-secondary" style="flex:1;" onclick="closePin()">Cancel</button>
+      <button class="btn" style="flex:1;" onclick="checkPin()">Enter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SURVEY ============ -->
+<div id="surveyScreen" class="wrap hidden">
+  <div class="progress-header">
+    <div class="progress-text"><span id="progressLabel">0 of 72 rated</span><span id="progressPct">0%</span></div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div id="kkContainer" style="margin-top:16px;"></div>
+  <div class="sticky-submit">
+    <button class="btn" id="submitBtn" disabled onclick="submitSurvey()">See My Results</button>
+  </div>
+</div>
+
+<!-- ============ RESULTS ============ -->
+<div id="resultsScreen" class="wrap hidden">
+  <h1 id="resultsName">Your Results</h1>
+  <p class="lead" id="resultsDate"></p>
+  <div class="tiles">
+    <div class="tile b1"><div class="num" id="tileB1">0</div><div class="lbl">Don't remember</div></div>
+    <div class="tile b2"><div class="num" id="tileB2">0</div><div class="lbl">Basic</div></div>
+    <div class="tile b3"><div class="num" id="tileB3">0</div><div class="lbl">Good</div></div>
+    <div class="tile b4"><div class="num" id="tileB4">0</div><div class="lbl">Could teach it</div></div>
+  </div>
+  <div id="foundationalAlert"></div>
+  <div class="study-skills">📖 <strong>Before you dive into individual topics:</strong> your Master Summary page (front of the BP Workbook) gives you a one-page overview of every KK — a good place to re-anchor if you're feeling lost on where to start.</div>
+  <h2>What You Need to Work On</h2>
+  <div id="weakList"></div>
+  <h2 style="margin-top:24px;">Full Knowledge Breakdown</h2>
+  <div id="fullList"></div>
+  <div style="text-align:center;">
+    <span class="save-pill" id="savePill">Saving...</span><br>
+    <button class="btn-secondary" onclick="location.reload()">Restart</button>
+    <button class="btn-secondary" onclick="window.print()">Print / Save PDF</button>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="dashScreen" class="wrap hidden">
+  <div class="dash-header">
+    <div><strong id="dashCount">0 students</strong> · <span id="dashUpdated">—</span></div>
+    <div>
+      <button class="btn-secondary" onclick="loadDashboard()">Refresh</button>
+      <button class="btn-secondary" onclick="window.print()">Print</button>
+      <button class="confirm-btn" id="clearAllBtn" onclick="clearAllClick()">Clear All</button>
+      <button class="btn-secondary" onclick="exitDash()">Exit</button>
+    </div>
+  </div>
+  <div class="dash-tiles" id="dashTiles"></div>
+  <h2>Class Priority Areas</h2>
+  <div id="dashPriority" class="card"></div>
+  <h2>Top 10 Weakest Sub-Questions</h2>
+  <div id="dashWeakest" class="card"></div>
+  <h2>Full KK Breakdown</h2>
+  <div id="dashBreakdown"></div>
+  <h2>Individual Students</h2>
+  <div class="card"><table id="dashStudents"><thead><tr><th>Name</th><th>Avg</th><th>Weakest KK</th><th>Updated</th><th></th></tr></thead><tbody></tbody></table></div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — confirm these before deploying
+   ============================================================ */
+const WORKER_URL   = 'https://u3aos2gap.megan-dyring.workers.dev';
+const GITHUB_OWNER  = 'MeganD76';
+const GITHUB_REPO   = 'VCE-Economics';
+const DATA_FILE     = 'gap-data-u4-aos1-bp.json';
+const TEACHER_PIN   = '0904';
+const RATING_LABELS = ["", "🚨 Don't remember", "⚠️ Basic knowledge", "✅ Good knowledge", "⭐ Could teach it!"];
+
+/* ============================================================
+   DATA
+   ============================================================ */
+const KKS = [
+{id:1, cat:"AD Policy Need", title:"the need for aggregate demand policies in terms of stabilising the business cycle", subs:[
+  {id:"1a", label:"I can explain what aggregate demand policies are", type:"definition"},
+  {id:"1b", label:"I can explain why fluctuations in the business cycle need to be managed", type:"content"},
+  {id:"1c", label:"I can explain how aggregate demand policies can be used to stabilise the business cycle", type:"application"},
+  {id:"1d", label:"I can identify the two aggregate demand policies used in Australia", type:"content"},
+]},
+{id:2, cat:"Government Revenue", title:"sources of government revenue, including direct and indirect taxation; progressive, regressive and proportional taxes; and revenue from government businesses and the sale of government assets", subs:[
+  {id:"2a", label:"I can identify the different sources of government revenue", type:"content"},
+  {id:"2b", label:"I can give examples of direct taxes", type:"content"},
+  {id:"2c", label:"I can give examples of indirect taxes", type:"content"},
+  {id:"2d", label:"I can distinguish between progressive, regressive and proportional taxes", type:"definition"},
+  {id:"2e", label:"I can explain why Australia's income tax system is progressive", type:"application"},
+  {id:"2f", label:"I can give examples of government-owned businesses", type:"content"},
+  {id:"2g", label:"I can give an example of a government asset that has been sold", type:"content"},
+  {id:"2h", label:"I can explain current changes to revenue streams made by the government", type:"eval"},
+  {id:"2i", label:"I can identify the largest contributors to government revenue", type:"content"},
+]},
+{id:3, cat:"Government Expenses", title:"types of government expenses, including government current and capital expenditure and transfer payments", subs:[
+  {id:"3a", label:"I can distinguish current from capital expenditure", type:"definition"},
+  {id:"3b", label:"I can identify the largest components of government expenditure", type:"content"},
+  {id:"3c", label:"I can explain what transfer payments are", type:"definition"},
+  {id:"3d", label:"I can identify recent changes to the transfer payment system", type:"content"},
+]},
+{id:4, cat:"Budget Outcomes", title:"the budget outcome: balanced, surplus or deficit, and its relationship to revenue and expenditure", subs:[
+  {id:"4a", label:"I can explain the relationship between revenue, expenditure and the budget outcome", type:"application"},
+  {id:"4b", label:"I can explain the three budget outcomes (balanced, surplus, deficit)", type:"definition"},
+  {id:"4c", label:"I can identify the past two budget outcomes", type:"content"},
+  {id:"4d", label:"I can distinguish between the headline cash balance and the underlying cash balance", type:"definition"},
+  {id:"4e", label:"I can explain what the net operating balance is and why the government began using this measure", type:"definition"},
+  {id:"4f", label:"I can explain how the government determines the budget outcome", type:"content"},
+]},
+{id:5, cat:"Financing Deficit/Surplus", title:"the ways government may finance a deficit or utilise a surplus, and the resulting effects of crowding out and crowding in", subs:[
+  {id:"5a", label:"I can identify the ways a government can finance a deficit", type:"content"},
+  {id:"5b", label:"I can identify the ways a government can utilise a surplus", type:"content"},
+  {id:"5c", label:"I can explain the varying impacts on the economy of selling CGS to different actors", type:"application"},
+  {id:"5d", label:"I can explain what crowding out of the private sector means", type:"definition"},
+  {id:"5e", label:"I can explain what crowding out of the external sector means", type:"definition"},
+  {id:"5f", label:"I can explain how crowding out occurs depending on how the government finances a deficit", type:"application"},
+  {id:"5g", label:"I can explain what crowding in means", type:"definition"},
+  {id:"5h", label:"I can explain how the government can cause crowding in when utilising a surplus", type:"application"},
+]},
+{id:6, cat:"Public Debt", title:"the relationship between the budget outcome and the level of government (public) debt", subs:[
+  {id:"6a", label:"I can explain the relationship between deficits and public debt", type:"application"},
+  {id:"6b", label:"I can explain the relationship between a surplus and government debt", type:"application"},
+  {id:"6c", label:"I can distinguish between gross and net debt", type:"definition"},
+  {id:"6d", label:"I can explain the difference between government debt and foreign debt", type:"definition"},
+]},
+{id:7, cat:"Automatic Stabilisers", title:"the role of automatic stabilisers (cyclical component of the budget) in influencing aggregate demand and stabilising the business cycle", subs:[
+  {id:"7a", label:"I can explain what an automatic stabiliser is", type:"definition"},
+  {id:"7b", label:"I can identify the automatic stabilisers", type:"content"},
+  {id:"7c", label:"I can explain how automatic stabilisers are able to stabilise the business cycle", type:"application"},
+  {id:"7d", label:"I can explain how changes in the business cycle impact on the automatic stabilisers", type:"application"},
+  {id:"7e", label:"I can explain the effect of automatic stabilisers on the budget outcome", type:"application"},
+]},
+{id:8, cat:"Discretionary Stabilisers", title:"the role of discretionary stabilisers (structural component of the budget) in influencing aggregate demand and stabilising the business cycle", subs:[
+  {id:"8a", label:"I can explain what discretionary stabilisers are", type:"definition"},
+  {id:"8b", label:"I can distinguish between automatic stabilisers and discretionary stabilisers", type:"definition"},
+  {id:"8c", label:"I can explain how the government can use discretionary stabilisers to stabilise the business cycle", type:"application"},
+  {id:"8d", label:"I can explain how government can use discretionary changes to increase or decrease revenue", type:"content"},
+  {id:"8e", label:"I can explain how the government can use discretionary changes to increase or decrease expenditure", type:"content"},
+]},
+{id:9, cat:"Effect on Outcome & Debt", title:"the effect of automatic and discretionary changes in the budget on the budget outcome and government (public) debt", subs:[
+  {id:"9a", label:"I can explain the effect of discretionary changes on the budget outcome", type:"application"},
+  {id:"9b", label:"I can explain how automatic changes affect the level of government debt", type:"application"},
+  {id:"9c", label:"I can explain how discretionary changes affect the level of government debt", type:"application"},
+  {id:"9d", label:"I can explain why an automatic increase in the deficit during a downturn doesn't necessarily indicate a change in policy stance", type:"eval"},
+]},
+{id:10, cat:"BP Stance", title:"the stance of budgetary policy: expansionary or contractionary", subs:[
+  {id:"10a", label:"I can define what makes a budget expansionary vs contractionary", type:"definition"},
+  {id:"10b", label:"I can identify the budget stance from stated deficit/surplus and expenditure figures", type:"application"},
+  {id:"10c", label:"I can explain how the budget stance is determined", type:"application"},
+  {id:"10d", label:"I can explain the rationale for an expansionary budget", type:"eval"},
+  {id:"10e", label:"I can explain the rationale for a contractionary budget", type:"eval"},
+  {id:"10f", label:"I can explain the current stance of Budgetary Policy", type:"content"},
+]},
+{id:11, cat:"Recent Initiatives & Goals", title:"the effect of budget initiatives from the past two years on the Australian Government's domestic macroeconomic goals", subs:[
+  {id:"11a", label:"I can explain a budgetary measure and its impact on the goal of strong and sustainable economic growth", type:"application"},
+  {id:"11b", label:"I can explain a budgetary measure and its impact on the goal of low inflation", type:"application"},
+  {id:"11c", label:"I can explain a budgetary measure and its impact on the goal of full employment", type:"application"},
+  {id:"11d", label:"I can explain why a budgetary measure may support one macroeconomic goal while working against another", type:"eval"},
+]},
+{id:12, cat:"Strengths & Weaknesses", title:"the strengths and weaknesses of using budgetary policy to achieve the Australian Government's domestic macroeconomic goals and how these may affect living standards", subs:[
+  {id:"12a", label:"I can identify the strengths of BP", type:"content"},
+  {id:"12b", label:"I can explain how the ability to target particular sectors is a strength of BP", type:"application"},
+  {id:"12c", label:"I can explain how BP is able to focus on the achievement of all the goals", type:"application"},
+  {id:"12d", label:"I can explain why the short impact lag of BP is a strength", type:"eval"},
+  {id:"12e", label:"I can explain why BP's ability to act automatically is a strength", type:"eval"},
+  {id:"12f", label:"I can explain what is meant by BP having checks & balances, and why this is a strength", type:"eval"},
+  {id:"12g", label:"I can explain why being exposed to public scrutiny is a strength of BP", type:"eval"},
+  {id:"12h", label:"I can explain how political hurdles can be a weakness of BP", type:"eval"},
+  {id:"12i", label:"I can explain how political bias is a weakness of BP", type:"eval"},
+  {id:"12j", label:"I can explain how the implementation lag is a weakness of BP", type:"eval"},
+  {id:"12k", label:"I can explain why BP can be inflexible, and how this is a weakness", type:"eval"},
+  {id:"12l", label:"I can explain how the weaknesses of BP impact on the achievement of the goals", type:"application"},
+  {id:"12m", label:"I can explain how the strengths of BP impact on the achievement of the goals", type:"application"},
+]},
+];
+
+const FOUNDATIONAL_IDS = [2,3,6,8,10];
+
+const ROUTING = {
+  1:{learn:"pg. 1 — definitions & objectives", practice:"GBY Lesson 1, Option 1", drill:"L1: Quick-fire MCQ"},
+  2:{learn:"pg. 2–4", practice:null, drill:"L1: Classify the Revenue, Tarland Tax Office"},
+  3:{learn:"pg. 5–6", practice:null, drill:"L1: Classify the Spending"},
+  4:{learn:"pg. 6–7", practice:null, drill:"L2: Quick-fire MCQ, Bindara's Balance Sheet"},
+  5:{learn:"pg. 9–10", practice:null, drill:"L2: Sequence the Chain, Debt Detective"},
+  6:{learn:"pg. 7–9", practice:"GBY Lesson 2, Option 2", drill:"L2: all 6 activities"},
+  7:{learn:"pg. 14–16", practice:"GBY Lesson 4, Option 2", drill:"L4: Downturn Chain, Classic Scenarios"},
+  8:{learn:"pg. 14, 17", practice:null, drill:"L4: Automatic or Discretionary?, Structural Deficit Chain"},
+  9:{learn:"pg. 16, 18", practice:null, drill:"L4: Be the Examiner, Exit Ticket"},
+  10:{learn:"pg. 11–13", practice:"GBY Lesson 3, Option 2", drill:"L3: all 7 activities"},
+  11:{learn:"pg. 19–21", practice:"GBY Lesson 5, Option 2", drill:"L5: all 6 activities"},
+  12:{learn:"pg. 22–26", practice:"GBY Lesson 6, Option 2", drill:"L6: all 6 activities"},
+};
+
+const EXAMPLE_Q = {
+  1:[
+    {q:"Outline one reason for government intervention in the economy to help stabilise the business cycle.", marks:2,
+     needs:["Identifies a business-cycle instability rationale (unchecked AD fluctuations)","Links intervention to a stated macroeconomic goal"]},
+    {q:"Explain why aggregate demand policies are needed to manage the business cycle, referring to what would happen if left unmanaged.", marks:3,
+     needs:["Describes a consequence of unmanaged fluctuations","Explains the role of AD policy in smoothing the cycle","Links to a macroeconomic goal"]},
+  ],
+  2:[
+    {q:"Distinguish between a progressive and a regressive tax, and explain one implication for equity.", marks:3,
+     needs:["Progressive: average tax rate rises as income rises","Regressive: average tax rate falls as income rises, disproportionate burden on lower incomes","One clear equity implication"]},
+    {q:"Explain why GST is considered a regressive tax despite being charged at a flat rate.", marks:3,
+     needs:["Flat rate takes a larger % of low incomes than high incomes","Links to equity impact","Notes tax type is classified by burden relative to income, not the stated rate"]},
+  ],
+  3:[
+    {q:"Distinguish between government current and capital expenditure, giving one example of each.", marks:3,
+     needs:["Current = recurring/consumption spending, with example","Capital = asset-building/investment spending, with example"]},
+    {q:"Explain how a rise in transfer payments could change the composition of government expenditure.", marks:3,
+     needs:["Defines transfer payments","Explains the shift in proportion relative to G1/G2","Links to a stated cause"]},
+  ],
+  4:[
+    {q:"Using current data, explain how the government determines the budget outcome.", marks:3,
+     needs:["Defines the budget outcome as estimated receipts vs outlays","Explains the role of forecasting parameters (unemployment, wages growth, commodity prices)","Uses an actual current figure"]},
+    {q:"Explain why the budget outcome is reported as a percentage of GDP rather than in dollar terms alone.", marks:3,
+     needs:["Dollar figures alone don't show relative economic significance","%GDP allows year-on-year or international comparison","Uses a current example figure"]},
+  ],
+  5:[
+    {q:"Explain the effect on interest rates of a government financing a budget deficit by borrowing from the Australian public, rather than the RBA.", marks:3,
+     needs:["Domestic public borrowing increases demand for loanable funds","Places upward pressure on interest rates","Correctly identifies this crowds out private borrowing (unlike RBA financing)"]},
+    {q:"Explain how financing a deficit by borrowing from overseas investors could affect the exchange rate and net exports.", marks:4,
+     needs:["Capital inflow from overseas borrowing","AUD appreciation","Lower net exports (external sector crowding out)","Links back to aggregate demand"]},
+  ],
+  6:[
+    {q:"Explain the relationship between the budget outcome and Net Foreign Debt.", marks:2,
+     needs:["A deficit requires financing via borrowing","Borrowing from overseas sources increases NFD (don't conflate debt with deficit)"]},
+    {q:"Distinguish between gross and net government debt, and explain why the distinction matters for assessing debt sustainability.", marks:3,
+     needs:["Gross vs net debt definitions","Explains why net gives a clearer fiscal picture","Uses a contextual example"]},
+  ],
+  7:[
+    {q:"Explain how automatic stabilisers are likely to affect the budget outcome during an economic downturn, with reference to current conditions.", marks:4,
+     needs:["Names automatic stabilisers, notes they occur without new government decisions","Outlay-side effect with example (rising welfare payments)","Receipt-side effect with example (falling income tax/GST/company tax)","Links to the CURRENT stated conditions, not a prior year"]},
+    {q:"Explain how automatic stabilisers would affect the budget outcome during a period of strong economic growth.", marks:4,
+     needs:["Falling welfare outlays as employment rises","Rising tax receipts as incomes/spending rise","Moves the budget outcome towards surplus/smaller deficit","Occurs without new policy decisions"]},
+  ],
+  8:[
+    {q:"Explain a discretionary policy measure from the current Federal Budget and its influence on aggregate demand, referencing current data.", marks:3,
+     needs:["Names a real, current discretionary measure","Explains the AD transmission mechanism (injection/leakage change)","References an actual current figure"]},
+    {q:"Explain how a discretionary increase in infrastructure spending could influence aggregate demand differently to a discretionary tax cut.", marks:4,
+     needs:["Infrastructure spending = direct injection into AD","Tax cut = indirect, depends on marginal propensity to consume","Compares speed/size of AD impact","Links to a macroeconomic goal"]},
+  ],
+  9:[
+    {q:"If a recession were to occur, explain how the government might use both discretionary and automatic budgetary measures in response, and the impact this would have on the budget outcome.", marks:5,
+     needs:["Understanding of automatic stabilisers","Links automatic stabilisers to growth, with example","Understanding of discretionary stabilisers","Links discretionary stabilisers to growth, with example","States the current actual/estimated outcome figure and how it would change"]},
+    {q:"Explain how a combination of automatic and discretionary changes during an economic boom could affect the level of government debt.", marks:4,
+     needs:["Automatic: rising receipts/falling outlays during a boom","Discretionary restraint reinforcing this","Links improved budget outcome to slower growth in debt"]},
+  ],
+  10:[
+    {q:"Explain how the stance of budgetary policy is determined, and outline what a smaller deficit than the previous year indicates about that stance.", marks:4,
+     needs:["Defines stance via net injections vs leakages, not just 'deficit = expansionary'","Correctly identifies a smaller deficit as LESS expansionary, not contractionary","Links to likely underlying economic conditions"]},
+    {q:"Explain why a budget in surplus could still be considered expansionary in stance.", marks:3,
+     needs:["Stance is about the direction of change, not just the outcome itself","A smaller surplus than the previous year is still expansionary in direction","Distinguishes cyclical from structural changes"]},
+  ],
+  11:[
+    {q:"Explain how the operation of budgetary policy is likely to influence aggregate demand and the achievement of the goal of low inflation.", marks:3,
+     needs:["States the current stance/outcome with a real figure","Explains the AD transmission mechanism","Explicitly names the 2–3% CPI target and direction of pressure"]},
+    {q:"Explain how a current budgetary initiative is likely to influence aggregate demand and the goal of full employment.", marks:3,
+     needs:["Names a real current initiative","Explains the AD channel","Links to the employment goal"]},
+  ],
+  12:[
+    {q:"Explain a strength and a weakness of budgetary policy in improving living standards, referencing a current policy example.", marks:4,
+     needs:["Identifies a specific, named strength (not vague)","Links strength to living standards with a current example","Identifies a specific, named weakness","Links weakness to living standards with a current example"]},
+    {q:"Analyse one strength of budgetary policy relative to monetary policy in responding quickly to changing economic conditions.", marks:4,
+     needs:["Short impact lag as a comparative strength","Explains why targeted measures act faster/more directly","Uses a current example","Notes a limitation (still requires parliamentary process)"]},
+  ],
+};
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let studentName = "";
+let ratings = {};
+let dashData = [];
+let confirmArmed = {clear:false};
+
+/* ============================================================
+   ENTRY
+   ============================================================ */
+document.getElementById('studentName').addEventListener('input', e=>{
+  document.getElementById('startBtn').disabled = e.target.value.trim().length===0;
+});
+document.getElementById('studentName').addEventListener('keydown', e=>{
+  if(e.key==='Enter' && !document.getElementById('startBtn').disabled) startSurvey();
+});
+
+function startSurvey(){
+  studentName = document.getElementById('studentName').value.trim();
+  document.getElementById('entryScreen').classList.add('hidden');
+  document.getElementById('surveyScreen').classList.remove('hidden');
+  renderSurvey();
+}
+
+/* ============================================================
+   PIN
+   ============================================================ */
+function openPin(){
+  document.getElementById('pinModal').classList.remove('hidden');
+  document.getElementById('pinInput').value='';
+  document.getElementById('pinError').textContent='';
+  document.getElementById('pinInput').focus();
+}
+function closePin(){ document.getElementById('pinModal').classList.add('hidden'); }
+function checkPin(){
+  const val = document.getElementById('pinInput').value;
+  if(val === TEACHER_PIN){
+    closePin();
+    document.getElementById('entryScreen').classList.add('hidden');
+    document.getElementById('dashScreen').classList.remove('hidden');
+    loadDashboard();
+  } else {
+    document.getElementById('pinError').textContent = 'Incorrect PIN. Try again.';
+  }
+}
+document.getElementById('pinInput').addEventListener('keydown', e=>{ if(e.key==='Enter') checkPin(); });
+function exitDash(){
+  document.getElementById('dashScreen').classList.add('hidden');
+  document.getElementById('entryScreen').classList.remove('hidden');
+}
+
+/* ============================================================
+   SURVEY RENDER
+   ============================================================ */
+const TOTAL_SUBS = KKS.reduce((n,kk)=>n+kk.subs.length,0);
+
+function renderSurvey(){
+  const container = document.getElementById('kkContainer');
+  container.innerHTML = KKS.map(kk=>{
+    const subsHtml = kk.subs.map(s=>`
+      <div class="sub-row" data-sub="${s.id}">
+        <div class="sub-row-top">
+          <span class="type-chip type-${s.type}">${s.type}</span>
+          <span class="sub-label">${s.label}</span>
+        </div>
+        <div class="rate-btns">
+          ${[1,2,3,4].map(b=>`<button class="rate-btn" data-band="${b}" onclick="rate('${s.id}',${b})">${RATING_LABELS[b]}</button>`).join('')}
+        </div>
+      </div>`).join('');
+    return `
+      <div class="card kk-card" id="kkcard-${kk.id}">
+        <div class="kk-head">
+          <div><div class="kk-cat">${kk.cat}</div><div class="kk-title">KK${kk.id}: ${kk.title}</div></div>
+          <div class="kk-pill" id="kkpill-${kk.id}">0 of ${kk.subs.length} rated</div>
+        </div>
+        ${subsHtml}
+      </div>`;
+  }).join('');
+}
+
+function rate(subId, band){
+  ratings[subId] = band;
+  const row = document.querySelector(`.sub-row[data-sub="${subId}"]`);
+  row.querySelectorAll('.rate-btn').forEach(btn=>{
+    btn.classList.toggle('active', parseInt(btn.dataset.band)===band);
+  });
+  updateProgress();
+}
+
+function updateProgress(){
+  const rated = Object.keys(ratings).length;
+  document.getElementById('progressLabel').textContent = `${rated} of ${TOTAL_SUBS} rated`;
+  const pct = Math.round((rated/TOTAL_SUBS)*100);
+  document.getElementById('progressPct').textContent = pct+'%';
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('submitBtn').disabled = rated < TOTAL_SUBS;
+
+  KKS.forEach(kk=>{
+    const done = kk.subs.filter(s=>ratings[s.id]!==undefined).length;
+    document.getElementById(`kkpill-${kk.id}`).textContent = `${done} of ${kk.subs.length} rated`;
+    document.getElementById(`kkcard-${kk.id}`).classList.toggle('complete', done===kk.subs.length);
+  });
+}
+
+/* ============================================================
+   SUBMIT / RESULTS
+   ============================================================ */
+function kkAverage(kk){
+  const vals = kk.subs.map(s=>ratings[s.id]);
+  return vals.reduce((a,b)=>a+b,0)/vals.length;
+}
+
+function submitSurvey(){
+  document.getElementById('surveyScreen').classList.add('hidden');
+  document.getElementById('resultsScreen').classList.remove('hidden');
+  renderResults();
+  syncToWorker();
+}
+
+function bandCounts(){
+  const c=[0,0,0,0];
+  Object.values(ratings).forEach(b=>c[b-1]++);
+  return c;
+}
+
+function renderResults(){
+  document.getElementById('resultsName').textContent = `${studentName}'s Results`;
+  document.getElementById('resultsDate').textContent = new Date().toLocaleDateString('en-AU',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+  const counts = bandCounts();
+  document.getElementById('tileB1').textContent = counts[0];
+  document.getElementById('tileB2').textContent = counts[1];
+  document.getElementById('tileB3').textContent = counts[2];
+  document.getElementById('tileB4').textContent = counts[3];
+
+  const kkAvgs = KKS.map(kk=>({kk, avg:kkAverage(kk)})).sort((a,b)=>a.avg-b.avg);
+
+  // Foundational alert
+  const weakFoundational = kkAvgs.filter(x=>FOUNDATIONAL_IDS.includes(x.kk.id) && x.avg<=2);
+  const alertBox = document.getElementById('foundationalAlert');
+  if(weakFoundational.length>=2){
+    alertBox.innerHTML = `<div class="alert-foundational">⚠️ <strong>Start with the foundations.</strong> You're rating ${weakFoundational.length} foundational topics low (${weakFoundational.map(x=>'KK'+x.kk.id).join(', ')}) — these underpin most of the rest of BP, so tackling them first will make everything else easier.</div>`;
+  } else { alertBox.innerHTML=''; }
+
+  // Weak list (avg < 2.5, weakest first)
+  const weak = kkAvgs.filter(x=>x.avg<2.5);
+  document.getElementById('weakList').innerHTML = weak.length ?
+    weak.map(x=>renderKkRow(x.kk,x.avg,true)).join('') :
+    `<p style="color:var(--ink-soft);">Nothing scored below "good knowledge" — nice work. Check the full breakdown below to keep sharp.</p>`;
+
+  // Full breakdown, weakest first
+  document.getElementById('fullList').innerHTML = kkAvgs.map(x=>renderKkRow(x.kk,x.avg,false)).join('');
+
+  saveLocal();
+}
+
+function bandTagHtml(avg){
+  let band = avg<1.75?1: avg<2.5?2: avg<3.25?3:4;
+  const colors=['','var(--band1)','var(--band2)','var(--band3)','var(--band4)'];
+  const bgs=['','var(--band1-bg)','var(--band2-bg)','var(--band3-bg)','var(--band4-bg)'];
+  const labels=['','Needs work','Basic','Good','Confident'];
+  return `<span class="band-tag" style="color:${colors[band]};background:${bgs[band]}">${labels[band]} (${avg.toFixed(1)})</span>`;
+}
+
+function subRatingRow(sub){
+  const band = ratings[sub.id];
+  const colors=['','var(--band1)','var(--band2)','var(--band3)','var(--band4)'];
+  const bgs=['','var(--band1-bg)','var(--band2-bg)','var(--band3-bg)','var(--band4-bg)'];
+  const icons=['','🚨','⚠️','✅','⭐'];
+  return `<div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:6px 0; border-top:1px solid var(--line); font-size:13px;">
+    <span>${sub.label}</span>
+    <span style="flex-shrink:0; font-weight:700; padding:2px 8px; border-radius:999px; color:${colors[band]}; background:${bgs[band]};">${icons[band]} ${RATING_LABELS[band].replace(/^[^ ]+ /,'')}</span>
+  </div>`;
+}
+
+function renderKkRow(kk, avg, openByDefault){
+  const r = ROUTING[kk.id];
+  const confident = avg>=2.75;
+  const eqs = EXAMPLE_Q[kk.id];
+
+  const subsHtml = `<div class="res-block"><h4>Your ratings for this KK</h4>${kk.subs.map(subRatingRow).join('')}</div>`;
+
+  let resourceHtml = `<div class="res-block"><h4>Revision Plan</h4><ol style="margin:4px 0 0; padding-left:18px;">`;
+  let n=1;
+  resourceHtml += `<li>📘 <strong>Learn it</strong> — Workbook, ${r.learn}</li>`; n++;
+  if(r.practice){ resourceHtml += `<li>✏️ <strong>Practice it</strong> — ${r.practice}</li>`; n++; }
+  resourceHtml += `<li>🎮 <strong>Drill it</strong> — BP Hub, ${r.drill}</li>`;
+  resourceHtml += `</ol></div>`;
+
+  const eqHtml = eqs.map((eq,i)=>`
+    <details class="eq"><summary>Practice Question ${i+1} (${eq.marks} marks)</summary>
+      <div class="eq-body">
+        <p style="font-weight:600;">${eq.q}</p>
+        <details><summary style="cursor:pointer;color:var(--ink-soft);font-size:12px;">What should a full-mark answer include?</summary>
+          <ul class="eq-checklist">${eq.needs.map(n=>`<li>${n}</li>`).join('')}</ul>
+        </details>
+      </div>
+    </details>`).join('');
+
+  const eqBlock = confident
+    ? `<div class="res-block"><h4>Test Yourself</h4>${eqHtml}</div>`
+    : `<details class="practice-toggle" style="margin-top:10px;"><summary>📝 Practice questions — try these after you've revised</summary><div style="margin-top:8px;">${eqHtml}</div></details>`;
+
+  return `
+    <details class="result-row" ${openByDefault?'open':''}>
+      <summary><span>KK${kk.id}: ${kk.cat}</span>${bandTagHtml(avg)}</summary>
+      <div class="rbody">
+        <p style="color:var(--ink-soft); margin-top:0;">${kk.title}</p>
+        ${subsHtml}
+        ${resourceHtml}
+        ${eqBlock}
+      </div>
+    </details>`;
+}
+
+/* ============================================================
+   PERSISTENCE
+   ============================================================ */
+function saveLocal(){
+  try{
+    localStorage.setItem('gap-bp-'+studentName.toLowerCase(), JSON.stringify({name:studentName, ratings, saved:new Date().toISOString()}));
+  }catch(e){ /* ignore quota errors */ }
+}
+
+async function syncToWorker(){
+  const pill = document.getElementById('savePill');
+  pill.className = 'save-pill'; pill.textContent = 'Saving...';
+  const counts = bandCounts();
+  const kkAvgs = KKS.map(kk=>({id:kk.id, avg:kkAverage(kk)}));
+  const overallAvg = Object.values(ratings).reduce((a,b)=>a+b,0)/TOTAL_SUBS;
+  const record = { name: studentName, ratings, counts, kkAvgs, overallAvg: Math.round(overallAvg*100)/100 };
+  try{
+    const res = await fetch(`${WORKER_URL}/gap-write`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ owner:GITHUB_OWNER, repo:GITHUB_REPO, file:DATA_FILE, record })
+    });
+    if(!res.ok) throw new Error('Worker returned '+res.status);
+    pill.className='save-pill ok'; pill.textContent='✓ Results saved';
+  }catch(e){
+    pill.className='save-pill err'; pill.textContent='⚠️ Could not save online — your results are saved on this device. Download/print your PDF to submit via Compass.';
+  }
+}
+
+/* ============================================================
+   DASHBOARD
+   ============================================================ */
+async function loadDashboard(){
+  document.getElementById('dashUpdated').textContent = 'Loading...';
+  try{
+    const res = await fetch(`${WORKER_URL}/gap-read?pin=${TEACHER_PIN}&owner=${GITHUB_OWNER}&repo=${GITHUB_REPO}&file=${DATA_FILE}`);
+    const data = await res.json();
+    dashData = data.results || [];
+    renderDashboard();
+  }catch(e){
+    document.getElementById('dashUpdated').textContent = 'Failed to load — check Worker URL/config.';
+  }
+}
+
+function renderDashboard(){
+  document.getElementById('dashCount').textContent = `${dashData.length} student${dashData.length===1?'':'s'}`;
+  document.getElementById('dashUpdated').textContent = 'Updated: '+new Date().toLocaleString('en-AU');
+
+  const n = dashData.length;
+  const classAvg = n? (dashData.reduce((s,d)=>s+(d.overallAvg||0),0)/n).toFixed(2) : '—';
+  const confidentPct = n? Math.round(100*dashData.filter(d=>(d.overallAvg||0)>=2.75).length/n) : 0;
+  const strugglingPct = n? Math.round(100*dashData.filter(d=>(d.overallAvg||0)<2).length/n) : 0;
+
+  document.getElementById('dashTiles').innerHTML = `
+    <div class="dash-tile"><div class="num">${n}</div><div class="lbl">Responses</div></div>
+    <div class="dash-tile"><div class="num">${classAvg}</div><div class="lbl">Class Avg (/4)</div></div>
+    <div class="dash-tile"><div class="num">${confidentPct}%</div><div class="lbl">Confident</div></div>
+    <div class="dash-tile"><div class="num">${strugglingPct}%</div><div class="lbl">Struggling</div></div>
+    <div class="dash-tile"><div class="num">${FOUNDATIONAL_IDS.length}</div><div class="lbl">Foundational KKs</div></div>
+  `;
+
+  // KK-level class averages
+  const kkClassAvg = KKS.map(kk=>{
+    const vals = n? dashData.map(d=> (d.kkAvgs||[]).find(x=>x.id===kk.id)?.avg).filter(v=>v!==undefined) : [];
+    const avg = vals.length? vals.reduce((a,b)=>a+b,0)/vals.length : 0;
+    return {kk, avg, count:vals.length};
+  }).sort((a,b)=>a.avg-b.avg);
+
+  const priority = kkClassAvg.filter(x=>x.avg>0 && x.avg<2.5);
+  document.getElementById('dashPriority').innerHTML = priority.length ?
+    priority.map(x=>`<div style="margin-bottom:8px;"><strong>KK${x.kk.id} — ${x.kk.cat}</strong>: class avg ${x.avg.toFixed(2)}/4</div>`).join('') :
+    `<p style="color:var(--ink-soft);">No KK is currently below class-average threshold — nice.</p>`;
+
+  // Weakest sub-questions across all students
+  const subScores = {};
+  dashData.forEach(d=>{
+    Object.entries(d.ratings||{}).forEach(([sid,val])=>{
+      if(!subScores[sid]) subScores[sid]=[];
+      subScores[sid].push(val);
+    });
+  });
+  const subMeta = {};
+  KKS.forEach(kk=>kk.subs.forEach(s=>subMeta[s.id]={label:s.label,kk:kk.id}));
+  const subAvgs = Object.entries(subScores).map(([sid,vals])=>({
+    sid, label: subMeta[sid]?.label||sid, kk: subMeta[sid]?.kk,
+    avg: vals.reduce((a,b)=>a+b,0)/vals.length,
+    strugglingPct: Math.round(100*vals.filter(v=>v<=2).length/vals.length)
+  })).sort((a,b)=>a.avg-b.avg).slice(0,10);
+
+  document.getElementById('dashWeakest').innerHTML = subAvgs.length ? subAvgs.map(s=>`
+    <div style="margin-bottom:10px;">
+      <div style="display:flex; justify-content:space-between; font-size:13px;"><span>KK${s.kk} — ${s.label}</span><span>${s.strugglingPct}% struggling</span></div>
+      <div class="stack-bar"><div style="background:var(--band1); width:${bandPct(s.sid,1)}%"></div><div style="background:var(--band2); width:${bandPct(s.sid,2)}%"></div><div style="background:var(--band3); width:${bandPct(s.sid,3)}%"></div><div style="background:var(--band4); width:${bandPct(s.sid,4)}%"></div></div>
+    </div>`).join('') : `<p style="color:var(--ink-soft);">No data yet.</p>`;
+
+  function bandPct(sid, band){
+    const vals = subScores[sid]||[];
+    if(!vals.length) return 0;
+    return Math.round(100*vals.filter(v=>v===band).length/vals.length);
+  }
+
+  // Full KK breakdown accordion
+  document.getElementById('dashBreakdown').innerHTML = kkClassAvg.map(x=>`
+    <details class="result-row">
+      <summary><span>KK${x.kk.id} — ${x.kk.cat}</span>${bandTagHtml(x.avg||0)}</summary>
+      <div class="rbody">
+        ${x.kk.subs.map(s=>`
+          <div style="margin-bottom:8px;">
+            <div style="font-size:13px; margin-bottom:3px;">${s.label}</div>
+            <div class="stack-bar"><div style="background:var(--band1); width:${bandPct(s.id,1)}%"></div><div style="background:var(--band2); width:${bandPct(s.id,2)}%"></div><div style="background:var(--band3); width:${bandPct(s.id,3)}%"></div><div style="background:var(--band4); width:${bandPct(s.id,4)}%"></div></div>
+          </div>`).join('')}
+      </div>
+    </details>`).join('');
+
+  // Individual students table, weakest-first
+  const sorted = [...dashData].sort((a,b)=>(a.overallAvg||0)-(b.overallAvg||0));
+  document.getElementById('dashStudents').querySelector('tbody').innerHTML = sorted.map(d=>{
+    const weakestKk = (d.kkAvgs||[]).slice().sort((a,b)=>a.avg-b.avg)[0];
+    const weakestLabel = weakestKk ? `KK${weakestKk.id}` : '—';
+    return `<tr>
+      <td>${escapeHtml(d.name)}</td>
+      <td>${(d.overallAvg||0).toFixed(2)}</td>
+      <td>${weakestLabel}</td>
+      <td>${d.updated? new Date(d.updated).toLocaleDateString('en-AU') : '—'}</td>
+      <td><button class="confirm-btn" onclick="deleteStudentClick(this,'${escapeAttr(d.name)}')">Delete</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return escapeHtml(s).replace(/'/g,'&#39;'); }
+
+function deleteStudentClick(btn, name){
+  if(!btn.classList.contains('armed')){
+    btn.classList.add('armed'); btn.textContent='Confirm?';
+    setTimeout(()=>{ btn.classList.remove('armed'); btn.textContent='Delete'; }, 3000);
+    return;
+  }
+  deleteStudent(name);
+}
+
+async function deleteStudent(name){
+  try{
+    await fetch(`${WORKER_URL}/gap-delete`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ owner:GITHUB_OWNER, repo:GITHUB_REPO, file:DATA_FILE, name })
+    });
+  }catch(e){ console.error(e); }
+  dashData = dashData.filter(d=>d.name!==name);
+  renderDashboard();
+}
+
+function clearAllClick(){
+  const btn = document.getElementById('clearAllBtn');
+  if(!btn.classList.contains('armed')){
+    btn.classList.add('armed'); btn.textContent='Confirm Clear All?';
+    setTimeout(()=>{ btn.classList.remove('armed'); btn.textContent='Clear All'; }, 3000);
+    return;
+  }
+  clearAll();
+}
+
+async function clearAll(){
+  try{
+    await fetch(`${WORKER_URL}/gap-clear`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ owner:GITHUB_OWNER, repo:GITHUB_REPO, file:DATA_FILE })
+    });
+  }catch(e){ console.error(e); }
+  dashData = [];
+  renderDashboard();
+  const btn = document.getElementById('clearAllBtn');
+  btn.classList.remove('armed'); btn.textContent='Clear All';
+}
+</script>
+</body>
+</html>
