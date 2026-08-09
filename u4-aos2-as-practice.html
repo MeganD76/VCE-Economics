@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U4 AOS2 — Aggregate Supply Policies Practice</title>
+<style>
+:root{
+  --ink:#1b2a3a; --paper:#f6f4ee; --card:#ffffff;
+  --accent:#1e6b46; --accent-soft:#e6f2ec;
+  --gold:#a8780a; --gold-soft:#fdf6e3; --gold-line:#e3cf8f;
+  --purple:#5b3a8e; --purple-soft:#f1ecf9; --purple-line:#cdbde8;
+  --teal:#0f6b5c; --teal-soft:#e6f2ef;
+  --slate:#3f5871; --slate-soft:#eef2f6;
+  --text:#22303d; --text-sec:#5b6877; --line:#e2ddd2;
+  --green:#15803d; --amber:#d97706; --red:#b91c1c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--paper);color:var(--text);line-height:1.55}
+h1,h2,h3{font-family:Georgia,'Times New Roman',serif;color:var(--ink);letter-spacing:.2px}
+.hero{background:linear-gradient(135deg,#1b2a3a 0%,#28405a 100%);color:#fff;padding:38px 26px 30px;border-bottom:4px solid var(--accent)}
+.hero-inner{max-width:980px;margin:0 auto}
+.hero h1{color:#fff;font-size:30px;margin:6px 0 4px}
+.hero p{color:#cfd8e3;font-size:14.5px;max-width:680px}
+.badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.4px;padding:3px 10px;border-radius:3px}
+.wrap{max-width:980px;margin:0 auto;padding:26px 22px 70px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:18px;box-shadow:0 1px 3px rgba(27,42,58,.06)}
+input[type=text],input[type=password],textarea{font-family:inherit;font-size:15px;border:1.5px solid #c8c2b4;border-radius:7px;padding:10px 12px;width:100%;background:#fffdf8;color:var(--text)}
+textarea{min-height:150px;resize:vertical;line-height:1.6}
+input:focus,textarea:focus{outline:2px solid var(--ink);outline-offset:1px}
+.btn{display:inline-block;font-family:inherit;font-size:14.5px;font-weight:600;border:none;border-radius:7px;padding:10px 20px;cursor:pointer;background:var(--ink);color:#fff}
+.btn:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.gold{background:var(--gold)} .btn.purple{background:var(--purple)} .btn.teal{background:var(--teal)} .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.small{font-size:12.5px;padding:6px 13px}
+.lesson-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.lesson-nav button{font-family:inherit;font-size:13px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--text-sec);border-radius:20px;padding:7px 15px;cursor:pointer}
+.lesson-nav button.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.lesson-nav button .done-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:6px}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin:14px 0 0;flex-wrap:wrap}
+.tabs button{font-family:inherit;font-size:13.5px;font-weight:700;border:none;background:transparent;color:var(--text-sec);padding:9px 16px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button.on-gold{color:var(--gold);border-bottom-color:var(--gold)}
+.tabs button.on-purple{color:var(--purple);border-bottom-color:var(--purple)}
+.tabs button.on-teal{color:var(--teal);border-bottom-color:var(--teal)}
+.tabs button.on-slate{color:var(--slate);border-bottom-color:var(--slate)}
+.tabs button .tick{color:var(--green);margin-left:4px}
+.nudge{border-radius:8px;padding:12px 15px;font-size:13.5px;margin:16px 0 14px;border:1px solid}
+.nudge.gold{background:var(--gold-soft);border-color:var(--gold-line);color:#6e4f06}
+.nudge.purple{background:var(--purple-soft);border-color:var(--purple-line);color:#43286e}
+.nudge.teal{background:var(--teal-soft);border-color:#b5d8d0;color:#0b4f44}
+.nudge.slate{background:var(--slate-soft);border-color:#c3d0dd;color:#2c3f53}
+.qmeta{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.marks-chip{background:var(--ink);color:#fff;font-size:12px;font-weight:700;border-radius:4px;padding:2px 9px}
+.kk-chip{background:#eceae2;color:var(--text-sec);font-size:11.5px;border-radius:4px;padding:2px 8px}
+.mode-chip{font-size:11.5px;font-weight:700;border-radius:4px;padding:2px 9px;letter-spacing:.4px}
+.mode-theory{background:#e7f0fa;color:#25507f;border:1px solid #bcd4ec}
+.mode-data{background:#fdf1e3;color:#8a5410;border:1px solid #edd0a8}
+.mode-app{background:#eae4f6;color:#4a2d7a;border:1px solid #cdbde8}
+.mode-note{font-size:12.5px;color:var(--text-sec);margin:-4px 0 12px;font-style:italic}
+.qtext{font-size:16px;line-height:1.65;margin:6px 0 14px}
+.part-wrap{border-left:3px solid var(--line);padding-left:14px;margin:18px 0 4px}
+.part-label{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--slate);margin-bottom:5px}
+.part-text{font-size:15px;line-height:1.6;margin-bottom:9px}
+.part-marks{color:var(--text-sec);font-size:12.5px;font-weight:600}
+.stim{background:#fbfaf6;border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:6px;padding:14px 16px;font-size:13.8px;margin:0 0 16px}
+.stim h4{font-family:inherit;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-sec);margin-bottom:7px}
+.stim table{border-collapse:collapse;width:100%;margin-top:6px}
+.stim td,.stim th{border:1px solid var(--line);padding:5px 9px;font-size:13px;text-align:left}
+.stim th{background:#f0ede4}
+.article{background:#fffefa;border:1px solid #ddd6c6;border-radius:8px;padding:20px 24px;margin:0 0 18px;font-size:14.2px;line-height:1.68}
+.article .masthead{font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-sec);border-bottom:1px solid var(--line);padding-bottom:7px;margin-bottom:12px}
+.article h3{font-family:Georgia,serif;font-size:20px;line-height:1.3;margin-bottom:4px}
+.article .byline{font-size:12.5px;color:var(--text-sec);margin-bottom:12px}
+.article p{margin-bottom:11px}
+.article .src{font-size:11.5px;color:var(--text-sec);font-style:italic;border-top:1px solid var(--line);padding-top:9px;margin-top:4px}
+.article .srcbox{border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-bottom:14px;background:#fdfcf8}
+.article .srclabel{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--slate);font-weight:700;margin-bottom:6px}
+.exam-note{background:#fdf1ef;border:1px solid #eac8c2;border-left:4px solid #9e2b25;border-radius:6px;padding:11px 14px;font-size:13.2px;color:#6d221d;margin:0 0 16px}
+.exam-note strong{letter-spacing:.6px;text-transform:uppercase;font-size:11.5px}
+.tip-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tip-btn{font-family:inherit;font-size:12.5px;font-weight:600;border:1.5px dashed #b9b29f;background:transparent;color:var(--text-sec);border-radius:7px;padding:6px 13px;cursor:pointer}
+.tip-box{display:none;background:#fffdf4;border:1px solid var(--gold-line);border-radius:7px;padding:12px 15px;font-size:13.5px;margin-bottom:12px}
+.checklist{background:#f3f6f4;border:1px solid #d4e0d8;border-radius:7px;padding:12px 16px;font-size:13.5px;margin:14px 0}
+.checklist h4{font-family:inherit;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.checklist label{display:block;margin:4px 0;cursor:pointer}
+.photo-box{background:#f7f5ef;border:1.5px dashed #c2bba8;border-radius:8px;padding:14px 16px;margin:14px 0;font-size:13.5px}
+.photo-box h4{font-family:inherit;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.photo-thumbs{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.photo-thumb{position:relative;width:96px;height:96px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-thumb button{position:absolute;top:2px;right:2px;background:rgba(27,42,58,.85);color:#fff;border:none;border-radius:4px;font-size:11px;padding:2px 6px;cursor:pointer}
+.transcript{background:#eef4fa;border:1px solid #c2d6ea;border-left:4px solid var(--slate);border-radius:7px;padding:12px 15px;margin:12px 0;font-size:13.6px;white-space:pre-wrap}
+.transcript h5{font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--slate);margin-bottom:5px}
+.chain{background:var(--slate-soft);border:1px solid #c3d0dd;border-radius:7px;padding:12px 16px;font-size:13.3px;margin:0 0 16px;color:#2c3f53}
+.chain h4{font-family:inherit;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+.chain b{color:var(--ink)}
+.fb-panel{border-radius:9px;margin-top:18px;overflow:hidden;border:1px solid var(--line)}
+.fb-head{padding:11px 16px;font-weight:700;font-size:14px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.fb-body{background:#fff;padding:16px 18px;font-size:14px}
+.fb-sec{margin-bottom:12px}
+.fb-sec h5{font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.fb-sec.good h5{color:var(--green)} .fb-sec.improve h5{color:var(--amber)} .fb-sec.mistake h5{color:var(--red)}
+.fb-sec ul{margin-left:18px}
+.fb-sec li{margin:4px 0}
+.model-wrap{border-top:1px dashed var(--line);padding-top:12px;margin-top:6px}
+.model-box{display:none;background:var(--gold-soft);border:1px solid var(--gold-line);border-radius:6px;padding:12px 15px;margin-top:10px;font-size:13.8px;white-space:pre-wrap}
+.tfb{background:var(--accent-soft);border:1px solid #b8dcc9;border-left:4px solid var(--accent);border-radius:7px;padding:12px 16px;margin-top:14px;font-size:14px}
+.tfb h5{font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.attempt-block{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-top:14px;background:#fcfbf8}
+.attempt-block .alabel{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-sec);margin-bottom:6px}
+.ans-quote{font-size:13.8px;color:#3c4a58;border-left:3px solid #cfc9ba;padding-left:12px;margin:6px 0;white-space:pre-wrap}
+.score-pill{display:inline-block;font-weight:700;border-radius:5px;padding:2px 10px;font-size:13px;color:#fff}
+.reflect-box{background:var(--purple-soft);border:1px solid var(--purple-line);border-radius:7px;padding:13px 16px;margin-top:14px;font-size:13.8px}
+.resume{background:var(--teal-soft);border:1px solid #b5d8d0;border-radius:8px;padding:12px 16px;font-size:13.8px;margin-bottom:16px;color:#0b4f44}
+.spin{display:inline-block;width:15px;height:15px;border:2.5px solid #cdd6df;border-top-color:var(--ink);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:14px 0}
+.kk-card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#fff}
+.kk-card .kk-name{font-size:12.5px;font-weight:700;color:var(--text-sec);margin-bottom:4px}
+.kk-card .kk-score{font-size:20px;font-weight:700;font-family:Georgia,serif}
+.bar{height:7px;border-radius:4px;background:#ece8dc;margin-top:7px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px}
+.mcq-q{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:12px;background:#fff}
+.mcq-stem{font-size:14.6px;font-weight:600;margin-bottom:9px}
+.mcq-q label{display:block;font-size:14px;margin:5px 0;cursor:pointer;padding:4px 7px;border-radius:5px}
+.mcq-q label:hover{background:#f6f3ea}
+.mcq-q label.right{background:#e8f5ec;border:1px solid #b4dcc2}
+.mcq-q label.wrong{background:#fdeeec;border:1px solid #eac8c2}
+.mcq-why{font-size:13px;color:var(--text-sec);margin-top:8px;border-top:1px dashed var(--line);padding-top:7px}
+table.tch{border-collapse:collapse;width:100%;font-size:13px;background:#fff}
+table.tch th{background:var(--ink);color:#fff;padding:7px 10px;text-align:left;font-size:12px;letter-spacing:.4px}
+table.tch td{border:1px solid var(--line);padding:7px 10px}
+table.tch tr:hover td{background:#f6f3ea;cursor:pointer}
+.cell-score{font-weight:700;border-radius:4px;padding:1px 7px;color:#fff;font-size:12px;display:inline-block}
+.backlink{color:var(--text-sec);font-size:13.5px;cursor:pointer;text-decoration:underline}
+.foot{max-width:980px;margin:0 auto;padding:0 22px 40px;display:flex;justify-content:space-between;color:#9aa4ae;font-size:12px}
+.foot span{cursor:pointer;text-decoration:underline}
+.notice{font-size:12.5px;color:var(--text-sec);margin-top:8px}
+@media print{
+  .hero,.lesson-nav,.tabs,.tip-row,.tip-btn,.checklist,.btn,.nudge,.foot,textarea{display:none!important}
+  body{background:#fff} .card,.attempt-block{box-shadow:none;border-color:#999}
+}
+@media(max-width:640px){.hero h1{font-size:23px}.wrap{padding:18px 14px 60px}.card{padding:16px}.article{padding:15px 16px}}
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="hero-inner">
+  <span class="badge">UNIT 4 &middot; AOS 2</span>
+  <h1>Aggregate Supply Policies — Practice Questions</h1>
+  <p>Short-answer and article-analysis practice with AI marking, built on the 2026&ndash;27 Budget, the 2026&ndash;27 Migration Program and the Safeguard Mechanism. Every lesson has a theory option and a harder application option &mdash; start where you're comfortable and work up. Your work saves automatically and syncs to your teacher.</p>
+</div></div>
+
+<div class="wrap">
+
+<div id="entry">
+  <div class="card">
+    <h2 style="font-size:21px;margin-bottom:8px">Start practising</h2>
+    <p style="font-size:14px;color:var(--text-sec);margin-bottom:14px">Enter your full name (first and last) so your work is saved and your teacher can see your progress and leave you feedback.</p>
+    <div id="resumeBanner"></div>
+    <input type="text" id="nameIn" placeholder="Your full name" maxlength="60" autocomplete="off">
+    <div style="margin-top:14px"><button class="btn" onclick="start()">Start &rarr;</button></div>
+  </div>
+</div>
+
+<div id="main" style="display:none">
+  <div id="lessonNav" class="lesson-nav"></div>
+  <div id="lessonPanel"></div>
+  <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn ghost" onclick="showResults()">My results &rarr;</button>
+    <button class="btn ghost small" onclick="refreshFeedback(true)">&#128172; Check for teacher feedback</button>
+  </div>
+</div>
+
+<div id="results" style="display:none"></div>
+
+<div id="teacher" style="display:none"></div>
+
+</div>
+
+<div class="foot">
+  <div>VCE Economics &middot; Ringwood Secondary College</div>
+  <div><span onclick="openTeacher()">Staff access</span></div>
+</div>
+
+<script>
+const WORKER_URL = 'https://vce-marker.megan-dyring.workers.dev';
+const RES_URL    = 'https://vce-results.megan-dyring.workers.dev';
+var SAVE_KEY     = 'u4_aos2_as_practice_v1';
+
+/* ============================================================
+   AI SYSTEM PROMPT
+   ============================================================ */
+const SYSTEM = `You are an expert VCE Economics teacher marking Unit 4 AOS2 (Aggregate supply policies) student responses for a Victorian secondary school, against the VCE Economics Study Design 2023-2027. ALL feedback must address the student directly using you/your. Never say 'the student'.
+
+== FEEDBACK STYLE ==
+- Lead with encouragement when the student has made a genuine attempt.
+- Structure: What you did well -> What to improve -> Model answer.
+- Be specific - never 'good explanation' without naming exactly what was good.
+- When cause/effect is reversed, acknowledge the good thinking then correct the direction explicitly.
+- Say 'increase or decrease' not 'positively or negatively'.
+- Use correct VCE terminology: 'aggregate supply' - never just 'supply'; 'willing and able to supply'; 'productive capacity'; 'derived demand for labour'; 'costs of production' or 'per-unit costs'.
+- Never refer to individuals - use aggregates ('average household incomes' not 'people's incomes').
+- If the student re-defines a term at length when the question does not require it, note it as an exam-technique improvement (definitions should only be included when they earn marks - time is scarce in a SAC) but do not deduct if the required content is present.
+- Do not pad. If the answer is strong, say so briefly and move on.
+
+== MODE RULES - READ THE MODE TAG BEFORE MARKING ==
+Every question carries a MODE. The mode changes the standard you apply.
+THEORY: mark the mechanism only. Do NOT deduct for the absence of a current named initiative, a figure, a date, or a policy name. A correct generic mechanism earns full marks. Where a current example would strengthen the answer later, raise it as forward-looking coaching and state explicitly that no mark was lost for it. The model answer for a THEORY question must be written the way a student could write it before studying the current material - use a generic illustration such as 'a reduction in the marginal tax rate applying to low- and middle-income earners' rather than a named 2026-27 measure.
+DATA: the student may rely entirely on the figures supplied in the stimulus. Do NOT require outside figures. DO require that supplied figures are actually used - a data-response answer with no reference to the stimulus caps at half marks.
+APPLICATION: the full exam standard. A named current initiative with a figure and, where relevant, a date is expected. Vague references such as 'tax cuts' or 'the government reduced tariffs' with no name or amount lose the DESCRIBE mark.
+
+== THE FOUR-STEP AS ANSWER CHAIN - THIS IS THE MARKING SPINE ==
+The class has been taught every aggregate supply answer as four steps. Use these labels in your feedback so it matches their workbook.
+1 DESCRIBE - name the policy specifically. On APPLICATION questions this means the actual measure with a figure and date, not the policy category.
+2 LEVER - name which supply-side condition moves: the quantity of the factors of production, the quality of the factors of production, productivity, or the costs of production.
+3 WILLING AND ABLE - the sentence students skip. Get from the lever to aggregate supply through the willingness and/or ability of producers to supply, and hence productive capacity.
+4 LANDING - land exactly where the question said to land: international competitiveness, a named domestic macroeconomic goal with its benchmark, intertemporal efficiency, the allocation of resources, or living standards.
+5 BALANCE - required ONLY when the task word is 'discuss'. In this Area of Study balance means SHORT TERM versus LONG TERM, not strengths versus weaknesses. Strengths and weaknesses belong to Area of Study 1 and are NOT what this Area of Study asks for. A 'discuss' answer with only one side caps at half marks no matter how good that side is, and must also contain a sentence weighing the two - two separate paragraphs sitting side by side is not a discussion.
+When a mark is lost, name which of the five steps was missing.
+
+== THE MISSING LINK - CHECK FOR THIS ON EVERY GROWTH OR EMPLOYMENT QUESTION ==
+An increase in aggregate supply does not by itself raise real GDP or create jobs. The full chain is: AS increases -> downward pressure on prices -> this stimulates aggregate demand for the increased output -> real GDP rises -> the derived demand for labour rises -> unemployment falls. This is precisely why AS policies COMPLEMENT AD policies. Students who jump straight from 'AS rises' to 'economic growth rises' or 'unemployment falls' have skipped the mechanism and cannot receive the final mark on a 4+ mark question. The 2023 exam asked this directly and the state average was 1.3 out of 3.
+
+== CONTENT KNOWLEDGE BASE ==
+
+AS1 - COMPLEMENTING AD POLICIES. Aggregate supply policies are government policies designed to improve supply-side conditions by increasing the productive capacity of the economy - that is, by increasing the willingness and/or ability of producers to expand output. AS policies operate over the LONG term and act on the economy's capacity ceiling; AD policies operate over the SHORT term and act on how much of that capacity is actually used. Without AS policies, AD stimulus eventually pushes the economy against its productive capacity, producing shortages and demand inflation rather than extra output. With capacity growing, AD can rise without breaching the 2-3% inflation target - non-inflationary economic growth over time. AS policies target the NATURAL rate of unemployment (structural, frictional, hardcore) over the long run; AD policies target cyclical unemployment.
+
+AS2 - THE OPERATION OF AS POLICIES. Four levers: (1) QUANTITY of the factors of production - more labour, capital, land or enterprise available; (2) QUALITY of the factors of production - better skills, better technology, better management (human and physical capital); (3) PRODUCTIVITY - output per unit of input per period; higher productivity LOWERS per-unit costs of production (never the reverse - the 2024 examiner report flagged students reversing this); (4) COSTS OF PRODUCTION - lower input, compliance, wage or regulatory costs. All four arrive at the same hinge: firms become more willing and/or able to supply, productive capacity rises, and aggregate supply increases. REAL UNIT LABOUR COSTS (RULCs): where labour productivity growth outpaces wages growth, RULCs fall, lowering per-unit costs; this is the sharpest way to express the productivity-to-costs link and appeared in the 2025 high-scoring exemplar. INTERNATIONAL COMPETITIVENESS: Australia's ability to compete in international markets on price and/or quality. Lower per-unit costs, IF passed on as lower prices, make Australian goods relatively cheaper abroad. NOTE: lower costs of production alone do not lower prices - the answer must say the cost saving is passed on. EFFICIENCY TYPES: allocative (resources directed where they best satisfy society's wants), productive/technical (lowest cost per unit, least-cost method), dynamic (firms adapt and innovate over time), intertemporal (a balance between consumption now and preservation for the future).
+
+AS3 - TAX REFORM (the chosen budgetary policy for this class - do NOT accept training and education, R&D, subsidies or infrastructure as the AS3 answer unless the question is generic). Tax reform means changes to the rates, thresholds, mix or complexity of taxation designed to make conditions more favourable for those supplying goods and services. Of the three principles - equity, simplicity, efficiency - it is SIMPLICITY and EFFICIENCY that drive an aggregate supply argument.
+Personal tax: Stage 3 from 2024-25 cut the 19% rate to 16% ($18,201-$45,000) and 32.5% to 30% ($45,000-$135,000), lifted the 37% threshold to $135,000 and the 45% threshold to $190,000. The 16% rate fell to 15% from 1 July 2026 and falls again to 14% from 1 July 2027. The 2026-27 Budget (12 May 2026) added a $250 Working Australians Tax Offset and a $1,000 instant work-expenses deduction.
+Routes from personal tax reform to AS: incentive to work (higher after-tax return to labour raises hours and effort); incentive to acquire skills (a higher after-tax return to qualifications); participation (lower effective marginal rates draw second earners and older workers into the labour force - quantity of labour); real unit labour costs (workers may accept lower gross wage growth where take-home pay rises).
+Business tax: the $20,000 instant asset write-off was made PERMANENT for businesses with turnover under $10 million - permanence matters because firms can plan multi-year investment instead of racing an annual deadline, giving a larger and more durable AS effect than the same measure renewed each year. Over $3.5 billion in business and start-up tax reform including LOSS REFUNDABILITY (loss-making firms claim a cash refund rather than carrying losses forward, easing early-stage cash flow). Over $500 million a year in compliance savings - compliance costs ARE a cost of production, so this lowers the cost base with no change to any tax rate. Negative gearing limited to new dwellings and capital gains tax discount reform.
+Wider supply-side package (useful supporting evidence, not strictly tax): regulatory burden cut by $10.2 billion a year; $1.5 billion for research and scientific institutions; faster environmental and low-risk foreign investment approvals; promoting AI uptake; $2.9 billion to more than halve the fuel excise and cut the heavy vehicle road user charge to zero for three months during the global oil shock - a direct cut to transport costs of production.
+
+AS4 - SKILLED IMMIGRATION POLICY. The policy prioritises migrants with skills in shortage so that vacancies employers cannot fill domestically are filled. THE THREE Ps, which the study design names explicitly:
+POPULATION - adds directly to the size of the labour force (quantity of labour). Migrants are concentrated in working-age brackets, so the effect on the labour force exceeds the effect on the population.
+PARTICIPATION - skilled migrants have participation rates around 90%, against roughly 66-67% for the population as a whole, because visa conditions and job-readiness push them straight into work.
+PRODUCTIVITY - in every working-age bracket, overseas-born Australians are more likely to hold a bachelor's degree or higher than the Australian-born, and the gap is widest between 25 and 44, the prime working years. This is what 'improves the quality of the factors of production' actually means. Filling a vacancy that was itself a hard constraint on output raises output per hour worked.
+THE 2026-27 PERMANENT MIGRATION PROGRAM (announced 12 May 2026): 185,000 places in total, unchanged from 2025-26. Skill stream 132,240 (about 71%). Family 52,460 (28%). Special Eligibility 300. Around 70% of places allocated to applicants already onshore. Inside the Skill stream: Employer Sponsored up 32% (from 44,000); Skilled Independent (189) up from 16,900 to 21,090; State/Territory Nominated (190) up from 33,000 to 35,500; Skilled Work Regional (491) down 57% from 33,000; Talent and Innovation cut to 3,500; the 188 Business Innovation and Investment visa has ceased.
+THE COMPOSITION ARGUMENT: the headline number did not move but the mix did. An employer-sponsored place is nominated by a business against an identified vacancy, so a 32% increase there is a stronger aggregate supply argument than the total number of places. The 57% cut to regional places is a genuine offset, felt most in thin regional labour markets.
+THE CAP MISCONCEPTION (2025 examiner report, named explicitly): capping or limiting the program does NOT mean aggregate supply falls. A capped program still adds substantially to the quantity and quality of the factors of production relative to no program. The cap reduces the size of the positive effect; it does not reverse its sign. Mark this as an error every time.
+THE TWO-DIRECTIONAL POINT: migrants add to aggregate supply AND to aggregate demand. In the short term the demand effect may add to inflationary pressure; over time the supply effect eases cost pressures. The strongest 2025 responses argued both directions.
+UNEMPLOYMENT AND MIGRATION - three distinct claims, and the marking must separate them: (a) CREDITABLE - a temporary frictional rise in measured unemployment while new arrivals search for work, before they find it; (b) WRONG - that filling skills shortages increases unemployment (if the shortage is filled, those workers are employed, not unemployed); (c) VERY WRONG - that a higher unemployment rate helps achieve the goal of full employment. Correct (b) and (c) explicitly wherever they appear. The correct long-run chain is: more labour supply -> shortages eased and wage pressure contained -> lower costs of production -> if passed on, lower prices -> international competitiveness rises -> demand for Australian output rises -> derived demand for labour rises -> unemployment falls.
+
+AS5 - TRADE LIBERALISATION. The gradual reduction of government protection of local industry from import competition - it is a POLICY. Tariffs, quotas and subsidies are examples of the barriers being removed, not a definition of the policy. Current examples: the 2026-27 Budget abolished a further 497 nuisance tariffs from 1 July 2026, streamlining around $23 billion of trade; the Australia-EU Free Trade Agreement concluded in March 2026; passenger motor vehicle tariffs fell from 40% in 1990 to 5% by 2023.
+SHORT TERM: domestic producers are exposed to competitors with lower cost structures; uncompetitive import-competing firms scale back, restructure or close; structural unemployment rises; resources sit idle during the transition, lowering technical efficiency; productive capacity and aggregate supply may fall.
+LONG TERM: resources are redeployed toward industries where Australia holds a comparative cost advantage, raising allocative efficiency; surviving firms are forced to cut costs and innovate, raising productive and dynamic efficiency; cheaper imported inputs and capital goods lower costs of production directly; firms become more willing and able to supply; productive capacity and aggregate supply rise.
+ALLOCATION OF RESOURCES is named in the study design and is the term students most reliably skip in favour of a growth-and-jobs narrative. Reward answers that address it directly.
+LOW INFLATION is the one goal that improves in BOTH timeframes - cheaper imports and greater competition slow price rises immediately, and cheaper imported inputs ease cost inflation permanently. For growth and employment the answer genuinely depends on the timeframe.
+THE 2025 TRAP, the most repeated error in that report: students wrote that under PROTECTIONISM, in the long term, Australian businesses would adapt and focus on areas of comparative advantage and become more efficient. That is the argument FOR trade liberalisation and it does not transfer. Firms may adapt to a distortion, but adapting to a distortion is not an efficient outcome. The 2025 question also caught students on DIRECTION - it concerned United States tariffs ON Australian exports, and many wrote about tariffs on US goods entering Australia. Average 2.4 out of 5; only 7% scored full marks.
+
+AS6 - ONE MARKET-BASED ENVIRONMENTAL POLICY. Market-based policies use the market system, through changes in RELATIVE PRICES, to create financial incentives and disincentives that change how resources are allocated. They work through the price mechanism rather than through regulation or mandated behaviour. Saying merely 'they create incentives' is not enough - the answer must say the incentive operates through relative prices. Be careful with the word 'incentive' where the instrument is actually a cost imposed on emitting.
+THE POLICY THIS CLASS USES: the ACCU Scheme and the Safeguard Mechanism. The Safeguard Mechanism covers 215 industrial facilities, each emitting more than 100,000 tonnes of CO2-equivalent a year, together roughly 28% of Australia's emissions. Each facility has a baseline that declines by about 4.9% a year in emissions intensity. Facilities may meet the obligation on site or by surrendering Australian Carbon Credit Units (ACCUs), where one ACCU represents one tonne of CO2-equivalent abated. Facilities that cut below their baseline earn Safeguard Mechanism Credits which can be sold to facilities that have not - turning abatement from a pure compliance cost into a potential revenue line. Government industry assistance supports firms through the transition. Most exposed: cement, aluminium, chemicals, steel and LNG - all trade-exposed, competing against imports from jurisdictions without an equivalent obligation, which creates the carbon leakage risk.
+SHORT TERM: compliance and abatement raise costs of production; firms are less willing and able to supply; aggregate supply falls; prices may rise, reducing consumers' purchasing power and material living standards; trade-exposed firms lose international competitiveness; some may close, raising structural unemployment.
+LONG TERM: a predictable declining baseline makes abatement investment bankable and drives innovation, raising dynamic efficiency; the transition to low-emissions energy preserves the quality of land and natural resources and protects the economy's productive capacity from climate damage (drought, flood, heat, extreme weather); aggregate supply rises; early-adapting firms hold a cost advantage over competitors forced to adjust abruptly later; non-material living standards improve through a cleaner environment.
+INTERTEMPORAL EFFICIENCY: achieving the optimal balance between using resources for current production and consumption and preserving them for future production and consumption.
+THE NON-RENEWABLES ERROR (2025 examiner report, named explicitly): too many students argued the policy preserves coal, oil and gas for use by future generations. This is WRONG. The aim is to reduce the harmful impact of CO2 emissions on the economy's productive capacity and its ability to meet the needs of future generations - that is, transitioning FROM non-renewable carbon-intensive energy TO clean low-emissions energy such as solar, wind and hydro. Correct this explicitly whenever it appears.
+NOTE ON CURRENCY: Australia does not currently operate a carbon tax. A student who writes about a carbon tax as though it were current Australian policy should have the mechanism credited if it is correct, but be told plainly in the improvements that the current Australian market-based policy is the ACCU Scheme and Safeguard Mechanism and that a SAC answer should name it.
+
+== CURRENT ECONOMIC CONDITIONS (mid-2026) ==
+Real GDP growth about 2.5% for the year to March 2026 but only about 1.2% annualised over recent quarters; the Budget forecasts 1.75% for 2026-27; target 3-3.5%. CPI inflation 4.0% for the year to May 2026, having peaked at 4.6% in March; underlying (trimmed mean) 3.6%; target 2-3%. Unemployment 4.4% (May 2026), drifting up. Cash rate 4.35% - monetary policy contractionary while budgetary policy is expansionary. A global oil-price shock stemming from Middle East conflict has pushed oil above US$100, raising costs of production across the economy - this is an aggregate supply FACTOR, not an aggregate supply POLICY.
+
+== GOAL DEFINITIONS - use these exact versions and audit them every time ==
+STRONG AND SUSTAINABLE ECONOMIC GROWTH (SSEG): the HIGHEST rate of economic growth possible, consistent with strong employment growth, without running into inflationary, environmental or external pressures - about 3-3.5% real GDP growth per annum. Currently NOT achieved (about 1.2% annualised, 1.75% forecast).
+LOW AND STABLE INFLATION (price stability): maintaining CPI inflation within 2-3% on average over time, protecting the purchasing power of consumers' incomes. Currently NOT achieved (headline 4.0%, underlying 3.6%).
+FULL EMPLOYMENT: the LOWEST rate of unemployment consistent with stable inflation - the NAIRU, approximately 4-4.5%, currently estimated near 4.25% - with no cyclical unemployment. Unemployment BELOW the NAIRU signals an overly tight labour market and inflationary pressure. Currently about 4.4%.
+LIVING STANDARDS: material = access to goods and services / real incomes per capita; non-material = quality of life (stress, health, leisure, environmental quality). Where a question asks about living standards, BOTH dimensions are required for full marks.
+GOAL DEFINITION DIRECTION AUDIT - APPLY THIS ON EVERY QUESTION THAT LANDS ON A GOAL. Students frequently cross-contaminate the two benchmark definitions and write 'the LOWEST growth rate possible' for SSEG, or 'the HIGHEST unemployment rate possible' for full employment. This is silent - it can sit inside an otherwise perfect four-step chain and read fluently. If the direction word is reversed, the LANDING mark is NOT awarded: quote the student's own sentence back to them, identify the single reversed word, and give the correct version. Do this even where the rest of the answer is excellent.
+
+== COMMON STUDENT ERRORS - check every answer ==
+- Skipping the WILLING AND ABLE step: jumping from a lever straight to 'aggregate supply increases'.
+- Skipping the MISSING LINK: jumping from 'AS increases' straight to 'economic growth rises' or 'unemployment falls'.
+- Reversing the productivity-cost direction: saying lower costs cause higher productivity. Higher productivity LOWERS per-unit costs.
+- Using INTEREST RATES or BUSINESS CONFIDENCE as aggregate supply factors. Both are aggregate DEMAND factors (2024 examiner report).
+- Analysing an aggregate supply policy purely through aggregate demand, or the reverse. In this Area of Study the required chain runs through productive capacity, costs of production, and the willingness and ability of firms to supply.
+- Claiming that capping skilled migration causes aggregate supply to FALL.
+- Claiming that filling skills shortages raises unemployment, or that rising unemployment helps achieve full employment.
+- Asserting that protectionism improves long-run efficiency through comparative advantage. That is the liberalisation argument, misapplied.
+- Getting the direction of a tariff wrong - check which country's goods face which barrier before writing.
+- Arguing a market-based environmental policy preserves coal, oil and gas for future generations.
+- Defining 'market-based' as merely 'creating incentives' without saying it works through relative prices.
+- Defining trade liberalisation as 'removing tariffs and quotas' - those are examples of what is removed, not an explanation of the policy.
+- Saying lower costs of production lower prices with no statement that the saving is PASSED ON.
+- Assertion without mechanism - 'this increases aggregate supply' with no chain. Anyone can assert it; the mechanism is where the marks live.
+- One-sided answers to 'discuss', or two sides with no weighing sentence.
+- Answering 'strengths and weaknesses' when the question asks for short term and long term.
+- Vague policy references with no name, amount or date on an APPLICATION question.
+- Only material OR only non-material living standards when both are required.
+- Reversed goal definitions (see the direction audit above).
+- Combining what should be two separate effects into one (for example 'firms close down and people lose jobs' offered as two distinct short-term effects of trade liberalisation).
+- Padding: re-defining terms the question did not ask for. Note it as exam technique; do not deduct if the required content is present.
+
+== MARKING RULES ==
+- Award middle marks for partial understanding. Never award full marks unless ALL criteria are clearly met.
+- 'Likely' or 'should', not 'will', on 3+ mark questions.
+- Ceteris paribus in cause-effect chains on 4+ mark questions is best practice; note its absence but do not deduct a whole mark for it alone.
+- Full sentences only - no arrows, symbols or dot points in the answer.
+- No circular reasoning - an assertion without a mechanism scores 0 for that link.
+- 'Discuss' requires both sides AND a weighing sentence. One side caps at half marks.
+- Where a question has multiple lettered parts, mark each part against its own allocation and sum them. If a part was not attempted, score it 0 and encourage the student to attempt it on retry.
+- On DATA and article questions, an answer that never refers to the supplied figures or source caps at half marks.
+- Apply the goal definition direction audit on every question landing on a goal.
+
+== QUESTION-SPECIFIC MARKING GUIDES ==
+[L1a] THEORY, 3 marks. Why AD-only policy meets an inflation constraint, and how AS policies ease it. 1: aggregate supply policies described - government policies improving supply-side conditions and expanding productive capacity. 1: the constraint mechanism - AD stimulus without capacity growth pushes the economy toward its productive capacity ceiling, producing shortages and demand inflation rather than extra output. 1: the resolution - AS policies raise productive capacity so AD can grow without breaching the 2-3% target, giving non-inflationary growth over time. Defining both policy types without connecting them caps at 2 - the word doing the work is 'complement'. No current example required.
+
+[L1b] DATA, 5 marks. Productivity and RULC table to costs, willing and able, international competitiveness. 1: explicit reference to the supplied figures. 1: productivity rises means output per unit of input per period rises, LOWERING per-unit costs of production - direction must be correct. 1: falling real unit labour costs, because labour productivity growth outpaces wages growth. 1: lower costs make firms more willing and able to supply, raising productive capacity and aggregate supply. 1: international competitiveness defined (ability to compete on price and/or quality) and reached - lower per-unit costs, IF passed on as lower prices, make Australian goods relatively cheaper abroad. Reversed direction (costs causing productivity) loses mark 2. No figures used caps at 2.
+
+[L2a] THEORY, 4 marks. Tax reform, incentive to work and incentive to invest, effect on AS. 1-2: incentive to work - a lower marginal rate raises the after-tax return to labour, raising hours, effort and participation, increasing the QUANTITY of labour. 1-2: incentive to invest - lower effective cost of capital raises the after-tax return on investment, increasing the QUANTITY and QUALITY of capital. 1: both routes converge - firms more willing and able to supply, productive capacity and aggregate supply rise. A generic illustration is sufficient and no named 2026-27 measure is required; if the student includes one, credit it as a strength but state that no mark depended on it.
+
+[L2b] APPLICATION, 6 marks. One recent tax reform measure to AS and to SSEG. 1: DESCRIBE - a named current measure with a figure and date (permanent $20,000 instant asset write-off; $250 Working Australians Tax Offset; $1,000 instant work-expenses deduction; 16% rate falling to 15% from 1 July 2026; over $500 million a year in compliance savings; over $3.5 billion in business and start-up tax reform including loss refundability). 'Tax cuts' with no name loses this mark. 1: LEVER named - quantity or quality of the factors of production, productivity, or costs of production. 1: WILLING AND ABLE to productive capacity and aggregate supply. 2: THE MISSING LINK - AS rises, downward pressure on prices, this stimulates aggregate demand for the increased output, real GDP rises. An answer going straight from 'AS rises' to 'growth rises' earns at most 1 of these 2. 1: SSEG defined with the 3-3.5% benchmark AND the sustainability qualifier, and assessed against current growth of about 1.2% annualised - supporting movement toward the goal without achieving it. Apply the direction audit: SSEG is the HIGHEST rate, not the lowest. Quality point available for the permanence argument on the instant asset write-off, or for compliance savings lowering the cost base with no rate change.
+
+[L3a] THEORY, 4 marks. Skilled immigration and the three Ps to productive capacity. 1: POPULATION - adds directly to the labour force; migrants concentrated in working-age brackets so the labour force effect exceeds the population effect. 1: PARTICIPATION - visa conditions and job-readiness produce participation rates near 90% against roughly 66-67% overall. 1: PRODUCTIVITY - higher qualification rates than the Australian-born in every working-age bracket, and filling a vacancy that was itself constraining output raises output per hour. 1: convergence - quantity and quality of labour rise, firms more willing and able to supply, productive capacity and aggregate supply rise. Collapsing all three into 'more workers' caps at 2. Figures are welcome but not required.
+
+[L3b] DATA, 6 marks. 2026-27 program composition, discuss effect on AS. 1: correct reading - the headline 185,000 is unchanged but the composition has shifted. 2: THE COMPOSITION ARGUMENT - an employer-sponsored place is nominated by a business against an identified vacancy, so the 32% increase is a stronger aggregate supply argument than the total; a filled vacancy that was a hard constraint on output lifts productive capacity more than a general-skilled place that may not match demand. 1: the AS-positive chain - quantity and quality of labour, willing and able, productive capacity. 1: COUNTERWEIGHT - either the short-term aggregate demand effect of arrivals adding to spending, or the 57% cut to Skilled Work Regional places reducing aggregate supply in thin regional labour markets. 1: a weighing sentence - which effect dominates and over what horizon. AUTOMATIC ERROR: any claim that the capped program causes aggregate supply to FALL must be corrected explicitly and cannot receive marks 3 or 4. One-sided answers cap at 3 - 'discuss' requires both directions.
+
+[L4a] THEORY, 4 marks. Trade liberalisation and the allocation of resources, short and long term. 2: SHORT TERM - exposure to lower-cost competitors, uncompetitive import-competing firms scale back or close, resources released sit idle during the transition, structural unemployment rises, technical efficiency falls. 2: LONG TERM - resources redeployed toward industries of comparative cost advantage, raising allocative efficiency; surviving firms cut costs and innovate, raising productive and dynamic efficiency. Answers that substitute a growth-and-jobs narrative for the allocation of resources cap at 2. Current examples welcome but not required.
+
+[L4b] APPLICATION, 6 marks. Discuss the accuracy of the claim that raising tariffs would push firms to specialise and become more efficient. 1: identifies the claim as the argument FOR trade liberalisation, misapplied to protectionism. 2: explains WHY protection does not deliver it - protected firms face reduced competitive pressure, resources are retained in industries without comparative advantage, allocative efficiency falls, and adapting to a distortion is not an efficient outcome. 1: concedes the defensible part - firms may adapt, and short-term employment in the protected industry is preserved. 2: states the correct long-term liberalisation chain - resources redeployed to comparative advantage, competition forces cost reduction and innovation, cheaper imported inputs lower costs of production, firms more willing and able to supply, productive capacity and aggregate supply rise. Credit a current example (497 nuisance tariffs abolished 1 July 2026 streamlining around $23 billion of trade; the Australia-EU FTA of March 2026) but do not require it beyond the DESCRIBE standard. An answer that simply agrees with the claim cannot exceed 2. BALANCE: the task word is 'discuss', so an answer that only demolishes the claim without conceding the defensible part, or that only states the liberalisation chain without addressing the claim, caps at 4 - the concession mark and the weighing sentence are both required for the top band.
+
+[L5a] THEORY, 4 marks. Market-based environmental policy, price mechanism, costs and short-term AS. 1-2: definition - uses the market system through changes in RELATIVE PRICES to create financial incentives and disincentives that change how resources are allocated, rather than mandating behaviour through regulation. Merely 'creates incentives' without the relative-price mechanism earns 1 at most. 1: the mechanism - carbon-intensive production becomes relatively more expensive, changing the incentive to allocate resources toward cleaner methods. 1: the short-term aggregate supply effect - compliance and abatement raise costs of production, firms less willing and able to supply, aggregate supply falls in the short run. No named current policy required.
+
+[L5b] APPLICATION, 6 marks. Discuss the effect of one market-based environmental policy on intertemporal efficiency AND aggregate supply over time. 1: names and describes the policy accurately - the Safeguard Mechanism and ACCU Scheme, with at least one detail (215 facilities, each above 100,000 tonnes CO2-e, together about 28% of emissions; baselines declining about 4.9% a year; ACCUs and Safeguard Mechanism Credits). 1: intertemporal efficiency defined - the optimal balance between using resources for current production and consumption and preserving them for future production and consumption. 2: SHORT TERM effects on both, at least one negative - higher costs of production, reduced output, possible closures and idle resources, aggregate supply falls; intertemporal efficiency may fall in the short run through idle resources, or begin to improve as firms move away from carbon-intensive activity. 2: LONG TERM effects on both - preserved land and natural resources and reduced climate damage protect productive capacity; innovation raises dynamic efficiency; aggregate supply rises; intertemporal efficiency improves. AUTOMATIC ERROR: preserving coal, oil and gas for future generations - correct explicitly and withhold the long-term intertemporal mark. One-sided answers cap at 3. A weighing sentence is required for the top band.
+
+[R1] THEORY, 3 marks. Distinguish the effect on productive capacity from the effect on the level of production. 1: productive capacity defined - the maximum level of output the economy can produce at a point in time using available resources; AS policies shift this ceiling outward over the long term. 1: the level of production defined - actual output, which depends on how much of that capacity is used, driven principally by aggregate demand in the short term. 1: the distinction stated explicitly - raising capacity does not by itself raise actual output; it removes the constraint that would otherwise cap output and generate inflation, which is why AS and AD policies are complementary. An answer describing both without stating the difference caps at 2.
+
+[R2] APPLICATION, 5 marks. Business tax reform to productive capacity and international competitiveness. 1: a named current business tax measure with figure (permanent $20,000 instant asset write-off for turnover under $10 million; over $3.5 billion in business and start-up tax reform including loss refundability; over $500 million a year in compliance savings). 1: LEVER - quantity and quality of capital, or costs of production; compliance costs are a cost of production. 1: willing and able, productive capacity, aggregate supply. 1: international competitiveness defined - ability to compete in international markets on price and/or quality. 1: the link completed - lower per-unit costs, IF passed on as lower prices, make Australian goods relatively cheaper abroad. Withhold this mark where the answer says costs fall so prices fall with no statement that the saving is passed on. Quality point for the permanence argument.
+
+[R3] APPLICATION, 5 marks. Two different AS policies each contributing to low and stable inflation. 2: policy one - named with detail, its lever, and the chain to costs of production and prices. 2: policy two - genuinely different, same standard. 1: the goal defined with the 2-3% band and the purchasing power framing, and assessed against current inflation of 4.0% headline / 3.6% underlying. Both chains must reach inflation, not stop at aggregate supply. Two variants of the same policy (for example two tax measures) count as one policy - say so and cap at 3. Note that trade liberalisation is the strongest second choice here because it improves inflation in both timeframes.
+
+[R4] APPLICATION, 5 marks. Discuss the Safeguard Mechanism on costs of production in the short term and productive capacity in the long term. 1: the policy named and described with a detail. 2: SHORT TERM - compliance and abatement raise costs of production; firms less willing and able to supply; trade-exposed industries (cement, aluminium, chemicals, steel, LNG) compete against imports from jurisdictions without an equivalent obligation, so international competitiveness falls and carbon leakage or closure is possible. 2: LONG TERM - a predictable declining baseline makes abatement investment bankable and drives innovation, raising dynamic efficiency; the transition to low-emissions energy preserves natural resources and protects productive capacity from climate damage; early adapters hold a cost advantage. A weighing sentence lifts to the top band. Apply the non-renewables error check.
+
+[R5] APPLICATION, 5 marks. Discuss skilled immigration and the goal of low and stable inflation. 1: the policy described with current detail. 1: the AS route - quantity and quality of labour, shortages eased, wage pressure contained, real unit labour costs and per-unit costs fall, and IF passed on, downward pressure on prices. 1: the AD route - arrivals add to consumption and to demand for housing and services, placing upward pressure on prices in the short term. 1: the goal defined with the 2-3% band and current data (4.0% headline, 3.6% underlying). 1: a weighing sentence resolving the two directions over different horizons. This is the 2025 exam question - the report states the strongest responses argued BOTH directions. One direction only caps at 3. Do NOT credit an answer that focuses on house prices as though they were in the CPI; the report names this as a misconception.
+
+[R6] DATA, 4 marks. Classify six 2026-27 measures as primarily AD or AS, then justify one contestable case. 2: classification - award 2 for five or six correct, 1 for three or four, 0 below that. Correct classifications: RBA cash rate change = AD. Household energy rebates = primarily AD (defensible as AS through business energy costs). Permanent $20,000 instant asset write-off = AS. $10.2 billion a year regulatory burden cut = AS. 132,240 skill stream places = AS (defensible as AD through migrant spending). $250 Working Australians Tax Offset = contestable, AD through disposable income and consumption, AS through participation and the incentive to work. 2: the justification - the student selects a contestable measure and argues one side through a stated MECHANISM. The marking principle the class has been taught: a measure is not AD or AS by nature; it is the mechanism you explain that makes your answer one or the other. Award both marks where the mechanism is explicit and internally consistent, regardless of which side is argued. Award 1 where a side is chosen but the mechanism is thin.
+
+[R7] APPLICATION, 6 marks. One AS policy on BOTH material and non-material living standards. 1: policy named with current detail. 1: lever and the willing-and-able step to productive capacity and aggregate supply. 2: MATERIAL living standards - defined as access to goods and services or real income per capita, and reached through a stated mechanism (lower prices raising purchasing power; higher real incomes; higher employment). 2: NON-MATERIAL living standards - defined as quality of life, and reached through a stated mechanism (reduced financial stress; environmental quality; job security; work-life balance). Both dimensions required. An answer covering only one caps at 4. Watch for non-material claims asserted with no mechanism.
+
+[R8] APPLICATION, 6 marks. AS policies on international competitiveness and SSEG over time. 1: at least one named current AS policy with detail. 1: the lever and the willing-and-able step. 1: international competitiveness defined and reached, including the passed-on-prices step. 2: THE MISSING LINK to growth - AS rises, downward pressure on prices, stimulating aggregate demand for the increased output, real GDP rises. 1: SSEG defined with the 3-3.5% benchmark and the sustainability qualifier, assessed against current growth. 'Over time' invites a short-term versus long-term contrast - reward it. Apply the direction audit on the SSEG definition.
+
+[A1] DATA (article), 10 marks, three parts.
+PART A, 4 marks: two measures identified FROM THE ARTICLE (1 each) and for each the supply-side condition it improves, with a mechanism (1 each). Acceptable pairings - instant asset write-off to quantity and quality of capital; loss refundability to quantity of capital especially for start-ups; compliance savings or the regulatory burden reduction to costs of production; the work-expense deduction or tax offset to quantity of labour through participation and hours. A measure not in the article earns nothing for identification.
+PART B, 3 marks: 1 for a figure quoted from the article; 1 for the lever reaching the willingness and/or ability of firms to supply; 1 for productive capacity and aggregate supply. No figure quoted caps this part at 2.
+PART C, 3 marks: 1 for the defensible side - deferred purchases may be brought forward and business investment spending has an immediate aggregate demand effect; 1 for the limitation - aggregate supply policies act on productive capacity over the long term, and decision, ordering, installation and training lags mean the capacity effect is not immediate; 1 for using the article's own counterpoint (the economist quoted disagrees with the business group) as evidence rather than asserting. The sub-skill being tested is noticing that the two quoted sources disagree - a one-sided answer here cannot exceed 2.
+
+[A2] DATA (article), 10 marks, three parts.
+PART A, 3 marks: 1 for identifying the error - a cap limits the RATE OF INCREASE in the supply of labour, it does not reduce it; 1 for the correct position - 185,000 permanent migrants, 132,240 of them in the skill stream, still add substantially to the quantity and quality of the factors of production relative to a scenario with no program; 1 for the correct aggregate supply effect - AS rises, by less than it otherwise would. This is the misconception named in the 2025 examiner report.
+PART B, 3 marks: 1 for composition evidence quoted from the article (the 32% employer-sponsored increase, or the qualifications gap); 1 for why employer-sponsored places are matched to identified shortages rather than general skills; 1 for the link to the QUALITY of the factors of production and to productivity - output per hour rises when a vacancy that was constraining production is filled. 'Migrants are more skilled' asserted without the article's evidence caps this part at 2.
+PART C, 4 marks: 2 for the productive capacity chain - quantity and quality of labour, firms more able to produce, capacity rises; 2 for the international competitiveness chain - shortages eased, wage pressure contained, productivity growth outpaces wages growth, real unit labour costs and per-unit costs fall, and if passed on, Australian goods become relatively cheaper abroad. Credit recognition of the 57% regional cut as a partial offset.
+
+[A3] DATA (two sources), 10 marks, three parts.
+PART A, 2 marks: 1 for recognising that BOTH sources accept the policy raises costs of production; 1 for naming the actual disagreement - the time horizon and the counterfactual, with Source A weighing the short-term cost and competitiveness loss and Source B weighing the long-term capacity preserved and the cost of inaction. Summarising each source in turn without naming the disagreement caps at 1.
+PART B, 4 marks: 1 compliance and abatement raise costs of production for covered facilities; 1 firms less willing and able to supply, aggregate supply falls in the short run; 1 trade-exposed industries face competitors without an equivalent obligation, so international competitiveness falls; 1 carbon leakage or plant closure means a permanent loss of productive capacity and rising structural unemployment. Note that this part asks for the reasoning behind Source A's position - a student who instead argues against Source A has not answered the question, and should be told so kindly while being credited for any correct economics.
+PART C, 4 marks: 1 short-term negative aggregate supply effect with mechanism, referenced to Source A; 2 long-term positive aggregate supply effect with mechanism - preserved productive capacity, dynamic efficiency, early-mover cost advantage - referenced to Source B; 1 a weighing sentence stating which dominates and over what horizon. An answer using only one source caps at 2. Apply the non-renewables error check - neither source makes that argument, so a student importing it is importing the 2025 error.
+
+== FEEDBACK JSON FORMAT - return this exactly, and nothing else ==
+{
+  "score": <integer>,
+  "maxScore": <integer>,
+  "whatWorked": ["You correctly..."],
+  "improvements": ["Your answer would be stronger if..."],
+  "commonMistakes": ["specific error found, or empty string"],
+  "modelAnswer": "Full A-grade model answer in complete sentences. Where the question has lettered parts, include every part, clearly labelled. On a THEORY question, write it the way a student could write it before studying the current material - generic illustration, no named 2026-27 measure.",
+  "encouragement": "One specific encouraging sentence referencing what they did."
+}
+Award middle marks for partial understanding. Never award full marks unless ALL criteria clearly met. Return ONLY the raw JSON object - no markdown fences, no preamble.`;
+
+
+/* ============================================================
+   TRANSCRIPTION PROMPT
+   Deliberately separate from the marking prompt. Transcription runs
+   first, the student corrects it, and only then is the confirmed text
+   marked - so no score is ever awarded on text the student has not
+   seen and approved.
+   ============================================================ */
+const TRANSCRIBE_SYSTEM = `You transcribe handwritten VCE Economics answers from photographs. You are a transcriber, not a marker and not an editor.
+
+RULES
+- Reproduce exactly what is written. Keep the student's own wording, spelling, grammar, punctuation and paragraph breaks.
+- Do NOT correct mistakes. Do NOT improve the economics. Do NOT complete unfinished sentences. Do NOT add anything that is not on the page. If the answer is wrong, transcribe it wrong.
+- Expand nothing: if the student wrote "AS" leave it as "AS"; if they wrote "agg supply" leave it as "agg supply".
+- Where a word is genuinely unreadable, write [?] in its place rather than guessing at a word that would change the meaning. Prefer [?] over a confident wrong guess - the student will correct it.
+- Where several photographs are supplied they are consecutive pages of one answer. Join them in reading order.
+- Ignore anything that is not part of the answer: page numbers, names, margin doodles, the printed question if it has been photographed.
+- Crossed-out text is not part of the answer. Omit it.
+
+OUTPUT
+Return ONLY a raw JSON object, no markdown fences and no preamble.
+If the question has lettered parts, key the object by part label, using only the labels listed in the request:
+{"a":"transcribed text for part a","b":"...","c":"..."}
+If a part is not present on the page, use an empty string for it.
+If the question has no lettered parts:
+{"text":"the full transcribed answer"}
+If no handwriting can be read at all - the photograph is blank, too dark or too blurred - return:
+{"error":"a short, kind sentence telling the student what to fix about the photo"}`;
+
+/* ============================================================
+   KEY KNOWLEDGE MAP  (exact study design dot points)
+   ============================================================ */
+const KK_MAP = {
+  AS1:'Complementing AD policies',
+  AS2:'Operation of AS policies',
+  AS3:'Tax reform',
+  AS4:'Skilled immigration',
+  AS5:'Trade liberalisation',
+  AS6:'Market-based environmental policy'
+};
+
+const MODE_MAP = {
+  theory:{label:'THEORY',   cls:'mode-theory', note:'Theory question &mdash; a correct generic mechanism earns full marks. You will not lose a mark for leaving out a current figure or a named 2026&ndash;27 measure.'},
+  data:  {label:'DATA RESPONSE', cls:'mode-data', note:'Data response &mdash; use the figures in the stimulus. You do not need to bring in outside numbers, but you must use the ones you are given.'},
+  app:   {label:'APPLICATION', cls:'mode-app',  note:'Application question &mdash; full SAC standard. Name the actual measure, with a figure and a date.'}
+};
+
+/* ============================================================
+   REFERENCE PANELS
+   ============================================================ */
+const CHAIN_BOX = "<div class='chain'><h4>&#128279; The four-step AS answer chain</h4>" +
+ "<b>1 DESCRIBE</b> &mdash; name the policy specifically. &nbsp;<b>2 LEVER</b> &mdash; quantity / quality of the factors of production, productivity, or costs of production. &nbsp;" +
+ "<b>3 WILLING &amp; ABLE</b> &mdash; the step you keep skipping: get to aggregate supply through the willingness and/or ability of producers to supply. &nbsp;" +
+ "<b>4 LANDING</b> &mdash; land where the question told you to land, with the benchmark. &nbsp;<b>5 BALANCE</b> &mdash; only on &lsquo;discuss&rsquo;: short term vs long term, plus a sentence weighing them.</div>";
+
+const STIM_AS_DATA = "<h4>&#128202; Know your numbers &mdash; all five policies (mid-2026)</h4>" +
+ "<strong>Tax reform:</strong> permanent $20,000 instant asset write-off &middot; $250 Working Australians Tax Offset &middot; &gt;$500m a year compliance savings<br>" +
+ "<strong>Migration 2026&ndash;27:</strong> 185,000 total &middot; Skill stream 132,240 &middot; Employer Sponsored up 32% &middot; Skilled Work Regional down 57%<br>" +
+ "<strong>Trade:</strong> 497 nuisance tariffs abolished 1 July 2026, ~$23b of trade streamlined &middot; Australia&ndash;EU FTA March 2026<br>" +
+ "<strong>Environment:</strong> Safeguard Mechanism &mdash; 215 facilities, ~28% of national emissions, baselines declining ~4.9% a year<br>" +
+ "<strong>Conditions:</strong> growth ~1.2% annualised (target 3&ndash;3.5%) &middot; CPI 4.0%, underlying 3.6% (target 2&ndash;3%) &middot; unemployment 4.4% (NAIRU ~4.25%)";
+
+const DATA_TAX = "<h4>&#128202; Tax reform &mdash; the numbers you need</h4>" +
+ "<strong>Business:</strong> $20,000 instant asset write-off made <em>permanent</em> (turnover under $10m) &middot; &gt;$3.5b business and start-up tax reform, including loss refundability &middot; &gt;$500m a year in compliance savings<br>" +
+ "<strong>Personal:</strong> $250 Working Australians Tax Offset &middot; $1,000 instant work-expenses deduction &middot; the 16% rate falls to 15% from 1 July 2026 (and to 14% from 1 July 2027)<br>" +
+ "<strong>Wider supply-side package:</strong> regulatory burden cut by $10.2b a year &middot; $1.5b for research and scientific institutions<br>" +
+ "<span style='color:var(--text-sec)'>2026&ndash;27 Budget, delivered 12 May 2026. Growth ~1.2% annualised (target 3&ndash;3.5%); CPI 4.0% (target 2&ndash;3%).</span>";
+
+const DATA_MIG = "<h4>&#128202; Skilled migration &mdash; the numbers you need</h4>" +
+ "<strong>2026&ndash;27 Permanent Migration Program (announced 12 May 2026):</strong> 185,000 places in total, unchanged &middot; Skill stream 132,240 (~71%) &middot; Family 52,460 &middot; around 70% allocated onshore<br>" +
+ "<strong>Inside the Skill stream:</strong> Employer Sponsored up 32% &middot; Skilled Independent (189) 16,900 &rarr; 21,090 &middot; State/Territory Nominated (190) 33,000 &rarr; 35,500 &middot; Skilled Work Regional (491) down 57% &middot; Talent and Innovation cut to 3,500 &middot; the 188 visa has ceased<br>" +
+ "<strong>Why the mix matters:</strong> skilled migrants participate at around 90% against roughly 66&ndash;67% overall, and are more likely to hold a bachelor&rsquo;s degree or higher than the Australian-born in every working-age bracket.<br>" +
+ "<span style='color:var(--text-sec)'>Unemployment 4.4% (NAIRU ~4.25%); CPI 4.0% (target 2&ndash;3%).</span>";
+
+const DATA_TRADE = "<h4>&#128202; Trade liberalisation &mdash; the numbers you need</h4>" +
+ "<strong>Recent measures:</strong> a further 497 nuisance tariffs abolished from 1 July 2026, streamlining around $23 billion of trade &middot; the Australia&ndash;EU Free Trade Agreement concluded in March 2026<br>" +
+ "<strong>The long view:</strong> passenger motor vehicle tariffs fell from 40% in 1990 to 5% by 2023<br>" +
+ "<strong>The other direction:</strong> the United States has reintroduced tariffs on some Australian exports &mdash; check carefully whose goods face which barrier before you write.<br>" +
+ "<span style='color:var(--text-sec)'>CPI 4.0% (target 2&ndash;3%); unemployment 4.4%; growth ~1.2% annualised.</span>";
+
+const DATA_ENV = "<h4>&#128202; Market-based environmental policy &mdash; the numbers you need</h4>" +
+ "<strong>The Safeguard Mechanism:</strong> covers 215 industrial facilities, each emitting more than 100,000 tonnes of CO<sub>2</sub>-equivalent a year &middot; together roughly 28% of Australia&rsquo;s emissions &middot; baselines decline by about 4.9% a year in emissions intensity<br>" +
+ "<strong>How firms comply:</strong> abate on site, or surrender Australian Carbon Credit Units (1 ACCU = 1 tonne of CO<sub>2</sub>-e abated). Facilities that cut below their baseline earn Safeguard Mechanism Credits they can sell.<br>" +
+ "<strong>Most exposed:</strong> cement, aluminium, chemicals, steel and LNG &mdash; all trade-exposed, competing against imports from countries with no equivalent obligation.<br>" +
+ "<span style='color:var(--text-sec)'>Australia does not currently operate a carbon tax. Name the ACCU Scheme and Safeguard Mechanism in a SAC answer.</span>";
+
+const STIM_RULC = "<h4>&#128200; Labour productivity and real unit labour costs, annual % change</h4>" +
+ "<table><tr><th>Year to June</th><th>Labour productivity</th><th>Real unit labour costs</th></tr>" +
+ "<tr><td>2023</td><td>&minus;1.8</td><td>+2.4</td></tr>" +
+ "<tr><td>2024</td><td>&minus;0.4</td><td>+1.1</td></tr>" +
+ "<tr><td>2025</td><td>+0.6</td><td>&minus;0.3</td></tr>" +
+ "<tr><td>2026</td><td>+1.3</td><td>&minus;1.0</td></tr></table>" +
+ "<div style='margin-top:6px;color:var(--text-sec)'>Illustrative series prepared for classroom use. Real unit labour costs fall when labour productivity growth outpaces real wages growth.</div>";
+
+const STIM_MIGRATION = "<h4>&#128203; The 2026&ndash;27 Permanent Migration Program (announced 12 May 2026)</h4>" +
+ "<table><tr><th>The headline</th><th>Inside the Skill stream</th></tr>" +
+ "<tr><td><strong>185,000</strong> places in total &mdash; unchanged from 2025&ndash;26.<br>Skill stream <strong>132,240</strong> (~71%)<br>Family 52,460 (28%)<br>Special Eligibility 300<br>Around <strong>70%</strong> of places allocated onshore.</td>" +
+ "<td>Employer Sponsored: <strong>up 32%</strong> (from 44,000)<br>Skilled Independent (189): 16,900 &rarr; 21,090<br>State/Territory Nominated (190): 33,000 &rarr; 35,500<br>Skilled Work Regional (491): <strong>down 57%</strong> (from 33,000)<br>Talent and Innovation: cut to 3,500<br>The 188 visa has ceased.</td></tr></table>";
+
+const STIM_CLASSIFY = "<h4>&#9878;&#65039; Six measures from the 2026&ndash;27 Budget and Migration Program</h4>" +
+ "<table><tr><th>#</th><th>Measure</th></tr>" +
+ "<tr><td>1</td><td>The RBA raises the cash rate target</td></tr>" +
+ "<tr><td>2</td><td>The $20,000 instant asset write-off is made permanent</td></tr>" +
+ "<tr><td>3</td><td>Household energy rebates</td></tr>" +
+ "<tr><td>4</td><td>A $10.2 billion a year cut to the regulatory burden on business</td></tr>" +
+ "<tr><td>5</td><td>132,240 places allocated to the skill stream</td></tr>" +
+ "<tr><td>6</td><td>The $250 Working Australians Tax Offset</td></tr></table>" +
+ "<div style='margin-top:6px;color:var(--text-sec)'>Remember: a measure is not AD or AS <em>by nature</em>. It is the mechanism you explain that makes your answer one or the other.</div>";
+
+const STIM_TARIFF_CLAIM = "<h4>&#128172; A claim to test</h4>" +
+ "<em>&ldquo;Raising tariffs would, over the long term, push Australian firms to specialise in what they do best and become more efficient.&rdquo;</em><br>" +
+ "<div style='margin-top:6px;color:var(--text-sec)'>&mdash; a commentator, quoted in the financial press</div>";
+
+/* ============================================================
+   ARTICLES
+   ============================================================ */
+const ART_TAX =
+ "<div class='article'>" +
+ "<div class='masthead'>The National Economic Review &middot; 14 June 2026</div>" +
+ "<h3>Small business tax changes bet on the long game</h3>" +
+ "<div class='byline'>Business groups welcome the package; economists are divided on the timing</div>" +
+ "<p>Business groups have welcomed a package of tax measures in the 2026&ndash;27 Budget aimed squarely at what the Treasurer called &ldquo;the supply side of the economy&rdquo;, though economists are divided on how quickly the effects will show up.</p>" +
+ "<p>The centrepiece is the decision to make the <strong>$20,000 instant asset write-off permanent</strong> for businesses turning over less than $10 million a year. The concession has been extended one year at a time since its introduction, a pattern the Council of Small Enterprise Australia has criticised as forcing firms to rush purchases before an annual deadline rather than plan properly.</p>" +
+ "<p>&ldquo;A twelve-month write-off changes what you buy in June,&rdquo; said Marika Vos, the Council&rsquo;s chief executive. &ldquo;A permanent one changes what you build over five years. That is the difference between a sugar hit and an actual investment cycle.&rdquo;</p>" +
+ "<p>The Budget also contains <strong>more than $3.5 billion in business and start-up tax reforms</strong>, including loss refundability, which allows firms making losses in early years to claim a cash refund rather than carrying the loss forward. Separately, Treasury estimates the package will deliver <strong>over $500 million a year in compliance savings</strong>, part of a broader commitment to reduce the regulatory burden on business by <strong>$10.2 billion a year</strong>.</p>" +
+ "<p>Ms Vos said the combination would &ldquo;lift growth immediately&rdquo;, pointing to survey evidence that two-thirds of small firms had deferred equipment purchases in the past eighteen months.</p>" +
+ "<p>Not everyone agrees on the timing. Dr Peter Anandaraja, an economist at the Institute for Industry Analysis, said the measures were well designed but that expectations needed managing.</p>" +
+ "<p>&ldquo;Compliance costs are a genuine cost of production, and taking half a billion dollars a year off them lowers the cost base without touching a single tax rate. That is real,&rdquo; he said. &ldquo;But a firm has to decide to invest, order the equipment, install it, and train someone to use it. You do not get a productive capacity effect in a quarter. You get it in a decade.&rdquo;</p>" +
+ "<p>Australia&rsquo;s labour productivity growth has averaged well below its long-run trend over the past five years, a figure the Government has repeatedly cited in defending the package. Dr Anandaraja said reversing that would require sustained policy rather than a single Budget.</p>" +
+ "<p>&ldquo;The instinct is always to ask whether this year&rsquo;s Budget fixed productivity. It never does. The question is whether it moved the settings in the right direction, and on that I would say yes.&rdquo;</p>" +
+ "<p>The personal income tax side of the package includes a <strong>$250 Working Australians Tax Offset</strong> and a <strong>$1,000 instant work-expense deduction</strong>, alongside the legislated reduction in the lowest marginal rate that took effect on 1 July.</p>" +
+ "<div class='src'>Constructed stimulus for classroom use. Policy measures and figures are drawn from the 2026&ndash;27 Budget; quoted individuals and organisations are fictional.</div>" +
+ "</div>";
+
+const ART_MIG =
+ "<div class='article'>" +
+ "<div class='masthead'>The National Economic Review &middot; 20 May 2026</div>" +
+ "<h3>Migration program holds steady, but the mix has shifted sharply</h3>" +
+ "<div class='byline'>The headline number is unchanged. Almost nothing beneath it is.</div>" +
+ "<p>The Government has confirmed the 2026&ndash;27 Permanent Migration Program will again be capped at <strong>185,000 places</strong>, the same headline figure as last year. Beneath that unchanged number, however, the composition of the program has moved considerably.</p>" +
+ "<p>The Skill stream will account for <strong>132,240 places</strong>, with the Family stream at 52,460 and Special Eligibility at 300. Around <strong>70%</strong> of all places have been allocated to applicants already onshore &mdash; people already living and working in Australia on temporary visas who will transition to permanent residency.</p>" +
+ "<p>The most significant change is a <strong>32% increase in Employer Sponsored places</strong>. These visas require a business to nominate a specific worker for a specific role, meaning the places are allocated against vacancies employers have identified and been unable to fill domestically.</p>" +
+ "<p>Offsetting this, Skilled Work Regional places have been <strong>cut by 57%</strong>, and the Talent and Innovation stream reduced to 3,500. The Business Innovation and Investment visa, long criticised by economists as delivering poor labour market outcomes, has ceased entirely.</p>" +
+ "<p>Migration Council of Australia director Tomas Beltr&aacute;n welcomed the employer-sponsored shift but was critical of the overall settings.</p>" +
+ "<p>&ldquo;Holding the cap at 185,000 while the population ages means we are running to stand still,&rdquo; he said. &ldquo;Let us be clear about what capping the program does: <strong>it will shrink Australia&rsquo;s aggregate supply</strong>. Fewer people means less capacity. That is simply arithmetic.&rdquo;</p>" +
+ "<p>Others point to the composition rather than the total. Dr Helen Cruickshank of the Centre for Labour Market Studies noted that in every working-age bracket, overseas-born Australians are more likely to hold a bachelor&rsquo;s degree or higher than the Australian-born population, with the gap widest between 25 and 44.</p>" +
+ "<p>&ldquo;The interesting number is not 185,000. It is the 32%,&rdquo; she said. &ldquo;An employer-sponsored place is a place matched to a shortage. If you have a hospital that cannot staff a ward or a construction firm that cannot find a qualified electrician, that vacancy is a hard constraint on what the economy can produce. Filling it does more for capacity than a general-skilled place that may or may not match demand.&rdquo;</p>" +
+ "<p>Dr Cruickshank added that the regional cut carried risks. &ldquo;Regional labour markets are thinner. A 57% reduction is felt very differently in a town of eight thousand than in Melbourne.&rdquo;</p>" +
+ "<p>The Government has defended the cap as necessary to manage pressure on housing and infrastructure while the supply response catches up.</p>" +
+ "<div class='src'>Constructed stimulus for classroom use. Program figures are drawn from the 2026&ndash;27 Permanent Migration Program announced 12 May 2026; quoted individuals and organisations are fictional.</div>" +
+ "</div>";
+
+const ART_ENV =
+ "<div class='article'>" +
+ "<div class='srcbox'>" +
+ "<div class='srclabel'>Source A &middot; Industry Outlook Quarterly &middot; March 2026</div>" +
+ "<h3 style='font-size:18px'>The cost of going first</h3>" +
+ "<p>The Safeguard Mechanism now applies to <strong>215 industrial facilities</strong>, each emitting more than <strong>100,000 tonnes</strong> of carbon dioxide equivalent a year and together responsible for roughly <strong>28% of Australia&rsquo;s emissions</strong>. Most face a requirement to cut emissions intensity by <strong>4.9% each year</strong>, meeting the reduction on site or by surrendering Australian Carbon Credit Units.</p>" +
+ "<p>For firms with a technological pathway, this is manageable. For those without one, it is a rising annual bill. Cement, aluminium and chemical producers are among the most exposed, and all three compete against imports from countries where no equivalent obligation applies.</p>" +
+ "<p>&ldquo;You are asking a smelter to absorb a cost its competitor in another jurisdiction simply does not carry,&rdquo; said Ravi Doshi of the Australian Industrial Energy Forum. &ldquo;The emissions do not disappear. The production moves offshore and the emissions move with it. We have exported the problem and imported the unemployment.&rdquo;</p>" +
+ "<p>Mr Doshi argues the effect on aggregate supply is unambiguous in the short term: higher costs of production, reduced willingness and ability to supply, and in the worst cases plant closure and the permanent loss of productive capacity. He points to the Government&rsquo;s industry assistance funding as an admission that the transition costs are real.</p>" +
+ "</div>" +
+ "<div class='srcbox'>" +
+ "<div class='srclabel'>Source B &middot; Climate and Economy Review &middot; April 2026</div>" +
+ "<h3 style='font-size:18px'>A declining baseline is a signal, not a punishment</h3>" +
+ "<p>The complaint that the Safeguard Mechanism raises costs is correct and beside the point. Raising the relative cost of carbon-intensive production is not a side effect of the policy. It <em>is</em> the policy.</p>" +
+ "<p>A predictable 4.9% annual decline in baselines tells every covered facility exactly what its cost curve looks like a decade out. That is precisely the signal that makes abatement investment bankable. Firms that cut below their baseline earn credits they can sell, turning emissions reduction from a compliance cost into a revenue line.</p>" +
+ "<p>&ldquo;The alternative is not a world where these firms face no costs,&rdquo; said Dr Anneke Lindqvist of the Institute for Transition Economics. &ldquo;It is a world where the costs arrive later, unpredictably, as physical damage. Drought, flood and heat all destroy productive capacity, and they do not phase in at 4.9% a year.&rdquo;</p>" +
+ "<p>Dr Lindqvist argues the long-run aggregate supply case is straightforward: preserving the quality of land and natural resources protects the economy&rsquo;s capacity to produce, while the incentive to innovate raises dynamic efficiency. Australian firms that adapt early, she says, will hold a cost advantage over competitors forced to adjust abruptly later.</p>" +
+ "</div>" +
+ "<div class='src'>Constructed stimulus for classroom use. Scheme design details are drawn from the Safeguard Mechanism; quoted individuals and organisations are fictional.</div>" +
+ "</div>";
+
+/* ============================================================
+   MULTIPLE CHOICE BANK
+   ============================================================ */
+const MCQ = [
+ {q:'Which of the following is an aggregate supply factor rather than an aggregate supply policy?',
+  o:['The $20,000 instant asset write-off being made permanent','A global oil price shock pushing crude above US$100 a barrel','The abolition of 497 nuisance tariffs from 1 July 2026','An increase in the Skill stream of the Permanent Migration Program'],
+  a:1, why:'A policy is a deliberate government initiative. An oil shock is an external event that affects supply-side conditions &mdash; a factor, not a policy. The other three are all government decisions.'},
+ {q:'Higher labour productivity affects the costs of production by:',
+  o:['raising per-unit costs, because more output requires more inputs','lowering per-unit costs, because more output is produced from the same inputs','leaving per-unit costs unchanged, because wages adjust immediately','lowering total costs but raising per-unit costs'],
+  a:1, why:'Productivity is output per unit of input. More output from the same inputs spreads fixed costs across more units, lowering cost per unit. The 2024 examiner report flagged students reversing this direction.'},
+ {q:'The 2026&ndash;27 Permanent Migration Program holds the total at 185,000 places. The most accurate statement about its effect on aggregate supply is that aggregate supply will:',
+  o:['fall, because the program is capped','fall, because migrants add more to aggregate demand than to aggregate supply','rise, but by less than it would under a larger program','be unchanged, because the headline number did not change'],
+  a:2, why:'A cap limits the rate of increase in the supply of labour; it does not reduce it. 132,240 skilled places still add substantially to the quantity and quality of the factors of production. The 2025 examiner report named the &ldquo;AS falls&rdquo; answer as a misconception.'},
+ {q:'Which statement about the long-term effects of protectionism is correct?',
+  o:['Protection allows firms to specialise in areas of comparative advantage over time','Protection improves allocative efficiency by retaining domestic industries','Protection reduces competitive pressure, retaining resources in industries without comparative advantage','Protection lowers costs of production by guaranteeing domestic demand'],
+  a:2, why:'Options A and B are the argument FOR trade liberalisation, misapplied. The 2025 examiner report identified this transfer as the single most repeated error on that question.'},
+ {q:'A market-based environmental policy is best described as one that:',
+  o:['mandates a maximum level of emissions for each firm','changes relative prices so that firms have a financial reason to change behaviour','provides government grants for research into renewable energy','bans the construction of new fossil fuel facilities'],
+  a:1, why:'&ldquo;Market-based&rdquo; means working through the price mechanism. Answers that say only &ldquo;it creates incentives&rdquo; without the relative-price mechanism do not earn the mark on a written question either.'},
+ {q:'An increase in aggregate supply, on its own, does NOT guarantee a fall in unemployment because:',
+  o:['aggregate supply policies only affect cyclical unemployment','firms must first decide to expand, which requires demand for the additional output','the labour force always grows faster than aggregate supply','higher aggregate supply raises the natural rate of unemployment'],
+  a:1, why:'The missing link: AS rises &rarr; downward pressure on prices &rarr; this stimulates aggregate demand for the increased output &rarr; real GDP rises &rarr; derived demand for labour rises. This is exactly why AS policies complement AD policies.'},
+ {q:'Which of the following is NOT an aggregate supply factor?',
+  o:['The costs of production faced by firms','The quality of the factors of production','The level of business confidence about future sales','Productivity growth'],
+  a:2, why:'Business confidence drives planned investment spending, which is a component of aggregate demand. The 2024 examiner report named students who used business confidence and interest rates as aggregate supply factors.'},
+ {q:'Intertemporal efficiency is best defined as:',
+  o:['producing at the lowest possible cost per unit','directing resources to where they best satisfy society&rsquo;s wants','balancing resource use for current production against preservation for future production','adapting and innovating in response to changing circumstances'],
+  a:2, why:'A is productive (technical) efficiency, B is allocative, D is dynamic. Intertemporal efficiency is the balance across time.'},
+ {q:'Which claim about a market-based environmental policy would the 2025 examiner report identify as a misconception?',
+  o:['It preserves coal, oil and gas for use by future generations','It raises costs of production for covered facilities in the short term','It encourages a transition toward low-emissions energy sources','It may reduce the international competitiveness of trade-exposed industries'],
+  a:0, why:'The aim is to reduce the harm CO2 emissions do to future productive capacity by transitioning AWAY from carbon-intensive energy &mdash; not to conserve fossil fuels for later use. The report named this explicitly.'},
+ {q:'Which of the following correctly completes the chain? Lower costs of production for Australian firms improve international competitiveness only if&hellip;',
+  o:['the government simultaneously lowers the exchange rate','the cost savings are passed on to buyers as lower prices','aggregate demand is rising at the same time','the firms are operating below full capacity'],
+  a:1, why:'A recurring marking note: lower costs do not automatically mean lower prices. The answer must say the saving is passed on, otherwise the competitiveness link is not made.'}
+];
+
+/* ============================================================
+   LESSONS & QUESTIONS
+   ============================================================ */
+const LESSONS = [
+ {
+  id:'L1', title:'Lesson 1 — Nature & operation of AS policies',
+  desc:'What aggregate supply policies are, how they differ from aggregate demand policies, and the four levers that reach productive capacity.',
+  data:null, showChain:true,
+  qs:[
+   {id:'L1a', level:'Option 1', tab:'Option 1 · theory (3m)', marks:3, mode:'theory', kk:['AS1'], ck:{},
+    text:'Explain why a government relying only on aggregate demand policies to raise the level of production is likely to face rising inflation over time, and how aggregate supply policies ease this constraint.',
+    stim:'',
+    hint:'Three steps. (1) Describe what aggregate supply policies are &mdash; government policies improving supply-side conditions and expanding productive capacity. (2) The constraint: if aggregate demand keeps rising while productive capacity does not, the economy runs up against its capacity ceiling and the extra spending produces shortages and demand inflation rather than extra output. (3) The resolution: aggregate supply policies raise capacity, so aggregate demand can grow without breaching the 2&ndash;3% inflation target &mdash; non-inflationary growth over time.',
+    process:'&#9312; Describe AS policies (one sentence is enough).<br>&#9313; Explain what happens to prices when AD rises against a fixed capacity.<br>&#9314; Explain how raising capacity removes that constraint.<br>&#9888;&#65039; Defining both policy types and stopping there caps you at 2. The word doing the work in this question is <em>complement</em> &mdash; you have to connect them.'},
+   {id:'L1b', level:'Option 2', tab:'Option 2 · data (5m)', marks:5, mode:'data', kk:['AS2'], ck:{ic:true},
+    text:'Using the data, explain how the change in productivity has affected the costs of production, the willingness and ability of firms to supply, and Australia&rsquo;s international competitiveness.',
+    stim:STIM_RULC,
+    examiner:'The 2024 examiner report singled out answers that <strong>reversed the direction</strong> &mdash; saying lower costs cause higher productivity. It runs the other way. Higher productivity <em>lowers</em> per-unit costs, because you are getting more output from the same inputs. Check that sentence before you submit.',
+    hint:'Quote the figures first &mdash; productivity moving from &minus;1.8% to +1.3%, real unit labour costs from +2.4% to &minus;1.0%. Then the chain: higher output per unit of input spreads costs across more units, lowering per-unit costs; real unit labour costs fall because labour productivity growth is outpacing real wages growth; lower costs make firms more willing and able to supply, raising productive capacity and aggregate supply; and lower per-unit costs, <em>if passed on as lower prices</em>, make Australian goods relatively cheaper in international markets.',
+    process:'&#9312; Quote the data with years and direction.<br>&#9313; Productivity &rarr; per-unit costs (get the direction right).<br>&#9314; Name real unit labour costs and why they are falling.<br>&#9315; Willing and able &rarr; productive capacity &rarr; aggregate supply.<br>&#9316; International competitiveness &mdash; define it, and say the saving is passed on.<br>&#9888;&#65039; No figures quoted caps you at 2 on a data question.'}
+  ]
+ },
+ {
+  id:'L2', title:'Lesson 2 — Tax reform',
+  desc:'How changes to the rates, thresholds, mix and complexity of taxation reach the willingness and ability of firms to supply.',
+  data:DATA_TAX, showChain:true,
+  qs:[
+   {id:'L2a', level:'Option 1', tab:'Option 1 · theory (4m)', marks:4, mode:'theory', kk:['AS3'], ck:{},
+    text:'Explain how tax reform can affect the incentive to work and the incentive to invest, and the subsequent effect on aggregate supply.',
+    stim:'',
+    hint:'Two routes, then converge them. Incentive to work: a lower marginal rate raises the after-tax return to an extra hour of labour, encouraging longer hours, greater effort and higher participation &mdash; this raises the <em>quantity</em> of labour. Incentive to invest: lower effective taxation of business investment raises the after-tax return on new capital, raising the <em>quantity and quality</em> of capital. Then the hinge: both routes make firms more willing and able to supply, raising productive capacity and aggregate supply.',
+    process:'&#9312; Incentive to work &rarr; which lever?<br>&#9313; Incentive to invest &rarr; which lever?<br>&#9314; Converge on willing and able.<br>&#9315; Productive capacity &rarr; aggregate supply.<br>&#9888;&#65039; This is a theory question. A generic illustration like &ldquo;a reduction in the marginal tax rate applying to low- and middle-income earners&rdquo; is enough &mdash; you will not lose a mark for leaving out a 2026&ndash;27 measure.'},
+   {id:'L2b', level:'Option 2', tab:'Option 2 · application (6m)', marks:6, mode:'app', kk:['AS3'], ck:{goal:true,missing:true},
+    text:'Analyse how one recent tax reform measure is designed to affect aggregate supply and the achievement of the goal of strong and sustainable economic growth.',
+    stim:'',
+    examiner:'The mark most often dropped here is the <strong>missing link</strong>. An increase in aggregate supply does not by itself raise real GDP &mdash; somebody has to buy the extra output. AS rises &rarr; downward pressure on prices &rarr; that stimulates aggregate demand for the increased output &rarr; real GDP rises. Skip it and you cannot reach the top band.',
+    hint:'Name an actual measure with a figure and a date &mdash; the permanent $20,000 instant asset write-off, the $250 Working Australians Tax Offset, the $1,000 instant work-expense deduction, the 16% rate falling to 15% from 1 July 2026, or over $500 million a year in compliance savings. Name the lever it moves. Get to aggregate supply through willingness and ability. Then run the missing link to real GDP. Then define SSEG properly &mdash; the <em>highest</em> rate of growth consistent with strong employment growth, without inflationary, environmental or external pressures, around 3&ndash;3.5% &mdash; and assess it against current growth of about 1.2% annualised.',
+    process:'&#9312; DESCRIBE &mdash; the actual measure, with a figure and date.<br>&#9313; LEVER &mdash; quantity, quality, productivity or costs.<br>&#9314; WILLING &amp; ABLE &rarr; productive capacity &rarr; aggregate supply.<br>&#9315; The missing link &rarr; real GDP.<br>&#9316; LANDING &mdash; SSEG with its benchmark, assessed against current data.<br>&#9888;&#65039; SSEG is the <em>highest</em> growth rate, not the lowest. That single reversed word costs you the landing mark even if everything above it is perfect.'}
+  ]
+ },
+ {
+  id:'L3', title:'Lesson 3 — Skilled migration',
+  desc:'Population, participation and productivity — and why the composition of the program matters more than the headline number.',
+  data:DATA_MIG, showChain:true,
+  qs:[
+   {id:'L3a', level:'Option 1', tab:'Option 1 · theory (4m)', marks:4, mode:'theory', kk:['AS4'], ck:{},
+    text:'Explain how skilled immigration policy affects population, participation and productivity, and the subsequent effect on Australia&rsquo;s productive capacity.',
+    stim:'',
+    hint:'The study design names these three explicitly, so treat them as three separate mechanisms, not one. Population: adds directly to the labour force, and because migrants are concentrated in working-age brackets the labour force effect is larger than the population effect. Participation: visa conditions and job-readiness mean skilled migrants participate at around 90%, against roughly 66&ndash;67% for the population overall. Productivity: overseas-born Australians are more likely to hold a bachelor&rsquo;s degree or higher in every working-age bracket, and filling a vacancy that was itself constraining output raises output per hour. Then converge: quantity and quality of labour rise, firms are more willing and able to supply, productive capacity rises.',
+    process:'&#9312; Population &mdash; and why the labour force effect is larger.<br>&#9313; Participation &mdash; with the reason, not just the claim.<br>&#9314; Productivity &mdash; quality of labour, with a mechanism.<br>&#9315; Converge on productive capacity.<br>&#9888;&#65039; Collapsing all three into &ldquo;more workers&rdquo; caps you at 2. They are three different arguments.'},
+   {id:'L3b', level:'Option 2', tab:'Option 2 · data (6m)', marks:6, mode:'data', kk:['AS4'], ck:{discuss:true},
+    text:'Using the data, <strong>discuss</strong> the effect of the Government&rsquo;s current skilled migration settings on Australia&rsquo;s aggregate supply.',
+    stim:STIM_MIGRATION,
+    examiner:'The 2025 examiner report named this exact misconception: writing that <strong>aggregate supply decreases</strong> because the program is capped. A cap limits how fast the supply of labour grows. It does not shrink it. 132,240 skilled places still add a great deal compared with no program at all.',
+    hint:'Start with what the data actually shows &mdash; the headline is unchanged at 185,000 but the composition has moved. The strong argument is composition: an employer-sponsored place is nominated by a business against a vacancy it has been unable to fill, so a 32% increase there does more for productive capacity than the total number of places. Then the counterweight, because this is a <em>discuss</em>: arrivals also add to aggregate demand in the short term, and the 57% cut to Skilled Work Regional places reduces aggregate supply in thin regional labour markets. Finish by weighing them.',
+    process:'&#9312; Read the data correctly &mdash; headline unchanged, mix shifted.<br>&#9313; The composition argument, with the mechanism.<br>&#9314; The AS-positive chain to productive capacity.<br>&#9315; The counterweight &mdash; AD in the short term, or the regional cut.<br>&#9316; A weighing sentence.<br>&#9888;&#65039; Two sides sitting side by side is not a discussion. You need a sentence saying which dominates and over what horizon.'}
+  ]
+ },
+ {
+  id:'L4', title:'Lesson 4 — Trade liberalisation',
+  desc:'Short-term adjustment costs against long-term efficiency gains — and the argument that does not transfer to protectionism.',
+  data:DATA_TRADE, showChain:true,
+  qs:[
+   {id:'L4a', level:'Option 1', tab:'Option 1 · theory (4m)', marks:4, mode:'theory', kk:['AS5'], ck:{},
+    text:'Explain how trade liberalisation affects the allocation of resources in Australia in the short term and in the long term.',
+    stim:'',
+    hint:'Two marks each way. Short term: exposure to competitors with lower cost structures means uncompetitive import-competing firms scale back, restructure or close; the resources released sit idle during the transition, raising structural unemployment and lowering technical efficiency. Long term: those resources are redeployed toward industries where Australia holds a comparative cost advantage, raising allocative efficiency, while surviving firms are forced to cut costs and innovate, raising productive and dynamic efficiency.',
+    process:'&#9312; Short term &mdash; what happens to resources, and why.<br>&#9313; Short term &mdash; the efficiency consequence.<br>&#9314; Long term &mdash; where the resources go, and why.<br>&#9315; Long term &mdash; the efficiency consequence.<br>&#9888;&#65039; This question is about the <em>allocation of resources</em>, which is named in the study design. Answering with a growth-and-jobs narrative instead caps you at 2.'},
+   {id:'L4b', level:'Option 2', tab:'Option 2 · application (6m)', marks:6, mode:'app', kk:['AS5'], ck:{discuss:true},
+    text:'<strong>Discuss</strong> the accuracy of this claim, with reference to the long-term effects of trade liberalisation on efficiency and aggregate supply.',
+    stim:STIM_TARIFF_CLAIM,
+    examiner:'In 2025 the state average on this idea was <strong>2.4 out of 5</strong> and only <strong>7%</strong> got full marks. The most repeated error was arguing that under protectionism firms would eventually specialise in areas of comparative advantage. That is the argument <em>for</em> liberalisation, borrowed and pointed the wrong way. It does not transfer.',
+    hint:'First, identify what the claim has done &mdash; it has taken the case for trade liberalisation and attached it to protectionism. Then explain why protection does not deliver it: protected firms face reduced competitive pressure, resources are retained in industries without a comparative advantage, and adapting to a distortion is not the same as an efficient outcome. Be fair to the claim &mdash; firms may adapt, and employment in the protected industry is preserved in the short term. Then state the correct long-term liberalisation chain, ideally with a current example such as the 497 nuisance tariffs abolished from 1 July 2026, streamlining around $23 billion of trade.',
+    process:'&#9312; Name what the claim has done.<br>&#9313; Explain why protection does not produce that outcome.<br>&#9314; Concede the defensible part &mdash; this is a <em>discuss</em>.<br>&#9315; State the correct liberalisation chain to efficiency and aggregate supply.<br>&#9316; A current example strengthens the DESCRIBE step.<br>&#9888;&#65039; Simply agreeing with the claim cannot get you above 2.'}
+  ]
+ },
+ {
+  id:'L5', title:'Lesson 5 — Market-based environmental policy',
+  desc:'The ACCU Scheme and Safeguard Mechanism: short-term costs, long-term capacity, and intertemporal efficiency.',
+  data:DATA_ENV, showChain:true,
+  qs:[
+   {id:'L5a', level:'Option 1', tab:'Option 1 · theory (4m)', marks:4, mode:'theory', kk:['AS6'], ck:{},
+    text:'Explain what is meant by a &lsquo;market-based&rsquo; environmental policy, and how such a policy works through the price mechanism to affect firms&rsquo; costs of production and aggregate supply in the short term.',
+    stim:'',
+    examiner:'The most common way to lose a mark here is skimming past the words <strong>market-based</strong>. Yes, these policies change behaviour &mdash; but the question is <em>how</em>. Through changes in <strong>relative prices</strong>. And be careful writing &ldquo;incentive&rdquo; and then describing a cost imposed on emitting: a cost is a <em>dis</em>incentive. Say which one you mean.',
+    hint:'Define it properly: market-based policies use the market system, through changes in relative prices, to create financial incentives and disincentives that change how resources are allocated &mdash; rather than mandating behaviour through regulation. Then the mechanism: carbon-intensive production becomes relatively more expensive, changing the incentive to allocate resources toward cleaner methods. Then the short-term aggregate supply effect: compliance and abatement raise costs of production, firms become less willing and able to supply, and aggregate supply falls in the short run.',
+    process:'&#9312; Define market-based &mdash; through <em>relative prices</em>.<br>&#9313; Contrast with regulation.<br>&#9314; The mechanism &mdash; what becomes relatively more expensive.<br>&#9315; Short-term effect on costs and aggregate supply.<br>&#9888;&#65039; &ldquo;It creates incentives&rdquo; on its own earns at most 1 of the 2 definition marks.'},
+   {id:'L5b', level:'Option 2', tab:'Option 2 · application (6m)', marks:6, mode:'app', kk:['AS6'], ck:{discuss:true,inter:true},
+    text:'<strong>Discuss</strong> the effect of one market-based environmental policy on Australia&rsquo;s intertemporal efficiency and aggregate supply over time.',
+    stim:'',
+    examiner:'This is the 2025 exam question, and the state average was <strong>2.5 out of 4</strong>. Two errors did the damage. First, explaining only <em>one</em> impact when the task word was &lsquo;discuss&rsquo;. Second, arguing the policy preserves <strong>coal, oil and gas</strong> for future generations &mdash; the aim is transitioning <em>away</em> from carbon-intensive energy, not saving it for later.',
+    hint:'Name the policy with a detail &mdash; the Safeguard Mechanism covering 215 facilities each above 100,000 tonnes of CO2-equivalent, around 28% of national emissions, with baselines declining about 4.9% a year and obligations met on site or by surrendering ACCUs. Define intertemporal efficiency: the optimal balance between using resources for current production and preserving them for future production. Then short term for both &mdash; higher costs, reduced output, possible closures, aggregate supply falls. Then long term for both &mdash; preserved natural resources and reduced climate damage protect productive capacity, innovation raises dynamic efficiency, aggregate supply rises. Weigh them.',
+    process:'&#9312; Name and describe the policy with a detail.<br>&#9313; Define intertemporal efficiency.<br>&#9314; Short term &mdash; both intertemporal efficiency and aggregate supply.<br>&#9315; Long term &mdash; both.<br>&#9316; A weighing sentence.<br>&#9888;&#65039; The resource being preserved is the <em>quality of land and the climate</em>, not the fossil fuels themselves.'}
+  ]
+ },
+ {
+  id:'L6', title:'Revision — exam-style',
+  desc:'Eight cross-policy questions that require you to hold two dot points at once, which is what the higher-mark SAC items actually do.',
+  data:STIM_AS_DATA, showChain:true,
+  qs:[
+   {id:'R1', level:'Revision', tab:'R1 (3m)', marks:3, mode:'theory', kk:['AS1','AS2'], ck:{distinguish:true},
+    text:'Distinguish between the effect of an aggregate supply policy on the economy&rsquo;s <strong>productive capacity</strong> and its effect on the <strong>level of production</strong>.',
+    stim:'',
+    hint:'Productive capacity is the maximum level of output the economy can produce at a point in time using available resources &mdash; aggregate supply policies push this ceiling outward over the long term. The level of production is actual output, which depends on how much of that capacity is being used, driven principally by aggregate demand in the short term. The distinction that earns the third mark: raising capacity does not by itself raise actual output. It removes the constraint that would otherwise cap output and generate inflation &mdash; which is exactly why AS and AD policies are complementary.',
+    process:'&#9312; Define productive capacity.<br>&#9313; Define the level of production.<br>&#9314; State the difference explicitly, and why it matters.<br>&#9888;&#65039; &ldquo;Distinguish&rdquo; means you must state the difference, not just describe both and leave the reader to work it out.'},
+   {id:'R2', level:'Revision', tab:'R2 (5m)', marks:5, mode:'app', kk:['AS2','AS3'], ck:{ic:true},
+    text:'Analyse how recent business tax reform is designed to affect Australia&rsquo;s productive capacity and international competitiveness.',
+    stim:'',
+    hint:'Name an actual business measure &mdash; the permanent $20,000 instant asset write-off for firms turning over under $10 million, over $3.5 billion in business and start-up tax reform including loss refundability, or over $500 million a year in compliance savings. Note that compliance costs <em>are</em> a cost of production, so that last one lowers the cost base without changing any rate. Then the lever, then willing and able to productive capacity. Then define international competitiveness &mdash; the ability to compete in international markets on price and/or quality &mdash; and complete the link: lower per-unit costs, <em>if passed on as lower prices</em>, make Australian goods relatively cheaper abroad.',
+    process:'&#9312; The measure, named with a figure.<br>&#9313; The lever it moves.<br>&#9314; Willing and able &rarr; productive capacity.<br>&#9315; Define international competitiveness.<br>&#9316; Complete the link &mdash; and say the saving is <em>passed on</em>.<br>&#9888;&#65039; Costs falling does not automatically mean prices falling. Leave out &ldquo;passed on&rdquo; and you lose the final mark.'},
+   {id:'R3', level:'Revision', tab:'R3 (5m)', marks:5, mode:'app', kk:['AS2','AS5'], ck:{goal:true},
+    text:'Analyse how <strong>two different</strong> aggregate supply policies could each contribute to the achievement of the goal of low and stable inflation.',
+    stim:'',
+    hint:'Two genuinely different policies &mdash; two tax measures count as one. Trade liberalisation is the strongest second choice, because it is the one policy that improves inflation in <em>both</em> timeframes: cheaper imports and greater competition slow price rises immediately, and cheaper imported inputs ease cost inflation permanently. Each chain must reach inflation, not stop at aggregate supply. Then define the goal &mdash; CPI within 2&ndash;3% on average over time, protecting the purchasing power of consumers&rsquo; incomes &mdash; and assess against current data of 4.0% headline and 3.6% underlying.',
+    process:'&#9312; Policy one &mdash; named, lever, chain to costs and prices.<br>&#9313; Policy two &mdash; genuinely different, same standard.<br>&#9314; Define the goal with the band and the purchasing power framing.<br>&#9315; Assess against current inflation data.<br>&#9888;&#65039; Five marks across two policies means roughly two marks each. Do not write everything you know about the first one and run out of time.'},
+   {id:'R4', level:'Revision', tab:'R4 (5m)', marks:5, mode:'app', kk:['AS6'], ck:{discuss:true,inter:true},
+    text:'<strong>Discuss</strong> the effect of the Safeguard Mechanism on Australian firms&rsquo; costs of production in the short term and on the economy&rsquo;s productive capacity in the long term.',
+    stim:'',
+    hint:'This routes to aggregate supply through costs of production directly, without going via intertemporal efficiency. Short term: compliance and abatement raise costs of production; firms are less willing and able to supply; and the most exposed industries &mdash; cement, aluminium, chemicals, steel, LNG &mdash; are trade-exposed, competing against imports from jurisdictions with no equivalent obligation, so international competitiveness falls and carbon leakage or closure becomes possible. Long term: a predictable declining baseline makes abatement investment bankable and drives innovation, raising dynamic efficiency; the transition to low-emissions energy preserves natural resources and protects productive capacity from climate damage; early adapters hold a cost advantage.',
+    process:'&#9312; Name and describe the policy.<br>&#9313; Short term &mdash; costs, willing and able, competitiveness.<br>&#9314; Short term &mdash; the leakage or closure risk.<br>&#9315; Long term &mdash; innovation and preserved capacity.<br>&#9316; A weighing sentence.<br>&#9888;&#65039; Do not import the non-renewables argument here. This question is about costs and capacity.'},
+   {id:'R5', level:'Revision', tab:'R5 (5m)', marks:5, mode:'app', kk:['AS4'], ck:{goal:true,discuss:true},
+    text:'<strong>Discuss</strong> the effect of skilled immigration policy on the achievement of the goal of low and stable inflation.',
+    stim:'',
+    examiner:'This is the real <strong>2025 exam question (Q7a)</strong>. The report said the strongest responses argued <strong>both directions</strong> &mdash; easing cost pressures through better supply conditions, and adding to demand in the short term. It also warns you off house prices: they are not in the CPI.',
+    hint:'The supply route: more labour, shortages eased, wage pressure contained, real unit labour costs and per-unit costs fall, and if passed on, downward pressure on prices. The demand route: arrivals add to consumption and to demand for housing and services, placing upward pressure on prices in the short term. Define the goal with the 2&ndash;3% band and current data (4.0% headline, 3.6% underlying). Then resolve the two &mdash; typically the demand effect dominates in the short term, the supply effect over the longer term.',
+    process:'&#9312; Describe the policy with current detail.<br>&#9313; The aggregate supply route to prices.<br>&#9314; The aggregate demand route to prices.<br>&#9315; Define the goal with the band and current data.<br>&#9316; Weigh the two over different horizons.<br>&#9888;&#65039; One direction only caps you at 3. And keep off house prices &mdash; they are not in the CPI.'},
+   {id:'R6', level:'Revision', tab:'R6 (4m)', marks:4, mode:'data', kk:['AS1','AS2'], ck:{},
+    text:'Classify each of the six measures as primarily an <strong>aggregate demand</strong> or an <strong>aggregate supply</strong> measure. Then select <strong>one</strong> that could be argued either way, and justify your classification through the mechanism you would argue.',
+    stim:STIM_CLASSIFY,
+    examiner:'The 2025 report penalised answers that met an aggregate demand question with aggregate supply analysis, and the reverse. Knowing which side you are arguing &mdash; and saying so out loud &mdash; is the skill being tested here.',
+    hint:'Work through all six first, then pick your contestable case. The genuinely contestable ones are the energy rebates (AD through household disposable income; AS through business energy costs), the skill stream places (AS through the quantity and quality of labour; AD through migrant spending) and the Working Australians Tax Offset (AD through disposable income and consumption; AS through participation and the incentive to work). Whichever side you argue, the mark comes from the <em>mechanism</em>, not the label.',
+    process:'&#9312; Classify all six.<br>&#9313; Choose one contestable measure.<br>&#9314; State which side you are arguing.<br>&#9315; Explain the mechanism that makes it that side.<br>&#9888;&#65039; A measure is not AD or AS by nature. It is the mechanism you explain that makes your answer one or the other.'},
+   {id:'R7', level:'Revision', tab:'R7 (6m)', marks:6, mode:'app', kk:['AS2','AS3'], ck:{ls:true},
+    text:'Analyse the effect of one aggregate supply policy on <strong>both material and non-material</strong> living standards.',
+    stim:'',
+    hint:'Living standards appear in four of the six dot points and students almost never separate the two dimensions. Material living standards: access to goods and services, or real income per capita &mdash; reached through lower prices raising purchasing power, higher real incomes, or higher employment. Non-material living standards: quality of life &mdash; reached through reduced financial stress, environmental quality, job security or work&ndash;life balance. Both need a stated mechanism; a non-material claim asserted without one earns nothing.',
+    process:'&#9312; Name the policy with current detail.<br>&#9313; Lever &rarr; willing and able &rarr; aggregate supply.<br>&#9314; Material living standards &mdash; defined, then reached by a mechanism.<br>&#9315; Non-material living standards &mdash; defined, then reached by a mechanism.<br>&#9888;&#65039; Only one dimension caps you at 4, no matter how good it is.'},
+   {id:'R8', level:'Revision', tab:'R8 (6m)', marks:6, mode:'app', kk:['AS1','AS2'], ck:{goal:true,missing:true,ic:true},
+    text:'Analyse how aggregate supply policies affect Australia&rsquo;s international competitiveness and the achievement of the goal of strong and sustainable economic growth over time.',
+    stim:'',
+    hint:'This is the full synthesis at the top mark band. Name at least one current AS policy with detail. Run the lever and the willing-and-able step. Define international competitiveness and reach it, including the passed-on-prices step. Then the missing link to growth: aggregate supply rises, placing downward pressure on prices, which stimulates aggregate demand for the increased output, so real GDP rises. Then define SSEG with its benchmark and assess against current growth. &ldquo;Over time&rdquo; is an invitation to contrast short term and long term &mdash; take it.',
+    process:'&#9312; A named current policy.<br>&#9313; Lever &rarr; willing and able.<br>&#9314; International competitiveness, with prices passed on.<br>&#9315; The missing link &rarr; real GDP.<br>&#9316; SSEG defined with its benchmark and assessed.<br>&#9888;&#65039; SSEG is the <em>highest</em> growth rate consistent with strong employment growth, without inflationary, environmental or external pressures. Check that word before you submit.'}
+  ]
+ },
+ {
+  id:'L7', title:'Article analysis',
+  desc:'Three sets, each a different shape. This is the skill your second SAC is assessing — using a source as evidence, not as a substitute for your own economics.',
+  data:null, showChain:false,
+  qs:[
+   {id:'A1', level:'Article', tab:'Set 1 · tax reform (10m)', marks:10, mode:'data', kk:['AS3'], ck:{discuss:true},
+    text:'Read the article and answer all three parts.',
+    article:ART_TAX,
+    parts:[
+     {label:'a', text:'Identify <strong>two</strong> measures described in the article and explain, for each, which supply-side condition it is designed to improve.', marks:4},
+     {label:'b', text:'Using <strong>one figure from the article</strong>, explain how the measure you selected affects the willingness and ability of firms to supply, and the subsequent effect on aggregate supply.', marks:3},
+     {label:'c', text:'The article quotes Ms Vos claiming the measures will &ldquo;lift growth immediately&rdquo;. <strong>Discuss</strong> the accuracy of this claim.', marks:3}
+    ],
+    examiner:'The sub-skill this set is testing: <strong>the article contains its own rebuttal</strong>. Two sources are quoted and they disagree. If you do not notice that, part (c) will be one-sided.',
+    hint:'Part (a): pick measures that are actually in the article and name the lever for each &mdash; the write-off and loss refundability reach the quantity and quality of capital; compliance savings and the regulatory burden cut reach costs of production; the work-expense deduction and tax offset reach the quantity of labour through participation. Part (b): you must quote an actual figure. Part (c): be fair to both sides &mdash; deferred purchases may be brought forward and business investment spending does lift aggregate demand immediately; but aggregate supply policies act on productive capacity over the long term, and Dr Anandaraja&rsquo;s point about deciding, ordering, installing and training is your evidence for the limitation.',
+    process:'&#9312; Annotate first: circle every figure, bracket every causal claim, star anything naming a goal.<br>&#9313; (a) Two measures <em>from the article</em>, each with a named lever and a mechanism.<br>&#9314; (b) Quote a figure, then run the chain to aggregate supply.<br>&#9315; (c) Both sides &mdash; and use the article&rsquo;s own disagreement as your evidence.<br>&#9888;&#65039; &ldquo;With reference to the article&rdquo; means a figure or claim from the source <em>plus</em> your own economics. Neither on its own scores.'},
+   {id:'A2', level:'Article', tab:'Set 2 · migration (10m)', marks:10, mode:'data', kk:['AS4'], ck:{ic:true},
+    text:'Read the article and answer all three parts.',
+    article:ART_MIG,
+    parts:[
+     {label:'a', text:'The article quotes Mr Beltr&aacute;n stating that capping the program &ldquo;will shrink Australia&rsquo;s aggregate supply&rdquo;. Explain why this statement is <strong>not accurate</strong>.', marks:3},
+     {label:'b', text:'With reference to the article, explain how the <strong>composition</strong> of the migration program affects the quality of the factors of production.', marks:3},
+     {label:'c', text:'Analyse the effect of the migration settings described in the article on Australia&rsquo;s productive capacity and international competitiveness.', marks:4}
+    ],
+    examiner:'Part (a) is the misconception named in the <strong>2025 examiner report</strong>. A cap limits the <em>rate of increase</em> in the supply of labour; it does not reduce it. Being asked to correct an error is harder than being asked to explain how something works &mdash; and handling it well is what separates the top band.',
+    hint:'Part (a): three steps &mdash; identify what the cap actually does, state the correct position (185,000 permanent migrants, 132,240 of them skilled, still add substantially relative to no program at all), and state the correct effect (aggregate supply rises, by less than it otherwise would). Part (b): use the article&rsquo;s evidence &mdash; the 32% employer-sponsored increase, or the qualifications gap Dr Cruickshank cites &mdash; and explain why an employer-sponsored place is matched to an identified shortage. Part (c): two chains. Productive capacity through the quantity and quality of labour; international competitiveness through eased shortages, contained wage pressure, falling real unit labour costs and, if passed on, relatively cheaper Australian goods. The 57% regional cut is worth noting as a partial offset.',
+    process:'&#9312; (a) What does a cap actually do?<br>&#9313; (a) The correct position, with the article&rsquo;s numbers.<br>&#9314; (b) Composition evidence from the article &rarr; quality of labour &rarr; productivity.<br>&#9315; (c) Two separate chains, each completed.<br>&#9888;&#65039; &ldquo;Migrants are more skilled&rdquo; asserted without the article&rsquo;s evidence caps part (b) at 2.'},
+   {id:'A3', level:'Article', tab:'Set 3 · two sources (10m)', marks:10, mode:'data', kk:['AS6'], ck:{discuss:true,inter:true},
+    text:'Read <strong>both</strong> sources and answer all three parts.',
+    article:ART_ENV,
+    parts:[
+     {label:'a', text:'Outline the main point of disagreement between Source A and Source B.', marks:2},
+     {label:'b', text:'Explain the economic reasoning behind <strong>Source A&rsquo;s</strong> position.', marks:4},
+     {label:'c', text:'Using <strong>both</strong> sources, <strong>discuss</strong> the effect of the policy on Australia&rsquo;s aggregate supply over time.', marks:4}
+    ],
+    examiner:'This is the only set with two sources, and it is the hardest thing here. Part (b) asks you to explain the reasoning behind the position you are more likely to disagree with. Being able to state an argument fairly before you weigh it is exactly what &ldquo;gather, synthesise and use economic information from a wide range of sources&rdquo; means in the key skills.',
+    hint:'Part (a): notice that both sources <em>agree</em> the policy raises costs. The disagreement is about the time horizon and the counterfactual &mdash; Source A weighs the short-term cost and competitiveness loss, Source B weighs the long-term capacity preserved and the cost of doing nothing. Part (b): four steps &mdash; costs rise, firms less willing and able to supply so aggregate supply falls, trade-exposed industries face competitors without the obligation so competitiveness falls, and leakage or closure means a permanent loss of productive capacity. Part (c): short-term negative from Source A, long-term positive from Source B, then a sentence weighing them.',
+    process:'&#9312; (a) What do they agree on? Then what is the actual disagreement?<br>&#9313; (b) Explain Source A&rsquo;s reasoning &mdash; do not argue against it here.<br>&#9314; (c) One side from each source, each with a mechanism.<br>&#9315; (c) A weighing sentence.<br>&#9888;&#65039; Summarising each source in turn is not the same as naming the disagreement. Part (a) caps at 1 if you do that.'}
+  ]
+ },
+ {
+  id:'L8', title:'Multiple choice',
+  desc:'Ten items built from the errors named in the 2023–2025 examiner reports. Marked instantly, with the reasoning shown.',
+  data:null, showChain:false,
+  qs:[
+   {id:'MCQ', level:'MCQ', tab:'10 questions (10m)', marks:10, mode:'theory', kk:['AS1','AS2'], type:'mcq',
+    text:'Choose the best response for each question. You will see the reasoning for every item once you submit.',
+    stim:'', hint:'', process:''}
+  ]
+ }
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let sName='', attempts={}, currentLesson=0, currentLevels={};
+let tFeedback={};
+let _busy=false;
+
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function safeName(n){return String(n).trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,40);}
+function stripTags(s){return String(s||'').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/&mdash;/g,'-').replace(/&ndash;/g,'-').replace(/&rsquo;/g,"'").replace(/&lsquo;/g,"'").replace(/&ldquo;/g,'"').replace(/&rdquo;/g,'"').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();}
+
+/* ============================================================
+   SAVE / LOAD
+   ============================================================ */
+function saveState(){
+  try{
+    var st={sName:sName,attempts:attempts,currentLesson:currentLesson,currentLevels:currentLevels,tFeedback:tFeedback};
+    localStorage.setItem(SAVE_KEY,JSON.stringify(st));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    var raw=localStorage.getItem(SAVE_KEY);
+    if(!raw)return null;
+    var st=JSON.parse(raw);
+    sName=st.sName||'';attempts=st.attempts||{};currentLesson=st.currentLesson||0;
+    currentLevels=st.currentLevels||{};tFeedback=st.tFeedback||{};
+    return st;
+  }catch(e){return null;}
+}
+function init(){
+  var st=loadState();
+  if(st&&st.sName){
+    var n=0;for(var k in attempts){if(attempts[k]&&attempts[k].length)n++;}
+    $('resumeBanner').innerHTML="<div class='resume'><strong>Welcome back, "+esc(st.sName.split(' ')[0])+".</strong> You have "+n+" question(s) with saved attempts. Enter your name to continue where you left off, or <span style='text-decoration:underline;cursor:pointer' onclick='resetAll()'>start again</span>.</div>";
+    $('nameIn').value=st.sName;
+  }
+}
+function resetAll(){
+  if(!confirm('This clears all your saved answers on this device. Continue?'))return;
+  localStorage.removeItem(SAVE_KEY);
+  sName='';attempts={};currentLesson=0;currentLevels={};tFeedback={};
+  $('resumeBanner').innerHTML='';$('nameIn').value='';
+}
+function start(){
+  var n=$('nameIn').value.trim();
+  if(n.length<3){alert('Please enter your full name so your work can be saved.');return;}
+  if(sName&&safeName(n)!==safeName(sName)){attempts={};currentLevels={};tFeedback={};currentLesson=0;}
+  sName=n;
+  saveState();
+  $('entry').style.display='none';$('results').style.display='none';$('teacher').style.display='none';
+  $('main').style.display='block';
+  renderNav();renderLesson();
+  refreshFeedback(false);
+  maybeSync();
+}
+
+/* ============================================================
+   NAVIGATION & RENDERING
+   ============================================================ */
+function lessonDone(L){
+  for(var i=0;i<L.qs.length;i++){if(attempts[L.qs[i].id]&&attempts[L.qs[i].id].length)return true;}
+  return false;
+}
+function renderNav(){
+  var h='';
+  for(var i=0;i<LESSONS.length;i++){
+    var L=LESSONS[i];
+    h+="<button class='"+(i===currentLesson?'active':'')+"' onclick='goLesson("+i+")'>"+L.title.split('—')[0].trim()+(lessonDone(L)?"<span class='done-dot'></span>":'')+"</button>";
+  }
+  $('lessonNav').innerHTML=h;
+}
+function goLesson(i){currentLesson=i;saveState();renderNav();renderLesson();}
+function tabIdx(L){
+  var t=currentLevels[L.id];
+  if(typeof t!=='number'||t<0||t>=L.qs.length)t=0;
+  return t;
+}
+function switchLevel(li,ti){currentLevels[LESSONS[li].id]=ti;saveState();renderLesson();}
+function tabClassFor(level){
+  if(level==='Option 2')return 'on-purple';
+  if(level==='Revision')return 'on-teal';
+  if(level==='Article'||level==='MCQ')return 'on-slate';
+  return 'on-gold';
+}
+function nudgeFor(level){
+  if(level==='Option 2')return "<div class='nudge purple'>&#127775; The harder option &mdash; full SAC standard, more marks, and the deeper analysis that separates good from excellent. Do Option 1 first if you want to build up to it, then come back here.</div>";
+  if(level==='Revision')return "<div class='nudge teal'>&#127919; Cross-policy revision. These questions need you to hold two dot points at once, which is what the higher-mark SAC items actually do. Treat them like exam conditions.</div>";
+  if(level==='Article')return "<div class='nudge slate'>&#128240; Article analysis &mdash; this is your second SAC. Give yourself 10 minutes to read and annotate before you write a word. Every part needs the source <em>and</em> your own economics.</div>";
+  if(level==='MCQ')return "<div class='nudge slate'>&#9989; Ten items built from the errors named in the examiner reports. Marked instantly, with the reasoning for every option.</div>";
+  return "<div class='nudge gold'>&#128161; The theory option. A correct generic mechanism earns full marks here &mdash; you will not lose anything for leaving out current figures. Get this solid, then move up to Option 2.</div>";
+}
+function buildChecklist(q){
+  var c=q.ck||{};
+  var items=['I have written in full sentences (no arrows, symbols or dot points)',"I used 'likely' or 'should', not 'will'"];
+  items.push('I reached aggregate supply through the WILLINGNESS AND ABILITY of firms to supply');
+  if(q.mode==='app')items.push('I named an actual measure, with a figure and a date');
+  if(q.mode==='data')items.push('I quoted figures or claims from the stimulus');
+  if(q.mode==='theory')items.push('I explained the mechanism clearly (no current figures needed here)');
+  if(c.goal)items.push('I defined the goal with its benchmark &mdash; and checked the direction word (SSEG = the HIGHEST growth rate; full employment = the LOWEST unemployment rate)');
+  if(c.missing)items.push('I used the missing link (AS &rarr; downward pressure on prices &rarr; AD &rarr; real GDP), not a shortcut');
+  if(c.ic)items.push('I said the cost saving is PASSED ON as lower prices');
+  if(c.ls)items.push('I addressed BOTH material AND non-material living standards, each with a mechanism');
+  if(c.discuss)items.push("'Discuss' &mdash; I gave short term AND long term, plus a sentence weighing them");
+  if(c.inter)items.push('I did NOT argue the policy preserves coal, oil or gas for future generations');
+  if(c.distinguish)items.push('I stated the difference explicitly, not just described both');
+  if(q.article)items.push('Every part refers to the source AND contains my own economics');
+  if(q.parts)items.push('I attempted every lettered part &mdash; each has its own marks');
+  var h="<div class='checklist'><h4>&#9989; Before you submit</h4>";
+  for(var i=0;i<items.length;i++){h+="<label><input type='checkbox'> "+items[i]+"</label>";}
+  h+="</div>";return h;
+}
+
+/* ============================================================
+   HANDWRITTEN PHOTO UPLOAD
+   Photos are downscaled in the browser, sent to the marker as
+   base64, transcribed by the model, and then DISCARDED. Only the
+   transcription is stored and synced - never the image itself.
+   ============================================================ */
+var photos = {};   // qid -> array of {dataUrl, b64}
+
+function photoBox(q,prefix){
+  var key=prefix+'_'+q.id;
+  var h="<div class='photo-box' id='pbox_"+key+"'>";
+  h+="<h4>&#128247; Prefer to write by hand?</h4>";
+  h+="Write your answer on paper and photograph it. It gets typed up into the boxes above for you &mdash; <strong>you can then fix anything that has been misread</strong> before it is marked. Nothing is marked until you say it is right.";
+  if(q.parts)h+="<br><strong>Label your parts (a), (b) and (c) clearly on the page</strong> so each one lands in the right box.";
+  h+="<div style='margin-top:10px'><input type='file' id='pin_"+key+"' accept='image/*' multiple style='display:none' onchange='addPhotos(\""+key+"\",this)'>";
+  h+="<button class='btn ghost small' onclick='document.getElementById(\"pin_"+key+"\").click()'>Choose photo(s)</button> ";
+  h+="<button class='btn small' id='ptrans_"+key+"' style='background:var(--slate);display:none' onclick='transcribePhotos(\""+key+"\")'>&#9997;&#65039; Type this up for me</button>";
+  h+=" <span class='notice' id='pmsg_"+key+"' style='margin-top:0'></span></div>";
+  h+="<div class='photo-thumbs' id='pthumbs_"+key+"'></div>";
+  h+="</div>";
+  return h;
+}
+function addPhotos(key,input){
+  var files=Array.prototype.slice.call(input.files||[]);
+  if(!files.length)return;
+  if(!photos[key])photos[key]=[];
+  var msg=$('pmsg_'+key);
+  if(photos[key].length+files.length>4){msg.innerHTML="<span style='color:var(--red)'>Maximum 4 photos.</span>";input.value='';return;}
+  msg.textContent='Processing...';
+  var pending=files.length;
+  files.forEach(function(f){
+    if(f.size>25*1024*1024){pending--;msg.innerHTML="<span style='color:var(--red)'>That file is too large.</span>";return;}
+    var fr=new FileReader();
+    fr.onload=function(){
+      var img=new Image();
+      img.onload=function(){
+        // downscale so the payload stays small but the writing stays legible
+        var max=1600,w=img.width,hgt=img.height;
+        if(w>max||hgt>max){var sc=max/Math.max(w,hgt);w=Math.round(w*sc);hgt=Math.round(hgt*sc);}
+        var cv=document.createElement('canvas');cv.width=w;cv.height=hgt;
+        cv.getContext('2d').drawImage(img,0,0,w,hgt);
+        var url=cv.toDataURL('image/jpeg',0.82);
+        photos[key].push({dataUrl:url,b64:url.split(',')[1]});
+        pending--;
+        if(pending<=0){msg.textContent=photos[key].length+' photo(s) ready.';renderThumbs(key);}
+        else renderThumbs(key);
+      };
+      img.onerror=function(){pending--;msg.innerHTML="<span style='color:var(--red)'>That file could not be read as an image.</span>";};
+      img.src=fr.result;
+    };
+    fr.onerror=function(){pending--;msg.innerHTML="<span style='color:var(--red)'>That file could not be read.</span>";};
+    fr.readAsDataURL(f);
+  });
+  input.value='';
+}
+function renderThumbs(key){
+  var el=$('pthumbs_'+key);if(!el)return;
+  var arr=photos[key]||[],h='';
+  for(var i=0;i<arr.length;i++){
+    h+="<div class='photo-thumb'><img src='"+arr[i].dataUrl+"' alt='Page "+(i+1)+"'><button onclick='dropPhoto(\""+key+"\","+i+")' title='Remove'>&times;</button></div>";
+  }
+  el.innerHTML=h;
+  var b=$('ptrans_'+key);
+  if(b)b.style.display=arr.length?'inline-block':'none';
+}
+function dropPhoto(key,i){
+  if(photos[key])photos[key].splice(i,1);
+  renderThumbs(key);
+  var m=$('pmsg_'+key);if(m)m.textContent=(photos[key]&&photos[key].length)?photos[key].length+' photo(s) ready.':'';
+}
+
+/* Step 1 of the handwriting flow: read the photos into the answer boxes.
+   Nothing is marked here. The student edits, then submits as normal. */
+var handwritten = {};   // qid -> number of photos used, for the teacher view
+
+async function transcribePhotos(key){
+  if(_busy)return;
+  var arr=photos[key]||[];
+  if(!arr.length)return;
+  var qid=key.replace(/^(ans|rans|rfans)_/,'');
+  var q=findQ(qid);
+  var prefix=key.slice(0,key.length-qid.length-1);
+  var btn=$('ptrans_'+key), msg=$('pmsg_'+key);
+  _busy=true; if(btn)btn.disabled=true;
+  msg.innerHTML="<span class='spin'></span>Reading your handwriting...";
+  var labels=q.parts?q.parts.map(function(p){return p.label;}):null;
+  var instruction='Transcribe the handwritten answer in the photograph(s).'+
+    (labels?(' This question has lettered parts. Return a JSON object keyed by these labels only: '+labels.join(', ')+'.')
+           :' This question has no lettered parts. Return {"text": "..."}.');
+  var content=[];
+  for(var i=0;i<arr.length;i++){
+    content.push({type:'image',source:{type:'base64',media_type:'image/jpeg',data:arr[i].b64}});
+  }
+  content.push({type:'text',text:instruction});
+  try{
+    var resp=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2000,system:TRANSCRIBE_SYSTEM,messages:[{role:'user',content:content}]})});
+    var data=await resp.json();
+    if(data&&data.error){
+      var em=data.error.message||'error';
+      if(/image|content|invalid|type|unsupported/i.test(em))
+        throw new Error('Photo reading is not switched on yet. Please type your answer in the boxes above instead, and let Ms Dyring know.');
+      throw new Error(em);
+    }
+    if(!data||!data.content||!data.content[0]||!data.content[0].text)
+      throw new Error('Nothing came back. Please try again.');
+    var raw=data.content[0].text.replace(/```json|```/g,'').trim();
+    var st=raw.indexOf('{'),en=raw.lastIndexOf('}');
+    if(st>-1&&en>st)raw=raw.slice(st,en+1);
+    var out=JSON.parse(raw);
+    if(out.error)throw new Error(out.error);
+    var filled=0;
+    if(q.parts){
+      for(var p=0;p<q.parts.length;p++){
+        var el=$(prefix+'_'+qid+'_'+p);
+        var v=out[q.parts[p].label];
+        if(el&&v&&String(v).trim()){el.value=String(v).trim();filled++;}
+      }
+    }else{
+      var el2=$(prefix+'_'+qid);
+      var v2=out.text||out.a||'';
+      if(el2&&String(v2).trim()){el2.value=String(v2).trim();filled=1;}
+    }
+    if(!filled)throw new Error('No handwriting could be read. Try a clearer photo in better light.');
+    handwritten[qid]=arr.length;
+    delete photos[key];
+    renderThumbs(key);
+    msg.innerHTML="<span style='color:var(--green)'>Done &mdash; your writing is in the boxes above.</span>";
+    var box=$('pbox_'+key);
+    if(box)box.insertAdjacentHTML('beforeend',
+      "<div class='transcript' style='margin-bottom:0'><h5>&#9997;&#65039; Check this before you submit</h5>"+
+      "This is what was read from your photo. Handwriting is not always read perfectly, so <strong>read it through and fix anything that is wrong</strong> &mdash; especially numbers, and terms like <em>aggregate supply</em>. Any word shown as <strong>[?]</strong> could not be read at all. You are marked on what is in the boxes, not on the photo.</div>");
+    var first=q.parts?$(prefix+'_'+qid+'_0'):$(prefix+'_'+qid);
+    if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+  }catch(e){
+    msg.innerHTML="<span style='color:var(--red)'>"+esc(e.message)+"</span>";
+  }
+  if(btn)btn.disabled=false;
+  _busy=false;
+}
+
+function getPhotos(q,prefix){return photos[prefix+'_'+q.id]||[];}
+function clearPhotos(q){
+  ['ans','rans','rfans'].forEach(function(pre){delete photos[pre+'_'+q.id];});
+}
+
+function partBoxes(q,prefix){
+  var h='';
+  if(q.parts){
+    for(var i=0;i<q.parts.length;i++){
+      var p=q.parts[i];
+      h+="<div class='part-wrap'><div class='part-label'>Part ("+p.label+") <span class='part-marks'>&middot; "+p.marks+" marks</span></div>";
+      h+="<div class='part-text'>"+p.text+"</div>";
+      h+="<textarea id='"+prefix+"_"+q.id+"_"+i+"' autocomplete='off' style='min-height:"+(p.marks>=4?150:115)+"px' placeholder='Your answer to part ("+p.label+")...'></textarea></div>";
+    }
+  }else{
+    h+="<textarea id='"+prefix+"_"+q.id+"' autocomplete='off' placeholder='Write your answer here in full sentences...'></textarea>";
+  }
+  return h;
+}
+function collectAns(q,prefix){
+  if(!q.parts)return ($(prefix+'_'+q.id)||{value:''}).value.trim();
+  var out=[],short=0;
+  for(var i=0;i<q.parts.length;i++){
+    var el=$(prefix+'_'+q.id+'_'+i);
+    var v=el?el.value.trim():'';
+    if(v.length<15)short++;
+    out.push('PART ('+q.parts[i].label+') ['+q.parts[i].marks+' marks]:\n'+(v||'(not attempted)'));
+  }
+  return {text:out.join('\n\n'),short:short};
+}
+function renderLesson(){
+  var li=currentLesson,L=LESSONS[li],ti=tabIdx(L),q=L.qs[ti];
+  var h="<div class='card'>";
+  h+="<h2 style='font-size:20px'>"+L.title+"</h2>";
+  h+="<p style='font-size:13.5px;color:var(--text-sec);margin-top:4px'>"+L.desc+"</p>";
+  if(L.data)h+="<div class='stim' style='margin-top:12px'>"+L.data+"</div>";
+  h+="<div class='tabs'>";
+  for(var t=0;t<L.qs.length;t++){
+    var qq=L.qs[t];
+    var done=attempts[qq.id]&&attempts[qq.id].length;
+    h+="<button class='"+(t===ti?tabClassFor(qq.level):'')+"' onclick='switchLevel("+li+","+t+")'>"+qq.tab+(done?"<span class='tick'>&#10003;</span>":'')+"</button>";
+  }
+  h+="</div>";
+  h+=nudgeFor(q.level);
+
+  if(q.type==='mcq'){h+=renderMCQ(q);h+="</div>";$('lessonPanel').innerHTML=h;window.scrollTo({top:0,behavior:'smooth'});return;}
+
+  var md=MODE_MAP[q.mode]||MODE_MAP.app;
+  h+="<div class='qmeta'><span class='marks-chip'>"+q.marks+" marks</span>";
+  h+="<span class='mode-chip "+md.cls+"'>"+md.label+"</span>";
+  for(var k=0;k<q.kk.length;k++){h+="<span class='kk-chip'>"+KK_MAP[q.kk[k]]+"</span>";}
+  h+="</div>";
+  h+="<div class='mode-note'>"+md.note+"</div>";
+  if(L.showChain)h+=CHAIN_BOX;
+  if(q.article)h+=q.article;
+  h+="<div class='qtext'>"+q.text+"</div>";
+  if(q.stim)h+="<div class='stim'>"+q.stim+"</div>";
+  if(q.examiner)h+="<div class='exam-note'><strong>&#127919; Examiner insight</strong><br>"+q.examiner+"</div>";
+  h+="<div class='tip-row'>";
+  h+="<button class='tip-btn' onclick='toggleTip(\"hint_"+q.id+"\")'>&#128161; Content tips</button>";
+  h+="<button class='tip-btn' onclick='toggleTip(\"proc_"+q.id+"\")'>&#129513; Process guide</button>";
+  h+="</div>";
+  h+="<div class='tip-box' id='hint_"+q.id+"'>"+q.hint+"</div>";
+  h+="<div class='tip-box' id='proc_"+q.id+"'>"+q.process+"</div>";
+
+  var hasAttempt=attempts[q.id]&&attempts[q.id].length;
+  if(!hasAttempt){
+    h+=partBoxes(q,'ans');
+    h+=photoBox(q,'ans');
+    h+=buildChecklist(q);
+    h+="<button class='btn "+(q.level==='Option 2'?'purple':(q.level==='Revision'?'teal':'gold'))+"' id='sub_"+q.id+"' onclick='submitQ(\""+q.id+"\")'>Submit for marking</button>";
+    h+="<div id='wait_"+q.id+"' class='notice'></div>";
+  }else{
+    h+="<div id='hist_"+q.id+"'>"+renderAllAttempts(q)+"</div>";
+  }
+  h+="</div>";
+  $('lessonPanel').innerHTML=h;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleTip(id){
+  var el=$(id);if(!el)return;
+  el.style.display=(el.style.display==='block')?'none':'block';
+}
+function findQ(qid){
+  for(var i=0;i<LESSONS.length;i++){for(var j=0;j<LESSONS[i].qs.length;j++){if(LESSONS[i].qs[j].id===qid)return LESSONS[i].qs[j];}}
+  return null;
+}
+
+/* ============================================================
+   MULTIPLE CHOICE
+   ============================================================ */
+function renderMCQ(q){
+  var done=attempts['MCQ']&&attempts['MCQ'].length;
+  var last=done?attempts['MCQ'][attempts['MCQ'].length-1]:null;
+  var picks=last&&last.picks?last.picks:null;
+  var h="<div class='qtext'>"+q.text+"</div>";
+  for(var i=0;i<MCQ.length;i++){
+    var m=MCQ[i];
+    h+="<div class='mcq-q'><div class='mcq-stem'>"+(i+1)+". "+m.q+"</div>";
+    for(var j=0;j<m.o.length;j++){
+      var cls='';
+      if(picks){
+        if(j===m.a)cls=' class="right"';
+        else if(picks[i]===j)cls=' class="wrong"';
+      }
+      h+="<label"+cls+"><input type='radio' name='mcq_"+i+"' value='"+j+"'"+(picks&&picks[i]===j?' checked':'')+(picks?' disabled':'')+"> "+String.fromCharCode(65+j)+". "+m.o[j]+"</label>";
+    }
+    if(picks)h+="<div class='mcq-why'><strong>"+(picks[i]===m.a?'Correct.':'The answer is '+String.fromCharCode(65+m.a)+'.')+"</strong> "+m.why+"</div>";
+    h+="</div>";
+  }
+  if(!picks){
+    h+="<button class='btn' id='sub_MCQ' onclick='submitMCQ()'>Mark my answers</button><div id='wait_MCQ' class='notice'></div>";
+  }else{
+    h+="<div class='attempt-block'><div class='alabel'>Your score</div><span class='score-pill' style='background:"+scoreColor(last.score,10)+"'>"+last.score+" / 10</span>";
+    h+="<div style='margin-top:12px'><button class='btn ghost small' onclick='retryMCQ()'>&#128260; Try again</button></div></div>";
+  }
+  return h;
+}
+function submitMCQ(){
+  var picks=[],score=0,unanswered=0;
+  for(var i=0;i<MCQ.length;i++){
+    var sel=document.querySelector('input[name="mcq_'+i+'"]:checked');
+    if(!sel){picks.push(-1);unanswered++;}
+    else{var v=parseInt(sel.value,10);picks.push(v);if(v===MCQ[i].a)score++;}
+  }
+  if(unanswered>0&&!confirm('You have left '+unanswered+' question(s) unanswered. Mark anyway?'))return;
+  if(!attempts['MCQ'])attempts['MCQ']=[];
+  attempts['MCQ'].push({
+    ans:'Multiple choice: '+picks.map(function(p,i){return (i+1)+String.fromCharCode(65+(p<0?0:p));}).join(' '),
+    picks:picks,score:score,max:10,time:nowStamp(),
+    fb:{score:score,maxScore:10,whatWorked:['Completed the multiple choice set.'],improvements:[score<8?'Review the items you missed — the reasoning is shown beside each one.':'Strong result. Read the reasoning on any you guessed.'],commonMistakes:[''],modelAnswer:'See the reasoning shown beside each item.',encouragement:'Multiple choice is free marks on the SAC once the traps are familiar.'}
+  });
+  saveState();maybeSync();renderNav();renderLesson();
+}
+function retryMCQ(){
+  attempts['MCQ']=[];saveState();renderLesson();
+}
+
+/* ============================================================
+   ATTEMPT RENDERING
+   ============================================================ */
+function scoreColor(s,m){var p=m?s/m:0;return p>=0.8?'var(--green)':(p>=0.5?'var(--amber)':'var(--red)');}
+function listHtml(arr){
+  var h='<ul>';var any=false;
+  for(var i=0;i<(arr||[]).length;i++){if(arr[i]&&String(arr[i]).trim()){h+='<li>'+esc(arr[i])+'</li>';any=true;}}
+  h+='</ul>';return any?h:'<ul><li>—</li></ul>';
+}
+function renderAllAttempts(q){
+  var arr=attempts[q.id]||[],h='';
+  for(var i=0;i<arr.length;i++){
+    var a=arr[i];
+    var failed=attemptFailed(a);
+    h+="<div class='attempt-block'>";
+    h+="<div class='alabel'>Attempt "+(i+1)+(i===arr.length-1?' (latest)':'')+" &middot; "+esc(a.time||'')+" &nbsp; "+
+       (failed?"<span class='score-pill' style='background:#8a8478'>&#9888;&#65039; Marking failed</span>":
+               "<span class='score-pill' style='background:"+scoreColor(a.score,a.max)+"'>"+a.score+" / "+a.max+"</span>")+"</div>";
+    if(failed)h+="<div class='notice' style='color:var(--red)'>The marking service didn&rsquo;t return feedback for this attempt &mdash; this was not scored. Please retry below.</div>";
+    if(a.reflection)h+="<div class='reflect-box'><strong>Your reflection before retrying:</strong> "+esc(a.reflection)+"</div>";
+    if(a.fromPhoto)h+="<div style='font-size:12px;color:var(--slate);margin-top:4px'>&#9997;&#65039; Handwritten &mdash; typed up from "+a.fromPhoto+" photo(s) and checked by you before marking.</div>";
+    h+="<div class='ans-quote'>"+esc(a.ans)+"</div>";
+    if(a.fb&&!failed){
+      h+="<div class='fb-panel'><div class='fb-head' style='background:"+scoreColor(a.score,a.max)+"'><span>AI feedback</span><span>"+a.score+" / "+a.max+"</span></div><div class='fb-body'>";
+      if(a.fb.encouragement)h+="<p style='margin-bottom:12px'><em>"+esc(a.fb.encouragement)+"</em></p>";
+      h+="<div class='fb-sec good'><h5>What you did well</h5>"+listHtml(a.fb.whatWorked)+"</div>";
+      h+="<div class='fb-sec improve'><h5>What to improve</h5>"+listHtml(a.fb.improvements)+"</div>";
+      var cm=(a.fb.commonMistakes||[]).filter?a.fb.commonMistakes.filter(function(x){return x&&String(x).trim();}):[];
+      if(cm.length)h+="<div class='fb-sec mistake'><h5>Common mistakes spotted</h5>"+listHtml(cm)+"</div>";
+      h+="<div class='model-wrap'><button class='btn ghost small' onclick='toggleTip(\"model_"+q.id+"_"+i+"\")'>&#128274; Reveal model answer</button><div class='model-box' id='model_"+q.id+"_"+i+"'>"+esc(a.fb.modelAnswer||'')+"</div></div>";
+      h+="</div></div>";
+    }
+    h+="</div>";
+  }
+  if(tFeedback[q.id]&&tFeedback[q.id].text){
+    h+="<div class='tfb'><h5>&#128172; Message from your teacher</h5>"+esc(tFeedback[q.id].text)+"<div style='font-size:11.5px;color:var(--text-sec);margin-top:6px'>"+esc(tFeedback[q.id].time||'')+"</div></div>";
+  }
+  var lastFailed=arr.length&&attemptFailed(arr[arr.length-1]);
+  if(lastFailed){
+    h+="<div class='reflect-box' id='fastretry_"+q.id+"'>";
+    h+="<strong>&#9888;&#65039; That attempt wasn&rsquo;t marked due to a technical problem, not your answer.</strong> You can resubmit the same answer, or edit it first:";
+    h+="<textarea id='rfans_"+q.id+"' autocomplete='off' style='margin-top:10px;min-height:180px'>"+esc(arr[arr.length-1].ans)+"</textarea>";
+    h+="<div style='margin-top:10px'><button class='btn purple' id='rfsub_"+q.id+"' onclick='submitFastRetry(\""+q.id+"\")'>Resubmit for marking</button></div>";
+    h+="<div id='rfwait_"+q.id+"' class='notice'></div>";
+    h+="</div>";
+  }else{
+    h+="<div class='reflect-box' id='retry_"+q.id+"' style='display:none'>";
+    h+="<strong>Before you retry:</strong> what will you do differently this time?";
+    h+="<textarea id='refl_"+q.id+"' autocomplete='off' style='min-height:70px;margin-top:8px' placeholder='e.g. I will add the willing and able step instead of jumping straight to aggregate supply...'></textarea>";
+    h+=partBoxes(q,'rans');
+    h+=photoBox(q,'rans');
+    h+="<div style='margin-top:10px'><button class='btn purple' id='rsub_"+q.id+"' onclick='submitRetry(\""+q.id+"\")'>Submit retry</button></div>";
+    h+="<div id='rwait_"+q.id+"' class='notice'></div>";
+    h+="</div>";
+    h+="<div style='margin-top:14px'><button class='btn ghost small' onclick='retryQ(\""+q.id+"\")'>&#128260; Retry this question</button></div>";
+  }
+  return h;
+}
+function retryQ(qid){
+  var el=$('retry_'+qid);
+  el.style.display='block';
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* ============================================================
+   MARKING (via Cloudflare Worker)
+   ============================================================ */
+async function markAnswer(q,ansText){
+  var md=MODE_MAP[q.mode]||MODE_MAP.app;
+  var partNote='';
+  if(q.parts){
+    partNote='\nTHIS QUESTION HAS LETTERED PARTS. Mark each part against its own allocation and sum them:\n';
+    for(var i=0;i<q.parts.length;i++){
+      partNote+='  ('+q.parts[i].label+') ['+q.parts[i].marks+' marks] '+stripTags(q.parts[i].text)+'\n';
+    }
+  }
+  var prompt='QUESTION ID: '+q.id+
+    '\nMODE: '+md.label+
+    '\nQUESTION ('+q.marks+' marks): '+stripTags(q.text)+
+    partNote+
+    (q.article?'\nSOURCE PROVIDED TO STUDENT: '+stripTags(q.article):'')+
+    (q.stim?'\nSTIMULUS PROVIDED TO STUDENT: '+stripTags(q.stim):'')+
+    '\nMAX SCORE: '+q.marks+
+    '\n\nSTUDENT ANSWER:\n'+ansText+
+    '\n\nMark this answer using the marking guide for '+q.id+', applying the '+md.label+' mode rules. Return ONLY the JSON object.';
+  var resp=await fetch(WORKER_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:(q.parts?2600:1800),system:SYSTEM,messages:[{role:'user',content:prompt}]})
+  });
+  var data=await resp.json();
+  if(data && data.error){
+    throw new Error(data.error.message || 'The marking service returned an error.');
+  }
+  if(!data || !data.content || !data.content[0] || !data.content[0].text){
+    throw new Error('The marking service did not return a result. Please try again.');
+  }
+  var raw=data.content[0].text;
+  raw=raw.replace(/```json|```/g,'').trim();
+  var s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+  if(s>-1&&e>s)raw=raw.slice(s,e+1);
+  var fb=JSON.parse(raw);
+  var hasContent=(Array.isArray(fb.whatWorked)&&fb.whatWorked.length)||
+                  (Array.isArray(fb.improvements)&&fb.improvements.length)||
+                  (fb.modelAnswer&&String(fb.modelAnswer).trim());
+  if(!hasContent){
+    throw new Error('The marking service returned an empty result. Please try again.');
+  }
+  fb.score=Math.max(0,Math.min(q.marks,parseInt(fb.score,10)||0));
+  fb.maxScore=q.marks;
+  return fb;
+}
+function attemptFailed(a){
+  if(!a||!a.fb)return true;
+  var hasContent=(Array.isArray(a.fb.whatWorked)&&a.fb.whatWorked.length)||
+                  (Array.isArray(a.fb.improvements)&&a.fb.improvements.length)||
+                  (a.fb.modelAnswer&&String(a.fb.modelAnswer).trim());
+  return !hasContent;
+}
+function nowStamp(){
+  var d=new Date();
+  return d.toLocaleDateString('en-AU')+' '+d.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+}
+async function submitQ(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  if(getPhotos(q,'ans').length){
+    if(!confirm('You have uploaded a photo but have not had it typed up yet. Press "Type this up for me" first, or continue with what is in the boxes. Continue anyway?'))return;
+  }
+  var got=collectAns(q,'ans');
+  var ans=q.parts?got.text:got;
+  if(q.parts){
+    if(got.short===q.parts.length){alert('Your answers look too short to mark — type an attempt, or photograph your handwritten work and have it typed up.');return;}
+    if(got.short>0&&!confirm('You have left '+got.short+' part(s) barely attempted. Each part carries its own marks. Submit anyway?'))return;
+  }else if(ans.length<20){alert('Your answer looks too short to mark — type an attempt, or photograph your handwritten work and have it typed up.');return;}
+  _busy=true;$('sub_'+qid).disabled=true;
+  $('wait_'+qid).innerHTML="<span class='spin'></span>Marking your answer against the VCE criteria...";
+  try{
+    var fb=await markAnswer(q,ans);
+    if(!attempts[qid])attempts[qid]=[];
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,time:nowStamp(),fromPhoto:handwritten[qid]||0});
+    clearPhotos(q);delete handwritten[qid];
+    saveState();maybeSync();
+    renderNav();renderLesson();
+    refreshFeedback(false);
+  }catch(e){
+    $('wait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed ("+esc(e.message)+"). Check your internet connection and try again — your answer has not been lost.</span>";
+    $('sub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+async function submitRetry(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  var refl=$('refl_'+qid).value.trim();
+  if(refl.length<10){alert('Write a short reflection first — what will you do differently?');return;}
+  var got=collectAns(q,'rans');
+  var ans=q.parts?got.text:got;
+  if(q.parts){
+    if(got.short===q.parts.length){alert('Your new answers look too short to mark.');return;}
+  }else if(ans.length<20){alert('Your new answer looks too short to mark.');return;}
+  _busy=true;$('rsub_'+qid).disabled=true;
+  $('rwait_'+qid).innerHTML="<span class='spin'></span>Marking your retry...";
+  try{
+    var fb=await markAnswer(q,ans);
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,reflection:refl,time:nowStamp(),fromPhoto:handwritten[qid]||0});
+    clearPhotos(q);delete handwritten[qid];
+    saveState();maybeSync();
+    renderLesson();
+  }catch(e){
+    $('rwait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed ("+esc(e.message)+"). Try again.</span>";
+    $('rsub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+async function submitFastRetry(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  var ans=$('rfans_'+qid).value.trim();
+  if(ans.length<20){alert('Your answer looks too short to mark.');return;}
+  _busy=true;$('rfsub_'+qid).disabled=true;
+  $('rfwait_'+qid).innerHTML="<span class='spin'></span>Marking your answer...";
+  try{
+    var fb=await markAnswer(q,ans);
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,time:nowStamp()});
+    saveState();maybeSync();
+    renderNav();renderLesson();
+  }catch(e){
+    $('rfwait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed again ("+esc(e.message)+"). Check your internet connection and try once more &mdash; nothing has been lost.</span>";
+    $('rfsub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+
+/* ============================================================
+   RESULTS SCREEN
+   ============================================================ */
+function bestScore(qid){
+  var arr=attempts[qid]||[],b=null;
+  for(var i=0;i<arr.length;i++){if(attemptFailed(arr[i]))continue;if(b===null||arr[i].score>b)b=arr[i].score;}
+  return b;
+}
+function buildResults(){
+  var kkAgg={};
+  for(var k in KK_MAP)kkAgg[k]={got:0,max:0};
+  var totGot=0,totMax=0,done=0,totalQ=0;
+  for(var i=0;i<LESSONS.length;i++){
+    for(var j=0;j<LESSONS[i].qs.length;j++){
+      var q=LESSONS[i].qs[j];totalQ++;
+      var b=bestScore(q.id);
+      if(b!==null){
+        done++;totGot+=b;totMax+=q.marks;
+        for(var x=0;x<q.kk.length;x++){kkAgg[q.kk[x]].got+=b;kkAgg[q.kk[x]].max+=q.marks;}
+      }
+    }
+  }
+  var h="<div class='card'><h2 style='font-size:21px'>Your results — "+esc(sName)+"</h2>";
+  h+="<p style='font-size:14px;color:var(--text-sec);margin-top:4px'>"+done+" of "+totalQ+" questions attempted"+(totMax?(" &middot; best-attempt total: <strong>"+totGot+" / "+totMax+"</strong>"):'')+"</p>";
+  h+="<div class='results-grid'>";
+  for(var k2 in KK_MAP){
+    var a=kkAgg[k2];
+    var pct=a.max?Math.round(100*a.got/a.max):0;
+    h+="<div class='kk-card'><div class='kk-name'>"+KK_MAP[k2]+"</div>";
+    if(a.max){
+      h+="<div class='kk-score'>"+a.got+" / "+a.max+"</div><div class='bar'><i style='width:"+pct+"%;background:"+(pct>=80?'var(--green)':(pct>=50?'var(--amber)':'var(--red)'))+"'></i></div>";
+    }else{
+      h+="<div class='kk-score' style='color:#b9b29f'>—</div><div style='font-size:11.5px;color:var(--text-sec)'>Not attempted yet</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  h+="<p class='notice'>Your work syncs to your teacher automatically — there is nothing to download or submit. Use the print button only if you want a paper copy for your own revision.</p>";
+  h+="<div style='margin-top:14px;display:flex;gap:10px;flex-wrap:wrap'><button class='btn' onclick='backToMain()'>&larr; Back to questions</button><button class='btn ghost' onclick='downloadPDF()'>&#128424;&#65039; Print / save a copy</button></div>";
+  h+="</div>";
+  return h;
+}
+function showResults(){
+  $('main').style.display='none';$('teacher').style.display='none';
+  $('results').style.display='block';
+  $('results').innerHTML=buildResults();
+  window.scrollTo({top:0});
+}
+function backToMain(){
+  $('results').style.display='none';$('teacher').style.display='none';
+  $('main').style.display='block';renderNav();renderLesson();
+}
+function downloadPDF(){window.print();}
+
+/* ============================================================
+   SYNC TO TEACHER
+   ============================================================ */
+function maybeSync(){
+  if(!sName)return;
+  var payload={kind:'mark',tool:SAVE_KEY,name:sName,attempts:attempts,updated:new Date().toISOString()};
+  fetch(RES_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(e){});
+}
+function refreshFeedback(announce){
+  if(!sName)return;
+  fetch(RES_URL+'/?feedback=1&tool='+encodeURIComponent(SAVE_KEY)+'&student='+encodeURIComponent(safeName(sName)))
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d&&d.feedback){
+       var changed=JSON.stringify(d.feedback)!==JSON.stringify(tFeedback);
+       tFeedback=d.feedback||{};
+       saveState();
+       if(changed)renderLesson();
+       if(announce){
+         var n=0;for(var k in tFeedback){if(tFeedback[k]&&tFeedback[k].text)n++;}
+         alert(n?('You have teacher feedback on '+n+' question(s) — look for the green panels under your attempts.'):'No teacher feedback yet — check back later.');
+       }
+     }
+   }).catch(function(e){if(announce)alert('Could not check for feedback right now.');});
+}
+
+/* ============================================================
+   TEACHER VIEW
+   ============================================================ */
+let _tPin='',_tData=null;
+function openTeacher(){
+  $('entry').style.display='none';$('main').style.display='none';$('results').style.display='none';
+  $('teacher').style.display='block';
+  $('teacher').innerHTML="<div class='card'><span class='badge' style='background:var(--ink)'>STAFF</span><h2 style='font-size:21px;margin-top:8px'>Teacher view</h2><p style='font-size:14px;color:var(--text-sec);margin:8px 0 12px'>Enter your teacher PIN to load class progress and leave feedback.</p><input type='password' id='pinIn' placeholder='PIN' style='max-width:260px' autocomplete='off'> <button class='btn' style='margin-top:10px' onclick='loadTeacher()'>View class &rarr;</button><div id='tchOut' style='margin-top:18px'></div><div style='margin-top:16px'><span class='backlink' onclick='closeTeacher()'>&larr; Back to student view</span></div></div>";
+  window.scrollTo({top:0});
+}
+function closeTeacher(){
+  $('teacher').style.display='none';
+  if(sName){$('main').style.display='block';renderNav();renderLesson();}
+  else{$('entry').style.display='block';}
+}
+function loadTeacher(){
+  _tPin=$('pinIn').value.trim();
+  var out=$('tchOut');
+  out.innerHTML="<span class='spin'></span>Loading class results...";
+  fetch(RES_URL+'/?pin='+encodeURIComponent(_tPin)+'&tool='+encodeURIComponent(SAVE_KEY))
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d.error){out.innerHTML="<span style='color:var(--red)'>"+esc(d.error)+"</span>";return;}
+     _tData=d;
+     out.innerHTML=teacherGrid(d);
+   })
+   .catch(function(e){out.innerHTML="<span style='color:var(--red)'>Could not load results: "+esc(e.message)+"</span>";});
+}
+function allQs(){
+  var out=[];
+  for(var i=0;i<LESSONS.length;i++){for(var j=0;j<LESSONS[i].qs.length;j++){out.push(LESSONS[i].qs[j]);}}
+  return out;
+}
+function bestOf(rec,qid){
+  var arr=(rec.attempts&&rec.attempts[qid])||[],b=null;
+  for(var i=0;i<arr.length;i++){if(attemptFailed(arr[i]))continue;if(b===null||arr[i].score>b)b=arr[i].score;}
+  return b;
+}
+function teacherGrid(d){
+  var rows=d.marks||[];
+  if(!rows.length)return "<p>No student work yet. Results appear here automatically as students submit answers.</p>";
+  rows.sort(function(a,b){return (a.name||'').localeCompare(b.name||'');});
+  var qs=allQs();
+  var h="<p style='font-size:13px;color:var(--text-sec);margin-bottom:8px'>"+rows.length+" student(s) &middot; best score per question &middot; green &ge;80% &middot; amber 50&ndash;79% &middot; red &lt;50% &middot; click a student to read answers and leave feedback. <button class='btn ghost small' onclick='loadTeacher()'>&#8635; Refresh</button></p>";
+  h+="<div style='overflow-x:auto'><table class='tch'><tr><th>Student</th>";
+  for(var q=0;q<qs.length;q++){h+="<th>"+qs[q].id+"</th>";}
+  h+="<th>&#128172;</th><th>Updated</th></tr>";
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    var fbCount=0,fbMap=(d.feedback&&d.feedback[safeName(r.name||'')])||{};
+    for(var fk in fbMap){if(fbMap[fk]&&fbMap[fk].text)fbCount++;}
+    h+="<tr onclick='openStudent("+i+")'><td><strong>"+esc(r.name||'?')+"</strong></td>";
+    for(var q2=0;q2<qs.length;q2++){
+      var b=bestOf(r,qs[q2].id);
+      if(b===null){h+="<td style='color:#c5beac'>—</td>";}
+      else{
+        var pct=b/qs[q2].marks;
+        var col=pct>=0.8?'var(--green)':(pct>=0.5?'var(--amber)':'var(--red)');
+        h+="<td><span class='cell-score' style='background:"+col+"'>"+b+"/"+qs[q2].marks+"</span></td>";
+      }
+    }
+    h+="<td>"+(fbCount?fbCount:'')+"</td><td style='font-size:11.5px;color:var(--text-sec)'>"+esc((r.updated||'').slice(0,10))+"</td></tr>";
+  }
+  h+="</table></div>";
+  return h;
+}
+function openStudent(idx){
+  var rows=(_tData.marks||[]).slice().sort(function(a,b){return (a.name||'').localeCompare(b.name||'');});
+  var r=rows[idx];
+  var fbMap=(_tData.feedback&&_tData.feedback[safeName(r.name||'')])||{};
+  var qs=allQs();
+  var h="<div style='display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px'><h3 style='font-size:18px'>"+esc(r.name||'?')+"</h3><span class='backlink' onclick=\"$('tchOut').innerHTML=teacherGrid(_tData)\">&larr; Back to class grid</span></div>";
+  for(var q=0;q<qs.length;q++){
+    var qq=qs[q];
+    var arr=(r.attempts&&r.attempts[qq.id])||[];
+    h+="<div class='attempt-block' style='margin-top:16px'>";
+    h+="<div class='alabel'>"+qq.id+" &middot; "+qq.tab+" &middot; "+KK_MAP[qq.kk[0]]+" &middot; "+(MODE_MAP[qq.mode]||MODE_MAP.app).label+"</div>";
+    h+="<div style='font-size:13.5px;margin-bottom:8px'>"+qq.text;
+    if(qq.parts){for(var p=0;p<qq.parts.length;p++){h+="<div style='margin-top:4px;color:var(--slate)'>("+qq.parts[p].label+") "+qq.parts[p].text+" <em>("+qq.parts[p].marks+")</em></div>";}}
+    h+="</div>";
+    if(!arr.length){h+="<div style='font-size:13px;color:#b9b29f'>Not attempted.</div>";}
+    for(var a=0;a<arr.length;a++){
+      var at=arr[a];
+      var afailed=attemptFailed(at);
+      h+="<div style='margin-top:10px'>"+
+         (afailed?"<span class='score-pill' style='background:#8a8478'>Attempt "+(a+1)+": &#9888;&#65039; marking failed (technical error, not scored)</span>":
+                  "<span class='score-pill' style='background:"+scoreColor(at.score,at.max)+"'>Attempt "+(a+1)+": "+at.score+" / "+at.max+"</span>")+
+         " <span style='font-size:11.5px;color:var(--text-sec)'>"+esc(at.time||'')+"</span></div>";
+      if(at.reflection)h+="<div style='font-size:12.5px;color:var(--purple);margin-top:4px'><em>Reflection: "+esc(at.reflection)+"</em></div>";
+      if(at.fromPhoto)h+="<div style='font-size:12px;color:var(--slate);margin-top:4px'>&#9997;&#65039; Handwritten &mdash; typed up from "+at.fromPhoto+" photo(s), then checked and corrected by the student before submitting.</div>";
+      h+="<div class='ans-quote'>"+esc(at.ans)+"</div>";
+      if(at.fb&&!afailed){
+        h+="<details style='font-size:12.5px;margin-top:4px'><summary style='cursor:pointer;color:var(--text-sec)'>AI feedback given</summary><div style='padding:8px 0 0 8px'>";
+        h+="<strong>Well:</strong> "+esc((at.fb.whatWorked||[]).join(' | '))+"<br>";
+        h+="<strong>Improve:</strong> "+esc((at.fb.improvements||[]).join(' | '))+"<br>";
+        h+="<strong>Model:</strong> "+esc(at.fb.modelAnswer||'');
+        h+="</div></details>";
+      }
+    }
+    var existing=fbMap[qq.id]&&fbMap[qq.id].text?fbMap[qq.id].text:'';
+    h+="<div style='margin-top:12px'><div style='font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);margin-bottom:5px'>&#128172; Your feedback to "+esc((r.name||'').split(' ')[0])+"</div>";
+    h+="<textarea id='tfb_"+qq.id+"_"+idx+"' style='min-height:64px' autocomplete='off' placeholder='e.g. The AI marked this fairly, but also make sure you...'>"+esc(existing)+"</textarea>";
+    h+="<div style='margin-top:8px'><button class='btn small' style='background:var(--accent)' onclick='saveFeedback("+idx+",\""+qq.id+"\",\""+esc(r.name||'').replace(/"/g,'&quot;')+"\")'>Save feedback</button> <span id='tfbmsg_"+qq.id+"_"+idx+"' style='font-size:12.5px;color:var(--green)'></span></div></div>";
+    h+="</div>";
+  }
+  $('tchOut').innerHTML=h;
+  window.scrollTo({top:0});
+}
+function saveFeedback(idx,qid,studentName){
+  var txt=$('tfb_'+qid+'_'+idx).value.trim();
+  var msg=$('tfbmsg_'+qid+'_'+idx);
+  msg.style.color='var(--text-sec)';msg.textContent='Saving...';
+  fetch(RES_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({kind:'feedback',pin:_tPin,tool:SAVE_KEY,student:safeName(studentName),qid:qid,text:txt})})
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d.error){msg.style.color='var(--red)';msg.textContent=d.error;return;}
+     msg.style.color='var(--green)';msg.textContent='Saved — the student will see this next time they open the tool.';
+     if(!_tData.feedback)_tData.feedback={};
+     var sk=safeName(studentName);
+     if(!_tData.feedback[sk])_tData.feedback[sk]={};
+     _tData.feedback[sk][qid]={text:txt,time:new Date().toISOString().slice(0,10)};
+   })
+   .catch(function(e){msg.style.color='var(--red)';msg.textContent='Could not save: '+e.message;});
+}
+
+/* Debug/QA export. Top-level const and let do not attach to window in a
+   classic script, so the automated test harness has no way to reach the
+   question bank or the live attempt state without this. Harmless in use. */
+window.__AS={LESSONS:LESSONS,KK_MAP:KK_MAP,MODE_MAP:MODE_MAP,MCQ:MCQ,SYSTEM:SYSTEM,
+  get attempts(){return attempts;}, get sName(){return sName;}, get handwritten(){return handwritten;}, TRANSCRIBE_SYSTEM:TRANSCRIBE_SYSTEM};
+
+init();
+</script>
+</body>
+</html>
