@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U4 AOS1 — Budgetary Policy Practice</title>
+<style>
+:root{
+  --ink:#1b2a3a; --paper:#f6f4ee; --card:#ffffff;
+  --accent:#1e6b46; --accent-soft:#e6f2ec;
+  --gold:#a8780a; --gold-soft:#fdf6e3; --gold-line:#e3cf8f;
+  --purple:#5b3a8e; --purple-soft:#f1ecf9; --purple-line:#cdbde8;
+  --teal:#0f6b5c; --teal-soft:#e6f2ef;
+  --text:#22303d; --text-sec:#5b6877; --line:#e2ddd2;
+  --green:#15803d; --amber:#d97706; --red:#b91c1c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:var(--paper);color:var(--text);line-height:1.55}
+h1,h2,h3{font-family:Georgia,'Times New Roman',serif;color:var(--ink);letter-spacing:.2px}
+.hero{background:linear-gradient(135deg,#1b2a3a 0%,#28405a 100%);color:#fff;padding:38px 26px 30px;border-bottom:4px solid var(--accent)}
+.hero-inner{max-width:980px;margin:0 auto}
+.hero h1{color:#fff;font-size:30px;margin:6px 0 4px}
+.hero p{color:#cfd8e3;font-size:14.5px;max-width:660px}
+.badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;letter-spacing:1.4px;padding:3px 10px;border-radius:3px}
+.wrap{max-width:980px;margin:0 auto;padding:26px 22px 70px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:18px;box-shadow:0 1px 3px rgba(27,42,58,.06)}
+input[type=text],input[type=password],textarea{font-family:inherit;font-size:15px;border:1.5px solid #c8c2b4;border-radius:7px;padding:10px 12px;width:100%;background:#fffdf8;color:var(--text)}
+textarea{min-height:150px;resize:vertical;line-height:1.6}
+input:focus,textarea:focus{outline:2px solid var(--ink);outline-offset:1px}
+.btn{display:inline-block;font-family:inherit;font-size:14.5px;font-weight:600;border:none;border-radius:7px;padding:10px 20px;cursor:pointer;background:var(--ink);color:#fff}
+.btn:hover{filter:brightness(1.15)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.gold{background:var(--gold)} .btn.purple{background:var(--purple)} .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn.small{font-size:12.5px;padding:6px 13px}
+.lesson-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.lesson-nav button{font-family:inherit;font-size:13px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--text-sec);border-radius:20px;padding:7px 15px;cursor:pointer}
+.lesson-nav button.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.lesson-nav button .done-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-left:6px}
+.tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin:14px 0 0;flex-wrap:wrap}
+.tabs button{font-family:inherit;font-size:13.5px;font-weight:700;border:none;background:transparent;color:var(--text-sec);padding:9px 16px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button.on-gold{color:var(--gold);border-bottom-color:var(--gold)}
+.tabs button.on-purple{color:var(--purple);border-bottom-color:var(--purple)}
+.tabs button.on-teal{color:var(--teal);border-bottom-color:var(--teal)}
+.tabs button .tick{color:var(--green);margin-left:4px}
+.nudge{border-radius:8px;padding:12px 15px;font-size:13.5px;margin:16px 0 14px;border:1px solid}
+.nudge.gold{background:var(--gold-soft);border-color:var(--gold-line);color:#6e4f06}
+.nudge.purple{background:var(--purple-soft);border-color:var(--purple-line);color:#43286e}
+.nudge.teal{background:var(--teal-soft);border-color:#b5d8d0;color:#0b4f44}
+.qmeta{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.marks-chip{background:var(--ink);color:#fff;font-size:12px;font-weight:700;border-radius:4px;padding:2px 9px}
+.kk-chip{background:#eceae2;color:var(--text-sec);font-size:11.5px;border-radius:4px;padding:2px 8px}
+.mode-chip{font-size:11.5px;border-radius:4px;padding:2px 8px;font-weight:600;border:1px solid}
+.mode-chip.theory{background:var(--teal-soft);border-color:#b5d8d0;color:#0b4f44}
+.mode-chip.data{background:var(--gold-soft);border-color:var(--gold-line);color:#6e4f06}
+.mode-chip.application{background:var(--purple-soft);border-color:var(--purple-line);color:#43286e}
+.qtext{font-size:16px;line-height:1.65;margin:6px 0 14px}
+.ext-label{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--purple);margin:14px 0 6px}
+.stim{background:#fbfaf6;border:1px solid var(--line);border-left:4px solid var(--ink);border-radius:6px;padding:14px 16px;font-size:13.8px;margin:0 0 16px}
+.stim h4{font-family:inherit;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-sec);margin-bottom:7px}
+.stim table{border-collapse:collapse;width:100%;margin-top:6px}
+.stim td,.stim th{border:1px solid var(--line);padding:5px 9px;font-size:13px;text-align:left}
+.stim th{background:#f0ede4}
+.exam-note{background:#fdf1ef;border:1px solid #eac8c2;border-left:4px solid #9e2b25;border-radius:6px;padding:11px 14px;font-size:13.2px;color:#6d221d;margin:0 0 16px}
+.exam-note strong{letter-spacing:.6px;text-transform:uppercase;font-size:11.5px}
+.tip-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.tip-btn{font-family:inherit;font-size:12.5px;font-weight:600;border:1.5px dashed #b9b29f;background:transparent;color:var(--text-sec);border-radius:7px;padding:6px 13px;cursor:pointer}
+.tip-box{display:none;background:#fffdf4;border:1px solid var(--gold-line);border-radius:7px;padding:12px 15px;font-size:13.5px;margin-bottom:12px}
+.checklist{background:#f3f6f4;border:1px solid #d4e0d8;border-radius:7px;padding:12px 16px;font-size:13.5px;margin:14px 0}
+.checklist h4{font-family:inherit;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px}
+.checklist label{display:block;margin:4px 0;cursor:pointer}
+.fb-panel{border-radius:9px;margin-top:18px;overflow:hidden;border:1px solid var(--line)}
+.fb-head{padding:11px 16px;font-weight:700;font-size:14px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.fb-body{background:#fff;padding:16px 18px;font-size:14px}
+.fb-sec{margin-bottom:12px}
+.fb-sec h5{font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.fb-sec.good h5{color:var(--green)} .fb-sec.improve h5{color:var(--amber)} .fb-sec.mistake h5{color:var(--red)}
+.fb-sec ul{margin-left:18px}
+.fb-sec li{margin:4px 0}
+.model-wrap{border-top:1px dashed var(--line);padding-top:12px;margin-top:6px}
+.model-box{display:none;background:var(--gold-soft);border:1px solid var(--gold-line);border-radius:6px;padding:12px 15px;margin-top:10px;font-size:13.8px}
+.tfb{background:var(--accent-soft);border:1px solid #b8dcc9;border-left:4px solid var(--accent);border-radius:7px;padding:12px 16px;margin-top:14px;font-size:14px}
+.tfb h5{font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.attempt-block{border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-top:14px;background:#fcfbf8}
+.attempt-block .alabel{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-sec);margin-bottom:6px}
+.ans-quote{font-size:13.8px;color:#3c4a58;border-left:3px solid #cfc9ba;padding-left:12px;margin:6px 0;white-space:pre-wrap}
+.score-pill{display:inline-block;font-weight:700;border-radius:5px;padding:2px 10px;font-size:13px;color:#fff}
+.reflect-box{background:var(--purple-soft);border:1px solid var(--purple-line);border-radius:7px;padding:13px 16px;margin-top:14px;font-size:13.8px}
+.resume{background:var(--teal-soft);border:1px solid #b5d8d0;border-radius:8px;padding:12px 16px;font-size:13.8px;margin-bottom:16px;color:#0b4f44}
+.spin{display:inline-block;width:15px;height:15px;border:2.5px solid #cdd6df;border-top-color:var(--ink);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:7px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:14px 0}
+.kk-card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#fff}
+.kk-card .kk-name{font-size:12.5px;font-weight:700;color:var(--text-sec);margin-bottom:4px}
+.kk-card .kk-score{font-size:20px;font-weight:700;font-family:Georgia,serif}
+.bar{height:7px;border-radius:4px;background:#ece8dc;margin-top:7px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px}
+table.tch{border-collapse:collapse;width:100%;font-size:13px;background:#fff}
+table.tch th{background:var(--ink);color:#fff;padding:7px 10px;text-align:left;font-size:12px;letter-spacing:.4px}
+table.tch td{border:1px solid var(--line);padding:7px 10px}
+table.tch tr:hover td{background:#f6f3ea;cursor:pointer}
+.cell-score{font-weight:700;border-radius:4px;padding:1px 7px;color:#fff;font-size:12px;display:inline-block}
+.backlink{color:var(--text-sec);font-size:13.5px;cursor:pointer;text-decoration:underline}
+.foot{max-width:980px;margin:0 auto;padding:0 22px 40px;display:flex;justify-content:space-between;color:#9aa4ae;font-size:12px}
+.foot span{cursor:pointer;text-decoration:underline}
+.notice{font-size:12.5px;color:var(--text-sec);margin-top:8px}
+@media print{
+  .hero,.lesson-nav,.tabs,.tip-row,.tip-btn,.checklist,.btn,.nudge,.foot,textarea{display:none!important}
+  body{background:#fff} .card,.attempt-block{box-shadow:none;border-color:#999}
+}
+@media(max-width:640px){.hero h1{font-size:23px}.wrap{padding:18px 14px 60px}.card{padding:16px}}
+</style>
+</head>
+<body>
+
+<div class="hero"><div class="hero-inner">
+  <span class="badge">UNIT 4 · AOS 1</span>
+  <h1>Budgetary Policy — Practice Questions</h1>
+  <p>Short-answer practice with AI marking, built around the 2025&ndash;26 and 2026&ndash;27 Federal Budgets. Your work saves automatically and syncs to your teacher — feedback from Ms&nbsp;Dyring appears here when she's reviewed your answers.</p>
+</div></div>
+
+<div class="wrap">
+
+<div id="entry">
+  <div class="card">
+    <h2 style="font-size:21px;margin-bottom:8px">Start practising</h2>
+    <p style="font-size:14px;color:var(--text-sec);margin-bottom:14px">Enter your full name (first and last) so your work is saved and your teacher can see your progress and leave you feedback.</p>
+    <div id="resumeBanner"></div>
+    <input type="text" id="nameIn" placeholder="Your full name" maxlength="60" autocomplete="off">
+    <div style="margin-top:14px"><button class="btn" onclick="start()">Start &rarr;</button></div>
+  </div>
+</div>
+
+<div id="main" style="display:none">
+  <div id="lessonNav" class="lesson-nav"></div>
+  <div id="lessonPanel"></div>
+  <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap">
+    <button class="btn ghost" onclick="showResults()">My results &rarr;</button>
+    <button class="btn ghost small" onclick="refreshFeedback(true)">&#128172; Check for teacher feedback</button>
+  </div>
+</div>
+
+<div id="results" style="display:none"></div>
+
+<div id="teacher" style="display:none"></div>
+
+</div>
+
+<div class="foot">
+  <div>VCE Economics &middot; Ringwood Secondary College</div>
+  <div><span onclick="openTeacher()">Staff access</span></div>
+</div>
+
+<script>
+const WORKER_URL = 'https://vce-marker.megan-dyring.workers.dev';
+const RES_URL    = 'https://vce-results.megan-dyring.workers.dev';
+var SAVE_KEY     = 'u4_aos1_bp_practice_v1';
+let _apiKey = '';            // Always empty — key is in the Worker
+
+/* ============================================================
+   AI SYSTEM PROMPT
+   ============================================================ */
+const SYSTEM = `You are an expert VCE Economics teacher marking Unit 4 AOS1 (Aggregate demand policies - Budgetary Policy) student responses for a Victorian secondary school, against the VCE Economics Study Design 2023-2027. ALL feedback must address the student directly using you/your. Never say 'the student'.
+
+== FEEDBACK STYLE ==
+- Lead with encouragement when the student has made a genuine attempt.
+- Structure: What you did well -> What to improve -> Scaffold if needed -> Model answer.
+- Be specific - never 'good explanation' without naming exactly what was good.
+- When cause/effect is reversed (e.g. 'expansionary policy increases unemployment'), acknowledge the good thinking then correct the direction explicitly.
+- Say 'increase or decrease' not 'positively or negatively'.
+- Use correct VCE terminology: 'aggregate demand/aggregate supply' - never just 'demand/supply'; 'willingness and ability'; 'derived demand for labour'; 'discretionary income' for households after tax AND necessities, 'disposable income' for after-tax income.
+- Never refer to individuals - use aggregates ('average household incomes' not 'people's incomes').
+- ON APPLICATION QUESTIONS ONLY (see the THEORY VS APPLICATION section below): where the question invites a current figure (e.g. 'the budget outcome', 'the current stance', 'recent', 'past two years'), an answer that does not QUOTE the actual figure is incomplete: it is not enough to say 'the deficit would increase' - the student should identify what the outcome actually is (e.g. the $31.5 billion estimated deficit for 2026-27). Say so plainly in feedback.
+- If the student re-defines a term at length when the question does not require it, note it as an exam-technique improvement (definitions should only be included when they earn marks - time is scarce in a SAC/exam) but do not deduct if the required content is present.
+
+== CONTENT KNOWLEDGE BASE ==
+BUDGETARY POLICY (fiscal policy): the manipulation of the level and composition of Australian Government revenue (receipts) and expenditure (outlays/expenses) in order to influence the level of aggregate demand (AD = C + I + G1 + G2 + X - M), stabilise the business cycle, and assist in achieving the domestic macroeconomic goals and improved living standards. The budget is delivered annually, normally in May. The 2026-27 Budget was delivered on 12 May 2026; the 2025-26 Budget on 25 March 2025 (early, ahead of the 2025 election).
+
+REVENUE (BKK1): 2026-27 estimated receipts $798.1 billion. DIRECT taxes are levied on incomes: personal (individuals) income tax - the largest single source, about 48% of all revenue; company tax on profits; fringe benefits tax; resource rent taxes (e.g. Petroleum Resource Rent Tax). INDIRECT taxes are levied on spending: GST (10%, collected federally and passed to the states), excise duties (fuel, alcohol, tobacco). PROGRESSIVE tax: takes a higher PROPORTION of income as income rises (personal income tax with its marginal rate scale). REGRESSIVE tax: takes a higher proportion of income from lower-income earners (GST, excise - the same dollar tax is a bigger share of a low income). PROPORTIONAL (flat) tax: the same proportion at all income levels (company tax at a flat rate on profits). NON-TAX revenue (~7%): profits/dividends from government business enterprises (e.g. Australia Post) and the RBA, and proceeds from the sale of government assets (e.g. land, spectrum/licences).
+
+EXPENSES (BKK2): 2026-27 estimated payments $829.6 billion. G1 = government CURRENT (consumption) expenditure - day-to-day: public servant salaries, supplies, running services. G2 = government CAPITAL (investment) expenditure - assets providing future benefits: roads, rail, hospitals (construction), defence hardware, energy infrastructure. TRANSFER PAYMENTS - money transferred to households (unemployment benefits, pensions, family payments); NOT part of G in AD because no good/service is produced in return - they enter AD via C when recipients spend. Largest expense category: social security and welfare; health is also very large ($139.6b in 2026-27). 'Other purposes' includes GST transfers to the states and interest on government debt.
+
+BUDGET OUTCOME AND DEBT (BKK3): The UNDERLYING CASH BALANCE (UCB) = total cash receipts minus total cash payments, excluding one-off/volatile items such as asset sales/purchases and net Future Fund earnings. It is THE standard measure of the budget outcome. The HEADLINE cash balance includes those one-off items. Deficit: payments exceed receipts (G > T; injections exceed leakages from the government sector). Surplus: receipts exceed payments. A DEFICIT is a FLOW over a year; DEBT is a STOCK owed at a point in time. FINANCING A DEFICIT: the government (via Treasury/the AOFM) may borrow by issuing bonds - Australian Government Securities (AGS), also called Commonwealth Government Securities (CGS) - to domestic and overseas investors, promising repayment with interest. Each deficit financed this way ADDS to the stock of public debt and to future interest payments. A SURPLUS allows the government to retire/buy back bonds, reducing (net) debt - as the 2022-23 and 2023-24 surpluses did. NET debt = what the government owes minus what it is owed; GROSS debt = total face value of AGS on issue.
+THE UCB SERIES (know these numbers): 2020-21 -$132.4b (COVID peak deficit); 2021-22 -$32b; 2022-23 +$22.1b surplus (actual); 2023-24 +$15.8b surplus (actual); 2024-25 -$10.0b deficit (ACTUAL - the estimate at Budget time had been -$27.6b); 2025-26 -$28.3b expected final outcome (the original estimate at delivery in March 2025 was -$42.1b); 2026-27 -$31.5b estimated (-1.0% of GDP); 2027-28 -$31b projected. Net debt expected to be $616.6b at end 2026-27, growing to $767.8b by 2029-30 (~22% of GDP); gross debt ~34% of GDP at 30 June 2027, peaking ~35.8% in 2029. No surplus is projected in the current forward estimates.
+
+AUTOMATIC STABILISERS (BKK4) - the CYCLICAL component of the budget: changes in receipts and outlays that occur automatically as economic activity fluctuates, WITHOUT any deliberate government decision, and operate COUNTER-CYCLICALLY. In a downturn/rising unemployment: fewer people earning incomes so personal income tax receipts fall; weaker profits so company tax falls; weaker consumption so GST receipts fall; MORE people eligible for unemployment benefits and welfare so outlays rise. The budget outcome automatically deteriorates (moves toward/further into deficit), cushioning the fall in AD. In a boom the reverse: receipts rise, welfare outlays fall, the outcome automatically improves, restraining AD.
+
+DISCRETIONARY STABILISERS (BKK5) - the STRUCTURAL component: deliberate policy decisions announced by the government that change receipts or outlays - e.g. new tax offsets, changes to tax rates, new spending programs, infrastructure investment. Used counter-cyclically to influence AD: expansionary measures (spending increases/tax cuts) in weak conditions; contractionary measures (spending restraint/tax increases) when inflation threatens.
+
+EFFECT OF AUTOMATIC AND DISCRETIONARY CHANGES ON OUTCOME AND DEBT (BKK6): The Budget is built on forecast PARAMETERS - unemployment, wages growth, commodity prices (the 2026-27 Budget assumed iron ore falling to US$60/tonne by March 2027; it has been trading near US$99-106). When actual conditions differ from forecasts, AUTOMATIC stabilisers cause the ACTUAL outcome to differ from the ESTIMATE. EXAM-CRITICAL RULE (from the VCAA assessors): variations between the estimated and actual outcome arise from automatic stabilisers/parameter differences - once a budget is passed, discretionary spending and revenue measures are rarely changed mid-year. Students who claim 'the government changed its spending during the year' are wrong. REAL EXAMPLE SEQUENCE: 2025-26 was forecast at -$42.1b (March 2025); by the December 2025 mid-year update it was tracking about $6.6b better than expected (income tax ~$4b stronger, superannuation fund taxes $3.1b higher, iron ore near US$106 vs US$60 assumed, jobs growth above forecast); the final outcome is now expected to be -$28.3b. Similarly 2024-25: estimated -$27.6b, actual -$10.0b.
+
+STANCE (BKK7): whether the budget's overall impact on AD is EXPANSIONARY (adding to AD - deficit, or moving toward a larger deficit/smaller surplus) or CONTRACTIONARY (restraining AD - surplus, or moving toward surplus/smaller deficit). Judged from: the direction of change in the UCB in dollar terms AND as a % of GDP, and whether the change is driven by structural (discretionary) or cyclical (automatic) factors. PRECISION MATTERS: a SHRINKING deficit is LESS EXPANSIONARY, not contractionary - the budget is still injecting more than it withdraws. A GROWING surplus is MORE contractionary. CURRENT NARRATIVE (use this): surpluses in 2022-23 (+$22.1b) and 2023-24 (+$15.8b); return to deficit in 2024-25 (-$10b actual); deficits of -$28.3b (2025-26) and -$31.5b (2026-27), both around -1.0% of GDP. The 2026-27 stance is a CONTINUED (mildly more) EXPANSIONARY stance: the deficit is slightly larger in dollar terms, and crucially the deficit is STRUCTURALLY driven - the cyclical component was actually positive (higher-than-assumed commodity prices lifted receipts), but the government chose new discretionary measures (tax offsets, excise cuts, oil-shock response spending, hospitals, defence) that more than offset this. Without those discretionary decisions the deficit would have been smaller. Nuance available to strong answers: the government also 'banked' part of the revenue upgrades and points to a $44.9b improvement across the forward estimates - the budget is expansionary but presented as fiscally restrained.
+
+RECENT INITIATIVES (BKK8) - the past two budgets (know several with detail):
+2026-27 Budget (12 May 2026): $250 Working Australians Tax Offset (WATO) and a $1,000 instant work-expenses tax deduction; $2.9b to more than halve the fuel excise and cut the heavy vehicle road user charge to zero for three months; $14.8b Strengthening Australia's Fuel Resilience package (responding to the Middle East conflict and Strait of Hormuz closure), including a $7.5b Fuel and Fertiliser Security Facility and $3.2b Australian Fuel Security Reserve; reserving 20% of gas exports for domestic use; $25b additional investment in public hospitals; additional $53b for Defence capabilities; $8.6b for road and rail projects; $2b local housing infrastructure (up to 65,000 homes); $5.9b to cut the cost of medicines; permanent $20,000 instant asset write-off; reform of negative gearing (limited to new dwellings) and the capital gains tax discount; over $3.5b in business/start-up tax reform; NDIS reform substantially reducing projected outlays over time; continued legislated income tax cuts (16% rate falling to 15% from July 2026).
+2025-26 Budget (25 March 2025): $1.8b to extend energy bill relief - two $75 rebates per household and ~1 million small businesses to end-2025; legislated income tax cuts (16% -> 15% July 2026 -> 14% July 2027); $7.9b to lift GP bulk billing toward 9 in 10 visits; $784.6m to cap scripts at $25; 20% reduction in student HELP debts; permanent Free TAFE; $10,000 payments for eligible housing-construction apprentices; $5b toward universal early childhood education.
+(2024-25 measures - $300 household energy rebates, Stage 3 income tax cuts from July 2024, Future Made in Australia - are acceptable as slightly older context but the two MOST RECENT budgets are 2025-26 and 2026-27.)
+
+CURRENT ECONOMIC CONDITIONS (mid-2026, know these): real GDP growth ~2.5% for the year to March 2026 but only ~1.2% annualised over recent quarters - a distinct slowing; Budget forecasts growth of 1.75% in 2026-27 (target 3-3.5%); GDP per capita fell in the March quarter. CPI inflation 4.0% for the year to May 2026, after peaking at 4.6% in March (disinflation beginning); underlying (trimmed mean) inflation 3.6%; headline inflation forecast at 5% through the year to the June quarter 2026 - driven substantially by the global oil-price shock from the Middle East conflict (oil above US$100). Unemployment 4.4% (May 2026) and drifting up from 3.7% in early 2023; forecast 4.5%. The RBA raised the cash rate three times over Feb-May 2026 to 4.35% and held in June - monetary policy is contractionary while budgetary policy is expansionary.
+
+GOALS AND THE RECENT BUDGETS (BKK8 analysis):
+- Strong and sustainable economic growth (SSEG): discretionary stimulus (WATO, excise cuts, infrastructure, defence, hospitals) supports C, I, G1 and G2 and therefore AD, helping growth that is currently well below the 3-3.5% target. Supply-side measures (skills, childcare, productivity package) may support the 'sustainable' (low-inflation) part over time.
+- Full employment: budget support for AD supports the derived demand for labour; unemployment (4.4%) is around the NAIRU (~4.25%) but rising - budgetary policy has helped keep the labour market close to full employment, though slowing growth and higher interest rates are pushing unemployment up; at best PARTIALLY effective.
+- Low inflation: the central tension. The overall expansionary stance adds to AD when inflation (4.0%) is above the 2-3% target - risking slower disinflation. BUT specific cost-of-living measures (energy rebates 2025-26; fuel excise cut 2026-27) DIRECTLY LOWER MEASURED (headline) CPI because the ABS captures the lower prices households actually pay, and subsidised essentials (bulk billing, cheaper medicines) reduce household costs with little demand response since demand for them is price-inelastic. Reconciling the two: the direct price effects lower measured/headline inflation in the short term (an AS/cost channel), while the demand injection puts upward pressure on underlying inflation over time (an AD channel). Strong answers hold both ideas; weak answers claim expansionary policy simply 'helps achieve low inflation'.
+
+STRENGTHS OF BUDGETARY POLICY (BKK9): (1) TARGETING/specificity - unlike blunt monetary policy, budget measures can be aimed at particular households, sectors, regions or problems (cost-of-living relief; the fuel-security package aimed at the oil shock; housing-construction apprentices; childcare participation measures). (2) SPEED OF IMPACT for direct payments - rebates and offsets reach households within weeks, versus up to ~18 months for monetary policy to fully transmit. (3) Can act directly on BOTH sides - AD now and productive capacity/AS over time (infrastructure, skills) - supporting non-inflationary growth. (4) Automatic stabilisers operate continuously with no decision lag at all. (5) Powerful in a downturn where monetary policy is weak ('pushing on a string') - government can spend directly.
+WEAKNESSES (BKK9): (1) POLITICAL constraints and bias - budgets are political documents; the 2025-26 Budget was delivered two months before an election, and it is electorally very hard to withdraw support or run contractionary policy when needed (contrast the RBA's independence). (2) TIME LAGS - recognition and implementation lags (annual budget cycle, parliamentary passage) and long impact lags for infrastructure. (3) Risk of FUELLING INFLATION when the economy is near capacity - stimulus with unemployment near the NAIRU and inflation above target can be counterproductive and force the RBA to tighten further. (4) DEBT AND INTEREST burden - persistent structural deficits add to public debt (net debt heading toward $767.8b), and interest payments crowd out future spending capacity; tax cuts also erode the future revenue base. (5) LESS FLEXIBLE than monetary policy - major changes essentially once a year. (6) Can be offset/undermined when monetary policy pulls the other way, as in 2026.
+WHEN A QUESTION ASKS TO ANALYSE/EVALUATE: at least one strength AND one weakness (or both sides of an argument) must be explained AND linked to the goal in question under CURRENT conditions with data - a generic list scores poorly.
+
+GOAL DEFINITIONS - always use these exact versions on first mention:
+SSEG: the highest rate of economic growth possible, consistent with strong employment growth, without running into inflationary, environmental or external pressures - target: 3-3.5% real GDP growth per annum. (Currently NOT achieved: ~1.2% annualised, 1.75% forecast for 2026-27.)
+Low inflation (price stability): maintaining CPI inflation within 2-3% on average over time. NOT 'a stable exchange rate'. (Currently NOT achieved: headline 4.0%, underlying 3.6%.)
+Full Employment: the lowest rate of unemployment consistent with stable inflation (the NAIRU) - approximately 4-4.25% unemployment, with no cyclical unemployment. Unemployment BELOW the NAIRU signals an overly tight labour market and inflationary pressure. (Currently ~4.4% - close to but drifting above the NAIRU.)
+LIVING STANDARDS: material living standards = access to goods and services / real incomes per capita; non-material living standards = quality of life (e.g. mental health, stress, leisure, environment). Where a question asks about living standards, BOTH material and non-material dimensions are required for full marks.
+
+== COMMON STUDENT ERRORS (check every answer for these) ==
+- Saying 'debt would increase' with NO financing mechanism. Full marks requires: deficit -> government may borrow by issuing bonds/CGS (AGS) to domestic and overseas investors -> stock of public debt rises (and future interest payments rise). Anyone can assert 'debt increases' - it is not worth the marks on its own.
+- Calling a SHRINKING deficit 'contractionary' or 'less contractionary'. Both years in deficit = the stance is expansionary; a smaller deficit = LESS EXPANSIONARY.
+- Calling government borrowing 'Net Foreign Debt'. Public debt is owed to BOTH domestic and overseas bondholders - much of it domestic.
+- Explaining estimate-vs-actual differences as the government 'changing its spending' mid-year. Variations arise from automatic stabilisers as actual conditions differ from forecast parameters.
+- Confusing the budget outcome with the current account balance (a balance of payments concept).
+- Saying the government 'must' borrow to fund a deficit - it MAY borrow; other options exist (drawing on the Future Fund, asset sales). 'Usually by issuing bonds' is the safe phrasing.
+- 'Headline vs underlying: the underlying removes volatile items' with no examples and no significance - name the excluded items (asset sales/purchases, net Future Fund earnings) and why the underlying figure better shows the budget's economic impact.
+- Answering only the automatic side (or only the discretionary side) when the question covers both.
+- Analysing a discretionary stabiliser purely through AS/production costs - discretionary stabilisers are AD instruments first (the 2025 assessors flagged this).
+- (APPLICATION questions only) Vague initiatives: 'tax cuts' or 'infrastructure spending' with no name, amount or budget year. Detail is expected: WHICH measure, roughly how much, which budget. On THEORY questions a generic 'infrastructure spending' is perfectly acceptable.
+- Choosing a policy whose direction contradicts the goal outcome being described (e.g. using a stimulus measure to explain falling inflation without addressing the tension).
+- Directional slips: expansionary policy DECREASES unemployment / supports AD - watch for reversed chains.
+- Transfer payments counted inside G. They are not - they affect AD through C.
+- (APPLICATION questions only) Missing current data where the question says 'recent', 'current', 'past two years' or provides data. Missing the actual outcome figure when the question turns on it.
+- 'demand/supply' instead of 'aggregate demand/aggregate supply'; no ceteris paribus in cause-effect chains; 'will' instead of 'likely/should'; missing goal target rates on first mention; failing to identify which part of aggregate demand is affected (on THEORY questions plain language is fine - see above); only material OR only non-material living standards when both are required.
+
+== THEORY VS APPLICATION QUESTIONS (READ THIS BEFORE MARKING) ==
+Every question is tagged in the user message as QUESTION TYPE: THEORY, DATA-RESPONSE or APPLICATION. This changes what you may require.
+
+THEORY questions test whether the student understands the concept and can chain a mechanism. The class may not yet have studied the current budgets when attempting these.
+- Do NOT deduct marks for the absence of a current Australian example, a named budget initiative, or any 2025-26/2026-27 figures. A clear, correct generic mechanism earns FULL marks.
+- Do NOT deduct marks for not using the labels G1 (government current expenditure) and G2 (government capital expenditure), or for not naming C/I/G/X-M in the textbook shorthand. It is enough that the student identifies WHAT is affected in plain terms - e.g. 'household consumption' or 'government spending on infrastructure'.
+- Where a current example or the G1/G2 distinction WOULD have strengthened the answer, raise it in 'improvements' as forward-looking coaching, phrased so the student knows it is not why they lost a mark. For example: 'You have the mechanism right, and that earns the marks here. When we move on to application-style questions - the ones that say "recent", "current" or "in the 2026-27 Budget" - you will also need to name a real measure and quote its figures, so it is worth starting to collect those examples now.' Never write this as though a mark was lost.
+- MODEL ANSWERS for theory questions must be written the way a student could write them BEFORE studying the current budgets: illustrate with a generic example rather than a named current initiative - for example 'an increase in government capital expenditure (G2), such as spending on infrastructure' or 'a reduction in personal income tax'. You may use the G1/G2 terminology in the model answer to show best practice, but always gloss it with a plain example. Do NOT build a theory model answer around WATO, the fuel excise cut, energy rebates or specific dollar figures.
+
+DATA-RESPONSE questions (a table or extract is supplied) require the student to use the figures IN THE STIMULUS, but do not require outside current data.
+
+APPLICATION questions name a year, say 'recent'/'current'/'past two years', or ask about the stance or the goals now. Here the full standard applies: a named initiative with detail, and the actual figures quoted.
+
+
+- Ceteris paribus required in cause-effect chains on questions worth 3+ marks.
+- 'Likely/should' not 'will' - deduct on 3+ mark questions if absent.
+- Full goal definitions with target rate on first mention.
+- Both material AND non-material living standards required where living standards are asked about.
+- No circular reasoning - assertions without a mechanism score 0 for that link.
+- Full sentences only - no arrows, symbols or dot points in the answer.
+- Trend/data description = quote the actual figures with units, dates and direction.
+- Deficit-to-debt links require the bond/CGS financing mechanism.
+- Stance identification requires data support (the $ figures and/or % of GDP).
+- Must identify which part of aggregate demand is affected in AD questions. On APPLICATION and DATA-RESPONSE questions this should be the correct component (C, I, G1, G2 or X-M). On THEORY questions, a plain-language identification ('household consumption', 'government spending on infrastructure') is sufficient for full marks - do not require the shorthand labels.
+- Award middle marks for partial understanding. Never award full marks unless ALL criteria are clearly met.
+- Where a question has a MAIN part and an EXTENSION part, mark each part against its own allocation and sum them. If the extension was not attempted, score it 0 and encourage the student to attempt it on retry - the extension is where deeper analysis is practised.
+
+== QUESTION-SPECIFIC MARKING GUIDES ==
+[L1a] Expansionary BP -> AD, 2 marks: THEORY QUESTION - mark generously on mechanism, not on examples. Identify one specific expansionary change - an increase in government expenditure or a reduction in taxation (1); chain it to aggregate demand - e.g. lower income tax leaves households with higher disposable income so consumption is likely to rise, or increased government spending on infrastructure directly adds to aggregate demand (1). A generic example such as 'spending on infrastructure' or 'a cut to income tax' is FULL MARKS. Do NOT require a named 2025-26 or 2026-27 initiative, dollar figures, or the G1/G2 labels - the class has not necessarily studied these yet. If the student did not use G1/G2 or a real example, mention it only as future-facing coaching for application questions, making clear no mark was lost.
+[L1b] Reason for intervention, 2 marks + extension 2 marks: MAIN: one reason government intervenes to stabilise economic activity - the business cycle produces booms (inflationary pressure) and downturns (rising cyclical unemployment) that harm the goals and living standards, so government uses counter-cyclical budgetary policy to smooth fluctuations in AD (identify the problem 1; link to stabilisation via the budget 1). EXTENSION: chain the intervention to improved living standards - e.g. stimulus in a downturn -> AD supported -> production and derived demand for labour supported -> employment and incomes higher than otherwise -> improved MATERIAL living standards (access to goods and services), and lower unemployment also supports NON-MATERIAL living standards (less financial stress) (mechanism 1; explicit living standards link, ideally both dimensions, 1).
+[L2a] Repeated deficits -> debt, 3 marks: deficit defined - payments/expenditure exceed receipts/revenue over the year (1); financing - the government may borrow, usually by issuing bonds/CGS (AGS) to domestic and overseas investors (1); repetition - each successive deficit adds to the STOCK of public debt, which accumulates over time and raises future interest obligations (1).
+[L2b] Deficit-debt link, 2 marks + extension 2 marks: MAIN: deficit means spending exceeds revenue (1); financed by issuing bonds/CGS, adding to public debt - repeated deficits accumulate debt (1). EXTENSION 'Evaluate whether government debt is always undesirable': needs BOTH sides plus a judgement - debt can be desirable/justified when it finances capital (G2)/infrastructure that expands future productive capacity, or counter-cyclical support that prevents deep recessions (1); versus costs - interest payments reduce future spending capacity, possible burden on future taxpayers/intergenerational equity, risk if debt grows faster than GDP (1). A one-sided answer caps at 1 of the 2 extension marks.
+[L3a] Budget change 2014-15 to 2015-16, 2 marks: quote the data - the estimated UCB improved from -$41.1b to -$35.1b (and/or -2.6% to -2.1% of GDP) (1); interpretation - the smaller deficit suggests economic conditions were expected to improve (stronger growth lifting tax receipts and reducing welfare outlays via automatic stabilisers), with the budget remaining expansionary but becoming LESS expansionary (1). Watch for: 'contractionary'/'less contractionary' errors; answers with no data.
+[L3b] Change in stance (VCAA 2015), 2 marks + extension 2 marks: MAIN: the stance remained EXPANSIONARY in both years (deficits), but became LESS EXPANSIONARY as the estimated deficit fell from $41.1b (2.6% of GDP) to $35.1b (2.1% of GDP) (correct characterisation 1; data support 1 - both figures or both percentages). EXTENSION: what the change suggests - economic conditions: expected to strengthen (higher receipts/lower outlays); business cycle: an economy in recovery/upswing needing less support; government priorities: shifting toward fiscal consolidation/budget repair. Any TWO of the three, each explained briefly (1 each).
+[L4a] Rising unemployment -> outlays and receipts, 4 marks: outlays rise - more people eligible for unemployment benefits/welfare (1); receipts fall - fewer income earners paying personal income tax, weaker profits reducing company tax, weaker consumption reducing GST (at least two named taxes for the full mark) (1); these are AUTOMATIC stabilisers - occurring without new government decisions, operating counter-cyclically to support AD (1); overall effect - the budget outcome deteriorates, moving toward/further into deficit, and the government may ALSO add discretionary stimulus which would push the outcome further into deficit (1).
+[L4b] Rising unemployment -> cyclical component and living standards, 4 marks: cyclical/automatic component (2): receipts automatically fall (income tax, company tax, GST) and outlays automatically rise (unemployment benefits), so the cyclical component of the budget deteriorates - moving the outcome toward a larger deficit while cushioning AD. Living standards (2): MATERIAL - lower average incomes and access to goods and services for those losing work/hours (1); NON-MATERIAL - increased financial stress, effects on health/wellbeing/social cohesion (1). Both dimensions required for the full 2.
+[L5a] Operation of BP in 2026-27 -> AD and low inflation, 4 marks: identify the operation - a continued expansionary stance with an estimated UCB deficit of $31.5b (-1.0% of GDP) (1); AD mechanism through a NAMED measure - e.g. the $250 WATO/$1,000 instant deduction raising disposable income -> C; the fuel excise cut raising discretionary income; hospitals/defence/rail raising G1/G2 - link to AD rising, ceteris paribus (1); goal of low inflation defined - CPI 2-3% on average over time, currently NOT met at 4.0% (1); the link/tension - the expansionary stance risks adding demand-side pressure and slowing the return to target, ALTHOUGH cost-of-living measures like the excise cut directly LOWER measured headline CPI in the short term - either direction accepted if the mechanism is correct; the best answers acknowledge both (1).
+[L5b] Recent stance -> AD and one goal, 4 marks: stance with data - expansionary across the past two budgets: -$28.3b (2025-26) and -$31.5b (2026-27), both ~-1.0% of GDP; injections exceed leakages (1); AD influence - the deficit adds more to the economy than it withdraws, and named measures lift specific AD components (1); ONE goal defined with its target (1); analysis with recent evidence of the effect on that goal's achievement - e.g. SSEG: growth still well below 3-3.5% (~1.2% annualised) so policy is supporting but not achieving; full employment: unemployment 4.4% near the NAIRU; low inflation: 4.0% vs 2-3% with the stance likely slowing disinflation (1).
+[L6a] BP -> full employment over past two years, 4 marks: recent operation - expansionary budgets 2025-26 and 2026-27 with named initiatives supporting labour demand (energy rebates and tax cuts supporting C and hence derived demand for labour; hospitals/defence/rail directly supporting employment) (1); goal defined - full employment = NAIRU ~4-4.25%, no cyclical unemployment (1); evidence - unemployment has drifted UP from ~3.9-4.1% to 4.4% (May 2026), close to but now slightly above the NAIRU, as growth slowed and interest rates rose (1); balanced judgement - budgetary policy has been PARTIALLY effective: it has supported employment against strong headwinds (oil shock, contractionary monetary policy) but has not prevented the drift upward; weaknesses such as impact lags and the offsetting RBA tightening belong here (1).
+[L6b] One strength and one weakness of EACH of BP and MP for 'jobs and growth', 8 marks (2+2+2+2): for EACH of the four elements: identify + describe the strength/weakness (1) and explain/link it to increased employment and economic growth, ideally with current evidence (1). BP strength options: targeting specific sectors/groups (housing apprentices, fuel-security package protecting industry); speed of direct payments. BP weakness options: political constraints (pre-election 2025-26 budget), time lags for infrastructure, inflation risk near capacity forcing RBA offsets, debt burden. MP strength options: independence from politics; short implementation lag (rate changes flow through within days). MP weakness options: blunt instrument; long impact lag (~18 months); weak at stimulating in downturns ('pushing on a string'); cannot target. All four elements needed to access 7-8; generic unlinked lists cap around 4.
+[R1] Why the actual 2025-26 outcome may be smaller than the estimated $42.1b deficit, 2 marks: identify a factor that differed from the forecast parameters - stronger-than-expected labour market/income tax collections, stronger superannuation fund taxes, iron ore near US$106 vs the assumed US$60 lifting company tax (1); mechanism - via automatic stabilisers, receipts higher (and/or welfare outlays lower) than forecast, so the actual deficit is smaller than estimated (accept the real story: tracking $6.6b better by the mid-year update, now expected at -$28.3b) (1). AUTOMATIC FAIL ITEM: claiming the government changed its spending/revenue measures mid-year - correct this explicitly.
+[R2] Stance of the 2026-27 Budget + reason, 3 marks: stance identified as (continued/mildly more) EXPANSIONARY with data - estimated deficit of $31.5b (-1.0% of GDP), slightly larger than 2025-26's $28.3b, and structurally driven (1); understanding - a deficit injects more into the economy than it withdraws, adding to AD (1); one reason given current conditions - supporting weak growth (~1.2% annualised vs 3-3.5% target) and household cost-of-living pressure from the oil shock, judged to outweigh the inflation risk; strong answers note the tension with CPI at 4.0% (1).
+[R3] One discretionary stabiliser from 2026-27 -> SSEG, 4 marks: named CURRENT initiative with detail (WATO $250 / $1,000 instant deduction / $2.9b fuel excise halving / $25b hospitals / $53b defence / $8.6b road and rail) (1); AD chain - the measure raises disposable/discretionary income -> C, or directly raises G1/G2; AD increases, ceteris paribus (1); production/growth link - firms respond to higher AD with increased production, raising real GDP and the derived demand for labour (1); goal link - SSEG defined (3-3.5% real GDP growth p.a.) and assessment against it - growth currently ~1.2% annualised/1.75% forecast, so the measure supports movement TOWARD the goal without achieving it (1). Watch for: AS-only analysis; no named initiative.
+[R4] Automatic vs discretionary classification, 4 marks: company tax rise from higher commodity prices = AUTOMATIC/cyclical - it occurred because economic conditions (commodity prices/profits) differed from assumptions, with no new government decision (1); its effect - lifts receipts, IMPROVING the budget outcome (smaller deficit than otherwise) (1); the fuel excise cut = DISCRETIONARY/structural - a deliberate policy decision announced in the Budget (1); its effect - reduces receipts (~$2.9b), WORSENING the outcome (larger deficit than otherwise) (1). Bonus quality: noting the government 'banked' some of the automatic revenue gains yet still chose measures that left the deficit slightly larger - showing the two forces pulling in opposite directions.
+[R5] Why BP and MP are working in different directions in 2026, 4 marks: reason for divergence (2): the two arms have different priorities/constraints - the independent RBA is prioritising returning inflation (4.0%, underlying 3.6%) to the 2-3% target and so raised the cash rate three times to 4.35%, while the elected government is prioritising supporting weak growth and household cost-of-living pressure from the oil shock (and faces political pressure to help), delivering an expansionary $31.5b deficit; monetary policy also cannot target the specific casualties of the supply shock, so budgetary policy takes that role (any well-explained version, 2). Effect on AD (2): the policies partially OFFSET each other - budget injections add to AD (C, G) while higher interest rates restrain C and I through the transmission mechanism; the net effect on AD is smaller than either policy alone, and the fiscal stimulus may force the RBA to keep rates higher for longer than otherwise (mechanism 1; net/offset conclusion 1).
+[R6] Reconciling 'cost-of-living measures reduce inflation' with 'expansionary budgets add to inflation', 4 marks: claim one mechanism (with a named measure) - energy rebates (2025-26) or the fuel excise cut (2026-27) DIRECTLY lower prices households pay, so measured HEADLINE CPI falls in the short term; subsidised essentials (bulk billing, $25 scripts) cut costs with little demand response because demand is price-inelastic (measure 1; direct price/measured-CPI mechanism 1). Claim two mechanism - the OVERALL stance is expansionary (structural deficits of $28.3b and $31.5b), injecting more than is withdrawn and adding to AD, which puts upward pressure on UNDERLYING/demand inflation over time, especially with unemployment near the NAIRU (1). Reconciliation - both can be true because they operate through different channels/measures: a direct (supply/cost-side) effect on the measured price level versus a demand-side effect on inflationary pressure; equivalently, headline CPI can fall while underlying inflation pressure builds - underlying is 3.6% and above target (1).
+
+== FEEDBACK JSON FORMAT - return this exactly, and nothing else ==
+{
+  "score": <integer>,
+  "maxScore": <integer>,
+  "whatWorked": ["You correctly..."],
+  "improvements": ["Your answer would be stronger if..."],
+  "commonMistakes": ["specific error found, or empty string"],
+  "modelAnswer": "Full A-grade model answer in complete sentences. Where the question has an extension, include both parts, clearly labelled.",
+  "encouragement": "One specific encouraging sentence referencing what they did."
+}
+Award middle marks for partial understanding. Never award full marks unless ALL criteria clearly met. Return ONLY the raw JSON object - no markdown fences, no preamble.`;
+
+/* ============================================================
+   KEY KNOWLEDGE MAP
+   ============================================================ */
+const KK_MAP = {
+  BKK3:'Outcome & public debt',
+  BKK4:'Automatic stabilisers',
+  BKK5:'Discretionary stabilisers',
+  BKK6:'Effects on outcome & debt',
+  BKK7:'The stance',
+  BKK8:'Stance, goals & living standards',
+  BKK9:'Strengths & weaknesses'
+};
+
+/* ============================================================
+   STIMULUS BLOCKS (data strings - HTML)
+   ============================================================ */
+const STIM_BP_DATA = "<h4>&#128202; Know your numbers (mid-2026)</h4>" +
+ "<strong>Underlying cash balance:</strong> 2022&ndash;23 +$22.1b (actual) &middot; 2023&ndash;24 +$15.8b (actual) &middot; 2024&ndash;25 &minus;$10.0b (actual) &middot; 2025&ndash;26 &minus;$28.3b (expected) &middot; 2026&ndash;27 &minus;$31.5b (est., &minus;1.0% of GDP)<br>" +
+ "<strong>Net debt:</strong> $616.6b expected at end 2026&ndash;27 &nbsp;|&nbsp; <strong>Receipts / payments 2026&ndash;27:</strong> $798.1b / $829.6b<br>" +
+ "<strong>Conditions:</strong> real GDP growth ~1.2% annualised, 1.75% forecast for 2026&ndash;27 (target 3&ndash;3.5%) &nbsp;|&nbsp; CPI 4.0% (May 2026), underlying 3.6% (target 2&ndash;3%) &nbsp;|&nbsp; Unemployment 4.4% (NAIRU ~4.25%) &nbsp;|&nbsp; Cash rate 4.35%";
+
+const STIM_UCB_TABLE = "<h4>&#128200; Underlying cash balance, 2022&ndash;23 to 2027&ndash;28</h4>" +
+ "<table><tr><th>Year</th><th>UCB ($b)</th><th>Status</th></tr>" +
+ "<tr><td>2022&ndash;23</td><td>+22.1</td><td>Actual (surplus)</td></tr>" +
+ "<tr><td>2023&ndash;24</td><td>+15.8</td><td>Actual (surplus)</td></tr>" +
+ "<tr><td>2024&ndash;25</td><td>&minus;10.0</td><td>Actual (estimate at Budget time was &minus;27.6)</td></tr>" +
+ "<tr><td>2025&ndash;26</td><td>&minus;28.3</td><td>Expected final outcome (original estimate &minus;42.1)</td></tr>" +
+ "<tr><td>2026&ndash;27</td><td>&minus;31.5</td><td>Estimate (&minus;1.0% of GDP)</td></tr>" +
+ "<tr><td>2027&ndash;28</td><td>&minus;31.0</td><td>Projection</td></tr></table>" +
+ "<div style='margin-top:6px;color:var(--text-sec)'>Source: 2026&ndash;27 Budget, Budget Paper No. 1</div>";
+
+const STIM_VCAA15 = "<h4>&#128202; Budget aggregates 2014&ndash;2015 to 2016&ndash;2017 (estimates)</h4>" +
+ "<table><tr><th></th><th>2014&ndash;2015</th><th>2015&ndash;2016</th><th>2016&ndash;2017</th></tr>" +
+ "<tr><td>Underlying cash balance ($b)(a)</td><td>&minus;41.1</td><td>&minus;35.1</td><td>&minus;25.8</td></tr>" +
+ "<tr><td>per cent of GDP</td><td>&minus;2.6</td><td>&minus;2.1</td><td>&minus;1.5</td></tr>" +
+ "<tr><td>fiscal balance ($b)</td><td>&minus;39.4</td><td>&minus;33.0</td><td>&minus;23.4</td></tr>" +
+ "<tr><td>per cent of GDP</td><td>&minus;2.5</td><td>&minus;2.0</td><td>&minus;1.3</td></tr></table>" +
+ "<div style='margin-top:6px;color:var(--text-sec)'>(a) excludes net Future Fund earnings &middot; Source: The Commonwealth of Australia 2015 (as used in the 2015 VCE Economics exam)</div>";
+
+const STIM_HOCKEY = "<h4>&#128483; Budget speech, 13 May 2014</h4>" +
+ "On 13 May 2014, the then Treasurer Joe Hockey warned Parliament that without budget repair, Australia would leave the next generation &lsquo;a legacy of debt&rsquo;.<br><div style='margin-top:6px;color:var(--text-sec)'>Source: Australia, House of Representatives, <em>Hansard</em>, Budget speech, Appropriation Bill (No. 1) 2014&ndash;2015, p. 3596</div>";
+
+const STIM_MYEFO = "<h4>&#128240; Mid-year budget update, December 2025 (adapted from press reports)</h4>" +
+ "The Treasurer's mid-year update revealed the budget bottom line was tracking about $6.6 billion better than expected over the first four months of 2025&ndash;26. Income tax collections were almost $4 billion stronger than forecast and taxes on superannuation funds about $3.1 billion higher, while jobs growth remained above the rate assumed in March. Iron ore &mdash; the nation's largest export &mdash; was trading near US$106 a tonne, far above the US$60 assumed in the Budget. The Budget, delivered in March 2025, had forecast a $42.1 billion deficit for 2025&ndash;26; the final outcome is now expected to be a deficit of about $28.3 billion.";
+
+const STIM_INITIATIVES = "<h4>&#128188; Selected discretionary initiatives, the past two budgets</h4>" +
+ "<strong>2026&ndash;27 Budget (12 May 2026):</strong> $250 Working Australians Tax Offset (WATO) and $1,000 instant work-expenses deduction &middot; $2.9b to more than halve the fuel excise for three months &middot; $14.8b Fuel Resilience package (oil-shock response) &middot; $25b additional for public hospitals &middot; additional $53b for Defence &middot; $8.6b road &amp; rail &middot; permanent $20,000 instant asset write-off &middot; negative gearing limited to new dwellings and CGT discount reform &middot; NDIS reform reducing projected outlays<br>" +
+ "<strong>2025&ndash;26 Budget (25 March 2025):</strong> $1.8b energy bill relief (two $75 rebates) &middot; legislated income tax cuts (16% &rarr; 15% from July 2026 &rarr; 14% from July 2027) &middot; $7.9b bulk-billing boost &middot; $25 maximum scripts &middot; 20% cut to student HELP debts &middot; permanent Free TAFE &middot; $10,000 payments for housing-construction apprentices";
+
+const STIM_MIX_2026 = "<h4>&#9878;&#65039; The 2026 policy mix</h4>" +
+ "Over February&ndash;May 2026 the RBA raised the cash rate three times, to 4.35%, with CPI inflation at 4.0% and underlying inflation at 3.6% &mdash; both above the 2&ndash;3% target. A week after the third increase, the 2026&ndash;27 Budget (12 May) continued an expansionary stance with an estimated $31.5b deficit, including new cost-of-living measures such as the $250 WATO and the temporary halving of the fuel excise.";
+
+const STIM_PARADOX = "<h4>&#128172; Two competing claims</h4>" +
+ "The Government argues that its cost-of-living measures &mdash; such as the 2025&ndash;26 energy bill rebates and the 2026&ndash;27 fuel excise cut &mdash; help to take pressure <em>off</em> inflation, because they directly lower the prices households pay. Critics counter that two successive expansionary budgets (deficits of $28.3b and $31.5b) add to aggregate demand at a time when CPI inflation (4.0%) is already above the 2&ndash;3% target.";
+
+/* ============================================================
+   LESSONS & QUESTIONS
+   ============================================================ */
+const LESSONS = [
+ {
+  id:'L1', title:'Lesson 1 — Budgetary policy & economic activity',
+  desc:'Why governments intervene with the budget, and how an expansionary budget lifts aggregate demand.',
+  showData:false,
+  qs:[
+   {id:'L1a', mode:'theory', level:'Option 1', tab:'Option 1 (2m)', marks:2, kk:['BKK5'],
+    text:'Explain one way an expansionary budgetary policy could increase aggregate demand.',
+    stim:'',
+    hint:'Pick ONE lever and chain it fully: either an increase in government expenditure (for example, spending on infrastructure, which adds to aggregate demand directly) or a reduction in taxation (for example, a cut to personal income tax &rarr; higher household disposable income &rarr; higher consumption). A general example is fine here — this question is testing whether you can explain the mechanism, not whether you know the latest Budget.',
+    process:'&#9312; Name the expansionary change (more spending or less tax).<br>&#9313; Chain it to the part of aggregate demand it affects — consumption, or government spending itself.<br>&#9314; Conclude: AD likely increases, ceteris paribus.<br>&#9888;&#65039; Two marks = one clear mechanism, done properly. Don&rsquo;t list three half-explained measures.'},
+   {id:'L1b', mode:'theory', level:'Option 2', tab:'Option 2 (2m + 2m)', marks:4, marksLabel:'2 + 2 marks', kk:['BKK5','BKK8'],
+    text:'Outline one reason for government intervention in the market in order to stabilise the level of economic activity.',
+    ext:{text:'<strong>Extension:</strong> Explain how the intervention would lead to improved living standards.', marks:2},
+    stim:'',
+    hint:'Main part: the business cycle produces booms (inflationary pressure) and downturns (rising cyclical unemployment) that damage the goals and living standards — so the government uses counter-cyclical budgetary policy to smooth fluctuations in AD. Extension: chain your intervention to living standards — supported AD &rarr; production &rarr; derived demand for labour &rarr; employment and incomes &rarr; material living standards, plus a non-material link (less financial stress).',
+    process:'&#9312; Main: name the problem the free market leaves unsolved (instability of the cycle).<br>&#9313; Main: link to the budget acting counter-cyclically on AD.<br>&#9314; Extension: mechanism from intervention to incomes/employment.<br>&#9315; Extension: land explicitly on living standards — material AND non-material.<br>&#9888;&#65039; The extension mark is lost most often by stopping at &ldquo;AD rises&rdquo; without reaching living standards.'}
+  ]
+ },
+ {
+  id:'L2', title:'Lesson 2 — Budget outcome & public debt',
+  desc:'Deficits, surpluses, and how the outcome connects to the stock of government (public) debt.',
+  showData:true,
+  qs:[
+   {id:'L2a', mode:'theory', level:'Option 1', tab:'Option 1 (3m)', marks:3, kk:['BKK3'],
+    text:'Explain why repeated budget deficits may increase government debt.',
+    stim:'',
+    hint:'Three steps: (1) a deficit means payments exceed receipts over the year; (2) the government may finance the gap by borrowing — usually issuing bonds (Commonwealth Government Securities) to domestic and overseas investors; (3) each successive deficit adds to the accumulated STOCK of public debt, raising future interest obligations.',
+    process:'&#9312; Define the deficit (spending &gt; revenue).<br>&#9313; Explain the financing mechanism — issuing bonds/CGS.<br>&#9314; Link repetition to the accumulating stock of debt and interest.<br>&#9888;&#65039; &ldquo;Debt would increase&rdquo; on its own is worth almost nothing — anyone can say that. The bond-issuing mechanism is where the marks live. And say the government <em>may</em> borrow, not <em>must</em>.'},
+   {id:'L2b', mode:'theory', level:'Option 2', tab:'Option 2 (2m + 2m)', marks:4, marksLabel:'2 + 2 marks', kk:['BKK3'],
+    text:'Describe the link between government budget deficits and public debt.',
+    ext:{text:'<strong>Extension:</strong> Evaluate whether government debt is always undesirable.', marks:2},
+    stim:STIM_HOCKEY,
+    hint:'Main: deficit &rarr; borrowing via bonds/CGS &rarr; the stock of public debt rises; repeated deficits accumulate debt. Extension — &ldquo;evaluate&rdquo; needs BOTH sides plus a judgement: debt that finances capital spending (G2)/infrastructure can expand future productive capacity and counter-cyclical borrowing can prevent deep recessions; against that, interest payments reduce future spending capacity and burden future taxpayers. Then commit to a view: debt is not <em>always</em> undesirable — it depends on what it funds and whether it grows faster than GDP.',
+    process:'&#9312; Main: deficit defined and the bond-financing link made.<br>&#9313; Main: repeated deficits &rarr; accumulating stock of debt.<br>&#9314; Extension: one argument each way.<br>&#9315; Extension: a clear judgement — don&rsquo;t sit on the fence without saying why.<br>&#9888;&#65039; A one-sided &ldquo;evaluation&rdquo; caps at half the extension marks.'}
+  ]
+ },
+ {
+  id:'L3', title:'Lesson 3 — Reading the stance from budget data',
+  desc:'Interpreting a budget table: what a changing deficit says about the stance and the economy. Built on the 2015 VCE exam data.',
+  showData:false,
+  qs:[
+   {id:'L3a', mode:'data', level:'Option 1', tab:'Option 1 (2m)', marks:2, kk:['BKK7'],
+    text:'How did the budget change between 2014&ndash;15 and 2015&ndash;16? What might this tell you about economic conditions in the economy?',
+    stim:STIM_VCAA15,
+    examiner:'The single most common error on stance questions: a shrinking deficit is <strong>less expansionary</strong>, not &ldquo;contractionary&rdquo;. The budget is still in deficit — it is still injecting more than it withdraws.',
+    hint:'Quote the data first: the estimated underlying cash balance improved from &minus;$41.1b (&minus;2.6% of GDP) to &minus;$35.1b (&minus;2.1% of GDP). Then interpret: a smaller expected deficit suggests conditions were expected to improve — stronger growth lifting tax receipts and reducing welfare outlays through automatic stabilisers — with the budget remaining expansionary but becoming less expansionary.',
+    process:'&#9312; Quote both figures with units and years.<br>&#9313; Characterise the change: smaller deficit = improving outcome.<br>&#9314; Interpret: what does a smaller deficit suggest about receipts, outlays and conditions?<br>&#9888;&#65039; Answers with no data score at most half marks on data-response questions.'},
+   {id:'L3b', mode:'data', level:'Option 2', tab:'Option 2 (2m + 2m)', marks:4, marksLabel:'2 + 2 marks', kk:['BKK7'],
+    text:'<em>(VCAA 2015, Q4a)</em> Comparing the estimates in 2014&ndash;2015 with 2015&ndash;2016, describe the change in the stance of budgetary policy between the two years.',
+    ext:{text:'<strong>Extension:</strong> Explain what this change in stance suggests about economic conditions, the business cycle, and government priorities.', marks:2},
+    stim:STIM_VCAA15,
+    examiner:'This is a real past exam question. Assessors rewarded answers that used both the dollar figures <em>and</em> the percentage of GDP, and penalised &ldquo;contractionary&rdquo;.',
+    hint:'Main: the stance remained EXPANSIONARY in both years (both in deficit) but became LESS EXPANSIONARY, with the estimated deficit falling from $41.1b (2.6% of GDP) to $35.1b (2.1% of GDP). Extension — pick any two of: conditions expected to strengthen (higher receipts/lower outlays); the economy in a recovery/upswing phase needing less support; government priorities shifting toward fiscal consolidation (budget repair — note the Treasurer&rsquo;s &lsquo;legacy of debt&rsquo; framing from Lesson 2).',
+    process:'&#9312; Main: characterise the stance correctly — expansionary, but less so.<br>&#9313; Main: support with the data (dollars and % of GDP).<br>&#9314; Extension: two of the three prompts, each briefly explained.<br>&#9888;&#65039; &ldquo;Describe the change in stance&rdquo; is not an invitation to explain automatic stabilisers at length — answer the question asked.'}
+  ]
+ },
+ {
+  id:'L4', title:'Lesson 4 — Automatic stabilisers',
+  desc:'The cyclical component of the budget: what happens automatically when unemployment rises, and what it means for the outcome and living standards.',
+  showData:false,
+  qs:[
+   {id:'L4a', mode:'theory', level:'Option 1', tab:'Option 1 (4m)', marks:4, kk:['BKK4','BKK6'],
+    text:'Outline the likely impact on <strong>budgetary outlays</strong> and <strong>budgetary receipts</strong> if the rate of unemployment in Australia begins to rise.',
+    stim:'',
+    hint:'Cover both sides by name. Outlays: rise automatically as more people become eligible for unemployment benefits and welfare. Receipts: fall automatically — fewer income earners paying personal income tax, weaker profits cutting company tax, weaker consumption cutting GST (name at least two taxes). Then name the concept — these are automatic stabilisers, operating counter-cyclically without new decisions — and finish with the overall effect: the outcome deteriorates toward a larger deficit, and the government may also add discretionary stimulus, pushing it further.',
+    process:'&#9312; Outlays: which payments rise, and why automatically?<br>&#9313; Receipts: which taxes fall? Name at least two.<br>&#9314; Name and define the concept: automatic stabilisers / the cyclical component.<br>&#9315; Overall effect on the budget outcome (and the possible discretionary response).<br>&#9888;&#65039; Vague &ldquo;indirect taxes fall&rdquo; loses the mark — say GST. And it&rsquo;s households&rsquo; <em>disposable</em> income that falls, not &ldquo;discretionary income&rdquo; as a budget concept.'},
+   {id:'L4b', mode:'theory', level:'Option 2', tab:'Option 2 (4m)', marks:4, kk:['BKK4','BKK8'],
+    text:'Describe how a rise in the unemployment rate might affect each of the following:<br>&bull;&nbsp; the cyclical component or automatic stabilisers of the Australian budget<br>&bull;&nbsp; Australia&rsquo;s living standards',
+    stim:'',
+    hint:'Two marks per dot point. Cyclical component: receipts automatically fall (income tax, company tax, GST) and outlays automatically rise (unemployment benefits), so the cyclical component pushes the outcome toward a larger deficit — while cushioning AD. Living standards: material (lower average incomes and access to goods and services) AND non-material (financial stress, effects on health and wellbeing).',
+    process:'&#9312; Cyclical component: both sides of the budget, named taxes and payments.<br>&#9313; Effect on the outcome — and the counter-cyclical cushioning role.<br>&#9314; Living standards: material effect.<br>&#9315; Living standards: non-material effect.<br>&#9888;&#65039; Missing either material or non-material caps your living standards marks at 1. And stay on task: the question asks what happens <em>if unemployment rises</em> — not what the government should do about it.'}
+  ]
+ },
+ {
+  id:'L5', title:'Lesson 5 — The stance, AD & the goals',
+  desc:'The 2026&ndash;27 stance and how the recent operation of budgetary policy plays against aggregate demand and the goals.',
+  showData:true,
+  qs:[
+   {id:'L5a', mode:'application', level:'Option 1', tab:'Option 1 (4m)', marks:4, kk:['BKK7','BKK8'],
+    text:'Explain how the operation of budgetary policy in 2026&ndash;27 is likely to influence each of the following:<br>&bull;&nbsp; aggregate demand<br>&bull;&nbsp; the achievement of the goal of low inflation',
+    stim:STIM_INITIATIVES,
+    hint:'Identify the operation with data: a continued expansionary stance, estimated $31.5b deficit (&minus;1.0% of GDP). Pick a NAMED measure and chain it to AD (WATO &rarr; disposable income &rarr; C; or hospitals/defence/rail &rarr; G1/G2). Define low inflation (CPI 2&ndash;3% on average over time; currently 4.0%). Then the tension: the expansionary stance risks slowing the return to target — although the fuel excise cut directly lowers measured headline CPI. The best answers hold both directions.',
+    process:'&#9312; The operation: stance + the $31.5b figure.<br>&#9313; One named measure chained to a named AD component, ceteris paribus.<br>&#9314; Define the goal with its target and current status (4.0%).<br>&#9315; Link stance to the goal — and if you can, both the demand-pressure and measured-CPI directions.<br>&#9888;&#65039; Don&rsquo;t claim expansionary policy straightforwardly &ldquo;helps achieve low inflation&rdquo; — with CPI above target, the honest answer involves tension.'},
+   {id:'L5b', mode:'application', level:'Option 2', tab:'Option 2 (4m)', marks:4, kk:['BKK7','BKK8'],
+    text:'Analyse how the recent stance of budgetary policy has influenced aggregate demand and the achievement of one domestic macroeconomic goal. Support your answer with recent Australian evidence.',
+    stim:STIM_UCB_TABLE,
+    examiner:'Examiners repeatedly reward answers that name a specific, current initiative and quote the actual outcome figures. In 2024, many students lost marks by analysing the wrong year&rsquo;s budget — know the two most recent.',
+    hint:'Stance with data: expansionary across the two most recent budgets — deficits of $28.3b (2025&ndash;26) and $31.5b (2026&ndash;27), both about &minus;1.0% of GDP, meaning injections exceed leakages. Choose ONE goal, define it with its target, and analyse achievement with evidence: SSEG (growth ~1.2% annualised vs 3&ndash;3.5% — supporting, not achieving); or full employment (4.4% vs NAIRU ~4.25%); or low inflation (4.0% vs 2&ndash;3% — the stance likely slows disinflation).',
+    process:'&#9312; Stance, with both years&rsquo; figures.<br>&#9313; The AD mechanism — deficit as net injection, plus a named measure.<br>&#9314; One goal, fully defined with its target.<br>&#9315; Analysis against current data: achieved, partially, or not — and why.<br>&#9888;&#65039; &ldquo;Analyse&rdquo; with &ldquo;recent evidence&rdquo; means numbers. No numbers, no top marks.'}
+  ]
+ },
+ {
+  id:'L6', title:'Lesson 6 — Goals, living standards & evaluation',
+  desc:'The past two years of budgetary policy against full employment, and weighing budgetary against monetary policy.',
+  showData:true,
+  qs:[
+   {id:'L6a', mode:'application', level:'Option 1', tab:'Option 1 (4m)', marks:4, kk:['BKK8','BKK9'],
+    text:'With reference to recent data, analyse the effect of budgetary policy on the goal of full employment over the past two years.',
+    stim:STIM_INITIATIVES,
+    hint:'Recent operation: expansionary 2025&ndash;26 and 2026&ndash;27 budgets, with named measures supporting labour demand (rebates and tax cuts supporting C and hence the derived demand for labour; hospitals, defence and rail directly supporting jobs). Define full employment (NAIRU ~4&ndash;4.25%, no cyclical unemployment). Evidence: unemployment has drifted up from ~3.9&ndash;4.1% to 4.4% (May 2026). Judgement: partially effective — policy has supported employment against the oil shock and RBA tightening, but hasn&rsquo;t prevented the drift upward.',
+    process:'&#9312; The operation over two years, with a named initiative.<br>&#9313; Define the goal with the NAIRU.<br>&#9314; The data story: where unemployment was, where it is now.<br>&#9315; A balanced judgement — &ldquo;analyse&rdquo; needs more than one side.<br>&#9888;&#65039; Directional care: expansionary policy supports employment / <em>reduces</em> unemployment pressure. Reversed chains are an instant mark-loser.'},
+   {id:'L6b', mode:'application', level:'Option 2', tab:'Option 2 (8m)', marks:8, kk:['BKK9'],
+    text:'Analyse one strength and one weakness of using each of budgetary policy and monetary policy in achieving increased &lsquo;jobs and growth&rsquo;.',
+    stim:STIM_BP_DATA,
+    examiner:'In the 2024 exam&rsquo;s evaluation questions, many students gave only one side of the argument. This question has FOUR required elements — a strength and a weakness for each policy — and every one must be linked to jobs and growth.',
+    hint:'Four elements, roughly 2 marks each: BP strength (targeting — e.g. housing apprentices, the fuel-security package; or speed of direct payments); BP weakness (political constraints — the pre-election 2025&ndash;26 budget; infrastructure lags; inflation risk forcing RBA offsets; debt burden); MP strength (independence; implementation within days); MP weakness (blunt instrument; ~18-month impact lag; weak at stimulating in a downturn). Every element: identify &rarr; explain &rarr; link to employment and growth, with current evidence where you can.',
+    process:'&#9312; BP strength &rarr; explained &rarr; linked to jobs and growth.<br>&#9313; BP weakness &rarr; explained &rarr; linked.<br>&#9314; MP strength &rarr; explained &rarr; linked.<br>&#9315; MP weakness &rarr; explained &rarr; linked.<br>&#9888;&#65039; Eight marks is a structure question as much as a content question. Four labelled elements, each closed off properly, beats one brilliant paragraph on a single policy.'}
+  ]
+ },
+ {
+  id:'L7', title:'Extra revision — exam-style',
+  desc:'Six fresh questions built from the concepts (and mistakes) that appear in recent VCE exams — updated to the 2026 data.',
+  showData:true,
+  qs:[
+   {id:'R1', mode:'application', level:'Revision', tab:'R1 (2m)', marks:2, kk:['BKK6'],
+    text:'Describe one reason why the actual budget outcome for 2025&ndash;26 may be smaller than the $42.1 billion deficit estimated when the Budget was delivered in March 2025.',
+    stim:STIM_MYEFO,
+    examiner:'In the 2025 exam, <strong>46% of students statewide scored 0</strong> on this concept. The key: variations between estimated and actual outcomes come from automatic stabilisers as conditions differ from forecast parameters — governments rarely change spending or revenue measures mid-year.',
+    hint:'Pick one parameter that turned out stronger than forecast — the labour market (income tax collections ~$4b stronger), superannuation fund taxes, or iron ore near US$106 vs the assumed US$60 lifting company tax. Then the mechanism: via automatic stabilisers, receipts were higher (and/or welfare outlays lower) than forecast, so the actual deficit is smaller — now expected at $28.3b.',
+    process:'&#9312; Name a factor that differed from the Budget&rsquo;s forecast parameters.<br>&#9313; Chain it to receipts rising or outlays falling &rarr; a smaller actual deficit.<br>&#9888;&#65039; Never say the government &ldquo;changed its spending&rdquo; during the year — that is the classic zero-mark answer.'},
+   {id:'R2', mode:'application', level:'Revision', tab:'R2 (3m)', marks:3, kk:['BKK7','BKK8'],
+    text:'Identify the stance of budgetary policy in the 2026&ndash;27 Budget and justify your answer with data. Explain one reason the government has adopted this stance given current economic conditions.',
+    stim:STIM_UCB_TABLE,
+    hint:'Stance: continued (mildly more) expansionary — an estimated $31.5b deficit (&minus;1.0% of GDP), slightly larger than 2025&ndash;26&rsquo;s $28.3b, and driven by discretionary (structural) decisions. A deficit injects more than it withdraws, adding to AD. Reason: supporting weak growth (~1.2% annualised vs the 3&ndash;3.5% target) and household cost-of-living pressure from the oil shock — judged to outweigh the risk of adding to 4.0% inflation.',
+    process:'&#9312; Stance named, with the figures.<br>&#9313; What the stance means for AD (injections vs leakages).<br>&#9314; One reason grounded in a current condition, with data.<br>&#9888;&#65039; Strong answers acknowledge the tension: stimulus while inflation is above target is a <em>choice</em>, and you should say why the government made it.'},
+   {id:'R3', mode:'application', level:'Revision', tab:'R3 (4m)', marks:4, kk:['BKK5','BKK8'],
+    text:'Predict how one discretionary stabiliser from the 2026&ndash;27 Budget is likely to affect the achievement of the goal of strong and sustainable economic growth.',
+    stim:STIM_INITIATIVES,
+    examiner:'The 2025 assessors flagged two traps here: analysing the measure only through aggregate supply and production costs (discretionary stabilisers are AD instruments first), and failing to name a real, current initiative.',
+    hint:'Choose one named 2026&ndash;27 measure — the $250 WATO, the $2.9b fuel excise halving, $25b for hospitals, $53b for defence, $8.6b road &amp; rail. Chain it: measure &rarr; disposable/discretionary income or direct G1/G2 &rarr; named AD component &rarr; AD rises, ceteris paribus &rarr; production and real GDP rise, lifting the derived demand for labour. Define SSEG (3&ndash;3.5% real GDP growth p.a.) and assess: with growth ~1.2% annualised, the measure supports movement toward the goal without achieving it.',
+    process:'&#9312; The named initiative, with detail.<br>&#9313; The AD chain to a named component.<br>&#9314; Production &rarr; real GDP &rarr; growth.<br>&#9315; SSEG defined and assessed against current data.<br>&#9888;&#65039; &ldquo;Predict&rdquo; = likely effects, so &ldquo;likely/should&rdquo; language throughout.'},
+   {id:'R4', mode:'application', level:'Revision', tab:'R4 (4m)', marks:4, kk:['BKK4','BKK5','BKK6'],
+    text:'During 2026&ndash;27, company tax collections rose due to higher-than-expected commodity prices, while the government also chose to more than halve the fuel excise for three months. Explain which of these is an automatic change and which is a discretionary change to the budget, and the effect of each on the budget outcome.',
+    stim:'',
+    hint:'Company tax rise = automatic (cyclical): it happened because conditions (commodity prices, profits) differed from assumptions — no new decision — and it lifts receipts, improving the outcome. Fuel excise cut = discretionary (structural): a deliberate Budget decision — and it reduces receipts (~$2.9b), worsening the outcome. Quality point: the two forces pulled in opposite directions, and the government&rsquo;s discretionary choices are why the 2026&ndash;27 deficit is slightly larger despite the revenue windfall.',
+    process:'&#9312; Classify the company tax change, with the &ldquo;no decision required&rdquo; reasoning.<br>&#9313; Its effect on the outcome.<br>&#9314; Classify the excise cut, with the &ldquo;deliberate decision&rdquo; reasoning.<br>&#9315; Its effect on the outcome.<br>&#9888;&#65039; The classification reasoning earns the marks — not just the labels.'},
+   {id:'R5', mode:'application', level:'Revision', tab:'R5 (4m)', marks:4, kk:['BKK8','BKK9'],
+    text:'In the first half of 2026, the RBA raised the cash rate three times while the Australian Government delivered a mildly expansionary budget. Explain one reason why the two aggregate demand policies may operate in different directions, and the likely overall effect on aggregate demand.',
+    stim:STIM_MIX_2026,
+    hint:'Reason: the two arms have different priorities and constraints — the independent RBA is prioritising returning inflation (4.0%) to the 2&ndash;3% target, while the elected government is prioritising weak growth and cost-of-living pressure from the oil shock (and faces political pressure to help; monetary policy also cannot target the shock&rsquo;s specific casualties). Effect: the policies partially offset — budget injections add to AD while higher rates restrain C and I — so the net effect on AD is smaller than either alone, and the stimulus may keep rates higher for longer.',
+    process:'&#9312; Why the RBA is tightening (its goal, with data).<br>&#9313; Why the government is expanding (its priorities, with data).<br>&#9314; The offset mechanism on AD components.<br>&#9315; The net conclusion — including the &ldquo;rates higher for longer&rdquo; implication if you can.<br>&#9888;&#65039; This is the real 2026 situation — write it like current analysis, not a hypothetical.'},
+   {id:'R6', mode:'application', level:'Revision', tab:'R6 (4m)', marks:4, kk:['BKK7','BKK8'],
+    text:'The Australian Government has argued that cost-of-living measures such as energy bill rebates and cuts to the fuel excise help to <em>reduce</em> inflation, while critics argue an expansionary budget <em>adds</em> to inflation. Explain how both of these claims can be true, with reference to one budgetary measure from the past two years.',
+    stim:STIM_PARADOX,
+    examiner:'This reconciliation — direct price effects on <em>headline</em> CPI versus demand pressure on <em>underlying</em> inflation — is what separated the highest-scoring responses in the 2024 exam&rsquo;s inflation questions.',
+    hint:'Claim one: a named measure (the 2025&ndash;26 energy rebates or the 2026&ndash;27 fuel excise cut) directly lowers the prices households actually pay, so measured HEADLINE CPI falls in the short term — and subsidised essentials trigger little extra demand because demand for them is price-inelastic. Claim two: the overall stance is expansionary (deficits of $28.3b and $31.5b), injecting more than it withdraws and adding to AD, which builds UNDERLYING/demand-side inflationary pressure over time. Reconciliation: different channels — a direct cost/price effect on the measured price level versus a demand effect on inflationary pressure; headline can fall while underlying (currently 3.6%) stays above target.',
+    process:'&#9312; Claim one, with a named measure and the measured-CPI mechanism.<br>&#9313; Claim two: the stance, the data, the AD pressure.<br>&#9314; Reconcile: different channels; headline vs underlying.<br>&#9315; Land it with the current data (headline 4.0%, underlying 3.6%).<br>&#9888;&#65039; The trap is picking a side. The question asks how <em>both</em> can be true.'}
+  ]
+ }
+];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let sName='', attempts={}, currentLesson=0, currentLevels={};
+let tFeedback={};   // teacher feedback by qid
+let _busy=false;
+
+function $(id){return document.getElementById(id);}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function safeName(n){return String(n).trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').slice(0,40);}
+
+/* ============================================================
+   SAVE / LOAD (localStorage)
+   ============================================================ */
+function saveState(){
+  try{
+    var st={sName:sName,attempts:attempts,currentLesson:currentLesson,currentLevels:currentLevels,tFeedback:tFeedback};
+    localStorage.setItem(SAVE_KEY,JSON.stringify(st));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    var raw=localStorage.getItem(SAVE_KEY);
+    if(!raw)return false;
+    var st=JSON.parse(raw);
+    if(!st||!st.sName)return false;
+    sName=st.sName;attempts=st.attempts||{};currentLesson=st.currentLesson||0;
+    currentLevels=st.currentLevels||{};tFeedback=st.tFeedback||{};
+    return true;
+  }catch(e){return false;}
+}
+function countDone(){
+  var n=0;for(var k in attempts){if(attempts[k]&&attempts[k].length)n++;}return n;
+}
+
+/* ============================================================
+   ENTRY / RESUME
+   ============================================================ */
+function init(){
+  if(loadState()){
+    var b=$('resumeBanner');
+    b.innerHTML="<div class='resume'>&#128075; Welcome back, <strong>"+esc(sName)+"</strong> — you have completed "+countDone()+" question(s). Press Start to continue, or <span style='text-decoration:underline;cursor:pointer' onclick='startAgain()'>start again from scratch</span>.</div>";
+    $('nameIn').value=sName;
+  }
+}
+function startAgain(){
+  if(!confirm('This clears all your saved answers on this device. Are you sure?'))return;
+  localStorage.removeItem(SAVE_KEY);
+  sName='';attempts={};currentLesson=0;currentLevels={};tFeedback={};
+  $('resumeBanner').innerHTML='';$('nameIn').value='';
+}
+function start(){
+  var n=$('nameIn').value.trim();
+  if(n.length<3){alert('Please enter your full name so your work can be saved.');return;}
+  if(sName&&safeName(n)!==safeName(sName)){attempts={};currentLevels={};tFeedback={};currentLesson=0;}
+  sName=n;
+  saveState();
+  $('entry').style.display='none';$('results').style.display='none';$('teacher').style.display='none';
+  $('main').style.display='block';
+  renderNav();renderLesson();
+  refreshFeedback(false);
+  maybeSync();
+}
+
+/* ============================================================
+   NAVIGATION & LESSON RENDERING
+   ============================================================ */
+function lessonDone(L){
+  for(var i=0;i<L.qs.length;i++){if(attempts[L.qs[i].id]&&attempts[L.qs[i].id].length)return true;}
+  return false;
+}
+function renderNav(){
+  var h='';
+  for(var i=0;i<LESSONS.length;i++){
+    var L=LESSONS[i];
+    h+="<button class='"+(i===currentLesson?'active':'')+"' onclick='goLesson("+i+")'>"+L.title.split('—')[0].trim()+(lessonDone(L)?"<span class='done-dot'></span>":'')+"</button>";
+  }
+  $('lessonNav').innerHTML=h;
+}
+function goLesson(i){currentLesson=i;saveState();renderNav();renderLesson();}
+function tabIdx(L){
+  var t=currentLevels[L.id];
+  if(typeof t!=='number'||t<0||t>=L.qs.length)t=0;
+  return t;
+}
+function switchLevel(li,ti){
+  currentLevels[LESSONS[li].id]=ti;saveState();renderLesson();
+}
+function tabClassFor(level){
+  if(level==='Option 2')return 'on-purple';
+  if(level==='Revision')return 'on-teal';
+  return 'on-gold';
+}
+function nudgeFor(level){
+  if(level==='Option 2')return "<div class='nudge purple'>&#127775; The higher-order option — deeper analysis, plus an extension part. This is what separates good from excellent on the SAC and exam. Give it a go.</div>";
+  if(level==='Revision')return "<div class='nudge teal'>&#127919; Exam-style revision — fresh questions built from the ideas (and traps) in recent VCE exams, with current 2026 data. Treat it like exam conditions.</div>";
+  return "<div class='nudge gold'>&#128161; Start with the option you feel more comfortable with — but once you&rsquo;ve got this, push yourself to attempt Option 2. Exam success comes from handling the harder question.</div>";
+}
+function buildChecklist(q){
+  var items=['I have written in full sentences (no arrows, symbols or dot points)',"I used 'likely' or 'should', not 'will'"];
+  if(q.marks>=3)items.push("I used 'ceteris paribus' / 'all else remaining equal' in cause-effect chains");
+  var t=(q.text+' '+(q.ext?q.ext.text:'')).toLowerCase();
+  if(t.indexOf('goal')>-1||t.indexOf('objective')>-1)items.push('I defined any goal with its target (SSEG 3–3.5% | CPI 2–3% | full employment ~4–4.25% NAIRU)');
+  if(t.indexOf('living standard')>-1)items.push('I addressed BOTH material AND non-material living standards');
+  if(q.mode==='application'&&(t.indexOf('stance')>-1||t.indexOf('recent')>-1||t.indexOf('past two years')>-1||t.indexOf('current')>-1||t.indexOf('2026')>-1||t.indexOf('2025')>-1))items.push('I quoted actual figures (e.g. the −$31.5b deficit, −1.0% of GDP, CPI 4.0%)');
+  if(q.mode==='data')items.push('I quoted the figures from the table, with units and years');
+  if(t.indexOf('debt')>-1||q.kk.indexOf('BKK3')>-1)items.push("I explained HOW a deficit is financed (issuing bonds/CGS) — not just 'debt increases'");
+  if(t.indexOf('aggregate demand')>-1)items.push(q.mode==='theory'?'I made clear which part of aggregate demand is affected (e.g. consumption, or government spending)':'I named the AD component affected (C, I, G1, G2 or X−M)');
+  if(t.indexOf('analyse')>-1)items.push('I considered more than one side, linked to current conditions');
+  if(t.indexOf('evaluate')>-1)items.push('I gave BOTH sides and finished with a clear judgement');
+  if(t.indexOf('distinguish')>-1)items.push('I defined both terms AND stated the difference explicitly');
+  if(q.marks>=4)items.push('I explained the mechanism, not just the outcome');
+  if(q.ext)items.push('I attempted the extension part — it has its own marks');
+  var h="<div class='checklist'><h4>&#9989; Before you submit</h4>";
+  for(var i=0;i<items.length;i++){h+="<label><input type='checkbox'> "+items[i]+"</label>";}
+  h+="</div>";return h;
+}
+function renderLesson(){
+  var li=currentLesson,L=LESSONS[li],ti=tabIdx(L),q=L.qs[ti];
+  var h="<div class='card'>";
+  h+="<h2 style='font-size:20px'>"+L.title+"</h2>";
+  h+="<p style='font-size:13.5px;color:var(--text-sec);margin-top:4px'>"+L.desc+"</p>";
+  if(L.showData)h+="<div class='stim' style='margin-top:12px'>"+STIM_BP_DATA+"</div>";
+  h+="<div class='tabs'>";
+  for(var t=0;t<L.qs.length;t++){
+    var qq=L.qs[t];
+    var done=attempts[qq.id]&&attempts[qq.id].length;
+    h+="<button class='"+(t===ti?tabClassFor(qq.level):'')+"' onclick='switchLevel("+li+","+t+")'>"+qq.tab+(done?"<span class='tick'>&#10003;</span>":'')+"</button>";
+  }
+  h+="</div>";
+  h+=nudgeFor(q.level);
+  h+="<div class='qmeta'><span class='marks-chip'>"+(q.marksLabel||q.marks+' marks')+"</span>";
+  var modeTxt={theory:'Theory — a general example is fine',data:'Data response — use the figures given',application:'Application — use current examples &amp; data'};
+  if(q.mode)h+="<span class='mode-chip "+q.mode+"'>"+modeTxt[q.mode]+"</span>";
+  for(var k=0;k<q.kk.length;k++){h+="<span class='kk-chip'>"+KK_MAP[q.kk[k]]+"</span>";}
+  h+="</div>";
+  h+="<div class='qtext'>"+q.text+"</div>";
+  if(q.ext)h+="<div class='qtext' style='font-size:14.5px;color:#43286e'>"+q.ext.text+" <span style='color:var(--text-sec);font-size:12.5px'>("+q.ext.marks+" marks)</span></div>";
+  if(q.stim)h+="<div class='stim'>"+q.stim+"</div>";
+  if(q.examiner)h+="<div class='exam-note'><strong>&#127919; Examiner insight</strong><br>"+q.examiner+"</div>";
+  h+="<div class='tip-row'>";
+  h+="<button class='tip-btn' onclick='toggleTip(\"hint_"+q.id+"\")'>&#128161; Content tips</button>";
+  h+="<button class='tip-btn' onclick='toggleTip(\"proc_"+q.id+"\")'>&#129513; Process guide</button>";
+  h+="</div>";
+  h+="<div class='tip-box' id='hint_"+q.id+"'>"+q.hint+"</div>";
+  h+="<div class='tip-box' id='proc_"+q.id+"'>"+q.process+"</div>";
+
+  var hasAttempt=attempts[q.id]&&attempts[q.id].length;
+  if(!hasAttempt){
+    h+="<textarea id='ans_"+q.id+"' autocomplete='off' placeholder='Write your answer here in full sentences...'></textarea>";
+    if(q.ext){
+      h+="<div class='ext-label'>Extension answer ("+q.ext.marks+" marks)</div>";
+      h+="<textarea id='ansx_"+q.id+"' autocomplete='off' style='min-height:110px' placeholder='Your extension answer...'></textarea>";
+    }
+    h+=buildChecklist(q);
+    h+="<button class='btn "+(q.level==='Option 2'?'purple':'gold')+"' id='sub_"+q.id+"' onclick='submitQ(\""+q.id+"\")'>Submit for marking</button>";
+    h+="<div id='wait_"+q.id+"' class='notice'></div>";
+  }else{
+    h+="<div id='hist_"+q.id+"'>"+renderAllAttempts(q)+"</div>";
+  }
+  h+="</div>";
+  $('lessonPanel').innerHTML=h;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleTip(id){
+  var el=$(id);el.style.display=(el.style.display==='block')?'none':'block';
+}
+function findQ(qid){
+  for(var i=0;i<LESSONS.length;i++){for(var j=0;j<LESSONS[i].qs.length;j++){if(LESSONS[i].qs[j].id===qid)return LESSONS[i].qs[j];}}
+  return null;
+}
+function combineAns(q,main,extra){
+  if(!q.ext)return main;
+  return 'MAIN RESPONSE:\n'+main+'\n\nEXTENSION RESPONSE:\n'+(extra&&extra.trim()?extra.trim():'(not attempted)');
+}
+
+/* ============================================================
+   ATTEMPT RENDERING
+   ============================================================ */
+function scoreColor(s,m){var p=m?s/m:0;return p>=0.8?'var(--green)':(p>=0.5?'var(--amber)':'var(--red)');}
+function listHtml(arr){
+  var h='<ul>';var any=false;
+  for(var i=0;i<(arr||[]).length;i++){if(arr[i]&&String(arr[i]).trim()){h+='<li>'+esc(arr[i])+'</li>';any=true;}}
+  h+='</ul>';return any?h:'<ul><li>—</li></ul>';
+}
+function renderAllAttempts(q){
+  var arr=attempts[q.id]||[],h='';
+  for(var i=0;i<arr.length;i++){
+    var a=arr[i];
+    var failed=attemptFailed(a);
+    h+="<div class='attempt-block'>";
+    h+="<div class='alabel'>Attempt "+(i+1)+(i===arr.length-1?' (latest)':'')+" &middot; "+esc(a.time||'')+" &nbsp; "+
+       (failed?"<span class='score-pill' style='background:#8a8478'>&#9888;&#65039; Marking failed</span>":
+               "<span class='score-pill' style='background:"+scoreColor(a.score,a.max)+"'>"+a.score+" / "+a.max+"</span>")+"</div>";
+    if(failed)h+="<div class='notice' style='color:var(--red)'>The marking service didn&rsquo;t return feedback for this attempt &mdash; this was not scored. Please retry below.</div>";
+    if(a.reflection)h+="<div class='reflect-box'><strong>Your reflection before retrying:</strong> "+esc(a.reflection)+"</div>";
+    h+="<div class='ans-quote'>"+esc(a.ans)+"</div>";
+    if(a.fb&&!failed){
+      h+="<div class='fb-panel'><div class='fb-head' style='background:"+scoreColor(a.score,a.max)+"'><span>AI feedback</span><span>"+a.score+" / "+a.max+"</span></div><div class='fb-body'>";
+      if(a.fb.encouragement)h+="<p style='margin-bottom:12px'><em>"+esc(a.fb.encouragement)+"</em></p>";
+      h+="<div class='fb-sec good'><h5>What you did well</h5>"+listHtml(a.fb.whatWorked)+"</div>";
+      h+="<div class='fb-sec improve'><h5>What to improve</h5>"+listHtml(a.fb.improvements)+"</div>";
+      var cm=(a.fb.commonMistakes||[]).filter?a.fb.commonMistakes.filter(function(x){return x&&String(x).trim();}):[];
+      if(cm.length)h+="<div class='fb-sec mistake'><h5>Common mistakes spotted</h5>"+listHtml(cm)+"</div>";
+      h+="<div class='model-wrap'><button class='btn ghost small' onclick='toggleTip(\"model_"+q.id+"_"+i+"\")'>&#128274; Reveal model answer</button><div class='model-box' id='model_"+q.id+"_"+i+"'><strong>Model answer:</strong><br>"+esc(a.fb.modelAnswer||'')+"</div></div>";
+      h+="</div></div>";
+    }
+    h+="</div>";
+  }
+  if(tFeedback[q.id]&&tFeedback[q.id].text){
+    h+="<div class='tfb'><h5>&#128172; Message from your teacher</h5>"+esc(tFeedback[q.id].text)+"<div style='font-size:11.5px;color:var(--text-sec);margin-top:6px'>"+esc(tFeedback[q.id].time||'')+"</div></div>";
+  }
+  var lastFailed=arr.length&&attemptFailed(arr[arr.length-1]);
+  if(lastFailed){
+    // Technical failure, not the student's fault - resubmit their existing
+    // answer with one click, no reflection required.
+    h+="<div class='reflect-box' id='fastretry_"+q.id+"'>";
+    h+="<strong>&#9888;&#65039; That attempt wasn&rsquo;t marked due to a technical problem, not your answer.</strong> You can resubmit the same answer, or edit it first:";
+    h+="<textarea id='rfans_"+q.id+"' autocomplete='off' style='margin-top:10px'>"+esc(arr[arr.length-1].ans)+"</textarea>";
+    h+="<div style='margin-top:10px'><button class='btn purple' id='rfsub_"+q.id+"' onclick='submitFastRetry(\""+q.id+"\")'>Resubmit for marking</button></div>";
+    h+="<div id='rfwait_"+q.id+"' class='notice'></div>";
+    h+="</div>";
+  }else{
+    h+="<div class='reflect-box' id='retry_"+q.id+"' style='display:none'>";
+    h+="<strong>Before you retry:</strong> what will you do differently this time?";
+    h+="<textarea id='refl_"+q.id+"' autocomplete='off' style='min-height:70px;margin-top:8px' placeholder='e.g. I will explain the bond-issuing mechanism instead of just saying debt increases...'></textarea>";
+    h+="<textarea id='rans_"+q.id+"' autocomplete='off' style='margin-top:10px' placeholder='Your new answer...'></textarea>";
+    if(q.ext){
+      h+="<div class='ext-label'>Extension answer ("+q.ext.marks+" marks)</div>";
+      h+="<textarea id='ransx_"+q.id+"' autocomplete='off' style='min-height:100px' placeholder='Your new extension answer...'></textarea>";
+    }
+    h+="<div style='margin-top:10px'><button class='btn purple' id='rsub_"+q.id+"' onclick='submitRetry(\""+q.id+"\")'>Submit retry</button></div>";
+    h+="<div id='rwait_"+q.id+"' class='notice'></div>";
+    h+="</div>";
+    h+="<div style='margin-top:14px'><button class='btn ghost small' onclick='retryQ(\""+q.id+"\")'>&#128260; Retry this question</button></div>";
+  }
+  return h;
+}
+async function submitFastRetry(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  var ans=$('rfans_'+qid).value.trim();
+  if(ans.length<20){alert('Your answer looks too short to mark.');return;}
+  _busy=true;$('rfsub_'+qid).disabled=true;
+  $('rfwait_'+qid).innerHTML="<span class='spin'></span>Marking your answer...";
+  try{
+    var fb=await markAnswer(q,ans);
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,time:nowStamp()});
+    saveState();maybeSync();
+    renderNav();renderLesson();
+  }catch(e){
+    $('rfwait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed again ("+esc(e.message)+"). Check your internet connection and try once more &mdash; nothing has been lost.</span>";
+    $('rfsub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+function retryQ(qid){
+  var el=$('retry_'+qid);
+  el.style.display='block';
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* ============================================================
+   MARKING (via Cloudflare Worker)
+   ============================================================ */
+// Close off a JSON string that was cut short by a token limit: terminate any
+// open string, drop a dangling key that never got a value, and close the
+// open brackets in reverse order. Returns text that JSON.parse can accept.
+function repairJson(s){
+  var inStr=false,esc=false,stack=[];
+  for(var i=0;i<s.length;i++){
+    var c=s.charAt(i);
+    if(esc){esc=false;continue;}
+    if(c==='\\'){if(inStr)esc=true;continue;}
+    if(c==='"'){inStr=!inStr;continue;}
+    if(inStr)continue;
+    if(c==='{'||c==='[')stack.push(c);
+    else if(c==='}'||c===']')stack.pop();
+  }
+  var out=s;
+  if(inStr)out+='"';
+  out=out.replace(/,\s*"[^"]*"\s*:\s*$/,'');   // trailing "key": with no value
+  out=out.replace(/,\s*"[^"]*"\s*$/,'');       // trailing "key" with no colon
+  out=out.replace(/,\s*$/,'');
+  for(var j=stack.length-1;j>=0;j--)out+=(stack[j]==='{'?'}':']');
+  return out;
+}
+async function markAnswer(q,ansText){
+  var extNote=q.ext?('\nThis question has a MAIN part worth '+(q.marks-q.ext.marks)+' marks and an EXTENSION part worth '+q.ext.marks+' marks. Mark each part against its own allocation and sum them.'):'';
+  var modeNote='';
+  if(q.mode==='theory'){
+    modeNote='\nQUESTION TYPE: THEORY. This question tests the concept and the mechanism only. The class may not yet have studied the current budgets. Do NOT deduct any marks for the absence of current Australian examples, named budget initiatives, dollar figures, or the G1/G2 labels - a correct generic mechanism earns full marks. Write the model answer with a GENERIC illustrative example (e.g. government capital expenditure such as spending on infrastructure, or a cut to personal income tax), not a named current initiative. If a real example or the G1/G2 distinction would help on later application questions, say so as forward-looking coaching and make clear no mark was lost for it.';
+  }else if(q.mode==='data'){
+    modeNote='\nQUESTION TYPE: DATA-RESPONSE. The student must use the figures supplied in the stimulus above, but outside current data is NOT required and its absence must not be penalised.';
+  }else{
+    modeNote='\nQUESTION TYPE: APPLICATION. The full standard applies: a named, current initiative with detail and the actual figures quoted where the question turns on them.';
+  }
+  var prompt='QUESTION ID: '+q.id+'\nQUESTION ('+(q.marksLabel||q.marks+' marks')+'): '+q.text.replace(/<[^>]+>/g,'')+
+    (q.ext?'\nEXTENSION ('+q.ext.marks+' marks): '+q.ext.text.replace(/<[^>]+>/g,''):'')+
+    (q.stim?'\nSTIMULUS PROVIDED TO STUDENT: '+q.stim.replace(/<[^>]+>/g,' '):'')+
+    '\nMAX SCORE: '+q.marks+modeNote+extNote+
+    '\n\nSTUDENT ANSWER:\n'+ansText+
+    '\n\nMark this answer using the marking guide for '+q.id+'. Return ONLY the JSON object.';
+  // Longer questions need longer feedback + model answers. A fixed 1200 was
+  // truncating the 4- and 8-mark responses mid-JSON, which surfaced to the
+  // student as "Unterminated string in JSON".
+  var tokenBudget = q.marks>=8 ? 4000 : (q.marks>=4 ? 3000 : 2000);
+  var resp=await fetch(WORKER_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:tokenBudget,system:SYSTEM,messages:[{role:'user',content:prompt}]})
+  });
+  var data=await resp.json();
+  // The API (or the Worker) can return an error object instead of a marked
+  // response - e.g. an invalid/retired model name, a rate limit, or an
+  // auth problem. Treat that as a real failure instead of silently
+  // marking the student's answer as 0.
+  if(data && data.error){
+    throw new Error(data.error.message || 'The marking service returned an error.');
+  }
+  if(!data || !data.content || !data.content[0] || !data.content[0].text){
+    throw new Error('The marking service did not return a result. Please try again.');
+  }
+  var raw=data.content[0].text;
+  raw=raw.replace(/```json|```/g,'').trim();
+  var s=raw.indexOf('{'),e=raw.lastIndexOf('}');
+  if(s>-1&&e>s)raw=raw.slice(s,e+1);
+  var fb;
+  try{
+    fb=JSON.parse(raw);
+  }catch(parseErr){
+    // The response was cut off mid-JSON (usually mid-model-answer). Rather
+    // than throwing away marking the student has already earned, close the
+    // open string/brackets and salvage whatever came through intact.
+    var repaired=repairJson(raw);
+    try{
+      fb=JSON.parse(repaired);
+      fb._truncated=true;
+    }catch(e2){
+      throw new Error('The marking service returned an incomplete response. Please resubmit — your answer has been kept.');
+    }
+  }
+  // Guard against a response that parsed as JSON but doesn't actually
+  // contain marking content (e.g. {} ) - this is what silently produced
+  // false 0-mark attempts in the companion tool previously.
+  var hasContent=(Array.isArray(fb.whatWorked)&&fb.whatWorked.length)||
+                  (Array.isArray(fb.improvements)&&fb.improvements.length)||
+                  (fb.modelAnswer&&String(fb.modelAnswer).trim());
+  if(!hasContent){
+    throw new Error('The marking service returned an empty result. Please try again.');
+  }
+  fb.score=Math.max(0,Math.min(q.marks,parseInt(fb.score,10)||0));
+  fb.maxScore=q.marks;
+  if(fb._truncated){
+    var note='[This model answer was cut short by the marking service. Your score and feedback above are complete — retry the question if you would like to see a full model answer.]';
+    fb.modelAnswer=(fb.modelAnswer&&String(fb.modelAnswer).trim())?(fb.modelAnswer+'\n\n'+note):note;
+  }
+  return fb;
+}
+// An attempt could carry a "successful" API call that nonetheless has no
+// real marking content (blank whatWorked/improvements/modelAnswer).
+// Recognise those attempts so they display honestly instead of as a
+// genuine 0 mark.
+function attemptFailed(a){
+  if(!a||!a.fb)return true;
+  var hasContent=(Array.isArray(a.fb.whatWorked)&&a.fb.whatWorked.length)||
+                  (Array.isArray(a.fb.improvements)&&a.fb.improvements.length)||
+                  (a.fb.modelAnswer&&String(a.fb.modelAnswer).trim());
+  return !hasContent;
+}
+function nowStamp(){
+  var d=new Date();
+  return d.toLocaleDateString('en-AU')+' '+d.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+}
+async function submitQ(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  var main=$('ans_'+qid).value.trim();
+  if(main.length<20){alert('Your answer looks too short to mark — give it a proper attempt first.');return;}
+  var extra=q.ext?$('ansx_'+qid).value.trim():'';
+  if(q.ext&&extra.length<10){
+    if(!confirm('You haven\u2019t attempted the extension part — it is worth '+q.ext.marks+' of the '+q.marks+' marks. Submit anyway?'))return;
+  }
+  var ans=combineAns(q,main,extra);
+  _busy=true;$('sub_'+qid).disabled=true;
+  $('wait_'+qid).innerHTML="<span class='spin'></span>Marking your answer against the VCE criteria...";
+  try{
+    var fb=await markAnswer(q,ans);
+    if(!attempts[qid])attempts[qid]=[];
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,time:nowStamp()});
+    saveState();maybeSync();
+    renderNav();renderLesson();
+    refreshFeedback(false);
+  }catch(e){
+    $('wait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed ("+esc(e.message)+"). Check your internet connection and try again — your answer has not been lost.</span>";
+    $('sub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+async function submitRetry(qid){
+  if(_busy)return;
+  var q=findQ(qid);
+  var refl=$('refl_'+qid).value.trim();
+  var main=$('rans_'+qid).value.trim();
+  if(refl.length<10){alert('Write a short reflection first — what will you do differently?');return;}
+  if(main.length<20){alert('Your new answer looks too short to mark.');return;}
+  var extra=q.ext?$('ransx_'+qid).value.trim():'';
+  if(q.ext&&extra.length<10){
+    if(!confirm('You haven\u2019t attempted the extension part — it is worth '+q.ext.marks+' of the '+q.marks+' marks. Submit anyway?'))return;
+  }
+  var ans=combineAns(q,main,extra);
+  _busy=true;$('rsub_'+qid).disabled=true;
+  $('rwait_'+qid).innerHTML="<span class='spin'></span>Marking your retry...";
+  try{
+    var fb=await markAnswer(q,ans);
+    attempts[qid].push({ans:ans,score:fb.score,max:q.marks,fb:fb,reflection:refl,time:nowStamp()});
+    saveState();maybeSync();
+    renderLesson();
+  }catch(e){
+    $('rwait_'+qid).innerHTML="<span style='color:var(--red)'>Marking failed ("+esc(e.message)+"). Try again.</span>";
+    $('rsub_'+qid).disabled=false;
+  }
+  _busy=false;
+}
+
+/* ============================================================
+   RESULTS SCREEN
+   ============================================================ */
+function bestScore(qid){
+  var arr=attempts[qid]||[],b=null;
+  for(var i=0;i<arr.length;i++){if(attemptFailed(arr[i]))continue;if(b===null||arr[i].score>b)b=arr[i].score;}
+  return b;
+}
+function buildResults(){
+  var kkAgg={};
+  for(var k in KK_MAP)kkAgg[k]={got:0,max:0};
+  var totGot=0,totMax=0,done=0,totalQ=0;
+  for(var i=0;i<LESSONS.length;i++){
+    for(var j=0;j<LESSONS[i].qs.length;j++){
+      var q=LESSONS[i].qs[j];totalQ++;
+      var b=bestScore(q.id);
+      if(b!==null){
+        done++;totGot+=b;totMax+=q.marks;
+        for(var x=0;x<q.kk.length;x++){kkAgg[q.kk[x]].got+=b;kkAgg[q.kk[x]].max+=q.marks;}
+      }
+    }
+  }
+  var h="<div class='card'><h2 style='font-size:21px'>Your results — "+esc(sName)+"</h2>";
+  h+="<p style='font-size:14px;color:var(--text-sec);margin-top:4px'>"+done+" of "+totalQ+" questions attempted"+(totMax?(" &middot; best-attempt total: <strong>"+totGot+" / "+totMax+"</strong>"):'')+"</p>";
+  h+="<div class='results-grid'>";
+  for(var k2 in KK_MAP){
+    var a=kkAgg[k2];
+    var pct=a.max?Math.round(100*a.got/a.max):0;
+    h+="<div class='kk-card'><div class='kk-name'>"+KK_MAP[k2]+"</div>";
+    if(a.max){
+      h+="<div class='kk-score'>"+a.got+" / "+a.max+"</div><div class='bar'><i style='width:"+pct+"%;background:"+(pct>=80?'var(--green)':(pct>=50?'var(--amber)':'var(--red)'))+"'></i></div>";
+    }else{
+      h+="<div class='kk-score' style='color:#b9b29f'>—</div><div style='font-size:11.5px;color:var(--text-sec)'>Not attempted yet</div>";
+    }
+    h+="</div>";
+  }
+  h+="</div>";
+  h+="<p class='notice'>Your work syncs to your teacher automatically — there is nothing to download or submit. Use the print button only if you want a paper copy for your own revision.</p>";
+  h+="<div style='margin-top:14px;display:flex;gap:10px;flex-wrap:wrap'><button class='btn' onclick='backToMain()'>&larr; Back to questions</button><button class='btn ghost' onclick='downloadPDF()'>&#128424;&#65039; Print / save a copy</button></div>";
+  h+="</div>";
+  return h;
+}
+function showResults(){
+  $('main').style.display='none';$('teacher').style.display='none';
+  $('results').style.display='block';
+  $('results').innerHTML=buildResults();
+  window.scrollTo({top:0});
+}
+function backToMain(){
+  $('results').style.display='none';$('teacher').style.display='none';
+  $('main').style.display='block';renderNav();renderLesson();
+}
+function downloadPDF(){window.print();}
+
+/* ============================================================
+   SYNC TO TEACHER (vce-results Worker)
+   ============================================================ */
+function maybeSync(){
+  if(!sName)return;
+  var payload={kind:'mark',tool:SAVE_KEY,name:sName,attempts:attempts,updated:new Date().toISOString()};
+  fetch(RES_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(e){});
+}
+function refreshFeedback(announce){
+  if(!sName)return;
+  fetch(RES_URL+'/?feedback=1&tool='+encodeURIComponent(SAVE_KEY)+'&student='+encodeURIComponent(safeName(sName)))
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d&&d.feedback){
+       var changed=JSON.stringify(d.feedback)!==JSON.stringify(tFeedback);
+       tFeedback=d.feedback||{};
+       saveState();
+       if(changed)renderLesson();
+       if(announce){
+         var n=0;for(var k in tFeedback){if(tFeedback[k]&&tFeedback[k].text)n++;}
+         alert(n?('You have teacher feedback on '+n+' question(s) — look for the green panels under your attempts.'):'No teacher feedback yet — check back later.');
+       }
+     }
+   }).catch(function(e){if(announce)alert('Could not check for feedback right now.');});
+}
+
+/* ============================================================
+   TEACHER VIEW
+   ============================================================ */
+let _tPin='',_tData=null;
+function openTeacher(){
+  $('entry').style.display='none';$('main').style.display='none';$('results').style.display='none';
+  $('teacher').style.display='block';
+  $('teacher').innerHTML="<div class='card'><span class='badge' style='background:var(--ink)'>STAFF</span><h2 style='font-size:21px;margin-top:8px'>Teacher view</h2><p style='font-size:14px;color:var(--text-sec);margin:8px 0 12px'>Enter your teacher PIN to load class progress and leave feedback.</p><input type='password' id='pinIn' placeholder='PIN' style='max-width:260px' autocomplete='off'> <button class='btn' style='margin-top:10px' onclick='loadTeacher()'>View class &rarr;</button><div id='tchOut' style='margin-top:18px'></div><div style='margin-top:16px'><span class='backlink' onclick='closeTeacher()'>&larr; Back to student view</span></div></div>";
+  window.scrollTo({top:0});
+}
+function closeTeacher(){
+  $('teacher').style.display='none';
+  if(sName){$('main').style.display='block';renderNav();renderLesson();}
+  else{$('entry').style.display='block';}
+}
+function loadTeacher(){
+  _tPin=$('pinIn').value.trim();
+  var out=$('tchOut');
+  out.innerHTML="<span class='spin'></span>Loading class results...";
+  fetch(RES_URL+'/?pin='+encodeURIComponent(_tPin)+'&tool='+encodeURIComponent(SAVE_KEY))
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d.error){out.innerHTML="<span style='color:var(--red)'>"+esc(d.error)+"</span>";return;}
+     _tData=d;
+     out.innerHTML=teacherGrid(d);
+   })
+   .catch(function(e){out.innerHTML="<span style='color:var(--red)'>Could not load results: "+esc(e.message)+"</span>";});
+}
+function allQs(){
+  var out=[];
+  for(var i=0;i<LESSONS.length;i++){for(var j=0;j<LESSONS[i].qs.length;j++){out.push(LESSONS[i].qs[j]);}}
+  return out;
+}
+function bestOf(rec,qid){
+  var arr=(rec.attempts&&rec.attempts[qid])||[],b=null;
+  for(var i=0;i<arr.length;i++){if(attemptFailed(arr[i]))continue;if(b===null||arr[i].score>b)b=arr[i].score;}
+  return b;
+}
+function teacherGrid(d){
+  var rows=d.marks||[];
+  if(!rows.length)return "<p>No student work yet. Results appear here automatically as students submit answers.</p>";
+  rows.sort(function(a,b){return (a.name||'').localeCompare(b.name||'');});
+  var qs=allQs();
+  var h="<p style='font-size:13px;color:var(--text-sec);margin-bottom:8px'>"+rows.length+" student(s) &middot; best score per question &middot; green &ge;80% &middot; amber 50&ndash;79% &middot; red &lt;50% &middot; click a student to read answers and leave feedback. <button class='btn ghost small' onclick='loadTeacher()'>&#8635; Refresh</button></p>";
+  h+="<div style='overflow-x:auto'><table class='tch'><tr><th>Student</th>";
+  for(var q=0;q<qs.length;q++){h+="<th>"+qs[q].id+"</th>";}
+  h+="<th>&#128172;</th><th>Updated</th></tr>";
+  for(var i=0;i<rows.length;i++){
+    var r=rows[i];
+    var fbCount=0,fbMap=(d.feedback&&d.feedback[safeName(r.name||'')])||{};
+    for(var fk in fbMap){if(fbMap[fk]&&fbMap[fk].text)fbCount++;}
+    h+="<tr onclick='openStudent("+i+")'><td><strong>"+esc(r.name||'?')+"</strong></td>";
+    for(var q2=0;q2<qs.length;q2++){
+      var b=bestOf(r,qs[q2].id);
+      if(b===null){h+="<td style='color:#c5beac'>—</td>";}
+      else{
+        var pct=b/qs[q2].marks;
+        var col=pct>=0.8?'var(--green)':(pct>=0.5?'var(--amber)':'var(--red)');
+        h+="<td><span class='cell-score' style='background:"+col+"'>"+b+"/"+qs[q2].marks+"</span></td>";
+      }
+    }
+    h+="<td>"+(fbCount?fbCount:'')+"</td><td style='font-size:11.5px;color:var(--text-sec)'>"+esc((r.updated||'').slice(0,10))+"</td></tr>";
+  }
+  h+="</table></div>";
+  return h;
+}
+function openStudent(idx){
+  var rows=(_tData.marks||[]).slice().sort(function(a,b){return (a.name||'').localeCompare(b.name||'');});
+  var r=rows[idx];
+  var fbMap=(_tData.feedback&&_tData.feedback[safeName(r.name||'')])||{};
+  var qs=allQs();
+  var h="<div style='display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px'><h3 style='font-size:18px'>"+esc(r.name||'?')+"</h3><span class='backlink' onclick=\"$('tchOut').innerHTML=teacherGrid(_tData)\">&larr; Back to class grid</span></div>";
+  for(var q=0;q<qs.length;q++){
+    var qq=qs[q];
+    var arr=(r.attempts&&r.attempts[qq.id])||[];
+    h+="<div class='attempt-block' style='margin-top:16px'>";
+    h+="<div class='alabel'>"+qq.id+" &middot; "+qq.tab+" &middot; "+KK_MAP[qq.kk[0]]+"</div>";
+    h+="<div style='font-size:13.5px;margin-bottom:8px'>"+qq.text+(qq.ext?"<div style='margin-top:4px;color:#43286e'>"+qq.ext.text+"</div>":"")+"</div>";
+    if(!arr.length){h+="<div style='font-size:13px;color:#b9b29f'>Not attempted.</div>";}
+    for(var a=0;a<arr.length;a++){
+      var at=arr[a];
+      var afailed=attemptFailed(at);
+      h+="<div style='margin-top:10px'>"+
+         (afailed?"<span class='score-pill' style='background:#8a8478'>Attempt "+(a+1)+": &#9888;&#65039; marking failed (technical error, not scored)</span>":
+                  "<span class='score-pill' style='background:"+scoreColor(at.score,at.max)+"'>Attempt "+(a+1)+": "+at.score+" / "+at.max+"</span>")+
+         " <span style='font-size:11.5px;color:var(--text-sec)'>"+esc(at.time||'')+"</span></div>";
+      if(at.reflection)h+="<div style='font-size:12.5px;color:var(--purple);margin-top:4px'><em>Reflection: "+esc(at.reflection)+"</em></div>";
+      h+="<div class='ans-quote'>"+esc(at.ans)+"</div>";
+      if(at.fb&&!afailed){
+        h+="<details style='font-size:12.5px;margin-top:4px'><summary style='cursor:pointer;color:var(--text-sec)'>AI feedback given</summary><div style='padding:8px 0 0 8px'>";
+        h+="<strong>Well:</strong> "+esc((at.fb.whatWorked||[]).join(' | '))+"<br>";
+        h+="<strong>Improve:</strong> "+esc((at.fb.improvements||[]).join(' | '))+"<br>";
+        h+="<strong>Model:</strong> "+esc(at.fb.modelAnswer||'');
+        h+="</div></details>";
+      }
+    }
+    var existing=fbMap[qq.id]&&fbMap[qq.id].text?fbMap[qq.id].text:'';
+    h+="<div style='margin-top:12px'><div style='font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);margin-bottom:5px'>&#128172; Your feedback to "+esc((r.name||'').split(' ')[0])+"</div>";
+    h+="<textarea id='tfb_"+qq.id+"_"+idx+"' style='min-height:64px' autocomplete='off' placeholder='e.g. The AI marked this fairly, but also make sure you...'>"+esc(existing)+"</textarea>";
+    h+="<div style='margin-top:8px'><button class='btn small' style='background:var(--accent)' onclick='saveFeedback("+idx+",\""+qq.id+"\",\""+esc(r.name||'').replace(/"/g,'&quot;')+"\")'>Save feedback</button> <span id='tfbmsg_"+qq.id+"_"+idx+"' style='font-size:12.5px;color:var(--green)'></span></div></div>";
+    h+="</div>";
+  }
+  $('tchOut').innerHTML=h;
+  window.scrollTo({top:0});
+}
+function saveFeedback(idx,qid,studentName){
+  var txt=$('tfb_'+qid+'_'+idx).value.trim();
+  var msg=$('tfbmsg_'+qid+'_'+idx);
+  msg.style.color='var(--text-sec)';msg.textContent='Saving...';
+  fetch(RES_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({kind:'feedback',pin:_tPin,tool:SAVE_KEY,student:safeName(studentName),qid:qid,text:txt})})
+   .then(function(r){return r.json();})
+   .then(function(d){
+     if(d.error){msg.style.color='var(--red)';msg.textContent=d.error;return;}
+     msg.style.color='var(--green)';msg.textContent='Saved — the student will see this next time they open the tool.';
+     if(!_tData.feedback)_tData.feedback={};
+     var sk=safeName(studentName);
+     if(!_tData.feedback[sk])_tData.feedback[sk]={};
+     _tData.feedback[sk][qid]={text:txt,time:new Date().toISOString().slice(0,10)};
+   })
+   .catch(function(e){msg.style.color='var(--red)';msg.textContent='Could not save: '+e.message;});
+}
+
+init();
+</script>
+</body>
+</html>
