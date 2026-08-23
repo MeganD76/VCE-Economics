@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Class links · VCE Economics</title>
+<meta name="theme-color" content="#12263A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#12263A; --ink-soft:#4A5D71; --ink-faint:#8497A8;
+  --paper:#EDF1F4; --card:#FFFFFF; --line:#D2DBE3;
+  --t-practice:#0B6E5F; --t-gap:#A8600C; --t-hub:#2B4C82;
+  --t-game:#5B3E96; --t-marking:#1F6E86; --t-revision:#7A3A5C;
+  --focus:#0B6E5F; --warn:#A8600C; --danger:#A32B22;
+  --radius:10px; --gutter:clamp(16px,4vw,40px);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background-color:var(--paper);
+  background-image:
+    linear-gradient(to right, rgba(18,38,58,.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18,38,58,.045) 1px, transparent 1px);
+  background-size:26px 26px;
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px; line-height:1.45;
+}
+
+/* ---------- masthead ---------- */
+.masthead{position:sticky; top:0; z-index:30; background:rgba(237,241,244,.93);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line); padding:14px var(--gutter) 12px}
+.masthead__inner{max-width:1180px; margin:0 auto; display:flex; flex-wrap:wrap; gap:10px 18px; align-items:flex-end}
+.brand{flex:0 0 auto}
+.eyebrow{display:block; font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:2px}
+h1{font-family:"IBM Plex Serif",Georgia,serif; font-size:clamp(20px,2.6vw,27px);
+  font-weight:700; letter-spacing:-.01em; margin:0; line-height:1.1}
+.searchbar{flex:1 1 280px; min-width:0; display:flex; flex-direction:column; gap:5px}
+.searchfield{position:relative; display:flex; align-items:center}
+.searchfield svg{position:absolute; left:12px; width:16px; height:16px; stroke:var(--ink-faint); fill:none; stroke-width:2}
+#q{width:100%; font:inherit; font-size:16px; color:var(--ink); padding:11px 84px 11px 36px;
+  background:var(--card); border:1px solid var(--line); border-radius:var(--radius); outline:none}
+#q:disabled{background:var(--paper); color:var(--ink-faint)}
+#q::placeholder{color:var(--ink-faint)}
+#q:focus{border-color:var(--focus); box-shadow:0 0 0 3px rgba(11,110,95,.18)}
+.hintkey{position:absolute; right:10px; font-family:"IBM Plex Mono",monospace; font-size:11px;
+  color:var(--ink-faint); border:1px solid var(--line); border-radius:5px; padding:2px 7px;
+  background:var(--paper); pointer-events:none}
+#q:focus ~ .hintkey{opacity:0}
+.tally{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-soft); padding-left:2px}
+
+.btn{font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:500; letter-spacing:.05em;
+  color:var(--ink-soft); background:var(--card); border:1px solid var(--line); border-radius:7px;
+  padding:9px 13px; cursor:pointer; white-space:nowrap;
+  transition:background .12s ease,color .12s ease,border-color .12s ease}
+.btn:hover{background:var(--ink); color:#fff; border-color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+.btn--on{background:var(--t-practice); border-color:var(--t-practice); color:#fff}
+.btn--on:hover{background:var(--t-practice); border-color:var(--t-practice)}
+.btn--go{background:var(--t-practice); border-color:var(--t-practice); color:#fff}
+.btn--go:hover{background:#095546; border-color:#095546}
+
+/* ---------- unsaved banner ---------- */
+.dirty{display:none; max-width:1180px; margin:12px auto 0; gap:10px; flex-wrap:wrap; align-items:center;
+  background:#FFF8EC; border:1px solid #E6C98F; border-radius:var(--radius); padding:11px 13px}
+body.dirty-on .dirty{display:flex}
+.dirty p{margin:0; flex:1 1 240px; font-size:13px; color:#6B4A12; line-height:1.4}
+.dirty strong{font-weight:600}
+
+/* ---------- board ---------- */
+main{max-width:1180px; margin:0 auto; padding:26px var(--gutter) 64px}
+.unit{margin-bottom:30px}
+.unit__head{display:flex; align-items:baseline; gap:12px; border-bottom:1.5px solid var(--ink);
+  padding-bottom:6px; margin-bottom:14px}
+.unit__name{font-family:"IBM Plex Serif",Georgia,serif; font-size:16.5px; font-weight:700; margin:0}
+.unit__count{margin-left:auto; font-family:"IBM Plex Mono",monospace; font-size:11px;
+  color:var(--ink-faint); letter-spacing:.08em}
+.grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px}
+body.arranging .grid{min-height:78px; padding:8px; margin:-8px;
+  border:1.5px dashed var(--line); border-radius:var(--radius); background:rgba(255,255,255,.35)}
+
+.card{position:relative; background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+  padding:13px 14px 11px; display:flex; flex-direction:column; gap:9px;
+  transition:border-color .12s ease, transform .12s ease, box-shadow .12s ease}
+.card:hover{border-color:var(--ink-faint); transform:translateY(-1px); box-shadow:0 3px 12px rgba(18,38,58,.09)}
+.card:focus-within{border-color:var(--focus); box-shadow:0 0 0 3px rgba(11,110,95,.16)}
+.card__link{color:inherit; text-decoration:none; font-weight:600; font-size:15px; line-height:1.3}
+.card__link::after{content:""; position:absolute; inset:0; border-radius:var(--radius)}
+.card__link:hover{text-decoration:underline; text-underline-offset:2px}
+.card__link:focus-visible{outline:none}
+.card__file{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-faint);
+  word-break:break-all; line-height:1.35}
+.card__foot{display:flex; align-items:center; gap:8px; margin-top:auto}
+.tag{font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:500; letter-spacing:.09em;
+  text-transform:uppercase; padding:3px 7px; border-radius:4px; white-space:nowrap; color:#fff; background:var(--ink-soft)}
+.tag[data-type="Practice"],.tag[data-type="VCAA practice"]{background:var(--t-practice)}
+.tag[data-type="Gap analysis"]{background:var(--t-gap)}
+.tag[data-type="Hub"]{background:var(--t-hub)}
+.tag[data-type="Game"]{background:var(--t-game)}
+.tag[data-type="Marking tool"]{background:var(--t-marking)}
+.tag[data-type="Revision"]{background:var(--t-revision)}
+
+.copy{position:relative; z-index:2; margin-left:auto; font-family:"IBM Plex Mono",monospace;
+  font-size:11px; font-weight:500; color:var(--ink-soft); background:var(--paper);
+  border:1px solid var(--line); border-radius:6px; padding:5px 9px; cursor:pointer;
+  transition:background .12s ease,color .12s ease,border-color .12s ease}
+.copy:hover{background:var(--ink); color:#fff; border-color:var(--ink)}
+.copy[data-done="1"]{background:var(--t-practice); border-color:var(--t-practice); color:#fff}
+
+/* ---------- arrange controls on cards ---------- */
+.cardtools{display:none}
+body.arranging .cardtools{display:flex; gap:5px; position:absolute; top:8px; right:8px; z-index:5}
+.tool{width:29px; height:29px; display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--line); border-radius:6px; background:var(--paper); cursor:pointer; padding:0}
+.tool svg{width:14px; height:14px; stroke:var(--ink-soft); stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round}
+.tool:hover{background:var(--ink)} .tool:hover svg{stroke:#fff}
+.tool--del:hover{background:var(--danger); border-color:var(--danger)}
+.handle{cursor:grab; touch-action:none}
+.handle:active{cursor:grabbing}
+body.arranging .card{padding-right:112px}
+body.arranging .card__link{pointer-events:none}
+body.arranging .card__link::after{display:none}
+body.arranging .copy{display:none}
+body.arranging .card:hover{transform:none; box-shadow:none}
+.card.dragging{opacity:.28; border-style:dashed}
+.card.ghost{position:fixed; z-index:100; margin:0; pointer-events:none; opacity:.96;
+  box-shadow:0 12px 30px rgba(18,38,58,.28); transform:rotate(-1.2deg); border-color:var(--focus)}
+.card.isnew::before{content:"NEW"; position:absolute; top:-7px; left:11px;
+  font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:.1em; color:#fff;
+  background:var(--warn); border-radius:3px; padding:1px 5px}
+
+/* ---------- drop overlay ---------- */
+#dropzone{position:fixed; inset:0; z-index:200; display:none; align-items:center; justify-content:center;
+  background:rgba(18,38,58,.72); backdrop-filter:blur(3px)}
+#dropzone.on{display:flex}
+#dropzone div{border:2.5px dashed rgba(255,255,255,.8); border-radius:16px; padding:44px 56px;
+  color:#fff; text-align:center; font-family:"IBM Plex Serif",Georgia,serif; font-size:23px}
+#dropzone span{display:block; font-family:"IBM Plex Sans",sans-serif; font-size:14px;
+  color:rgba(255,255,255,.75); margin-top:8px}
+
+/* ---------- modal ---------- */
+.modal{position:fixed; inset:0; z-index:300; display:none; align-items:flex-start; justify-content:center;
+  background:rgba(18,38,58,.55); padding:6vh 16px 16px; overflow:auto}
+.modal.on{display:flex}
+.modal__box{background:var(--card); border-radius:14px; padding:22px; width:100%; max-width:460px;
+  box-shadow:0 18px 50px rgba(18,38,58,.3)}
+.modal__box h2{font-family:"IBM Plex Serif",Georgia,serif; font-size:19px; margin:0 0 3px}
+.modal__box .sub{font-size:13px; color:var(--ink-soft); margin:0 0 16px}
+.field{margin-bottom:13px}
+.field label{display:block; font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:500;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:5px}
+.field input,.field select{width:100%; font:inherit; font-size:15px; color:var(--ink); background:var(--paper);
+  border:1px solid var(--line); border-radius:8px; padding:10px 11px; outline:none}
+.field input:focus,.field select:focus{border-color:var(--focus); box-shadow:0 0 0 3px rgba(11,110,95,.16); background:var(--card)}
+.field input[readonly]{color:var(--ink-soft); font-family:"IBM Plex Mono",monospace; font-size:12px}
+.modal__actions{display:flex; gap:8px; margin-top:18px}
+.warnline{display:none; font-size:12.5px; color:var(--danger); margin:-6px 0 10px}
+.warnline.on{display:block}
+
+/* ---------- panels ---------- */
+.empty{border:1.5px dashed var(--line); border-radius:var(--radius); padding:14px;
+  font-size:13.5px; color:var(--ink-soft); background:rgba(255,255,255,.45)}
+.empty code{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink)}
+.noresults{text-align:center; padding:52px 16px; color:var(--ink-soft)}
+.noresults strong{display:block; font-family:"IBM Plex Serif",Georgia,serif; font-size:19px; color:var(--ink); margin-bottom:5px}
+
+#exportPanel{display:none; max-width:1180px; margin:0 auto 26px; padding:0 var(--gutter)}
+#exportPanel.open{display:block}
+.export__box{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:14px}
+.export__box h2{font-family:"IBM Plex Serif",Georgia,serif; font-size:16px; margin:0 0 4px}
+.export__box p{margin:0 0 10px; font-size:13px; color:var(--ink-soft); line-height:1.5}
+#exportText{width:100%; height:240px; font-family:"IBM Plex Mono",monospace; font-size:11.5px;
+  line-height:1.55; color:var(--ink); background:var(--paper); border:1px solid var(--line);
+  border-radius:7px; padding:11px; resize:vertical; white-space:pre; overflow-x:auto}
+
+footer{max-width:1180px; margin:0 auto; padding:0 var(--gutter) 60px; font-size:12.5px; color:var(--ink-soft); line-height:1.6}
+footer .rule{border:0; border-top:1px solid var(--line); margin:0 0 14px}
+footer code{font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink)}
+footer kbd{font-family:"IBM Plex Mono",monospace; font-size:11px; border:1px solid var(--line);
+  border-bottom-width:2px; border-radius:4px; padding:1px 5px; background:var(--card); color:var(--ink)}
+
+@media (max-width:640px){
+  .masthead{padding:11px var(--gutter) 10px}
+  .brand{flex:1 1 100%}
+  .hintkey{display:none}
+  #q{padding-right:14px}
+  .grid{grid-template-columns:1fr}
+  body.arranging .card{padding-right:14px; padding-top:44px}
+  body.arranging .cardtools{top:8px; left:8px; right:auto}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead__inner">
+    <div class="brand">
+      <span class="eyebrow">Ringwood SC · Economics</span>
+      <h1>Class links</h1>
+    </div>
+    <div class="searchbar">
+      <div class="searchfield">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        <input id="q" type="search" placeholder="Search unit, task or file name" autocomplete="off" spellcheck="false" aria-label="Search links">
+        <span class="hintkey">/</span>
+      </div>
+      <span class="tally" id="tally"></span>
+    </div>
+    <button class="btn" id="addBtn" type="button">+ Add link</button>
+    <button class="btn" id="arrangeBtn" type="button">Arrange</button>
+  </div>
+
+  <div class="dirty">
+    <p><strong>Unsaved changes on this device.</strong> They will not show on your other computers or your phone until you paste the code into <code>links.html</code>.</p>
+    <button class="btn btn--go" id="exportBtn" type="button">Save to file</button>
+    <button class="btn" id="resetBtn" type="button">Discard</button>
+  </div>
+</header>
+
+<div id="exportPanel">
+  <div class="export__box">
+    <h2>Paste this into links.html</h2>
+    <p>On GitHub open <code>links.html</code> → pencil icon. Replace the whole existing <code>const LINKS = [ … ];</code> block <em>and</em> the <code>const UNITS = [ … ];</code> block with the text below, then commit. The change then applies on every device.</p>
+    <textarea id="exportText" readonly spellcheck="false"></textarea>
+    <div style="display:flex; gap:8px; margin-top:10px">
+      <button class="btn btn--go" id="copyExport" type="button">Copy to clipboard</button>
+      <button class="btn" id="closeExport" type="button">Close</button>
+    </div>
+  </div>
+</div>
+
+<main id="board"></main>
+
+<footer>
+  <hr class="rule">
+  <p><kbd>/</kbd> search · <kbd>Enter</kbd> opens the first result · <kbd>Esc</kbd> clears · <strong>Copy</strong> puts a link on your clipboard for Compass.</p>
+  <p>Drag a web address onto this page to add it, or use <strong>+ Add link</strong>. <strong>Arrange</strong> lets you drag cards between sections, rename them, or delete them.</p>
+</footer>
+
+<div id="dropzone"><div>Drop to add this link<span>It will land in the section you choose</span></div></div>
+
+<div class="modal" id="modal">
+  <div class="modal__box">
+    <h2 id="modalHead">Add a link</h2>
+    <p class="sub" id="modalSub">Check the details, then save.</p>
+    <div class="field">
+      <label for="fUrl">Web address</label>
+      <input id="fUrl" type="text" spellcheck="false" placeholder="https://…">
+    </div>
+    <p class="warnline" id="warnline"></p>
+    <div class="field">
+      <label for="fTitle">Name on the card</label>
+      <input id="fTitle" type="text" placeholder="e.g. Practice questions (GBY)">
+    </div>
+    <div class="field">
+      <label for="fUnit">Section</label>
+      <select id="fUnit"></select>
+    </div>
+    <div class="field" id="newUnitField" style="display:none">
+      <label for="fNewUnit">Name the new section</label>
+      <input id="fNewUnit" type="text" placeholder="e.g. U1 AOS3">
+    </div>
+    <div class="field">
+      <label for="fType">Type</label>
+      <select id="fType"></select>
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--go" id="saveLink" type="button">Save</button>
+      <button class="btn" id="cancelLink" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+   1. YOUR LINKS — the starting point. You can now also add, move, rename and
+      delete links on the page itself, then paste the result back here.
+
+   { unit:"...", title:"...", type:"...", url:BASE+"filename.html" },
+   ========================================================================== */
+
+const BASE = "https://megand76.github.io/VCE-Economics/";
+
+const LINKS = [
+  { unit:"U1 AOS2", title:"Market mechanism & relative prices", type:"Marking tool", url:BASE+"U1%20markets%20marking%20tool.html?v=3" },
+
+  { unit:"U2 AOS1", title:"Econoland AD game",        type:"Game",         url:BASE+"econoland.html" },
+  { unit:"U2 AOS1", title:"Revision tasks",           type:"Revision",     url:BASE+"u2-aos1-revision.html" },
+  { unit:"U2 AOS1", title:"Gap analysis",             type:"Gap analysis", url:BASE+"u2-aos1-gap-analysis.html" },
+
+  { unit:"U2 AOS2 · International trade", title:"Practice tasks hub", type:"Hub", url:BASE+"U2-AOS2-International-Trade.html?v=4" },
+
+  { unit:"U3 AOS2", title:"Practice questions (GBY)", type:"Practice",     url:BASE+"U3%20AOS2%20Practice%20Questions.html?v=4" },
+  { unit:"U3 AOS2", title:"Gap analysis",             type:"Gap analysis", url:BASE+"U3_AOS2_GAP_v6.html" },
+
+  { unit:"U3 AOS3", title:"Practice questions (GBY)", type:"Practice",     url:BASE+"u3-aos3-practice.html" },
+  { unit:"U3 AOS3", title:"VCAA practice questions",  type:"VCAA practice",url:BASE+"U3_AOS3_VCAA_Practice.html" },
+
+  { unit:"U3 Exam", title:"Unit 3 exam practice",     type:"Practice",     url:BASE+"u3_exam_practice_v6_worker.html" },
+  { unit:"U3 Exam", title:"Gap analysis",             type:"Gap analysis", url:BASE+"gap_aos3.html" },
+
+  { unit:"U4 AOS1 · SAC 1 — Monetary policy", title:"Practice tasks hub",       type:"Hub",          url:BASE+"u4-aos1-mp-hub.html?v=2" },
+  { unit:"U4 AOS1 · SAC 1 — Monetary policy", title:"Practice questions (GBY)", type:"Practice",     url:BASE+"u4-aos1-mp-practice.html" },
+  { unit:"U4 AOS1 · SAC 1 — Monetary policy", title:"Gap analysis",             type:"Gap analysis", url:BASE+"gap_u4_aos1.html" },
+
+  { unit:"U4 AOS1 · SAC 2 — Budgetary policy", title:"Practice tasks hub",       type:"Hub",          url:BASE+"bp_hub.html" },
+  { unit:"U4 AOS1 · SAC 2 — Budgetary policy", title:"Practice questions (GBY)", type:"Practice",     url:BASE+"u4-aos1-bp-practice.html" },
+  { unit:"U4 AOS1 · SAC 2 — Budgetary policy", title:"Gap analysis",             type:"Gap analysis", url:BASE+"u4-aos1-bp-gap-analysis.html" },
+
+  { unit:"U4 AOS2", title:"Online tasks hub",         type:"Hub",          url:BASE+"u4-aos2-as-hub.html?v=1" },
+  { unit:"U4 AOS2", title:"Practice questions (GBY)", type:"Practice",     url:BASE+"u4-aos2-as-practice.html" },
+];
+
+const UNITS = [
+  "U1 AOS1",
+  "U1 AOS2",
+  "U1 AOS3",
+  "U2 AOS1",
+  "U2 AOS2 · International trade",
+  "U2 AOS2 · Changing labour market",
+  "U3 AOS1",
+  "U3 AOS2",
+  "U3 AOS3",
+  "U3 Exam",
+  "U4 AOS1 · SAC 1 — Monetary policy",
+  "U4 AOS1 · SAC 2 — Budgetary policy",
+  "U4 AOS2",
+  "Exam practice",
+];
+
+/* ============================================================================
+   2. Page machinery — no need to touch below here.
+   ========================================================================== */
+
+const TYPES = ["Practice","VCAA practice","Gap analysis","Hub","Revision","Marking tool","Game"];
+const STORE = "vce-links-v3";
+
+const board = document.getElementById("board");
+const q = document.getElementById("q");
+const tally = document.getElementById("tally");
+const arrangeBtn = document.getElementById("arrangeBtn");
+const exportPanel = document.getElementById("exportPanel");
+const exportText = document.getElementById("exportText");
+const modal = document.getElementById("modal");
+const dropzone = document.getElementById("dropzone");
+
+const fUrl = document.getElementById("fUrl");
+const fTitle = document.getElementById("fTitle");
+const fUnit = document.getElementById("fUnit");
+const fNewUnit = document.getElementById("fNewUnit");
+const fType = document.getElementById("fType");
+const newUnitField = document.getElementById("newUnitField");
+const warnline = document.getElementById("warnline");
+
+let arranging = false;
+let items = [];
+let units = UNITS.slice();
+let removed = [];
+let dirty = false;
+let editingUrl = null;
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function label(u){
+  if(u.startsWith(BASE)) return decodeURIComponent(u.slice(BASE.length).split("?")[0]);
+  try { const p = new URL(u); return p.hostname.replace(/^www\./,"") + p.pathname; }
+  catch { return u; }
+}
+
+/* ---------- load ---------- */
+(function load(){
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(STORE)); } catch {}
+  if(saved && Array.isArray(saved.items)){
+    items = saved.items;
+    removed = Array.isArray(saved.removed) ? saved.removed : [];
+    units = Array.isArray(saved.units) && saved.units.length ? saved.units : UNITS.slice();
+    dirty = true;
+    /* absorb anything newly added to the file since this device last saved */
+    const have = new Set(items.map(i => i.url));
+    const gone = new Set(removed);
+    LINKS.forEach(l => { if(!have.has(l.url) && !gone.has(l.url)) items.push(Object.assign({}, l)); });
+    UNITS.forEach(u => { if(!units.includes(u)) units.push(u); });
+  } else {
+    items = LINKS.map(l => Object.assign({}, l));
+  }
+  document.body.classList.toggle("dirty-on", dirty);
+})();
+
+function persist(){
+  dirty = true;
+  document.body.classList.add("dirty-on");
+  try { localStorage.setItem(STORE, JSON.stringify({items, units, removed})); } catch {}
+}
+
+/* ---------- render ---------- */
+const TOOLS = `<span class="cardtools">
+  <button class="tool tool--edit" type="button" title="Rename or change type"><svg viewBox="0 0 24 24"><path d="M4 20h4L20 8l-4-4L4 16v4z"/></svg></button>
+  <button class="tool tool--del" type="button" title="Delete"><svg viewBox="0 0 24 24"><path d="M5 7h14M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>
+  <button class="tool handle" type="button" title="Drag to move"><svg viewBox="0 0 24 24"><path d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01"/></svg></button>
+</span>`;
+
+function cardHTML(l){
+  return `<article class="card${l.added?" isnew":""}" data-url="${esc(l.url)}">
+    ${TOOLS}
+    <a class="card__link" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.title)}</a>
+    <span class="card__file">${esc(label(l.url))}</span>
+    <div class="card__foot">
+      <span class="tag" data-type="${esc(l.type)}">${esc(l.type)}</span>
+      <button class="copy" type="button" data-url="${esc(l.url)}">Copy</button>
+    </div>
+  </article>`;
+}
+
+function render(){
+  const term = arranging ? "" : q.value.trim().toLowerCase();
+  const match = l => !term || (l.title+" "+l.unit+" "+l.type+" "+label(l.url)).toLowerCase().includes(term);
+  const shown = items.filter(match);
+  let html = "";
+
+  units.forEach(unit => {
+    const list = shown.filter(l => l.unit === unit);
+    if(term && !list.length) return;
+
+    html += `<section class="unit" data-unit="${esc(unit)}">
+      <div class="unit__head">
+        <h2 class="unit__name">${esc(unit)}</h2>
+        <span class="unit__count">${list.length} link${list.length===1?"":"s"}</span>
+      </div>`;
+    html += (list.length || arranging)
+      ? `<div class="grid">${list.map(cardHTML).join("")}</div>`
+      : `<div class="empty">Nothing here yet. Drag a web address onto the page, or use <code>+ Add link</code>.</div>`;
+    html += `</section>`;
+  });
+
+  if(term && !shown.length){
+    html = `<div class="noresults"><strong>No links match &ldquo;${esc(q.value)}&rdquo;</strong>Try a unit code, a task name, or part of the file name.</div>`;
+  }
+
+  board.innerHTML = html;
+  tally.textContent = term
+    ? `${shown.length} of ${items.length} links`
+    : `${items.length} links across ${units.length} sections`;
+}
+
+/* ---------- search ---------- */
+q.addEventListener("input", render);
+q.addEventListener("keydown", e => {
+  if(e.key === "Escape"){ q.value = ""; render(); }
+  if(e.key === "Enter"){
+    const first = board.querySelector(".card__link");
+    if(first) window.open(first.href, "_blank", "noopener");
+  }
+});
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && modal.classList.contains("on")) closeModal();
+  if(e.key === "/" && document.activeElement !== q && !arranging && !modal.classList.contains("on")){
+    e.preventDefault(); q.focus(); q.select();
+  }
+});
+
+/* ---------- copy / edit / delete ---------- */
+board.addEventListener("click", async e => {
+  const copyBtn = e.target.closest(".copy");
+  if(copyBtn){
+    e.preventDefault();
+    await copyText(copyBtn.dataset.url);
+    const was = copyBtn.textContent;
+    copyBtn.textContent = "Copied"; copyBtn.dataset.done = "1";
+    setTimeout(() => { copyBtn.textContent = was; delete copyBtn.dataset.done; }, 1300);
+    return;
+  }
+  const card = e.target.closest(".card");
+  if(!card) return;
+
+  if(e.target.closest(".tool--edit")){ e.preventDefault(); openModal(card.dataset.url); return; }
+
+  if(e.target.closest(".tool--del")){
+    e.preventDefault();
+    const item = items.find(i => i.url === card.dataset.url);
+    if(!item) return;
+    if(!confirm(`Remove “${item.title}” from the page?\n\nThis only affects this list. The file itself stays in your repository.`)) return;
+    items = items.filter(i => i.url !== item.url);
+    if(LINKS.some(l => l.url === item.url)) removed.push(item.url);
+    persist(); render();
+  }
+});
+
+async function copyText(text){
+  try { await navigator.clipboard.writeText(text); return; } catch {}
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); } catch {}
+  ta.remove();
+}
+
+/* ---------- arrange ---------- */
+arrangeBtn.addEventListener("click", () => {
+  arranging = !arranging;
+  document.body.classList.toggle("arranging", arranging);
+  arrangeBtn.classList.toggle("btn--on", arranging);
+  arrangeBtn.textContent = arranging ? "Done" : "Arrange";
+  if(arranging) q.value = "";
+  q.disabled = arranging;
+  render();
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if(!confirm("Discard every change made on this device and go back to what the file says?")) return;
+  try { localStorage.removeItem(STORE); } catch {}
+  items = LINKS.map(l => Object.assign({}, l));
+  units = UNITS.slice(); removed = []; dirty = false;
+  document.body.classList.remove("dirty-on");
+  exportPanel.classList.remove("open");
+  render();
+});
+
+/* ---------- add / edit modal ---------- */
+document.getElementById("addBtn").addEventListener("click", () => openModal(null));
+
+function fillSelects(selectedUnit, selectedType){
+  fUnit.innerHTML = units.map(u => `<option value="${esc(u)}">${esc(u)}</option>`).join("")
+    + `<option value="__new__">+ New section…</option>`;
+  fUnit.value = selectedUnit && units.includes(selectedUnit) ? selectedUnit : units[0];
+  fType.innerHTML = TYPES.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("");
+  fType.value = TYPES.includes(selectedType) ? selectedType : "Practice";
+  newUnitField.style.display = "none";
+  fNewUnit.value = "";
+}
+
+fUnit.addEventListener("change", () => {
+  const isNew = fUnit.value === "__new__";
+  newUnitField.style.display = isNew ? "block" : "none";
+  if(isNew) fNewUnit.focus();
+});
+
+function openModal(url, prefill){
+  editingUrl = url;
+  warnline.classList.remove("on");
+  const existing = url ? items.find(i => i.url === url) : null;
+
+  document.getElementById("modalHead").textContent = existing ? "Edit this link" : "Add a link";
+  document.getElementById("modalSub").textContent = existing
+    ? "Change the name, section or type."
+    : "Check the details, then save.";
+
+  fUrl.value = existing ? existing.url : (prefill ? prefill.url : "");
+  fUrl.readOnly = !!existing;
+  fTitle.value = existing ? existing.title : (prefill ? prefill.title : "");
+  fillSelects(existing ? existing.unit : (prefill ? prefill.unit : null),
+              existing ? existing.type : (prefill ? prefill.type : null));
+
+  modal.classList.add("on");
+  setTimeout(() => (existing ? fTitle : (fUrl.value ? fTitle : fUrl)).focus(), 40);
+}
+
+function closeModal(){ modal.classList.remove("on"); editingUrl = null; }
+document.getElementById("cancelLink").addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if(e.target === modal) closeModal(); });
+
+document.getElementById("saveLink").addEventListener("click", () => {
+  const url = fUrl.value.trim();
+  const title = fTitle.value.trim();
+
+  if(!editingUrl){
+    if(!/^https?:\/\/.+/i.test(url)){
+      warnline.textContent = "That does not look like a web address. It needs to start with https://";
+      warnline.classList.add("on"); return;
+    }
+    if(items.some(i => i.url === url)){
+      warnline.textContent = "That link is already on the page.";
+      warnline.classList.add("on"); return;
+    }
+  }
+  if(!title){
+    warnline.textContent = "Give the card a name so you can find it later.";
+    warnline.classList.add("on"); return;
+  }
+
+  let unit = fUnit.value;
+  if(unit === "__new__"){
+    unit = fNewUnit.value.trim();
+    if(!unit){
+      warnline.textContent = "Name the new section, or pick an existing one.";
+      warnline.classList.add("on"); return;
+    }
+    if(!units.includes(unit)) units.push(unit);
+  }
+
+  if(editingUrl){
+    const it = items.find(i => i.url === editingUrl);
+    if(it){ it.title = title; it.unit = unit; it.type = fType.value; }
+  } else {
+    items.push({unit, title, type:fType.value, url, added:true});
+    removed = removed.filter(r => r !== url);
+  }
+  persist(); closeModal(); render();
+});
+
+/* ---------- drag a web address onto the page ---------- */
+let dragDepth = 0;
+function hasUrl(dt){
+  if(!dt) return false;
+  const t = Array.from(dt.types || []);
+  return t.includes("text/uri-list") || t.includes("text/plain") || t.includes("URL");
+}
+window.addEventListener("dragenter", e => {
+  if(!hasUrl(e.dataTransfer)) return;
+  e.preventDefault(); dragDepth++; dropzone.classList.add("on");
+});
+window.addEventListener("dragover", e => { if(hasUrl(e.dataTransfer)) e.preventDefault(); });
+window.addEventListener("dragleave", () => { dragDepth = Math.max(0, dragDepth - 1); if(!dragDepth) dropzone.classList.remove("on"); });
+window.addEventListener("drop", e => {
+  if(!hasUrl(e.dataTransfer)) return;
+  e.preventDefault();
+  dragDepth = 0; dropzone.classList.remove("on");
+  const raw = (e.dataTransfer.getData("text/uri-list") || e.dataTransfer.getData("text/plain") || "").split("\n")[0].trim();
+  if(!raw) return;
+  if(items.some(i => i.url === raw)){
+    openModal(raw);   /* already here — open it for editing instead of duplicating */
+    return;
+  }
+  openModal(null, guess(raw));
+});
+
+/* Best guess at name, section and type from the file name — always editable. */
+function guess(url){
+  const file = label(url).split("/").pop().replace(/\.[a-z]+$/i, "");
+  const words = decodeURIComponent(file).replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
+  const low = words.toLowerCase();
+
+  let type = "Practice";
+  if(low.includes("gap")) type = "Gap analysis";
+  else if(low.includes("hub")) type = "Hub";
+  else if(low.includes("revision")) type = "Revision";
+  else if(low.includes("marking") || low.includes("marker")) type = "Marking tool";
+  else if(low.includes("vcaa")) type = "VCAA practice";
+  else if(low.includes("game") || low.includes("econoland")) type = "Game";
+
+  let unit = null;
+  const m = low.match(/u\s?([1-4])[\s_-]*aos\s?([1-3])/);
+  if(m) unit = units.find(u => u.toLowerCase().replace(/[^a-z0-9]/g,"").startsWith("u"+m[1]+"aos"+m[2])) || null;
+  if(!unit && low.includes("exam")) unit = units.find(u => u.toLowerCase().includes("exam")) || null;
+
+  const title = words.charAt(0).toUpperCase() + words.slice(1);
+  return {url, title, unit, type};
+}
+
+/* ---------- pointer drag to reorder ---------- */
+let drag = null;
+
+board.addEventListener("pointerdown", e => {
+  if(!arranging) return;
+  const handle = e.target.closest(".handle");
+  if(!handle) return;
+  const card = handle.closest(".card");
+  if(!card) return;
+
+  e.preventDefault();
+  const r = card.getBoundingClientRect();
+  const ghost = card.cloneNode(true);
+  ghost.classList.add("ghost"); ghost.classList.remove("dragging");
+  ghost.style.width = r.width + "px"; ghost.style.height = r.height + "px";
+  document.body.appendChild(ghost);
+  card.classList.add("dragging");
+
+  drag = {card, ghost, dx:e.clientX - r.left, dy:e.clientY - r.top};
+  placeGhost(e.clientX, e.clientY);
+  handle.setPointerCapture(e.pointerId);
+});
+
+function placeGhost(x, y){
+  drag.ghost.style.left = (x - drag.dx) + "px";
+  drag.ghost.style.top = (y - drag.dy) + "px";
+}
+
+document.addEventListener("pointermove", e => {
+  if(!drag) return;
+  e.preventDefault();
+  placeGhost(e.clientX, e.clientY);
+
+  const pad = 90;
+  if(e.clientY < pad) window.scrollBy(0, -12);
+  else if(e.clientY > window.innerHeight - pad) window.scrollBy(0, 12);
+
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  if(!under) return;
+  const grid = under.closest(".grid");
+  if(!grid) return;
+  const target = under.closest(".card");
+  if(target && target !== drag.card){
+    const r = target.getBoundingClientRect();
+    grid.insertBefore(drag.card, (e.clientY - r.top) > r.height/2 ? target.nextSibling : target);
+  } else if(!target){
+    grid.appendChild(drag.card);
+  }
+}, {passive:false});
+
+function endDrag(){
+  if(!drag) return;
+  drag.ghost.remove();
+  drag.card.classList.remove("dragging");
+  drag = null;
+  commitOrder();
+  render();
+}
+document.addEventListener("pointerup", endDrag);
+document.addEventListener("pointercancel", endDrag);
+
+function commitOrder(){
+  const byUrl = new Map(items.map(i => [i.url, i]));
+  const out = [];
+  board.querySelectorAll(".unit").forEach(sec => {
+    const unit = sec.dataset.unit;
+    sec.querySelectorAll(".card").forEach(c => {
+      const it = byUrl.get(c.dataset.url);
+      if(it){ it.unit = unit; out.push(it); byUrl.delete(c.dataset.url); }
+    });
+  });
+  byUrl.forEach(i => out.push(i));
+  items = out;
+  persist();
+}
+
+/* ---------- export ---------- */
+document.getElementById("exportBtn").addEventListener("click", () => {
+  exportText.value = buildCode();
+  exportPanel.classList.add("open");
+  exportPanel.scrollIntoView({behavior:"smooth", block:"start"});
+});
+document.getElementById("closeExport").addEventListener("click", () => exportPanel.classList.remove("open"));
+document.getElementById("copyExport").addEventListener("click", async e => {
+  await copyText(exportText.value);
+  e.target.textContent = "Copied";
+  setTimeout(() => { e.target.textContent = "Copy to clipboard"; }, 1400);
+});
+
+function buildCode(){
+  const blocks = units.map(u => {
+    const list = items.filter(l => l.unit === u);
+    if(!list.length) return null;
+    return list.map(l => {
+      const u2 = l.url.startsWith(BASE) ? "BASE+" + JSON.stringify(l.url.slice(BASE.length)) : JSON.stringify(l.url);
+      return `  { unit:${JSON.stringify(l.unit)}, title:${JSON.stringify(l.title)}, type:${JSON.stringify(l.type)}, url:${u2} },`;
+    }).join("\n");
+  }).filter(Boolean);
+
+  return "const LINKS = [\n" + blocks.join("\n\n") + "\n];\n\n"
+       + "const UNITS = [\n" + units.map(u => "  " + JSON.stringify(u) + ",").join("\n") + "\n];";
+}
+
+/* ---------- go ---------- */
+render();
+if(!window.matchMedia("(hover: none)").matches) q.focus();
+</script>
+</body>
+</html>
