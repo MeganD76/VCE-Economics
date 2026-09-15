@@ -1,0 +1,6184 @@
+[
+ {
+  "id": "2013-Q1",
+  "year": 2013,
+  "q": 1,
+  "stem": "Which one of the following would have a different effect on the overall level of aggregate demand from that of the other three?",
+  "options": {
+   "A": "an increase in savings",
+   "B": "an increase in investment",
+   "C": "an increase in net exports",
+   "D": "an increase in government spending"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 81,
+   "B": 2,
+   "C": 9,
+   "D": 7
+  },
+  "correct_pct": 81,
+  "trap": {
+   "option": "C",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.4",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": ""
+ },
+ {
+  "id": "2013-Q2",
+  "year": 2013,
+  "q": 2,
+  "stem": "The effect of an introduction of a carbon tax of $23 per tonne of CO2 emissions on the market for electricity that is generated from burning coal would be to",
+  "options": {
+   "A": "shift the supply curve to the left and cause a contraction in supply",
+   "B": "shift the supply curve to the left and cause a contraction in demand",
+   "C": "shift the demand curve to the left and cause a contraction in supply",
+   "D": "shift the demand curve to the left and cause a contraction in demand"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 21,
+   "B": 53,
+   "C": 18,
+   "D": 8
+  },
+  "correct_pct": 53,
+  "trap": {
+   "option": "A",
+   "pct": 21,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.17",
+  "trap_note": "A tax on producers raises their costs, so the SUPPLY curve shifts left. Price rises and consumers respond by moving along their demand curve - a contraction in DEMAND. The 21% who said contraction in supply put a shift and a movement on the same curve, which cannot happen at once."
+ },
+ {
+  "id": "2013-Q3",
+  "year": 2013,
+  "q": 3,
+  "stem": "Which one of the following policy decisions is likely to have a different effect on aggregate supply from that of the other three?",
+  "options": {
+   "A": "an increase in the pension qualification age from 65 to 70 years",
+   "B": "the payment of a subsidy to parents to cover the cost of childcare",
+   "C": "an increase in the minimum school leaving age from 15 to 17 years",
+   "D": "relaxation of the criteria that need to be met in order to qualify as a skilled migrant to Australia"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 4,
+   "B": 15,
+   "C": 62,
+   "D": 18
+  },
+  "correct_pct": 62,
+  "trap": {
+   "option": "D",
+   "pct": 18,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.2"
+ },
+ {
+  "id": "2013-Q4",
+  "year": 2013,
+  "q": 4,
+  "stem": "Which one of the following is not an example of an automatic stabiliser?",
+  "options": {
+   "A": "unemployment benefits",
+   "B": "social welfare payments",
+   "C": "progressive income taxes",
+   "D": "salaries paid to public servants"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 3,
+   "B": 3,
+   "C": 12,
+   "D": 81
+  },
+  "correct_pct": 81,
+  "trap": {
+   "option": "C",
+   "pct": 12,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.8"
+ },
+ {
+  "id": "2013-Q5",
+  "year": 2013,
+  "q": 5,
+  "stem": "Imagine that \u2022 the inflation rate is at a low level, well within the target range \u2022 the rate of economic growth is slowing \u2022 the unemployment rate is rising. It is most likely that the Reserve Bank of Australia (RB",
+  "options": {
+   "A": "will implement a monetary policy that would A. buy government securities and lower the cash interest rate",
+   "B": "buy government securities and raise the cash interest rate",
+   "C": "sell government securities and lower the cash interest rate",
+   "D": "sell government securities and raise the cash interest rate"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 72,
+   "B": 5,
+   "C": 20,
+   "D": 3
+  },
+  "correct_pct": 72,
+  "trap": {
+   "option": "C",
+   "pct": 20,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "ZZ-none"
+ },
+ {
+  "id": "2013-Q6",
+  "year": 2013,
+  "q": 6,
+  "stem": "In a given year, an increase in the trade-weighted index (TWI) is least likely to",
+  "options": {
+   "A": "distort income distribution in favour of Australian importing firms relative to Australian exporting firms",
+   "B": "assist with the lessening of cost pressures for Australian businesses",
+   "C": "result in greater leakages of spending out of the Australian economy",
+   "D": "contribute to an improvement in net external demand (X\u2013M)"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 18,
+   "B": 16,
+   "C": 16,
+   "D": 49
+  },
+  "correct_pct": 49,
+  "trap": {
+   "option": "A",
+   "pct": 18,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task4_link_prior",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.5",
+  "trap_note": "A higher TWI makes exports dearer and imports cheaper, so net external demand (X-M) gets WORSE. The 18% who chose the income distribution option picked something a rising dollar genuinely does cause - importers gain, exporters lose - which is why it reads well."
+ },
+ {
+  "id": "2013-Q7",
+  "year": 2013,
+  "q": 7,
+  "stem": "Which one of the following statements regarding Real Gross Domestic Product (GDP) is false?",
+  "options": {
+   "A": "Real GDP excludes the costs that are associated with negative externalities",
+   "B": "Real GDP imputes the value of government services that are provided free of charge",
+   "C": "Real GDP includes home-based production, such as do-it-yourself home maintenance",
+   "D": "Real GDP measures the change in the value of goods and services that are produced over a period of time, adjusted for rates of inflation"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 8,
+   "B": 6,
+   "C": 79,
+   "D": 6
+  },
+  "correct_pct": 79,
+  "trap": {
+   "option": "A",
+   "pct": 8,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.7",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.7"
+ },
+ {
+  "id": "2013-Q8",
+  "year": 2013,
+  "q": 8,
+  "stem": "If the RBA implements an expansionary monetary policy, the likely effect on consumer spending and on the household savings ratio would be that",
+  "options": {
+   "A": "consumer spending falls and the household savings ratio rises",
+   "B": "consumer spending rises and the household savings ratio falls",
+   "C": "consumer spending falls and the household savings ratio falls",
+   "D": "consumer spending rises and the household savings ratio rises"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 6,
+   "B": 87,
+   "C": 2,
+   "D": 5
+  },
+  "correct_pct": 87,
+  "trap": {
+   "option": "A",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.17"
+ },
+ {
+  "id": "2013-Q9",
+  "year": 2013,
+  "q": 9,
+  "stem": "An improvement in average material living standards in Australia is",
+  "options": {
+   "A": "not achievable if there has been a decline in non-material living standards",
+   "B": "considered to have occurred if there has been an increase in Real GDP per capita over time",
+   "C": "possible only if the Australian Government has successfully achieved its goal of equity in income distribution",
+   "D": "more likely to occur in a period of macroeconomic contraction of the global economy, placing Australia in a position of global competitive advantage"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 5,
+   "B": 72,
+   "C": 11,
+   "D": 12
+  },
+  "correct_pct": 72,
+  "trap": {
+   "option": "D",
+   "pct": 12,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.1"
+ },
+ {
+  "id": "2013-Q10",
+  "year": 2013,
+  "q": 10,
+  "stem": "For a hypothetical economy:<br>unemployed persons 5 million<br>underemployed persons 7 million<br>labour force 100 million<br>total population aged over 15 years 150 million<br><br>Based on the data shown above, the labour force under-utilisation rate is",
+  "options": {
+   "A": "5 per cent",
+   "B": "7 per cent",
+   "C": "12 per cent",
+   "D": "66 per cent"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 4,
+   "B": 33,
+   "C": 59,
+   "D": 4
+  },
+  "correct_pct": 59,
+  "trap": {
+   "option": "B",
+   "pct": 33,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Underemployed people are only half the story. Under-utilisation counts the unemployed AND the underemployed, over the labour force."
+ },
+ {
+  "id": "2013-Q11",
+  "year": 2013,
+  "q": 11,
+  "stem": "What would be the effect of an increase in net capital inflow on the Australian currency?",
+  "options": {
+   "A": "an increase in the demand for the Australian dollar and an appreciation of the currency",
+   "B": "a decrease in the demand for the Australian dollar and a depreciation of the currency",
+   "C": "an increase in the supply of the Australian dollar and an appreciation of the currency",
+   "D": "a decrease in the supply of the Australian dollar and a depreciation of the currency"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 74,
+   "B": 8,
+   "C": 14,
+   "D": 3
+  },
+  "correct_pct": 74,
+  "trap": {
+   "option": "C",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.5"
+ },
+ {
+  "id": "2013-Q12",
+  "year": 2013,
+  "q": 12,
+  "stem": "The prices of imported manufactured goods in Australia have decreased in recent years. Which one of the following is unlikely to have been a result of this trend?",
+  "options": {
+   "A": "an expansion in demand for imports by Australian consumers",
+   "B": "reduced profitability and decreased company taxation revenue derived from domestic manufacturing industries",
+   "C": "an increase in the value of merchandise debits (merchandise import payments) in the current account of the balance of payments",
+   "D": "increased employment in import-competing (import-replacement) industries, such as the Australian car-manufacturing industry"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 14,
+   "B": 17,
+   "C": 17,
+   "D": 52
+  },
+  "correct_pct": 52,
+  "trap": {
+   "option": "C",
+   "pct": 17,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task4_link_prior",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.3.5",
+  "trap_note": "Cheaper imports pull customers away from local producers, so employment in import-competing industries FALLS. The 17% who chose higher merchandise debits picked something cheaper imports genuinely cause, as volumes rise - the question asked for the one that would not happen."
+ },
+ {
+  "id": "2013-Q13",
+  "year": 2013,
+  "q": 13,
+  "stem": "The promoter of a theatre play discounted the price of admission by 30 per cent, which resulted in average attendances rising by 50 per cent. Based on this data, it could be concluded that there is an",
+  "options": {
+   "A": "elastic demand",
+   "B": "inelastic demand",
+   "C": "elastic supply",
+   "D": "inelastic supply"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 88,
+   "B": 7,
+   "C": 4,
+   "D": 1
+  },
+  "correct_pct": 88,
+  "trap": {
+   "option": "B",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.11"
+ },
+ {
+  "id": "2013-Q14",
+  "year": 2013,
+  "q": 14,
+  "stem": "Assume that between year 1 and year 2 the top 20 per cent of income earners in a country receive a larger share of total income and the bottom 20 per cent of income earners receive a smaller share of total income. Which one of the following best describes the effect that has occurred on income distribution?",
+  "options": {
+   "A": "The Lorenz Curve moves closer to the 45-degree line and the Gini Coefficient moves closer to one",
+   "B": "The Lorenz Curve moves closer to the 45-degree line and the Gini Coefficient moves closer to zero",
+   "C": "The Lorenz Curve moves further away from the 45-degree line and the Gini Coefficient moves closer to one",
+   "D": "The Lorenz Curve moves further away from the 45-degree line and the Gini Coefficient moves closer to zero"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 5,
+   "B": 4,
+   "C": 78,
+   "D": 13
+  },
+  "correct_pct": 78,
+  "trap": {
+   "option": "D",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "ZZ-none"
+ },
+ {
+  "id": "2013-Q15",
+  "year": 2013,
+  "q": 15,
+  "stem": "Which one of the following characteristics is not shared by the market structures of perfect competition and monopolistic competition?",
+  "options": {
+   "A": "a large number of buyers",
+   "B": "a large number of sellers",
+   "C": "low barriers to entry",
+   "D": "identical products"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 4,
+   "B": 14,
+   "C": 14,
+   "D": 68
+  },
+  "correct_pct": 68,
+  "trap": {
+   "option": "C",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.3"
+ },
+ {
+  "id": "2014-Q1",
+  "year": 2014,
+  "q": 1,
+  "stem": "A major determinant of demand in one particular market could be the",
+  "options": {
+   "A": "cost of raw materials",
+   "B": "method of production",
+   "C": "number of sellers in the market",
+   "D": "disposable incomes of buyers in the market"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 3,
+   "B": 1,
+   "C": 5,
+   "D": 90
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "C",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.6"
+ },
+ {
+  "id": "2014-Q2",
+  "year": 2014,
+  "q": 2,
+  "stem": "Which one of the following would be recorded as a debit in Australia\u2019s balance of payments on current account?",
+  "options": {
+   "A": "the sale of Australian wool to Italy",
+   "B": "an increase in the number of foreign tourists visiting Australia",
+   "C": "interest paid on Australian Government bonds to overseas investors",
+   "D": "a Chinese company purchasing a farming property in rural Australia"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 9,
+   "B": 4,
+   "C": 83,
+   "D": 4
+  },
+  "correct_pct": 83,
+  "trap": {
+   "option": "A",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.2"
+ },
+ {
+  "id": "2014-Q3",
+  "year": 2014,
+  "q": 3,
+  "stem": "Market power exists when A. the government taxes companies and individuals. B. consumers exercise consumer sovereignty in the market. C. activity in overseas economies influences Australia\u2019s exchange rate. D. a business is able to influence the price of a product by exercising control over demand, supply or both",
+  "options": {
+   "A": "the government taxes companies and individuals",
+   "B": "consumers exercise consumer sovereignty in the market",
+   "C": "activity in overseas economies influences Australia\u2019s exchange rate",
+   "D": "a business is able to influence the price of a product by exercising control over demand, supply or both"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 1,
+   "B": 7,
+   "C": 1,
+   "D": 92
+  },
+  "correct_pct": 92,
+  "trap": {
+   "option": "B",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.3"
+ },
+ {
+  "id": "2014-Q4",
+  "year": 2014,
+  "q": 4,
+  "stem": "The effect on the market for product A from a rise in the price of a complementary product B will",
+  "options": {
+   "A": "shift the demand curve right and increase the equilibrium price",
+   "B": "shift the demand curve left and decrease the equilibrium price",
+   "C": "shift the supply curve left and increase the equilibrium price",
+   "D": "shift the supply curve right and decrease the equilibrium price"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 30,
+   "B": 58,
+   "C": 8,
+   "D": 4
+  },
+  "correct_pct": 58,
+  "trap": {
+   "option": "A",
+   "pct": 30,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "If B's price rises, people buy less B \u2014 and therefore less A alongside it. Demand for A shifts LEFT. The 30% who shifted it right did what a SUBSTITUTE does, not a complement."
+ },
+ {
+  "id": "2014-Q5",
+  "year": 2014,
+  "q": 5,
+  "stem": "Distribution of income by income units for selected years in Country X Gross income share (per cent of total income units) Year 1 Year 2 Year 3 Quintile lowest quintile 4.7 3.6 3.8 2nd quintile 9.7 9.3 9.0 3rd quintile 15.5 15.2 15.0 4th quintile 24.0 24.0 23.8 highest quintile 46.1 47.9 48.5 Gini Coefficient 0.42 0.44 0.45 Based on the table above, which one of the following statements about the distribution of income from Year 1 to Year 3 is incorrect?",
+  "options": {
+   "A": "The distribution of income has become more uneven",
+   "B": "The top 20 per cent of income units has been increasing its share of total gross income",
+   "C": "The Gini Coefficients confirm that the distribution of income has become more equitable",
+   "D": "The cumulative income share of the lowest 40 per cent of income earners has decreased"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 11,
+   "B": 5,
+   "C": 79,
+   "D": 5
+  },
+  "correct_pct": 79,
+  "trap": {
+   "option": "A",
+   "pct": 11,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "ZZ-none"
+ },
+ {
+  "id": "2014-Q6",
+  "year": 2014,
+  "q": 6,
+  "stem": "Which of the following events, or combination of events, may result in the Reserve Bank of Australia (RBA) adopting a more restrictive monetary policy stance?",
+  "options": {
+   "A": "an increase in the world oil price over two consecutive months",
+   "B": "an increase in the growth of both credit and the household debt to income ratio, combined with a rapid depreciation of the Australian dollar",
+   "C": "an increase in the official ABS unemployment rate and evidence of a higher level of labour force under-utilisation",
+   "D": "a decrease in consumer confidence and aggregate demand, accompanied by renewed concerns about declining rates of economic growth in the economies of Australia\u2019s major trading partners"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 18,
+   "B": 66,
+   "C": 7,
+   "D": 9
+  },
+  "correct_pct": 66,
+  "trap": {
+   "option": "A",
+   "pct": 18,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.18",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.18"
+ },
+ {
+  "id": "2014-Q7",
+  "year": 2014,
+  "q": 7,
+  "stem": "Production possibility data for a hypothetical economy \u2013 Starland Combination Combination Combination Combination Combination A B C D E Quantity of goods 60 35 20 8 0 produced (\u2018000) Quantity of services 0 6 14 25 40 produced (\u2018000) Based on the data in the table above for Starland, if a decision were made by the business sector to increase the quantity of goods produced from 20 000 to 35 000, the opportunity cost of attaining the increase of 15 000 goods would be",
+  "options": {
+   "A": "8 000 services",
+   "B": "15 000 goods",
+   "C": "20 000 services",
+   "D": "34 000 services"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 83,
+   "B": 6,
+   "C": 9,
+   "D": 2
+  },
+  "correct_pct": 83,
+  "trap": {
+   "option": "C",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.1"
+ },
+ {
+  "id": "2014-Q8",
+  "year": 2014,
+  "q": 8,
+  "stem": "Which one of the following is an example of discretionary budgetary policy?",
+  "options": {
+   "A": "a decrease in the cash interest rate target",
+   "B": "a decrease in the company tax rate from 30 per cent to 29 per cent",
+   "C": "an increase in welfare payments due to a rise in cyclical unemployment",
+   "D": "lower revenue from a minerals resource rent tax (MRRT) due to falling commodity prices"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 4,
+   "B": 77,
+   "C": 13,
+   "D": 5
+  },
+  "correct_pct": 77,
+  "trap": {
+   "option": "C",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.9",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.9"
+ },
+ {
+  "id": "2014-Q9",
+  "year": 2014,
+  "q": 9,
+  "stem": "Which one of the following is least likely to increase productivity?",
+  "options": {
+   "A": "labour skills training",
+   "B": "innovation in work practices",
+   "C": "investment in physical capital",
+   "D": "a decline in competition in the market"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 3,
+   "B": 2,
+   "C": 3,
+   "D": 92
+  },
+  "correct_pct": 92,
+  "trap": {
+   "option": "C",
+   "pct": 3,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.2"
+ },
+ {
+  "id": "2014-Q10",
+  "year": 2014,
+  "q": 10,
+  "stem": "In a situation in which the inflation rate is higher than the RBA\u2019s target rate of inflation, the RBA is likely to",
+  "options": {
+   "A": "sell government bonds in order to drive the cash interest rate up",
+   "B": "sell government bonds in order to drive the cash interest rate down",
+   "C": "purchase government bonds in order to drive the cash interest rate up",
+   "D": "purchase government bonds in order to drive the cash interest rate down"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 57,
+   "B": 14,
+   "C": 15,
+   "D": 15
+  },
+  "correct_pct": 57,
+  "trap": {
+   "option": "D",
+   "pct": 15,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.18",
+  "trap_note": null
+ },
+ {
+  "id": "2014-Q11",
+  "year": 2014,
+  "q": 11,
+  "stem": "Which one of the following is not an example of private investment expenditure (I) as a component of aggregate demand?",
+  "options": {
+   "A": "A small-business owner purchases new capital equipment for a production plant",
+   "B": "There is an increase in young married couples in Australia employing residential construction companies to build new dwellings",
+   "C": "A small business chooses to increase production volumes while operating costs are relatively low and consciously boosts the company\u2019s stock holdings in the short term",
+   "D": "Australian householders become cautious about future employment prospects and increase their savings in bank accounts as a means of securing their future spending capacity"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 4,
+   "B": 16,
+   "C": 13,
+   "D": 67
+  },
+  "correct_pct": 67,
+  "trap": {
+   "option": "B",
+   "pct": 16,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.4",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.4"
+ },
+ {
+  "id": "2014-Q12",
+  "year": 2014,
+  "q": 12,
+  "stem": "Which one of the following government initiatives is most likely to improve non-material living standards in Australia?",
+  "options": {
+   "A": "increased public resources directed to the provision of support services for domestic dispute resolution",
+   "B": "the introduction of industrial relations reforms that encourage businesses to negotiate directly with employees on extended working hours",
+   "C": "a high priority given to restoring the budget balance through significant cutbacks in expenditure on infrastructure development throughout Australia",
+   "D": "the successful monetary policy containment of inflation within the target zone, allowing for a slow and steady increase in real household disposable income and Real Gross Domestic Product (GDP) per capita"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 69,
+   "B": 17,
+   "C": 3,
+   "D": 10
+  },
+  "correct_pct": 69,
+  "trap": {
+   "option": "B",
+   "pct": 17,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.1"
+ },
+ {
+  "id": "2014-Q13",
+  "year": 2014,
+  "q": 13,
+  "stem": "Suppose Australia\u2019s interest rates are increased while the interest rates of its major trading partners remain unchanged. Which one of the following combinations is most likely to result?",
+  "options": {
+   "A": "the supply of Australian dollars increases and the trade-weighted index (TWI) increases",
+   "B": "the supply of Australian dollars decreases and the TWI decreases",
+   "C": "the supply of Australian dollars increases and the TWI decreases",
+   "D": "the supply of Australian dollars decreases and the TWI increases"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 21,
+   "B": 16,
+   "C": 16,
+   "D": 46
+  },
+  "correct_pct": 46,
+  "trap": {
+   "option": "A",
+   "pct": 21,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.5",
+  "trap_note": "Higher Australian rates make holding the dollar more attractive, so fewer people sell it. Supply of AUD DECREASES and the TWI rises. The 21% who had supply increasing described what happens when rates FALL."
+ },
+ {
+  "id": "2014-Q14",
+  "year": 2014,
+  "q": 14,
+  "stem": "Assume average wages in the national economy have increased by 5 per cent per annum and average labour productivity has increased by 2 per cent per annum. Which one of the following is the most likely outcome of these increases?",
+  "options": {
+   "A": "an increase in real wages and a rise in the operating profits of Australian businesses",
+   "B": "an improvement in equity in income distribution as a result of the likelihood of declining unemployment",
+   "C": "an increase in inflationary pressures, reducing the price competitiveness of Australian exports and import-competing goods",
+   "D": "a significant increase in business confidence levels, resulting in much higher levels of investment by business owners in new capital resources"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 19,
+   "B": 12,
+   "C": 57,
+   "D": 11
+  },
+  "correct_pct": 57,
+  "trap": {
+   "option": "A",
+   "pct": 19,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.7",
+  "trap_note": "Wages up 5% against productivity up 2% means unit labour costs rise 3%. That is cost inflation, and it damages price competitiveness. The 19% who chose higher profits had it backwards - costs rising faster than productivity squeezes margins, it does not widen them."
+ },
+ {
+  "id": "2014-Q15",
+  "year": 2014,
+  "q": 15,
+  "stem": "Which one of the following policy changes might contribute to an improvement in equity in income distribution?",
+  "options": {
+   "A": "raising the income tax-free threshold",
+   "B": "raising the excise tax on alcohol and tobacco",
+   "C": "lowering the highest marginal income tax rate",
+   "D": "raising the rate of the goods and services tax (GST)"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 88,
+   "B": 2,
+   "C": 7,
+   "D": 2
+  },
+  "correct_pct": 88,
+  "trap": {
+   "option": "C",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "ZZ-none"
+ },
+ {
+  "id": "2015-Q1",
+  "year": 2015,
+  "q": 1,
+  "stem": "An increase in the demand for aged-care facilities is most likely to occur when there is",
+  "options": {
+   "A": "an increase in average life expectancy",
+   "B": "an increase in the wages paid to staff in aged-care facilities",
+   "C": "an increase in the cost of providing aged-care facilities and services",
+   "D": "a decrease in government subsidies for aged-care facilities and services"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 93,
+   "B": 2,
+   "C": 2,
+   "D": 3
+  },
+  "correct_pct": 93,
+  "trap": {
+   "option": "D",
+   "pct": 3,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.6"
+ },
+ {
+  "id": "2015-Q2",
+  "year": 2015,
+  "q": 2,
+  "stem": "A less favourable movement in the terms of trade means that",
+  "options": {
+   "A": "export prices and import prices have fallen",
+   "B": "export prices and import prices have risen",
+   "C": "export prices have risen relative to import prices",
+   "D": "import prices have risen relative to export prices"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 2,
+   "B": 3,
+   "C": 10,
+   "D": 85
+  },
+  "correct_pct": 85,
+  "trap": {
+   "option": "C",
+   "pct": 10,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.6"
+ },
+ {
+  "id": "2015-Q3",
+  "year": 2015,
+  "q": 3,
+  "stem": "The effect on the market for product A of a rise in the price of a substitute product B will be to",
+  "options": {
+   "A": "shift the demand curve left and decrease the equilibrium price of product A",
+   "B": "shift the demand curve right and increase the equilibrium price of product A",
+   "C": "shift the supply curve left and increase the equilibrium price of product A",
+   "D": "shift the supply curve right and decrease the equilibrium price of product A"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 8,
+   "B": 82,
+   "C": 5,
+   "D": 5
+  },
+  "correct_pct": 82,
+  "trap": {
+   "option": "A",
+   "pct": 8,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.6"
+ },
+ {
+  "id": "2015-Q4",
+  "year": 2015,
+  "q": 4,
+  "stem": "Which one of the following measures is not considered an indicator when assessing whether Australia\u2019s economic goal of external stability has been achieved?",
+  "options": {
+   "A": "the trend movement in the current account de\ufb01cit (CA",
+   "D": "/Gross Domestic Product (GDP) ratio",
+   "B": "the trend movement in the net foreign debt (NFD)/GDP ratio",
+   "C": "the trend movement in the trade-weighted index D. the trend movement in the terms of trade"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 12,
+   "B": 6,
+   "C": 31,
+   "D": 51
+  },
+  "correct_pct": 51,
+  "trap": {
+   "option": "C",
+   "pct": 31,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "Drop, external stability no longer tested"
+ },
+ {
+  "id": "2015-Q5",
+  "year": 2015,
+  "q": 5,
+  "stem": "The opportunity cost of diverting increased federal budget outlays to the funding of tertiary institutions from one \ufb01scal year to the next would be measured by",
+  "options": {
+   "A": "the difference, in dollar terms, in funding tertiary institutions from one year to the next",
+   "B": "the satisfaction forgone by not allocating the additional federal budget outlays to the next best alternative use",
+   "C": "the difference in quality of educational outcomes achieved by tertiary institutions from one year to the next",
+   "D": "the total \ufb01nancial cost of funding tertiary institutions compared to the \ufb01nancial bene\ufb01ts achieved by the national economy of a more highly educated labour force"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 7,
+   "B": 69,
+   "C": 9,
+   "D": 14
+  },
+  "correct_pct": 69,
+  "trap": {
+   "option": "D",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.1"
+ },
+ {
+  "id": "2015-Q6",
+  "year": 2015,
+  "q": 6,
+  "stem": "What is the most likely effect of a decrease in the tariff on an imported product?",
+  "options": {
+   "A": "a loss of jobs for overseas suppliers",
+   "B": "a fall in the price of the domestic product",
+   "C": "a rise in the price of the domestic product",
+   "D": "an increase in employment in the domestic sector"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 2,
+   "B": 83,
+   "C": 12,
+   "D": 3
+  },
+  "correct_pct": 83,
+  "trap": {
+   "option": "C",
+   "pct": 12,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.5"
+ },
+ {
+  "id": "2015-Q7",
+  "year": 2015,
+  "q": 7,
+  "stem": "Which one of the following would be an example of a structurally unemployed person?",
+  "options": {
+   "A": "a ski instructor who is looking for alternative employment during summer",
+   "B": "an accountant who has left their job to travel overseas to gain more experience in their profession",
+   "C": "a cash register operator at a supermarket who has been replaced by self-service check-out machines",
+   "D": "a construction worker who has not worked recently due to an economic downturn in the building and construction industry"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 3,
+   "B": 3,
+   "C": 85,
+   "D": 9
+  },
+  "correct_pct": 85,
+  "trap": {
+   "option": "D",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.12",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.12"
+ },
+ {
+  "id": "2015-Q8",
+  "year": 2015,
+  "q": 8,
+  "stem": "An expansion in the quantity supplied would be shown graphically as a",
+  "options": {
+   "A": "movement up the supply curve",
+   "B": "shift to the left of the supply curve",
+   "C": "shift to the right of the supply curve",
+   "D": "movement down the supply curve"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 52,
+   "B": 4,
+   "C": 40,
+   "D": 4
+  },
+  "correct_pct": 52,
+  "trap": {
+   "option": "C",
+   "pct": 40,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "An expansion is a movement along the existing supply curve caused by a price change. A shift means a non-price factor changed."
+ },
+ {
+  "id": "2015-Q9",
+  "year": 2015,
+  "q": 9,
+  "stem": "The average material living standards of Australian households may decline if",
+  "options": {
+   "A": "the average annual household disposable income rises at a faster rate than Consumer Price Index (CPI) in\ufb02ation",
+   "B": "CPI in\ufb02ation is increasing at a slower rate in Australia than the rate experienced by our trading partners",
+   "C": "the rate of population growth is greater than the rate of increase in Real GDP over a sustained period of time",
+   "D": "negative externalities, such as pollution and urban congestion, are consequences of population growth in Australian cities"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 4,
+   "B": 7,
+   "C": 79,
+   "D": 10
+  },
+  "correct_pct": 79,
+  "trap": {
+   "option": "D",
+   "pct": 10,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.1"
+ },
+ {
+  "id": "2015-Q10",
+  "year": 2015,
+  "q": 10,
+  "stem": "Consider the following data for a hypothetical economy with similar macroeconomic goals to those of Australia. Annual Annual Annual Official percentage percentage percentage cash rate change in change in change in of interest Real GDP GNE CPI inflation (%) Year 1 2.75 3.00 2.3 4.50 Year 2 3.25 5.00 3.0 5.00 Year 3 4.00 6.75 3.7 6.25 Based on the trend movement in the economic indicators shown above, it is most likely that",
+  "options": {
+   "A": "the increase in of\ufb01cial interest rates is a signi\ufb01cant cause of the escalation in CPI in\ufb02ation and, with higher national prices, it is logical that Gross National Expenditure (GNE) will be increasing more rapidly",
+   "B": "national incomes are growing at a relatively slow pace over the three-year period, contributing to the rate of change of GNE, while tightening of monetary policy has been required in an attempt to restore the economy to a state of non-in\ufb02ationary macroeconomic expansion",
+   "C": "steady growth of Real GDP has been achieved without creating any dif\ufb01culties for other economic goals or any challenges for macroeconomic policy management",
+   "D": "the rate of increase of GNE over the three-year period, combined with the trend movement in CPI in\ufb02ation, implies that increased import leakage will be occurring and that macroeconomic policy tightening is justi\ufb01ed"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 24,
+   "B": 23,
+   "C": 4,
+   "D": 49
+  },
+  "correct_pct": 49,
+  "trap": {
+   "option": "A",
+   "pct": 24,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task4_link_prior",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.2.19"
+ },
+ {
+  "id": "2015-Q11",
+  "year": 2015,
+  "q": 11,
+  "stem": "If the market price of bananas suddenly increases due to poor weather conditions in Queensland, the impact on the market for banana cakes is most likely to be",
+  "options": {
+   "A": "reduced pro\ufb01tability in the production of banana cakes due to lower production costs and a consequent decrease in the supply of banana cakes relative to constant demand in the market, leading to an increase in the market price of banana cakes",
+   "B": "improved pro\ufb01tability in the production of banana cakes following the expansion of demand, in response to the higher prices that can be charged for banana cakes",
+   "C": "reduced pro\ufb01tability in the production of banana cakes as the relative scarcity of a key factor of production increases the costs of production and leads to a decrease in the supply of banana cakes in the market",
+   "D": "improved pro\ufb01tability in the production of banana cakes as the manufacturers can rapidly increase the market price to cover increased costs and maintain output at a constant level"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 3,
+   "B": 4,
+   "C": 87,
+   "D": 6
+  },
+  "correct_pct": 87,
+  "trap": {
+   "option": "D",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.9",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.9"
+ },
+ {
+  "id": "2015-Q12",
+  "year": 2015,
+  "q": 12,
+  "stem": "Consider the following data for the Australian economy.<br>Year 1: unemployment rate 5%, real GDP growth 3% pa<br>Year 2: unemployment rate 6%, real GDP growth 1.75% pa<br><br>Based on this data, it is most likely that",
+  "options": {
+   "A": "the Australian economy will have fewer idle resources at the end of Year 2 compared to the end of Year 1",
+   "B": "the RBA may be more likely to raise interest rates in Year 2 as a pre-emptive action against increased CPI inflationary pressures",
+   "C": "consumer confidence will be falling as growth in average household disposable income may be slowing",
+   "D": "aggregate injections of spending within the macroeconomy will have been stronger than aggregate leakages during Year 2"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 5,
+   "B": 7,
+   "C": 82,
+   "D": 6
+  },
+  "correct_pct": 82,
+  "trap": {
+   "option": "B",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.8"
+ },
+ {
+  "id": "2015-Q13",
+  "year": 2015,
+  "q": 13,
+  "stem": "The operator of a tourist resort on Australia\u2019s Gold Coast was quoted as saying that \u2018a weaker Australian dollar will be good for business\u2019. This is most likely because a weaker dollar",
+  "options": {
+   "A": "means that Australian residents are less able to afford holidays in other countries, while residents in other countries are more likely to take their holidays in Australia",
+   "B": "leads to a lower rate of in\ufb02ation in Australia and this will encourage Australian residents to take holidays in Australia",
+   "C": "increases the value of Australians\u2019 income and this will increase the demand for tourism",
+   "D": "causes lower interest rates in Australia and this will stimulate spending by Australian residents on tourism"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 91,
+   "B": 3,
+   "C": 3,
+   "D": 3
+  },
+  "correct_pct": 91,
+  "trap": {
+   "option": "D",
+   "pct": 3,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.8"
+ },
+ {
+  "id": "2015-Q14",
+  "year": 2015,
+  "q": 14,
+  "stem": "Each of the following consists of a change in economic policy and an economic outcome. In which case is the change in policy most likely to produce the outcome in the short term?",
+  "options": {
+   "A": "increased interest rates and employment growth",
+   "B": "increased rates of personal income tax and a reduced CAD",
+   "C": "increased government spending and reduced demand in\ufb02ation",
+   "D": "decreased government spending and a lower rate of unemployment"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 9,
+   "B": 69,
+   "C": 14,
+   "D": 7
+  },
+  "correct_pct": 69,
+  "trap": {
+   "option": "C",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.19"
+ },
+ {
+  "id": "2015-Q15",
+  "year": 2015,
+  "q": 15,
+  "stem": "The distribution of income is likely to become more equitable in the Australian economy if the government were to",
+  "options": {
+   "A": "move from a progressive to a proportional income tax system",
+   "B": "increase the goods and services tax (GST) from 10% to 15%",
+   "C": "increase spending on education and health",
+   "D": "remove the capital gains tax"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 26,
+   "B": 3,
+   "C": 62,
+   "D": 9
+  },
+  "correct_pct": 62,
+  "trap": {
+   "option": "A",
+   "pct": 26,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "Drop, equity in income distribution no longer tested. "
+ },
+ {
+  "id": "2016-Q1",
+  "year": 2016,
+  "q": 1,
+  "stem": "Which one of the following components of aggregate demand is the most unstable?",
+  "options": {
+   "A": "private investment expenditure",
+   "B": "private consumption expenditure",
+   "C": "government investment expenditure",
+   "D": "government consumption expenditure"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 58,
+   "B": 28,
+   "C": 6,
+   "D": 7
+  },
+  "correct_pct": 58,
+  "trap": {
+   "option": "B",
+   "pct": 28,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.4",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Consumption is the biggest slice of AD, not the most volatile one. Investment swings hardest because it turns on business confidence and interest rates. Size and instability are different things."
+ },
+ {
+  "id": "2016-Q2",
+  "year": 2016,
+  "q": 2,
+  "stem": "When resources are used to produce the goods and services that best satisfy society\u2019s needs and wants, this is known as",
+  "options": {
+   "A": "dynamic efficiency",
+   "B": "allocative efficiency",
+   "C": "intertemporal efficiency",
+   "D": "productive or technical efficiency"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 3,
+   "B": 93,
+   "C": 1,
+   "D": 3
+  },
+  "correct_pct": 93,
+  "trap": {
+   "option": "D",
+   "pct": 3,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.2"
+ },
+ {
+  "id": "2016-Q3",
+  "year": 2016,
+  "q": 3,
+  "stem": "The construction of a tall apartment building that blocks out the light to a nearby public park is an example of what kind of market failure?",
+  "options": {
+   "A": "market power",
+   "B": "a public good",
+   "C": "a negative externality",
+   "D": "asymmetric information"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 1,
+   "B": 5,
+   "C": 92,
+   "D": 1
+  },
+  "correct_pct": 92,
+  "trap": {
+   "option": "B",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.16"
+ },
+ {
+  "id": "2016-Q4",
+  "year": 2016,
+  "q": 4,
+  "stem": "Which one of the following terms describes the \u2018potential output of an economy\u2019?",
+  "options": {
+   "A": "production",
+   "B": "productivity",
+   "C": "productive capacity",
+   "D": "Gross Domestic Product (GDP)"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 3,
+   "B": 2,
+   "C": 88,
+   "D": 6
+  },
+  "correct_pct": 88,
+  "trap": {
+   "option": "D",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.6"
+ },
+ {
+  "id": "2016-Q5",
+  "year": 2016,
+  "q": 5,
+  "stem": "Consider the following hypothetical Consumer Price Index (CPI) data. Time period CPI Quarter 1 100 Quarter 2 101 Quarter 3 102 Quarter 4 103 The annualised rate of inflation for Quarter 2 is",
+  "options": {
+   "A": "1%",
+   "B": "3%",
+   "C": "4%",
+   "D": "6%"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 68,
+   "B": 9,
+   "C": 22,
+   "D": 2
+  },
+  "correct_pct": 22,
+  "trap": {
+   "option": "A",
+   "pct": 68,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "1% is the quarterly movement. Annualising multiplies the quarterly rate by four, so 1% a quarter is 4% a year. 68% of the state stopped at the quarterly figure.",
+  "tag_confidence": "H"
+ },
+ {
+  "id": "2016-Q6",
+  "year": 2016,
+  "q": 6,
+  "stem": "A recession in Australia in conjunction with a depreciation of the Australian dollar is likely to lead to",
+  "options": {
+   "A": "an increase in the volume of Australia\u2019s imports and a decrease in the volume of exports",
+   "B": "a decrease in the volume of Australia\u2019s imports and an increase in the volume of exports",
+   "C": "a decrease in the volume of Australia\u2019s imports and a decrease in the volume of exports",
+   "D": "an increase in the volume of Australia\u2019s imports and an increase in the volume of exports"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 5,
+   "B": 75,
+   "C": 17,
+   "D": 2
+  },
+  "correct_pct": 75,
+  "trap": {
+   "option": "C",
+   "pct": 17,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.8"
+ },
+ {
+  "id": "2016-Q7",
+  "year": 2016,
+  "q": 7,
+  "stem": "Which one of the following government policies will not lead to a long-term expansion of aggregate supply?",
+  "options": {
+   "A": "lowering the company taxation rate",
+   "B": "increasing skilled migration by 5000 persons per year",
+   "C": "extending the solar energy rebate scheme for households",
+   "D": "increasing unemployment benefits by an amount equal to the rate of inflation"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 2,
+   "B": 1,
+   "C": 14,
+   "D": 83
+  },
+  "correct_pct": 83,
+  "trap": {
+   "option": "C",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.2"
+ },
+ {
+  "id": "2016-Q8",
+  "year": 2016,
+  "q": 8,
+  "stem": "The \u2018transmission mechanism\u2019 refers to the way a change in interest rates affects economic activity. The transmission occurs via a number of channels. The channel that affects decisions by those in the economy with existing variable rate home loans is known as the",
+  "options": {
+   "A": "asset values or asset prices channel",
+   "B": "exchange rate channel",
+   "C": "cost of credit channel",
+   "D": "cash flow channel"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 12,
+   "B": 1,
+   "C": 24,
+   "D": 62
+  },
+  "correct_pct": 62,
+  "trap": {
+   "option": "C",
+   "pct": 24,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.17"
+ },
+ {
+  "id": "2016-Q9",
+  "year": 2016,
+  "q": 9,
+  "stem": "Consider the following information related to the labour market of a hypothetical economy. Year Population who are of Employed persons Unemployed working age (millions) (millions) persons (millions) 1 20 14 2 2 25 17 2 In comparing Year 2 to Year 1, which one of the following statements is true?",
+  "options": {
+   "A": "Year 2 has a lower participation rate and a lower unemployment rate",
+   "B": "Year 2 has a lower participation rate and a higher unemployment rate",
+   "C": "Year 2 has a higher participation rate and a lower unemployment rate",
+   "D": "Year 2 has a higher participation rate and a higher unemployment rate"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 53,
+   "B": 13,
+   "C": 24,
+   "D": 9
+  },
+  "correct_pct": 53,
+  "trap": {
+   "option": "C",
+   "pct": 24,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.11",
+  "trap_note": "Work the two rates separately from the same data. Participation is the labour force over the working-age population; unemployment is the unemployed over the labour force. The 24% who chose C had the unemployment direction right and the participation direction wrong - check each one on its own before you match them up."
+ },
+ {
+  "id": "2016-Q10",
+  "year": 2016,
+  "q": 10,
+  "stem": "If a large percentage fall in a product\u2019s price causes a small percentage increase in the quantity demanded, then",
+  "options": {
+   "A": "supply is price elastic",
+   "B": "demand is price elastic",
+   "C": "supply is price inelastic",
+   "D": "demand is price inelastic"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 2,
+   "B": 12,
+   "C": 4,
+   "D": 82
+  },
+  "correct_pct": 82,
+  "trap": {
+   "option": "B",
+   "pct": 12,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.11"
+ },
+ {
+  "id": "2016-Q11",
+  "year": 2016,
+  "q": 11,
+  "stem": "Consider the following CPI, GDP and unemployment rate data for a hypothetical economy over a two-year period. Year CPI GDP Unemployment rate (%) (%) (%) 1 2.9 3.5 4.5 2 2.1 2.0 5.1 With reference to the data in the table above, at the end of Year 2, which policy mix response might be recommended?",
+  "options": {
+   "A": "expansionary budgetary policy and expansionary monetary policy",
+   "B": "contractionary budgetary policy and contractionary monetary policy",
+   "C": "expansionary budgetary policy and contractionary monetary policy",
+   "D": "contractionary budgetary policy and expansionary monetary policy"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 70,
+   "B": 5,
+   "C": 14,
+   "D": 11
+  },
+  "correct_pct": 70,
+  "trap": {
+   "option": "C",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "4.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.19"
+ },
+ {
+  "id": "2016-Q12",
+  "year": 2016,
+  "q": 12,
+  "stem": "When the Reserve Bank of Australia (RB",
+  "options": {
+   "A": "sells government securities in the money market A. interest rates will decrease",
+   "B": "the supply of money will decrease",
+   "C": "there will be a reduction in unemployment",
+   "D": "consumption of goods and services will increase"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 19,
+   "B": 74,
+   "C": 2,
+   "D": 5
+  },
+  "correct_pct": 74,
+  "trap": {
+   "option": "A",
+   "pct": 19,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.15",
+  "trap_note": null
+ },
+ {
+  "id": "2016-Q13",
+  "year": 2016,
+  "q": 13,
+  "stem": "Assume there is an increase in the childcare subsidy for low-income earners and an increase in the highest marginal income tax rate. What is the likely effect on the Gini Coefficient and the Lorenz Curve?",
+  "options": {
+   "A": "The Gini Coefficient will increase and the Lorenz Curve will move closer to the 45-degree line",
+   "B": "The Gini Coefficient will increase and the Lorenz Curve will move further away from the 45-degree line",
+   "C": "The Gini Coefficient will decrease and the Lorenz Curve will move closer to the 45-degree line",
+   "D": "The Gini Coefficient will decrease and the Lorenz Curve will move further away from the 45-degree line"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 9,
+   "B": 5,
+   "C": 81,
+   "D": 5
+  },
+  "correct_pct": 81,
+  "trap": {
+   "option": "A",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "4.1.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.1.2"
+ },
+ {
+  "id": "2016-Q14",
+  "year": 2016,
+  "q": 14,
+  "stem": "If a product became less popular, while at the same time increased costs of production caused the supply of the product to decrease, it can be concluded that, for this product, the",
+  "options": {
+   "A": "equilibrium price might rise or fall",
+   "B": "equilibrium quantity might rise or fall",
+   "C": "equilibrium price and the equilibrium quantity would rise",
+   "D": "equilibrium price and the equilibrium quantity would fall"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 27,
+   "B": 9,
+   "C": 6,
+   "D": 59
+  },
+  "correct_pct": 27,
+  "trap": {
+   "option": "D",
+   "pct": 59,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.10",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Demand falls and supply falls. Both cut quantity, so quantity definitely falls. But falling demand pushes price down while falling supply pushes it up \u2014 so price could go either way. 59% assumed both moved together."
+ },
+ {
+  "id": "2016-Q15",
+  "year": 2016,
+  "q": 15,
+  "stem": "Australia\u2019s unemployment rate decreased from 6.4% in January 2015 to 5.8% in February 2016. The impact of this change on government tax receipts, government outlays and the size of the budget deficit is likely to be that",
+  "options": {
+   "A": "tax receipts increase, outlays increase, the budget deficit is reduced",
+   "B": "tax receipts increase, outlays decrease, the budget deficit is reduced",
+   "C": "tax receipts increase, outlays decrease, the budget deficit is increased",
+   "D": "tax receipts decrease, outlays increase, the budget deficit is increased"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 7,
+   "B": 87,
+   "C": 3,
+   "D": 4
+  },
+  "correct_pct": 87,
+  "trap": {
+   "option": "A",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.2.11"
+ },
+ {
+  "id": "2017-Q1",
+  "year": 2017,
+  "q": 1,
+  "stem": "Relative scarcity can best be defined as",
+  "options": {
+   "A": "wants in relation to needs",
+   "B": "wants in relation to resources",
+   "C": "unlimited wants in relation to limited resources",
+   "D": "limited wants in relation to unlimited resources"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 0,
+   "B": 98,
+   "C": 1,
+   "D": 1
+  },
+  "correct_pct": 98,
+  "trap": {
+   "option": "D",
+   "pct": 1,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.1"
+ },
+ {
+  "id": "2017-Q2",
+  "year": 2017,
+  "q": 2,
+  "stem": "Which one of the following might help to reduce a government\u2019s budget deficit?",
+  "options": {
+   "A": "a slowing of growth in the world economy",
+   "B": "reducing the marginal rate of personal income tax",
+   "C": "removing the means test on some items of government welfare",
+   "D": "removing the exemptions of education and food from the goods and services tax (GST)"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 11,
+   "B": 13,
+   "C": 11,
+   "D": 64
+  },
+  "correct_pct": 64,
+  "trap": {
+   "option": "B",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.4",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.1.4"
+ },
+ {
+  "id": "2017-Q3",
+  "year": 2017,
+  "q": 3,
+  "stem": "Which one of the following is unlikely to increase productivity?",
+  "options": {
+   "A": "increasing tariffs",
+   "B": "labour skills training",
+   "C": "innovation in work practices",
+   "D": "investment in physical capital"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 96,
+   "B": 1,
+   "C": 1,
+   "D": 2
+  },
+  "correct_pct": 96,
+  "trap": {
+   "option": "D",
+   "pct": 2,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.2.2"
+ },
+ {
+  "id": "2017-Q4",
+  "year": 2017,
+  "q": 4,
+  "stem": "What would be the effect on the market for Good X if there were a rise in the price of a substitute good?",
+  "options": {
+   "A": "The demand curve would shift left and the equilibrium price of Good X would decrease",
+   "B": "The supply curve would shift left and the equilibrium price of Good X would increase",
+   "C": "The demand curve would shift right and the equilibrium price of Good X would increase",
+   "D": "The supply curve would shift right and the equilibrium price of Good X would decrease"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 9,
+   "B": 3,
+   "C": 84,
+   "D": 4
+  },
+  "correct_pct": 84,
+  "trap": {
+   "option": "A",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.6"
+ },
+ {
+  "id": "2017-Q5",
+  "year": 2017,
+  "q": 5,
+  "stem": "What is the most likely effect of a decrease in the tariff on an imported good?",
+  "options": {
+   "A": "a loss of jobs for overseas suppliers",
+   "B": "a fall in the price of a competing domestic good",
+   "C": "a rise in the price of a competing domestic good",
+   "D": "an increase in employment in the domestic sector"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 1,
+   "B": 87,
+   "C": 9,
+   "D": 3
+  },
+  "correct_pct": 87,
+  "trap": {
+   "option": "C",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.2.5"
+ },
+ {
+  "id": "2017-Q6",
+  "year": 2017,
+  "q": 6,
+  "stem": "Over time, which one of the following would most likely increase aggregate supply in the economy?",
+  "options": {
+   "A": "reducing the age pension",
+   "B": "reducing skilled migration",
+   "C": "reducing the retirement age",
+   "D": "reducing funding for apprenticeships"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 76,
+   "B": 5,
+   "C": 14,
+   "D": 5
+  },
+  "correct_pct": 76,
+  "trap": {
+   "option": "C",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.5"
+ },
+ {
+  "id": "2017-Q7",
+  "year": 2017,
+  "q": 7,
+  "stem": "Consider the following hypothetical Consumer Price Index (CPI) data. Year CPI 1 100 2 110 3 121 The increase in the annual rate of inflation from Year 2 to Year 3 is",
+  "options": {
+   "A": "10%",
+   "B": "11%",
+   "C": "20%",
+   "D": "21%"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 5,
+   "B": 73,
+   "C": 15,
+   "D": 8
+  },
+  "correct_pct": 73,
+  "trap": {
+   "option": "C",
+   "pct": 15,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.16"
+ },
+ {
+  "id": "2017-Q8",
+  "year": 2017,
+  "q": 8,
+  "stem": "According to the five-sector circular flow model of the economy, a rise in the total value of injections relative to the total value of leakages is most likely to result in",
+  "options": {
+   "A": "a decrease in consumption and a decrease in levels of aggregate demand",
+   "B": "a decrease in total incomes and a rise in the unemployment rate",
+   "C": "neither a decrease in consumption, levels of aggregate demand and total incomes, nor a rise in the unemployment rate",
+   "D": "a decrease in consumption, levels of aggregate demand and total incomes, and a rise in the unemployment rate"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 7,
+   "B": 5,
+   "C": 73,
+   "D": 15
+  },
+  "correct_pct": 73,
+  "trap": {
+   "option": "D",
+   "pct": 15,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.2"
+ },
+ {
+  "id": "2017-Q9",
+  "year": 2017,
+  "q": 9,
+  "stem": "The following information refers to a hypothetical country\u2019s terms of trade. Year Import price index Export price index 1 100 100 2 104 117 The change in the terms of trade from Year 1 to Year 2 most likely means that, for this country",
+  "options": {
+   "A": "the exchange rate will fall",
+   "B": "the current account deficit will rise",
+   "C": "the value of imports is greater than the value of exports",
+   "D": "more imports can be bought with a given volume of exports"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 13,
+   "B": 8,
+   "C": 3,
+   "D": 76
+  },
+  "correct_pct": 76,
+  "trap": {
+   "option": "A",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.6"
+ },
+ {
+  "id": "2017-Q10",
+  "year": 2017,
+  "q": 10,
+  "stem": "The quantity demanded for a product increases by a higher percentage than the decrease in the price of that product. What is this known as?",
+  "options": {
+   "A": "demand elasticity",
+   "B": "demand inelasticity",
+   "C": "supply elasticity",
+   "D": "supply inelasticity"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 82,
+   "B": 13,
+   "C": 2,
+   "D": 2
+  },
+  "correct_pct": 82,
+  "trap": {
+   "option": "B",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.11"
+ },
+ {
+  "id": "2017-Q11",
+  "year": 2017,
+  "q": 11,
+  "stem": "What name is given to the type of efficiency where resources are reallocated to increase choice and meet the changing tastes and needs of consumers?",
+  "options": {
+   "A": "dynamic efficiency",
+   "B": "allocative efficiency",
+   "C": "productive efficiency",
+   "D": "intertemporal efficiency"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 59,
+   "B": 38,
+   "C": 1,
+   "D": 2
+  },
+  "correct_pct": 38,
+  "trap": {
+   "option": "A",
+   "pct": 59,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "dual_answer": true,
+  "trap_note": "VCAA accepted BOTH A and B here. The report says the question did not give enough information to separate dynamic from allocative efficiency. Know the definitions, but this one was not on you."
+ },
+ {
+  "id": "2017-Q12",
+  "year": 2017,
+  "q": 12,
+  "stem": "Consider the following data relating to a hypothetical country\u2019s balance of payments for 2016\u20132017. Item $ billion (b) net goods +110 net services \u201350 net primary incomes \u201390 net secondary incomes +25 From this data, the balance of payments on current account would be a",
+  "options": {
+   "A": "$15b surplus",
+   "B": "$15b deficit",
+   "C": "$5b surplus",
+   "D": "$5b deficit"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 2,
+   "B": 6,
+   "C": 6,
+   "D": 86
+  },
+  "correct_pct": 86,
+  "trap": {
+   "option": "C",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.3.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.2"
+ },
+ {
+  "id": "2017-Q13",
+  "year": 2017,
+  "q": 13,
+  "stem": "As the level of aggregate demand slows, the budget outcome will",
+  "options": {
+   "A": "improve as unemployment increases",
+   "B": "deteriorate as unemployment increases",
+   "C": "improve as social security payments decrease",
+   "D": "deteriorate as social security payments decrease"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 3,
+   "B": 90,
+   "C": 3,
+   "D": 4
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "D",
+   "pct": 4,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.8"
+ },
+ {
+  "id": "2017-Q14",
+  "year": 2017,
+  "q": 14,
+  "stem": "When the Reserve Bank of Australia buys government securities on the overnight market, the effect will be to",
+  "options": {
+   "A": "increase the supply of cash in the money market and increase the cash rate",
+   "B": "decrease the supply of cash in the money market and increase the cash rate",
+   "C": "increase the supply of cash in the money market and decrease the cash rate",
+   "D": "decrease the supply of cash in the money market and decrease the cash rate"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 10,
+   "B": 13,
+   "C": 72,
+   "D": 5
+  },
+  "correct_pct": 72,
+  "trap": {
+   "option": "B",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.15",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.1.15"
+ },
+ {
+  "id": "2017-Q15",
+  "year": 2017,
+  "q": 15,
+  "stem": "Which one of the following is an example of government capital expenditure?",
+  "options": {
+   "A": "personal income tax refunds",
+   "B": "payment of unemployment benefits",
+   "C": "provision of transport infrastructure",
+   "D": "government loans to tertiary students for university fees"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 2,
+   "B": 5,
+   "C": 86,
+   "D": 7
+  },
+  "correct_pct": 86,
+  "trap": {
+   "option": "D",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.3"
+ },
+ {
+  "id": "2018-Q1",
+  "year": 2018,
+  "q": 1,
+  "stem": "The type of unemployment caused by technological change is known as",
+  "options": {
+   "A": "cyclical unemployment",
+   "B": "frictional unemployment",
+   "C": "structural unemployment",
+   "D": "hard-core unemployment"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 4,
+   "B": 8,
+   "C": 86,
+   "D": 2
+  },
+  "correct_pct": 86,
+  "trap": {
+   "option": "B",
+   "pct": 8,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.12",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.12"
+ },
+ {
+  "id": "2018-Q2",
+  "year": 2018,
+  "q": 2,
+  "stem": "Expansionary monetary policy is most likely to cause",
+  "options": {
+   "A": "a decrease in welfare payments",
+   "B": "an appreciation of the Australian dollar",
+   "C": "a reduction in the rate of economic growth",
+   "D": "an increase in the size of the budget deficit"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 47,
+   "B": 25,
+   "C": 3,
+   "D": 25
+  },
+  "correct_pct": 47,
+  "trap": {
+   "option": "D",
+   "pct": 25,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task3_rewrite_stem",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Expansionary monetary policy lifts AD, so employment rises and fewer people claim benefits. The 25% who chose a bigger deficit had it backwards \u2014 this is the RBA, not the budget. It spends nothing, and a stronger economy shrinks the deficit.",
+  "tag_confidence": "H"
+ },
+ {
+  "id": "2018-Q3",
+  "year": 2018,
+  "q": 3,
+  "stem": "S0 B S1 A H price of hats E C D1 D0 quantity of hats per period A health warning stating that wearing a hat reduces skin cancer would be likely to change the equilibrium in the hat market, shown in the diagram above, from point A to point",
+  "options": {
+   "A": "",
+   "B": "B",
+   "C": "C. H",
+   "D": "E"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 69,
+   "B": 8,
+   "C": 22,
+   "D": 0
+  },
+  "correct_pct": 69,
+  "trap": {
+   "option": "C",
+   "pct": 22,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.6"
+ },
+ {
+  "id": "2018-Q4",
+  "year": 2018,
+  "q": 4,
+  "stem": "Of the following policy initiatives, which one is least likely to increase aggregate supply in the economy?",
+  "options": {
+   "A": "increased government spending on infrastructure",
+   "B": "increased government spending on education and training",
+   "C": "increased government outlays allocated to payment of unemployment benefits",
+   "D": "a reduction in company tax rates"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 2,
+   "B": 3,
+   "C": 90,
+   "D": 5
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "D",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.2"
+ },
+ {
+  "id": "2018-Q5",
+  "year": 2018,
+  "q": 5,
+  "stem": "The payment of dividends to overseas shareholders will appear in the balance of payments as a",
+  "options": {
+   "A": "credit in the capital and financial account",
+   "B": "debit in the capital and financial account",
+   "C": "credit in the balance of payments on current account",
+   "D": "debit in the balance of payments on current account"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 6,
+   "B": 33,
+   "C": 7,
+   "D": 54
+  },
+  "correct_pct": 54,
+  "trap": {
+   "option": "B",
+   "pct": 33,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Dividends paid to overseas shareholders are a servicing cost on foreign investment here. Servicing costs are primary income, which sits in the current account. The 33% who chose the capital and financial account picked the account that records the investment itself, not the income it earns."
+ },
+ {
+  "id": "2018-Q6",
+  "year": 2018,
+  "q": 6,
+  "stem": "An increase in productivity is likely to",
+  "options": {
+   "A": "worsen Australia\u2019s international competitiveness and increase inflation",
+   "B": "worsen Australia\u2019s international competitiveness and decrease inflation",
+   "C": "improve Australia\u2019s international competitiveness and increase inflation",
+   "D": "improve Australia\u2019s international competitiveness and decrease inflation"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 1,
+   "B": 0,
+   "C": 22,
+   "D": 77
+  },
+  "correct_pct": 77,
+  "trap": {
+   "option": "C",
+   "pct": 22,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.2.5"
+ },
+ {
+  "id": "2018-Q7",
+  "year": 2018,
+  "q": 7,
+  "stem": "Refer to the following aggregate demand (AD) and aggregate supply (AS) diagram. AS2 AS1 price level AD Real GDP Which one of the following is likely to cause a shift in the aggregate supply curve from AS1 to AS2?",
+  "options": {
+   "A": "a decrease in interest rates",
+   "B": "an increase in production costs",
+   "C": "an increase in government spending",
+   "D": "an increase in profitability of businesses"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 7,
+   "B": 85,
+   "C": 3,
+   "D": 5
+  },
+  "correct_pct": 85,
+  "trap": {
+   "option": "A",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.2.5"
+ },
+ {
+  "id": "2018-Q8",
+  "year": 2018,
+  "q": 8,
+  "stem": "Consider the following data for an economy over a two-year period. The prices given reflect the average for the relevant year. Year 1 Year 2 Index of export prices 100 96 Index of import prices 100 120 What conclusion can be drawn from the data above?",
+  "options": {
+   "A": "Between Year 1 and Year 2 the terms of trade improved",
+   "B": "Between Year 1 and Year 2 the terms of trade deteriorated",
+   "C": "Between Year 1 and Year 2 the terms of trade remained unchanged",
+   "D": "It cannot be determined if there has been a change between Year 1 and Year"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 9,
+   "B": 90,
+   "C": 1,
+   "D": 1
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "A",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.3.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.3.6"
+ },
+ {
+  "id": "2018-Q9",
+  "year": 2018,
+  "q": 9,
+  "stem": "Which one of the following would reduce the size of the Australian Government\u2019s budget deficit?",
+  "options": {
+   "A": "company tax cuts",
+   "B": "personal income tax cuts",
+   "C": "increasing the rate of the goods and services tax (GST)",
+   "D": "increasing the tax-free threshold for personal income tax"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 2,
+   "B": 2,
+   "C": 93,
+   "D": 3
+  },
+  "correct_pct": 93,
+  "trap": {
+   "option": "D",
+   "pct": 3,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.4",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.1.4"
+ },
+ {
+  "id": "2018-Q10",
+  "year": 2018,
+  "q": 10,
+  "stem": "The degree of price elasticity of demand is important to producers because it reveals how",
+  "options": {
+   "A": "responsive quantity demanded is to a change in price",
+   "B": "much of the product will be supplied at different prices",
+   "C": "responsive demand for a product is to advertising or promotional campaigns",
+   "D": "responsive quantity demanded is to a change in the level of consumer income"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 96,
+   "B": 1,
+   "C": 1,
+   "D": 2
+  },
+  "correct_pct": 96,
+  "trap": {
+   "option": "D",
+   "pct": 2,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.11"
+ },
+ {
+  "id": "2018-Q11",
+  "year": 2018,
+  "q": 11,
+  "stem": "Which one of the following is not a feature of a perfectly competitive market?",
+  "options": {
+   "A": "Firms have ease of entry into and exit from the market",
+   "B": "Products sold in the market are homogenous",
+   "C": "Consumer sovereignty exists",
+   "D": "Resources are not mobile"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 1,
+   "B": 2,
+   "C": 6,
+   "D": 91
+  },
+  "correct_pct": 91,
+  "trap": {
+   "option": "C",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.3"
+ },
+ {
+  "id": "2018-Q12",
+  "year": 2018,
+  "q": 12,
+  "stem": "When the economy is experiencing low rates of inflation and low rates of economic and employment growth, the Reserve Bank of Australia will be likely to",
+  "options": {
+   "A": "sell government securities in order to increase the cash rate",
+   "B": "sell government securities in order to decrease the cash rate",
+   "C": "purchase government securities in order to increase the cash rate",
+   "D": "purchase government securities in order to decrease the cash rate"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 12,
+   "B": 14,
+   "C": 11,
+   "D": 64
+  },
+  "correct_pct": 64,
+  "trap": {
+   "option": "B",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.18",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.1.18"
+ },
+ {
+  "id": "2018-Q13",
+  "year": 2018,
+  "q": 13,
+  "stem": "Imagine the Australian Government\u2019s budget is in surplus. If the rate of economic growth were to slow, this may ultimately result in a",
+  "options": {
+   "A": "smaller surplus budget, as receipts rise and outlays fall",
+   "B": "budget deficit, as receipts rise and outlays fall",
+   "C": "larger surplus budget, as receipts rise and outlays fall",
+   "D": "smaller surplus budget, as receipts fall and outlays rise"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 9,
+   "B": 4,
+   "C": 5,
+   "D": 83
+  },
+  "correct_pct": 83,
+  "trap": {
+   "option": "A",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.8"
+ },
+ {
+  "id": "2018-Q14",
+  "year": 2018,
+  "q": 14,
+  "stem": "Which of the following would be the most likely impact of an increase in inflation in the United States (US)?",
+  "options": {
+   "A": "an increase in US interest rates and a depreciation of the Australian dollar",
+   "B": "an increase in US interest rates and an appreciation of the Australian dollar",
+   "C": "a decrease in US interest rates and a depreciation of the Australian dollar",
+   "D": "a decrease in US interest rates and an appreciation of the Australian dollar"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 44,
+   "B": 26,
+   "C": 9,
+   "D": 20
+  },
+  "correct_pct": 44,
+  "trap": {
+   "option": "B",
+   "pct": 26,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task3_rewrite_stem",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Higher US inflation means the Fed lifts rates, the interest differential moves in America's favour, capital leaves Australia and the dollar DEPRECIATES. 26% got the rate rise right and the currency backwards."
+ },
+ {
+  "id": "2018-Q15",
+  "year": 2018,
+  "q": 15,
+  "stem": "The following table indicates the quarterly Consumer Price Index (CPI) outcomes for a hypothetical economy. CPI June 2017 110 Sept. 2017 115 Dec. 2017 118 Mar. 2018 120 June 2018 121 With reference to the data in the table, the annual rate of inflation for the year ended June 2018 is",
+  "options": {
+   "A": "5%",
+   "B": "8%",
+   "C": "10%",
+   "D": "11%"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 6,
+   "B": 6,
+   "C": 66,
+   "D": 22
+  },
+  "correct_pct": 66,
+  "trap": {
+   "option": "D",
+   "pct": 22,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.2.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.16"
+ },
+ {
+  "id": "2019-Q1",
+  "year": 2019,
+  "q": 1,
+  "stem": "The international competitiveness of a nation would improve if",
+  "options": {
+   "A": "its currency appreciated",
+   "B": "labour productivity increased",
+   "C": "real unit labour costs (RULC) increased",
+   "D": "its rate of inflation increased relative to that of its trading partners"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 5,
+   "B": 91,
+   "C": 1,
+   "D": 3
+  },
+  "correct_pct": 91,
+  "trap": {
+   "option": "A",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.7",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.7"
+ },
+ {
+  "id": "2019-Q2",
+  "year": 2019,
+  "q": 2,
+  "stem": "Daphne can make either three dresses or nine shirts per hour. For Daphne, the opportunity cost of making an extra dress is",
+  "options": {
+   "A": "one-third of a shirt",
+   "B": "one-third of a dress. three shirts",
+   "D": "nine dresses"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 10,
+   "B": 2,
+   "C": 87,
+   "D": 2
+  },
+  "correct_pct": 87,
+  "trap": {
+   "option": "A",
+   "pct": 10,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": false,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.1"
+ },
+ {
+  "id": "2019-Q3",
+  "year": 2019,
+  "q": 3,
+  "stem": "One weakness of budgetary policy compared with monetary policy is that budgetary policy",
+  "options": {
+   "A": "may be subject to political constraints",
+   "B": "can target certain parts of the economy to give assistance",
+   "C": "may be counteracted by the operation of automatic stabilisers",
+   "D": "tends to be relatively ineffective in a recession due to low levels of consumer confidence"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 90,
+   "B": 2,
+   "C": 4,
+   "D": 4
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "D",
+   "pct": 4,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.13",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.13"
+ },
+ {
+  "id": "2019-Q4",
+  "year": 2019,
+  "q": 4,
+  "stem": "An increase in the labour force participation rate is most likely to",
+  "options": {
+   "A": "increase productivity",
+   "B": "increase productive capacity",
+   "C": "decrease government revenue",
+   "D": "increase government expenses"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 18,
+   "B": 80,
+   "C": 1,
+   "D": 2
+  },
+  "correct_pct": 80,
+  "trap": {
+   "option": "A",
+   "pct": 18,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.11"
+ },
+ {
+  "id": "2019-Q5",
+  "year": 2019,
+  "q": 5,
+  "stem": "Which one of the following budgetary policy initiatives is least likely to increase aggregate supply in the economy?",
+  "options": {
+   "A": "an increase in the skilled migration program B, increased government expenditure on education",
+   "C": "the construction of a new freeway in Melbourne",
+   "D": "a 10% increase in the Newstart Allowance (unemployment benefit) provided by the Australian Government"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 2,
+   "B": 2,
+   "C": 6,
+   "D": 90
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "C",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": false,
+  "kk": "4.2.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.2.3"
+ },
+ {
+  "id": "2019-Q6",
+  "year": 2019,
+  "q": 6,
+  "stem": "\u2018A maximum price set below the equilibrium price will cause greater shortages if",
+  "options": {
+   "A": "both demand and supply are price inelastic",
+   "B": "both demand and supply are price elastic",
+   "C": "demand is price inelastic and supply is price elastic",
+   "D": "demand is price elastic and supply is price inelastic"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 14,
+   "B": 29,
+   "C": 21,
+   "D": 35
+  },
+  "correct_pct": 29,
+  "trap": {
+   "option": "D",
+   "pct": 35,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task3_rewrite_stem",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.12",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "A shortage is the gap between quantity demanded and quantity supplied at the capped price. The more both sides respond to price, the wider that gap opens. Elastic on BOTH sides gives the biggest shortage. The 35% who chose one elastic and one inelastic get a narrower gap."
+ },
+ {
+  "id": "2019-Q7",
+  "year": 2019,
+  "q": 7,
+  "stem": "\u2018As the world economy slows, the Australian Government's budget outcome may",
+  "options": {
+   "A": "deteriorate as demand for Australian exports decreases",
+   "B": "improve as employment in Australia increases",
+   "C": "deteriorate as domestic output increases",
+   "D": "improve as company profits increase"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 94,
+   "B": 2,
+   "C": 2,
+   "D": 1
+  },
+  "correct_pct": 94,
+  "trap": {
+   "option": "C",
+   "pct": 2,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.8"
+ },
+ {
+  "id": "2019-Q8",
+  "year": 2019,
+  "q": 8,
+  "stem": "Which one of the following is a supply-side solution to electricity shortages?",
+  "options": {
+   "A": "requesting industries to reduce their production during heatwaves",
+   "B": "electricity companies charging consumers higher prices during heatwaves",
+   "C": "rewarding customers with cash bonuses for limiting their electricity use during peak times",
+   "D": "giving electricity companies government subsidies to invest in increased production"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 5,
+   "B": 5,
+   "C": 4,
+   "D": 86
+  },
+  "correct_pct": 86,
+  "trap": {
+   "option": "B",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.2"
+ },
+ {
+  "id": "2019-Q9",
+  "year": 2019,
+  "q": 9,
+  "stem": "Ifa severe drought affected this year\u2019s wheat harvest, what would be the effect on the equilibrium price and equilibrium quantity of wheat?",
+  "options": {
+   "A": "The equilibrium price and equilibrium quantity both decrease",
+   "B": "The equilibrium price and equilibrium quantity both increase. C",
+   "C": "The equilibrium price decreases and the equilibrium quantity increases",
+   "D": "The equilibrium price increases and the equilibrium quantity decreases"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 4,
+   "B": 2,
+   "C": 1,
+   "D": 94
+  },
+  "correct_pct": 94,
+  "trap": {
+   "option": "A",
+   "pct": 4,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.10",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.10"
+ },
+ {
+  "id": "2019-Q10",
+  "year": 2019,
+  "q": 10,
+  "stem": "The effect of a fall in the price of a complementary Product Y on the market for Product X will be to",
+  "options": {
+   "A": "shift the demand curve right and increase the equilibrium price",
+   "B": "shift the demand curve left and decrease the equilibrium price. C",
+   "C": "shift the supply curve left and increase the equilibrium price",
+   "D": "shift the supply curve right and decrease the equilibrium price"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 74,
+   "B": 19,
+   "C": 3,
+   "D": 4
+  },
+  "correct_pct": 74,
+  "trap": {
+   "option": "B",
+   "pct": 19,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.6"
+ },
+ {
+  "id": "2019-Q11",
+  "year": 2019,
+  "q": 11,
+  "stem": "Countries around the world have debated the introduction of a \u2018sugar tax\u2019 to combat rising rates of childhood obesity and to educate consumers about the problems associated with consuming too much sugar. Such a tax is designed to overcome",
+  "options": {
+   "A": "allack of public goods",
+   "B": "anegative externality and asymmetric information. C",
+   "C": "anegative externality and a misuse of common access resources",
+   "D": "asymmetric information and a misuse of common access resources"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 1,
+   "B": 79,
+   "C": 13,
+   "D": 7
+  },
+  "correct_pct": 79,
+  "trap": {
+   "option": "C",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.17"
+ },
+ {
+  "id": "2019-Q12",
+  "year": 2019,
+  "q": 12,
+  "stem": "\u2018A contractionary stance in monetary policy by the Reserve Bank of Australia (RB",
+  "options": {
+   "A": "could be achieved by A. selling Commonwealth Government Securities to increase cash in the overnight money market",
+   "B": "buying Commonwealth Government Securities to increase cash in the overnight money market",
+   "C": "selling Commonwealth Government Securities to decrease cash in the overnight money market",
+   "D": "buying Commonwealth Government Securities to decrease cash in the overnight money market"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 18,
+   "B": 8,
+   "C": 55,
+   "D": 18
+  },
+  "correct_pct": 55,
+  "trap": {
+   "option": "D",
+   "pct": 18,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": null,
+  "currency": "Retired",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.18",
+  "trap_note": null
+ },
+ {
+  "id": "2019-Q13",
+  "year": 2019,
+  "q": 13,
+  "stem": "Consider the following information for a hypothetical economy.<br>total population 100 million<br>employed persons 70 million<br>unemployed persons 10 million<br>underemployed persons 2 million<br><br>Based on the data shown above, the unemployment rate of this hypothetical economy is",
+  "options": {
+   "A": "10.0%",
+   "B": "12.0%",
+   "C": "12.5%",
+   "D": "15.0%"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 41,
+   "B": 18,
+   "C": 37,
+   "D": 3
+  },
+  "correct_pct": 37,
+  "trap": {
+   "option": "A",
+   "pct": 41,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "10% is 10 million over the total population of 100 million. The unemployment rate uses the labour force as the denominator, not the population \u2014 70 + 10 = 80 million."
+ },
+ {
+  "id": "2019-Q14",
+  "year": 2019,
+  "q": 14,
+  "stem": "A hypothetical economy recorded a balance of payments on current account of -$12075 million in the September 2018 quarter and then -$3510 million in the December 2018 quarter. What could be a likely cause of this change?",
+  "options": {
+   "A": "a decline in foreign investment",
+   "B": "an improvement in the terms of trade",
+   "C": "aslowdown in world economic growth",
+   "D": "an appreciation of the hypothetical economy\u2019s exchange rate"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 8,
+   "B": 75,
+   "C": 9,
+   "D": 9
+  },
+  "correct_pct": 75,
+  "trap": {
+   "option": "D",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.2"
+ },
+ {
+  "id": "2019-Q15",
+  "year": 2019,
+  "q": 15,
+  "stem": "In terms of achieving an efficient allocation of resources, the need for balancing current and future consumption relates to",
+  "options": {
+   "A": "dynamic efficiency. B, allocative efficiency",
+   "C": "productive efficiency",
+   "D": "intertemporal efficiency"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 2,
+   "B": 5,
+   "C": 1,
+   "D": 91
+  },
+  "correct_pct": 91,
+  "trap": {
+   "option": "B",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": false,
+  "kk": "3.1.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.2"
+ },
+ {
+  "id": "2020-Q1",
+  "year": 2020,
+  "q": 1,
+  "stem": "Which one of the following actions are economists most likely to consider as investment expenditure?",
+  "options": {
+   "A": "an individual buying shares",
+   "B": "a supermarket installing self-serve checkouts",
+   "C": "a company paying its workers higher wages",
+   "D": "a household purchasing a home entertainment unit"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 36,
+   "B": 59,
+   "C": 3,
+   "D": 2
+  },
+  "correct_pct": 59,
+  "trap": {
+   "option": "A",
+   "pct": 36,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.4",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Buying shares transfers ownership of something that already exists. Economic investment means new capital goods \u2014 the checkouts did not exist before."
+ },
+ {
+  "id": "2020-Q2",
+  "year": 2020,
+  "q": 2,
+  "stem": "Which one of the following is a leakage from the circular flow model of income?",
+  "options": {
+   "A": "an increase in consumption spending",
+   "B": "transfer payments made by the government",
+   "C": "an increase in imports",
+   "D": "an increase in investment spending"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 4,
+   "B": 12,
+   "C": 79,
+   "D": 5
+  },
+  "correct_pct": 79,
+  "trap": {
+   "option": "B",
+   "pct": 12,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.2"
+ },
+ {
+  "id": "2020-Q3",
+  "year": 2020,
+  "q": 3,
+  "stem": "Which one of the following best describes the characteristics of a public good?",
+  "options": {
+   "A": "excludable and rivalrous",
+   "B": "excludable and non-rivalrous",
+   "C": "non-excludable and rivalrous",
+   "D": "non-excludable and non-rivalrous"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 2,
+   "B": 5,
+   "C": 14,
+   "D": 79
+  },
+  "correct_pct": 79,
+  "trap": {
+   "option": "C",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.16"
+ },
+ {
+  "id": "2020-Q4",
+  "year": 2020,
+  "q": 4,
+  "stem": "If Australia\u2019s foreign equity assets exceed its foreign equity liabilities, this means that",
+  "options": {
+   "A": "Australia has invested less overseas than foreigners have invested in Australia",
+   "B": "Australia has invested more overseas than foreigners have invested in Australia",
+   "C": "the Australian Government has increased its borrowings from overseas to fund budget deficits",
+   "D": "the Australian Government has decreased its borrowings from overseas to fund budget deficits"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 23,
+   "B": 63,
+   "C": 5,
+   "D": 8
+  },
+  "correct_pct": 63,
+  "trap": {
+   "option": "A",
+   "pct": 23,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.4",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.4"
+ },
+ {
+  "id": "2020-Q5",
+  "year": 2020,
+  "q": 5,
+  "stem": "The imposition of a tariff would cause which one of the following?",
+  "options": {
+   "A": "decrease in the price of imports and a rise in the demand for imports",
+   "B": "an increase in the price of imports and a rise in the demand for imports",
+   "C": "adecrease in the price of imports and a rise in the demand for import-competing domestic goods",
+   "D": "an increase in the price of imports and a rise in the demand for import-competing domestic goods"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 6,
+   "B": 3,
+   "C": 6,
+   "D": 84
+  },
+  "correct_pct": 84,
+  "trap": {
+   "option": "C",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.2.5"
+ },
+ {
+  "id": "2020-Q6",
+  "year": 2020,
+  "q": 6,
+  "stem": "\u2018An improvement in Australia\u2019s current account balance is most likely to occur when",
+  "options": {
+   "A": "the trade balance surplus increases",
+   "B": "the terms of trade deteriorate the Australian dollar appreciates",
+   "D": "China\u2019s economic growth slows"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 81,
+   "B": 3,
+   "C": 14,
+   "D": 1
+  },
+  "correct_pct": 81,
+  "trap": {
+   "option": "C",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": false,
+  "kk": "3.3.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.3"
+ },
+ {
+  "id": "2020-Q7",
+  "year": 2020,
+  "q": 7,
+  "stem": "Suppose the Australian Government was paying subsidies to beekeepers. If the government reduced or removed these subsidies, the most likely effect on the price of honey would be",
+  "options": {
+   "A": "an increase in price, as there would be an increase in the demand for honey",
+   "B": "a decrease in price, as there would be a decrease in the demand for honey",
+   "C": "a decrease in price, as there would be an increase in the supply of honey",
+   "D": "an increase in price, as there would be a decrease in the supply of honey"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 2,
+   "B": 2,
+   "C": 2,
+   "D": 93
+  },
+  "correct_pct": 93,
+  "trap": {
+   "option": "C",
+   "pct": 2,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.17"
+ },
+ {
+  "id": "2020-Q8",
+  "year": 2020,
+  "q": 8,
+  "stem": "Which one of the following is least likely to be an example of a monetary policy transmission mechanism resulting from lower interest rates?",
+  "options": {
+   "A": "an increase in net capital inflow",
+   "B": "an increase in borrowings for housing investment",
+   "C": "adecrease in imports resulting from a fall in the value of the Australian dollar",
+   "D": "an increase in exports resulting from a fall in the value of the Australian dollar"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 55,
+   "B": 13,
+   "C": 22,
+   "D": 10
+  },
+  "correct_pct": 55,
+  "trap": {
+   "option": "C",
+   "pct": 22,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.17",
+  "trap_note": "Lower rates make Australian assets less attractive to foreign investors, so capital flows OUT. Net capital INFLOW rising is the opposite. The 22% who chose falling imports picked a real consequence of a weaker dollar - which is exactly why it is the wrong answer to a question asking what does NOT happen."
+ },
+ {
+  "id": "2020-Q9",
+  "year": 2020,
+  "q": 9,
+  "stem": "The price elasticity of demand for a product will be greater",
+  "options": {
+   "A": "the more responsive the industry supply curve is for the product",
+   "B": "the larger the number of substitutes for the product",
+   "C": "the lower the proportion of their income consumers spend on the product",
+   "D": "the more necessary consumers regard the product to be for their consumption"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 9,
+   "B": 69,
+   "C": 8,
+   "D": 14
+  },
+  "correct_pct": 69,
+  "trap": {
+   "option": "D",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.12",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.12"
+ },
+ {
+  "id": "2020-Q10",
+  "year": 2020,
+  "q": 10,
+  "stem": "A fall in the equilibrium price but no change in equilibrium quantity could only occur from which one of the following combinations?",
+  "options": {
+   "A": "decrease in demand and an increase in supply",
+   "B": "an increase in demand and a decrease in supply",
+   "C": "adecrease in both demand and supply",
+   "D": "an increase in both demand and supply"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 59,
+   "B": 15,
+   "C": 19,
+   "D": 6
+  },
+  "correct_pct": 59,
+  "trap": {
+   "option": "C",
+   "pct": 19,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.10",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.10",
+  "trap_note": "For price to fall while quantity holds steady, one curve must shift left and the other right by matching amounts. Demand down with supply up does exactly that. The 19% who chose both falling would cut quantity - which the question has already ruled out."
+ },
+ {
+  "id": "2020-Q11",
+  "year": 2020,
+  "q": 11,
+  "stem": "Which one of the following would most likely happen if all countries agreed to significantly reduce carbon emissions by moving towards a greater reliance on renewable energy sources?",
+  "options": {
+   "A": "The demand for Australian coal would increase and the price received for coal exports would rise",
+   "B": "The demand for Australian coal would decrease and the price received for coal exports would fall",
+   "C": "The demand for Australian natural gas would decrease and the price received for natural gas exports would rise",
+   "D": "The demand for Australian natural gas would increase and the price received for natural gas exports would fall"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 2,
+   "B": 90,
+   "C": 5,
+   "D": 3
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "C",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.2.6"
+ },
+ {
+  "id": "2020-Q12",
+  "year": 2020,
+  "q": 12,
+  "stem": "The labour force under-utilisation rate measures the",
+  "options": {
+   "A": "unemployed as a percentage of the labour force",
+   "B": "unemployed and underemployed as a percentage of the labour force",
+   "C": "underemployed as a percentage of the population aged 15 years and over",
+   "D": "unemployed and underemployed as a percentage of the population aged 15 years and over"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 1,
+   "B": 63,
+   "C": 11,
+   "D": 24
+  },
+  "correct_pct": 63,
+  "trap": {
+   "option": "D",
+   "pct": 24,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.11"
+ },
+ {
+  "id": "2020-Q13",
+  "year": 2020,
+  "q": 13,
+  "stem": "Consider the following hypothetical Australian Government Budget figures. Item Amount total receipts $200 total outlays $175 net cash flows from investments in financial assets (IFAPP) $10 Future Fund earings $5 What is the size of the underlying cash surplus?",
+  "options": {
+   "A": "$10billion",
+   "B": "$25 billion",
+   "C": "$30 billion",
+   "D": "$40 billion"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 14,
+   "B": 39,
+   "C": 16,
+   "D": 31
+  },
+  "correct_pct": 14,
+  "trap": {
+   "option": "B",
+   "pct": 39,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task3_rewrite_stem",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.5",
+  "currency": "Current",
+  "examiner_comment": "$25b (Headline surplus) - $10b (receipts from asset sales) - $5b (FF earnings) = $10b underlying surplus",
+  "teacher_note": "",
+  "trap_note": "Headline is receipts minus outlays: 200 - 175 = $25b. The UNDERLYING balance strips out net cash flows from investments in financial assets and Future Fund earnings: 25 - 10 - 5 = $10b. 39% stopped at the headline figure, one step early."
+ },
+ {
+  "id": "2020-Q15",
+  "year": 2020,
+  "q": 15,
+  "stem": "Which one of the following is the most likely to cause cost inflation?",
+  "options": {
+   "A": "excess demand for goods and services",
+   "B": "the government reducing company tax rates",
+   "C": "expectations by employers that interest rates will fall",
+   "D": "an increase in superannuation contributions paid by employers"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 35,
+   "B": 11,
+   "C": 7,
+   "D": 47
+  },
+  "correct_pct": 47,
+  "trap": {
+   "option": "A",
+   "pct": 35,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.17",
+  "currency": "Current",
+  "examiner_comment": "Super contributions by employers are equivalent to wages, which add to costs.",
+  "teacher_note": "",
+  "trap_note": "Cost inflation comes from the supply side. Employer super contributions are part of the wage bill, so they raise production costs. The 35% who chose excess demand gave the definition of DEMAND inflation."
+ },
+ {
+  "id": "2021-Q1",
+  "year": 2021,
+  "q": 1,
+  "stem": "Two indicators of an expansionary budgetary policy are",
+  "options": {
+   "A": "lower tax rates and increased government spending",
+   "B": "higher tax rates and decreased government spending",
+   "C": "lower interest rates and increased government spending",
+   "D": "higher interest rates and decreased government spending"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 73,
+   "B": 4,
+   "C": 21,
+   "D": 2
+  },
+  "correct_pct": 73,
+  "trap": {
+   "option": "C",
+   "pct": 21,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.11"
+ },
+ {
+  "id": "2021-Q2",
+  "year": 2021,
+  "q": 2,
+  "stem": "Which of the following would most likely be the effect on the fruit market of a shortage of fruit pickers during a harvesting period?",
+  "options": {
+   "A": "a decrease in supply to the market and higher prices",
+   "B": "a decrease in demand in the market and lower prices",
+   "C": "an increase in supply to the market and lower prices",
+   "D": "an increase in demand in the market and higher prices"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 93,
+   "B": 2,
+   "C": 1,
+   "D": 4
+  },
+  "correct_pct": 93,
+  "trap": {
+   "option": "D",
+   "pct": 4,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.9",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.9"
+ },
+ {
+  "id": "2021-Q3",
+  "year": 2021,
+  "q": 3,
+  "stem": "Which one of the following is not likely to contribute to a rise in house prices?",
+  "options": {
+   "A": "lowering of interest rates",
+   "B": "easing restrictions on lending",
+   "C": "government spending on new public housing",
+   "D": "removal of border restrictions, allowing more immigration"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 4,
+   "B": 6,
+   "C": 84,
+   "D": 6
+  },
+  "correct_pct": 84,
+  "trap": {
+   "option": "D",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.1.6"
+ },
+ {
+  "id": "2021-Q4",
+  "year": 2021,
+  "q": 4,
+  "stem": "Consider the following data showing the Consumer Price Index (CPI) for a number of quarters in a hypothetical economy. Quarter CPI June 2020 110.0 Sept. 2020 110.7 Dec. 2020 111.1 Mar. 2021 111.6 June 2021 112.0 The inflation rate for the year ended June 2021 is",
+  "options": {
+   "A": "2%",
+   "B": "1.8%",
+   "C": "1%",
+   "D": "0.8%"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 27,
+   "B": 53,
+   "C": 5,
+   "D": 14
+  },
+  "correct_pct": 53,
+  "trap": {
+   "option": "A",
+   "pct": 27,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.2.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Annual inflation is the change across four quarters: 112.0 against 110.0, so 2 divided by 110 = 1.8%. The 27% who answered 2% gave the movement in index POINTS, not the percentage change."
+ },
+ {
+  "id": "2021-Q5",
+  "year": 2021,
+  "q": 5,
+  "stem": "The opportunity cost of building a new road network could be",
+  "options": {
+   "A": "increased noise pollution",
+   "B": "a reduction in public transport usage",
+   "C": "the inability to adequately fund education",
+   "D": "the road levy charged to all users of the road"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 4,
+   "B": 7,
+   "C": 86,
+   "D": 3
+  },
+  "correct_pct": 86,
+  "trap": {
+   "option": "B",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.1"
+ },
+ {
+  "id": "2021-Q6",
+  "year": 2021,
+  "q": 6,
+  "stem": "The removal of a 5% tariff on imported cars would result in a shift of",
+  "options": {
+   "A": "the supply curve for cars to the left and a higher equilibrium price",
+   "B": "the supply curve for cars to the right and a lower equilibrium price",
+   "C": "the demand curve for cars to the right and an increase in the equilibrium price",
+   "D": "both the demand and supply curves for cars to the right and no change in the equilibrium price"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 6,
+   "B": 57,
+   "C": 22,
+   "D": 15
+  },
+  "correct_pct": 57,
+  "trap": {
+   "option": "C",
+   "pct": 22,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.2.5",
+  "trap_note": "Removing a tariff cuts the cost of bringing cars in, so SUPPLY shifts right and price falls. The 22% who shifted demand instead treated a tariff as something that changes what buyers want. It is a cost to sellers."
+ },
+ {
+  "id": "2021-Q7",
+  "year": 2021,
+  "q": 7,
+  "stem": "Expansionary monetary policy is most likely to be maintained if the",
+  "options": {
+   "A": "Australian Government is still running a budget deficit",
+   "B": "value of the Australian dollar is below its long-term average",
+   "C": "rate of inflation is below the Reserve Bank of Australia\u2019s (RBA) target",
+   "D": "unemployment rate is below what is required to achieve full employment"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 17,
+   "B": 6,
+   "C": 66,
+   "D": 11
+  },
+  "correct_pct": 66,
+  "trap": {
+   "option": "A",
+   "pct": 17,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.18",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.18"
+ },
+ {
+  "id": "2021-Q8",
+  "year": 2021,
+  "q": 8,
+  "stem": "Which one of the following policies would not be considered an example of an aggregate supply policy?",
+  "options": {
+   "A": "a reduction in interest rates",
+   "B": "a reduction in company tax rates",
+   "C": "an increase in government infrastructure spending",
+   "D": "an increase in government investment in education and training"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 79,
+   "B": 11,
+   "C": 8,
+   "D": 3
+  },
+  "correct_pct": 79,
+  "trap": {
+   "option": "B",
+   "pct": 11,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.2.1"
+ },
+ {
+  "id": "2021-Q9",
+  "year": 2021,
+  "q": 9,
+  "stem": "Which one of the following is not a likely effect of trade liberalisation?",
+  "options": {
+   "A": "a decrease in structural unemployment in the short term",
+   "B": "an incentive for domestic firms to achieve greater efficiency",
+   "C": "long-term improvement in material living standards",
+   "D": "a reduction in costs for firms that use imports in the production process"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 71,
+   "B": 8,
+   "C": 11,
+   "D": 10
+  },
+  "correct_pct": 71,
+  "trap": {
+   "option": "C",
+   "pct": 11,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.5"
+ },
+ {
+  "id": "2021-Q10",
+  "year": 2021,
+  "q": 10,
+  "stem": "Which one of the following goods is not likely to be considered a public good?",
+  "options": {
+   "A": "a fireworks display",
+   "B": "street lighting",
+   "C": "healthcare services",
+   "D": "free-to-air TV broadcasts"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 32,
+   "B": 2,
+   "C": 48,
+   "D": 18
+  },
+  "correct_pct": 48,
+  "trap": {
+   "option": "A",
+   "pct": 32,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Healthcare is rivalrous and excludable \u2014 treating one patient uses capacity another cannot. The others are consumed without reducing what is left for anyone else."
+ },
+ {
+  "id": "2021-Q11",
+  "year": 2021,
+  "q": 11,
+  "stem": "Which one of the following is not a role of the RBA?",
+  "options": {
+   "A": "adjusting tax rates",
+   "B": "issuing Australia\u2019s bank notes",
+   "C": "managing foreign currency reserves",
+   "D": "providing specialist banking services to the Australian Government"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 70,
+   "B": 8,
+   "C": 13,
+   "D": 9
+  },
+  "correct_pct": 70,
+  "trap": {
+   "option": "C",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.14",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.14"
+ },
+ {
+  "id": "2021-Q12",
+  "year": 2021,
+  "q": 12,
+  "stem": "Consider the following data for a hypothetical economy.<br>employed persons 11 million<br>unemployed persons 1 million<br>persons not in the labour force but of working age (over 15) 8 million<br><br>Using this data, the labour force participation rate is",
+  "options": {
+   "A": "50%",
+   "B": "55%",
+   "C": "60%",
+   "D": "65%"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 3,
+   "B": 30,
+   "C": 57,
+   "D": 11
+  },
+  "correct_pct": 57,
+  "trap": {
+   "option": "B",
+   "pct": 30,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "55% is 11 over 20 \u2014 employed people over the working-age population. The participation rate uses the whole labour force on top: employed plus unemployed, 12 over 20."
+ },
+ {
+  "id": "2021-Q13",
+  "year": 2021,
+  "q": 13,
+  "stem": "A reduction in the cash rate is likely to result in",
+  "options": {
+   "A": "an increase in the value of the Australian dollar and a lower inflation rate",
+   "B": "a decrease in the value of the Australian dollar and a higher inflation rate",
+   "C": "a decrease in the value of the Australian dollar and a higher unemployment rate",
+   "D": "an increase in the value of the Australian dollar and a lower unemployment rate"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 14,
+   "B": 66,
+   "C": 10,
+   "D": 10
+  },
+  "correct_pct": 66,
+  "trap": {
+   "option": "A",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.17"
+ },
+ {
+  "id": "2021-Q14",
+  "year": 2021,
+  "q": 14,
+  "stem": "The diagram below shows the market for alcohol. S2 S1 D C price of A alcohol B D1 D2 quantity of alcohol A successful advertising campaign designed to inform the public of the dangers of excessive alcohol consumption would result in a change in the equilibrium position from",
+  "options": {
+   "A": "C to",
+   "B": "B. A to",
+   "D": "",
+   "C": "C to D. D. A to B"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 3,
+   "B": 6,
+   "C": 3,
+   "D": 89
+  },
+  "correct_pct": 89,
+  "trap": {
+   "option": "B",
+   "pct": 6,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.1.17"
+ },
+ {
+  "id": "2021-Q15",
+  "year": 2021,
+  "q": 15,
+  "stem": "Which one of the following products would have a vertical supply curve?",
+  "options": {
+   "A": "apples",
+   "B": "haircuts",
+   "C": "streaming services",
+   "D": "paintings by an artist who is now dead"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 8,
+   "B": 9,
+   "C": 12,
+   "D": 70
+  },
+  "correct_pct": 70,
+  "trap": {
+   "option": "C",
+   "pct": 12,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.1.13",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.13"
+ },
+ {
+  "id": "2022-Q1",
+  "year": 2022,
+  "q": 1,
+  "stem": "Which one of the following is likely to be classified as structural unemployment?",
+  "options": {
+   "A": "a person who loses their job as a tour operator due to a recession",
+   "B": "a person who loses their job as a fruit picker when there is no fruit left to pick C",
+   "C": "aperson who loses their job as an accountant because they stole from their employer",
+   "D": "a person who loses their job as an Economics teacher due to a decline in the number of students studying Economics"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 14,
+   "B": 17,
+   "C": 6,
+   "D": 63
+  },
+  "correct_pct": 63,
+  "trap": {
+   "option": "B",
+   "pct": 17,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.12",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.12"
+ },
+ {
+  "id": "2022-Q2",
+  "year": 2022,
+  "q": 2,
+  "stem": "\u2018A movement along the supply curve for broccoli is most likely to have been caused by",
+  "options": {
+   "A": "a shortage of skilled farm workers",
+   "B": "a decrease in the price of fertiliser",
+   "C": "a decrease in personal income tax rates",
+   "D": "the removal of the excise tax on petrol used by farmers"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 22,
+   "B": 31,
+   "C": 39,
+   "D": 8
+  },
+  "correct_pct": 39,
+  "trap": {
+   "option": "B",
+   "pct": 31,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task3_rewrite_stem",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.1.8",
+  "currency": "Current",
+  "examiner_comment": "Lower income tax rates cause the demand curve to shift to the right and induce an expansion along the supply curve. All other options shift the supply curve and induce a movement along the demand curve.",
+  "teacher_note": "",
+  "trap_note": "A movement along the supply curve means the price of broccoli itself changed, and only a demand-side change does that. Lower income tax lifts incomes, demand shifts right, price rises, supply expands along the curve. The other three change costs and shift supply itself."
+ },
+ {
+  "id": "2022-Q3",
+  "year": 2022,
+  "q": 3,
+  "stem": "Which one of the following reasons is most likely to explain why the unemployment rate in a country remains high despite strong rates of economic growth?",
+  "options": {
+   "A": "a fall in the labour force participation rate",
+   "B": "an increase in the number of part-time workers",
+   "C": "raising the school leaving age to 18 years old",
+   "D": "an increase in the rate of labour productivity growth"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 22,
+   "B": 7,
+   "C": 14,
+   "D": 57
+  },
+  "correct_pct": 57,
+  "trap": {
+   "option": "A",
+   "pct": 22,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.2.11",
+  "trap_note": "If productivity grows quickly, firms can lift output without hiring, so unemployment stays high even through strong growth. The 22% who chose a falling participation rate picked something that would LOWER the measured unemployment rate - discouraged workers leave the labour force and stop being counted."
+ },
+ {
+  "id": "2022-Q4",
+  "year": 2022,
+  "q": 4,
+  "stem": "Which one of the following factors is likely to have a different effect on Australia\u2019s rate of economic growth than the others?",
+  "options": {
+   "A": "an increase in the cash rate",
+   "B": "an increase in the tax-free threshold",
+   "C": "an increase in the rate of economic growth in China",
+   "D": "an increase in government spending on infrastructure"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 69,
+   "B": 5,
+   "C": 18,
+   "D": 8
+  },
+  "correct_pct": 69,
+  "trap": {
+   "option": "C",
+   "pct": 18,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.19",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.2.19"
+ },
+ {
+  "id": "2022-Q5",
+  "year": 2022,
+  "q": 5,
+  "stem": "Consider the following data for a hypothetical economy. Quarter Real GDP (8 billion) June 2021 50 September 2021 56 December 2021 37 March 2022 40 June 2022 48 Using this data, the rate of economic growth for the year ended June 2022 was",
+  "options": {
+   "A": "2% B -4% Cc. -20%",
+   "D": "12%"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 20,
+   "B": 73,
+   "C": 4,
+   "D": 4
+  },
+  "correct_pct": 73,
+  "trap": {
+   "option": "A",
+   "pct": 20,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": false,
+  "kk": "3.2.7",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.7"
+ },
+ {
+  "id": "2022-Q6",
+  "year": 2022,
+  "q": 6,
+  "stem": "Which one of the following goods and services is likely to have the highest price elasticity of demand?",
+  "options": {
+   "A": "cigarettes",
+   "B": "haircuts",
+   "C": "soft drinks",
+   "D": "international travel"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 12,
+   "B": 7,
+   "C": 28,
+   "D": 53
+  },
+  "correct_pct": 53,
+  "trap": {
+   "option": "C",
+   "pct": 28,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Highest elasticity means most responsive to price. International travel is expensive, discretionary and easy to postpone. The 28% who chose soft drinks picked something cheap and habitual \u2014 people keep buying it when the price moves."
+ },
+ {
+  "id": "2022-Q7",
+  "year": 2022,
+  "q": 7,
+  "stem": "How could the 2022-23 Australian Government budget deficit be financed?",
+  "options": {
+   "A": "by increasing company tax rates",
+   "B": "by reducing welfare spending",
+   "C": "by-selling government bonds to foreign companies",
+   "D": "byall of the options listed above"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 1,
+   "B": 1,
+   "C": 39,
+   "D": 59
+  },
+  "correct_pct": 39,
+  "trap": {
+   "option": "D",
+   "pct": 59,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.6",
+  "currency": "Current",
+  "examiner_comment": "Of the options listed, the sale of bonds is the only means of financing a budget deficit (i.e. raising funds to facilitate or enable the excess of expenditure over receipts). The other options are means by which (future) deficits can be reduced, which is distinct from financing a given deficit.",
+  "teacher_note": "",
+  "trap_note": "Financing a deficit means raising the money to cover the shortfall. Only selling bonds does that. Raising tax or cutting spending REDUCES the deficit; they do not finance it. 59% chose 'all of the above' without testing each option separately."
+ },
+ {
+  "id": "2022-Q8",
+  "year": 2022,
+  "q": 8,
+  "stem": "\u2018A depreciation of the Australian dollar is most likely to be caused by an increase in",
+  "options": {
+   "A": "Australia\u2019s terms of trade",
+   "B": "foreign travel expenditure by Australians. C",
+   "C": "the value of primary income credits in the balance of payments",
+   "D": "the value of foreign direct investment by multinational corporations into Australia"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 18,
+   "B": 60,
+   "C": 12,
+   "D": 9
+  },
+  "correct_pct": 60,
+  "trap": {
+   "option": "A",
+   "pct": 18,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.5"
+ },
+ {
+  "id": "2022-Q9",
+  "year": 2022,
+  "q": 9,
+  "stem": "Consider the following data for a hypothetical economy.<br>Government spending $20b<br>Imports $55b<br>Taxation receipts $25b<br>Private investment $15b<br>Exports $65b<br>Savings $30b<br><br>Using this data, which one of the following statements about the hypothetical economy is correct?",
+  "options": {
+   "A": "It is contracting, because savings are greater than taxation receipts",
+   "B": "It is contracting, because leakages are greater than injections",
+   "C": "It is expanding, because injections are greater than leakages",
+   "D": "It is expanding, because imports are greater than private investment"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 9,
+   "B": 53,
+   "C": 35,
+   "D": 3
+  },
+  "correct_pct": 53,
+  "trap": {
+   "option": "C",
+   "pct": 35,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Leakages are S 30 + T 25 + M 55 = 110. Injections are I 15 + G 20 + X 65 = 100. Leakages win, so the economy contracts. The 35% who said expanding most likely dropped imports \u2014 the biggest leakage on the list."
+ },
+ {
+  "id": "2022-Q10",
+  "year": 2022,
+  "q": 10,
+  "stem": "Which one of the following international transactions would be recorded as a primary income debit in the current account section of Australia\u2019s balance of payments?",
+  "options": {
+   "A": "the sale of education services by Australian universities to international students",
+   "B": "the purchase of Australian Government securities by American investment banks",
+   "C": "the purchase of electronic devices by Australian retailers from Chinese distributors",
+   "D": "the payment of rent by Australian companies for retail space owned in Melbourne by Japanese companies"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 12,
+   "B": 14,
+   "C": 24,
+   "D": 50
+  },
+  "correct_pct": 50,
+  "trap": {
+   "option": "C",
+   "pct": 24,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.2",
+  "currency": "Current",
+  "examiner_comment": "The payment of rent to foreign investors is recorded as a debit as money leaves the country. It is recorded in the NPI section of the current account because (like interest and dividends) it is an example of an income flow that services net foreign liabilities (in this case, foreign equity) that are always recorded in the NPI section of the current account.",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.2",
+  "trap_note": "Primary income records income earned on investment. Rent paid to the Japanese owners of Melbourne property is income leaving Australia, so a primary income debit. The 24% who chose the electronics purchase picked a GOODS debit - money out, but payment for a product, not for the use of capital."
+ },
+ {
+  "id": "2022-Q11",
+  "year": 2022,
+  "q": 11,
+  "stem": "Australia\u2019s current account balance is likely to worsen if",
+  "options": {
+   "A": "China\u2019s rate of economic growth decreases",
+   "B": "there is an increase in Australia\u2019s national savings",
+   "C": "there is an increase in the price of iron ore in world markets",
+   "D": "Australian superannuation funds invest more in international shares"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 67,
+   "B": 9,
+   "C": 7,
+   "D": 17
+  },
+  "correct_pct": 67,
+  "trap": {
+   "option": "D",
+   "pct": 17,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.3"
+ },
+ {
+  "id": "2022-Q12",
+  "year": 2022,
+  "q": 12,
+  "stem": "If an economy moved into the contraction phase of the business cycle, which combination of outcomes would result?",
+  "options": {
+   "A": "an increase in interest rates and a decrease in the value of business investment",
+   "B": "an increase in household savings and a decrease in consumer confidence",
+   "C": "an increase in cyclical unemployment and an increase in business confidence",
+   "D": "a decrease in cyclical unemployment and a higher labour force participation rate"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 13,
+   "B": 81,
+   "C": 4,
+   "D": 2
+  },
+  "correct_pct": 81,
+  "trap": {
+   "option": "A",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.3"
+ },
+ {
+  "id": "2022-Q13",
+  "year": 2022,
+  "q": 13,
+  "stem": "Which one of the following Australian Government policy initiatives is the least likely to increase both aggregate demand and aggregate supply?",
+  "options": {
+   "A": "higher childcare rebates",
+   "B": "lower company tax rates",
+   "C": "higher tariff\u2019s on imported goods",
+   "D": "increased spending on road and rail infrastructure"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 12,
+   "B": 10,
+   "C": 67,
+   "D": 12
+  },
+  "correct_pct": 67,
+  "trap": {
+   "option": "D",
+   "pct": 12,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.2.2"
+ },
+ {
+  "id": "2022-Q14",
+  "year": 2022,
+  "q": 14,
+  "stem": "The international competitiveness of a country is most likely to fall if",
+  "options": {
+   "A": "labour productivity decreases",
+   "B": "real unit labour costs decrease",
+   "C": "its currency can buy less of a foreign currency",
+   "D": "its inflation rate is lower than that of its trading partners"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 82,
+   "B": 3,
+   "C": 12,
+   "D": 3
+  },
+  "correct_pct": 82,
+  "trap": {
+   "option": "C",
+   "pct": 12,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.7",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.7"
+ },
+ {
+  "id": "2022-Q15",
+  "year": 2022,
+  "q": 15,
+  "stem": "Which one of the following would not be classified as a direct tax in the Australian Government\u2019s federal budget?",
+  "options": {
+   "A": "company tax",
+   "B": "capital gains tax",
+   "C": "goods and services tax",
+   "D": "pay-as-you-go income tax"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 5,
+   "B": 17,
+   "C": 63,
+   "D": 15
+  },
+  "correct_pct": 63,
+  "trap": {
+   "option": "B",
+   "pct": 17,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.2",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.2"
+ },
+ {
+  "id": "2023-Q1",
+  "year": 2023,
+  "q": 1,
+  "stem": "\u2018A young entrepreneur has run her own business and made a profit of $40000 for the financial year. She quit her job as an economist, where she would have earned $120000 for the same period. The opportunity cost of running the business for the financial year was",
+  "options": {
+   "A": "\u2014$40000",
+   "B": "\u2014$80000 Cc. $120000",
+   "D": "= $160000"
+  },
+  "correct": "B or C",
+  "distribution": {
+   "A": 2,
+   "B": 77,
+   "C": 21,
+   "D": 1
+  },
+  "correct_pct": null,
+  "trap": null,
+  "worksheet_task": null,
+  "needs_figure": false,
+  "options_complete": false,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.1"
+ },
+ {
+  "id": "2023-Q2",
+  "year": 2023,
+  "q": 2,
+  "stem": "Which one of the following is not likely to be caused by an inflation rate of 7.8%?",
+  "options": {
+   "A": "delayed consumption",
+   "B": "erosion of purchasing power",
+   "C": "distortions of investment decisions",
+   "D": "a loss of international competitiveness"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 47,
+   "B": 5,
+   "C": 29,
+   "D": 19
+  },
+  "correct_pct": 47,
+  "trap": {
+   "option": "C",
+   "pct": 29,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.18",
+  "currency": "Current",
+  "examiner_comment": "An inflation rate of 7.8% is excessive and erodes the purchasing power of money and is likely to distort investment as well as reduce the international competitiveness of a country\u2019s tradeables sector \u2013 all of which rule out B, C and D as the answer. However, inflation is likely to accelerate (rather than delay) consumption to the extent that consumers are keen to avoid price rises.",
+  "teacher_note": "",
+  "trap_note": "High inflation erodes purchasing power, distorts investment and damages competitiveness. What it does NOT do is delay consumption \u2014 it brings spending forward, because waiting costs you. Delayed consumption is a DEFLATION effect. The 29% who chose distorted investment named something inflation genuinely does cause."
+ },
+ {
+  "id": "2023-Q3",
+  "year": 2023,
+  "q": 3,
+  "stem": "Which one of the following would be classified as government current expenditure when calculating aggregate demand?",
+  "options": {
+   "A": "unemployment benefits provided by the Australian Government",
+   "B": "the payment of salaries to the police force by a state government",
+   "C": "a deposit paid by the Australian Government to the US Government for new nuclear submarines",
+   "D": "the purchase of new computers for the neighbourhood library by a local government"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 33,
+   "B": 40,
+   "C": 15,
+   "D": 12
+  },
+  "correct_pct": 40,
+  "trap": {
+   "option": "A",
+   "pct": 33,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.3",
+  "currency": "Current",
+  "examiner_comment": "The payment of salaries to public servants is classified as government current (consumption) expenditure given that the benefits provided do not extend beyond the current budget period (e.g. one year). Unemployment benefits is a government transfer payment (neither G1 nor G2); Options C and D relate to Government Investment (G2) spending.",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "4.1.3",
+  "trap_note": "Current expenditure is day-to-day operating spending, and salaries are the clearest case. The 33% who chose unemployment benefits picked a transfer payment \u2014 and transfers are not counted in AD at all. The government buys nothing; it moves money to a household, which then spends it as consumption."
+ },
+ {
+  "id": "2023-Q4",
+  "year": 2023,
+  "q": 4,
+  "stem": "Which one of the following is not a strength of monetary policy when trying to reduce aggregate demand?",
+  "options": {
+   "A": "Indebted households on variable rate loans are highly responsive to higher interest rates",
+   "B": "Sectors of the economy in which there is excess demand can be easily targeted",
+   "C": "The cash rate can be raised in small increments",
+   "D": "Ithas a short implementation lag"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 14,
+   "B": 68,
+   "C": 7,
+   "D": 11
+  },
+  "correct_pct": 68,
+  "trap": {
+   "option": "A",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.20",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.20"
+ },
+ {
+  "id": "2023-Q5",
+  "year": 2023,
+  "q": 5,
+  "stem": "Which one of the following is least likely to result in a decrease in aggregate supply?",
+  "options": {
+   "A": "an increase in interest rates",
+   "B": "a slower rate of productivity growth",
+   "C": "an increase in the number of people retiring",
+   "D": "a decrease in the availability of capital resources"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 56,
+   "B": 23,
+   "C": 16,
+   "D": 5
+  },
+  "correct_pct": 23,
+  "trap": {
+   "option": "A",
+   "pct": 56,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "B is the answer because productivity is still increasing (despite a slower growth rate) which increases aggregate supply. Option A is less valid because higher interest rates can have negative supply side effects via an increase in the costs of production (debt servicing costs). Increases in retirement (Option C) and less available capital resources (Option D) are likely to reduce aggregate supply as the quantity of labour and capital resources falls.",
+  "teacher_note": "",
+  "trap_note": "VCAA's reasoning: a SLOWER RATE of productivity growth still means productivity is rising, so AS still increases. 56% chose interest rates, and VCAA accepts that higher rates can reduce AS through debt servicing costs. Interest rates work on both sides. In the exam you can use either \u2014 lead with AD, it is the bigger impact."
+ },
+ {
+  "id": "2023-Q6",
+  "year": 2023,
+  "q": 6,
+  "stem": "Consider the following information for a hypothetical economy.<br>unemployed persons 10 million<br>underemployed persons 5 million<br>employed persons 70 million<br>total population 100 million<br><br>Based on the data shown above, the labour force underutilisation rate of this hypothetical economy is approximately",
+  "options": {
+   "A": "10%",
+   "B": "13%",
+   "C": "15%",
+   "D": "19%"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 3,
+   "B": 7,
+   "C": 46,
+   "D": 43
+  },
+  "correct_pct": 43,
+  "trap": {
+   "option": "C",
+   "pct": 46,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "The total underemployed equals 15m (10m UE + 5m UnderE) and the labour force is 80m (10m UE + 70m E). The underutilisation rate equals [15m/80m] \u00d7 100 = 18.75% which is approximately 19%.",
+  "teacher_note": "",
+  "trap_note": "15% is 15 million over the total population. Same denominator error as the unemployment rate \u2014 under-utilisation is over the labour force, 80 million, giving roughly 19%."
+ },
+ {
+  "id": "2023-Q7",
+  "year": 2023,
+  "q": 7,
+  "stem": "The payment of dividends to Australians holding shares in foreign companies will be recorded in the balance of payments as",
+  "options": {
+   "A": "acredit in the capital and financial account",
+   "B": "a debit in the capital and financial account",
+   "C": "a credit in the current account",
+   "D": "a debit in the current account"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 34,
+   "B": 12,
+   "C": 47,
+   "D": 7
+  },
+  "correct_pct": 47,
+  "trap": {
+   "option": "A",
+   "pct": 34,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.2",
+  "currency": "Current",
+  "examiner_comment": "Dividends received represent an inflow of funds (credit) that represents the servicing costs (for foreigners) who have sold shares to Australian investors. These flows are recorded in the current account as a credit. (If the receipt of funds was related to the sale of the shares by Australian investors then this would have been recorded in the CAFA.)",
+  "teacher_note": "",
+  "trap_note": "Dividends received BY Australians from shares held overseas are money flowing IN, so a credit, and income earned on investment sits in the current account. The 34% who chose the capital and financial account picked the account that records buying and selling the shares, not the income they pay."
+ },
+ {
+  "id": "2023-Q8",
+  "year": 2023,
+  "q": 8,
+  "stem": "Cyclical unemployment is least likely to be caused by",
+  "options": {
+   "A": "a decrease in the size of the government\u2019s budget structural deficit",
+   "B": "a decrease in the world price of iron ore. C",
+   "C": "lowrates of economic growth in China",
+   "D": "negative interest rates"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 28,
+   "B": 14,
+   "C": 13,
+   "D": 45
+  },
+  "correct_pct": 45,
+  "trap": {
+   "option": "A",
+   "pct": 28,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.17",
+  "currency": "Current",
+  "examiner_comment": "Negative interest rates incentivises borrowing and credit based consumption or investment. A lower structural deficit (Option A) is more likely to reduce AD and increase (structural) UE. A decrease in iron ore prices and slower growth in China (Options B and C) will tend to have a negative impact on both national income and AD, increasing pressure on unemployment.",
+  "teacher_note": "",
+  "trap_note": "Cyclical unemployment comes from weak AD. Negative interest rates encourage borrowing and spending, which lifts AD and REDUCES cyclical unemployment. The 28% who chose the smaller structural deficit picked something that does cut AD \u2014 which makes it a cause, the opposite of what the question asked.",
+  "tag_confidence": "L"
+ },
+ {
+  "id": "2023-Q9",
+  "year": 2023,
+  "q": 9,
+  "stem": "Which one of the following is an example of an automatic stabiliser?",
+  "options": {
+   "A": "higher company tax collections due to increased profitability",
+   "B": "an increase in the cash rate due to an excessive inflation rate",
+   "C": "a decision by the Australian Government to proceed with the Stage 3 tax cuts",
+   "D": "increasing the goods and services tax rate to 12% due to an aging population"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 78,
+   "B": 13,
+   "C": 5,
+   "D": 4
+  },
+  "correct_pct": 78,
+  "trap": {
+   "option": "B",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.1.8",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.1.8"
+ },
+ {
+  "id": "2023-Q10",
+  "year": 2023,
+  "q": 10,
+  "stem": "The price elasticity of supply for avocados is likely to increase if",
+  "options": {
+   "A": "preservatives are invented to extend the shelf life of avocados",
+   "B": "there is an increase in demand for avocados",
+   "C": "there is a decrease in the price of avocados",
+   "D": "the cost of fertiliser increases"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 70,
+   "B": 10,
+   "C": 6,
+   "D": 14
+  },
+  "correct_pct": 70,
+  "trap": {
+   "option": "D",
+   "pct": 14,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.13",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.13"
+ },
+ {
+  "id": "2023-Q11",
+  "year": 2023,
+  "q": 11,
+  "stem": "\u2018A cyclical factor that might cause Australia\u2019s current account balance to worsen is",
+  "options": {
+   "A": "ahigh rate of economic growth in China",
+   "B": "ahigh rate of economic growth in Australia",
+   "C": "high energy costs due to the closure of coal-based power plants",
+   "D": "lower productivity growth in Australia than in its major trading partners"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 8,
+   "B": 28,
+   "C": 18,
+   "D": 45
+  },
+  "correct_pct": 28,
+  "trap": {
+   "option": "D",
+   "pct": 45,
+   "state_killer": true,
+   "beat_correct": true
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.3",
+  "currency": "Current",
+  "examiner_comment": "A high rate of growth in Australia typically leads to an increase in import spending relative to export receipts, reducing the BOGS and decreasing the CA balance for reasons related to changes in economic growth (or the business/economic cycle). A high rate of growth in China (Option A) improves the CA balance. The remaining two options (C and D) are examples of structural factors that can worsen the CA balance.",
+  "teacher_note": "",
+  "trap_note": "Cyclical means tied to the business cycle. Strong growth in Australia pulls in imports faster than exports grow, worsening the current account. The 45% who chose lower productivity growth named a real problem, but a STRUCTURAL one. Check which type the question wants before you read the options."
+ },
+ {
+  "id": "2023-Q12",
+  "year": 2023,
+  "q": 12,
+  "stem": "Australia\u2019s terms of trade is likely to deteriorate if",
+  "options": {
+   "A": "the Australian dollar appreciates",
+   "B": "export prices rise faster than import prices",
+   "C": "there is excess supply of iron ore in world markets",
+   "D": "there is an increase in productivity growth in Australia\u2019s major trading partners"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 28,
+   "B": 11,
+   "C": 51,
+   "D": 11
+  },
+  "correct_pct": 51,
+  "trap": {
+   "option": "A",
+   "pct": 28,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.3.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "The terms of trade is export prices over import prices. Excess supply of iron ore drives export prices down, so the ratio falls. The 28% who chose an appreciation picked something that moves export and import prices together \u2014 and the causation usually runs the other way, with a high terms of trade lifting the dollar."
+ },
+ {
+  "id": "2023-Q13",
+  "year": 2023,
+  "q": 13,
+  "stem": "Consider the following production possibility frontier (PPF) for a hypothetical nation. production Y of services production of goods \u2018A movement from point X to point Y is least likely to result in",
+  "options": {
+   "A": "an increase in technical efficiency",
+   "B": "an increase in the nation\u2019s real GDP",
+   "C": "decrease in the nation\u2019s unemployment rate",
+   "D": "a decrease in negative production externalities"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 16,
+   "B": 7,
+   "C": 15,
+   "D": 62
+  },
+  "correct_pct": 62,
+  "trap": {
+   "option": "A",
+   "pct": 16,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.1"
+ },
+ {
+  "id": "2023-Q14",
+  "year": 2023,
+  "q": 14,
+  "stem": "Which one of the following outcomes is not usually associated with productivity growth?",
+  "options": {
+   "A": "an increase in material living standards",
+   "B": "an increase in international competitiveness",
+   "C": "an increase in the prices of goods and services",
+   "D": "an increase in the nation\u2019s productive capacity"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 9,
+   "B": 4,
+   "C": 83,
+   "D": 4
+  },
+  "correct_pct": 83,
+  "trap": {
+   "option": "A",
+   "pct": 9,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "L",
+  "proposed": "3.2.5"
+ },
+ {
+  "id": "2023-Q15",
+  "year": 2023,
+  "q": 15,
+  "stem": "Common access resources have which one of the following combinations of characteristics? Rivalrous Excludable AL Yes Yes B. Yes No faq No Yes D. No No",
+  "options": {},
+  "correct": "B",
+  "distribution": {
+   "A": 6,
+   "B": 71,
+   "C": 8,
+   "D": 15
+  },
+  "correct_pct": 71,
+  "trap": {
+   "option": "D",
+   "pct": 15,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": false,
+  "kk": "3.1.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.16"
+ },
+ {
+  "id": "2024-Q2",
+  "year": 2024,
+  "q": 2,
+  "stem": "Consider the following Production Possibility Frontier (PPF) for a hypothetical economy. PPF for an economy amount of coffee amount > oftea As the production of coffee increases in equal amounts, the opportunity cost in terms of tea",
+  "options": {
+   "A": "increases",
+   "B": "decreases",
+   "C": "decreases then increases",
+   "D": "stays the same. 2024 VCE Economics Section A Page 3 of"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 65,
+   "B": 28,
+   "C": 2,
+   "D": 5
+  },
+  "correct_pct": 65,
+  "trap": {
+   "option": "B",
+   "pct": 28,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "The PPF bows outward because resources are not equally suited to both goods. Each extra unit of coffee pulls in resources that are worse at coffee, so it costs MORE tea than the last one. The 28% who said opportunity cost decreases described a PPF curving the wrong way."
+ },
+ {
+  "id": "2024-Q3",
+  "year": 2024,
+  "q": 3,
+  "stem": "Which of the following events would be most likely to shift the demand curve for a good or service to the right?",
+  "options": {
+   "A": "a decrease in the price of the good or service",
+   "B": "a decrease in levels of direct taxation",
+   "C": "adecrease in the price of a substitute good or service",
+   "D": "a decrease in the costs of production"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 27,
+   "B": 55,
+   "C": 10,
+   "D": 7
+  },
+  "correct_pct": 55,
+  "trap": {
+   "option": "A",
+   "pct": 27,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.1.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Only non-price factors shift the demand curve. A change in the good's own price is a movement ALONG it. The 27% who chose the price of the good itself made the single most common demand error in the course."
+ },
+ {
+  "id": "2024-Q4",
+  "year": 2024,
+  "q": 4,
+  "stem": "Which of the following is most likely to result in an increase in aggregate demand in the economy?",
+  "options": {
+   "A": "a decrease in labour market productivity",
+   "B": "anincrease in consumer confidence",
+   "C": "an increase in the cash rate",
+   "D": "a decrease in business confidence"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 1,
+   "B": 96,
+   "C": 2,
+   "D": 0
+  },
+  "correct_pct": 96,
+  "trap": {
+   "option": "C",
+   "pct": 2,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.4",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.4"
+ },
+ {
+  "id": "2024-Q5",
+  "year": 2024,
+  "q": 5,
+  "stem": "2020 2024 price of milk (per litre) $2 $2 price of coffee (per cup) $4 $6 In the example provided in the table above, the relative price of milk between 2020 and 2024",
+  "options": {
+   "A": "cannot be determined",
+   "B": "remained unchanged. Cc. increased",
+   "D": "decreased"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 4,
+   "B": 30,
+   "C": 10,
+   "D": 56
+  },
+  "correct_pct": 56,
+  "trap": {
+   "option": "B",
+   "pct": 30,
+   "state_killer": true,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": false,
+  "kk": "3.1.14",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "trap_note": "Milk stayed at $2 while coffee went from $4 to $6. Milk is now cheaper relative to coffee, so its relative price FELL. The 30% who said unchanged looked only at milk's own price tag \u2014 relative price is always a comparison."
+ },
+ {
+  "id": "2024-Q6",
+  "year": 2024,
+  "q": 6,
+  "stem": "Which of the following factors are both characteristics of an expansion or upward swing in the business cycle?",
+  "options": {
+   "A": "a decrease in production and an increase in capital investment",
+   "B": "an increase in wages and rising business profits",
+   "C": "an increase in unemployment and reduced transfer payments",
+   "D": "anincrease in consumer spending and decreased business confidence Page 4 of 28 Section A 2024 VCE Economics"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 2,
+   "B": 90,
+   "C": 3,
+   "D": 5
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "D",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.3",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.3"
+ },
+ {
+  "id": "2024-Q7",
+  "year": 2024,
+  "q": 7,
+  "stem": "Consider the following data showing the Consumer Price Index (CPI) for a number of quarters in a hypothetical economy. Date Quarterly CPI (index June 2012 = 100) Jun 2021 119.5 Sep 2021 1197 Dec 2021 121.3 Mar 2022 123.9 Jun 2022 126.1 Sep 2022 128.4 Dec 2022 130.8 Mar 2023 132.6 Jun 2023 133.7 The inflation rate for the year ended June 2023 was",
+  "options": {
+   "A": "6.03%",
+   "B": "5.52%",
+   "C": "6.94%",
+   "D": "7.60%"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 64,
+   "B": 7,
+   "C": 16,
+   "D": 12
+  },
+  "correct_pct": 64,
+  "trap": {
+   "option": "C",
+   "pct": 16,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.2.16",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.16"
+ },
+ {
+  "id": "2024-Q8",
+  "year": 2024,
+  "q": 8,
+  "stem": "Consider a market where the demand for a good is relatively inelastic. If supply was to decrease in the market, it is most likely that the price will",
+  "options": {
+   "A": "decrease, and quantity demanded will decrease by a relatively smaller amount",
+   "B": "increase, and quantity demanded will decrease by a relatively smaller amount",
+   "C": "increase, and quantity demanded will decrease by a relatively larger amount",
+   "D": "decrease, and quantity demanded will fall by a relatively larger amount. 2024 VCE Economics Section A Page 5 of"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 8,
+   "B": 80,
+   "C": 10,
+   "D": 2
+  },
+  "correct_pct": 80,
+  "trap": {
+   "option": "C",
+   "pct": 10,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.1.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.11"
+ },
+ {
+  "id": "2024-Q9",
+  "year": 2024,
+  "q": 9,
+  "stem": "The diagram below shows the market for rice. Market for rice maximum price set by the government t quantity aar 33 (kg) The governments in some developing countries try to protect the low-income populations by setting maximum (ceiling) prices on some foods to make them more affordable. In the diagram above, if the government intervened and set the maximum price for rice at Pyy,x, the effect of this would be to",
+  "options": {
+   "A": "decrease the rice available from Q3 to Q1",
+   "B": "increase the rice available from Q2 to Q3",
+   "C": "increase the rice available from Q1 to Q3",
+   "D": "decrease the rice available from Q1 to Q2"
+  },
+  "correct": "D",
+  "distribution": {
+   "A": 7,
+   "B": 7,
+   "C": 19,
+   "D": 66
+  },
+  "correct_pct": 66,
+  "trap": {
+   "option": "C",
+   "pct": 19,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": true,
+  "kk": "3.1.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.1.17"
+ },
+ {
+  "id": "2024-Q10",
+  "year": 2024,
+  "q": 10,
+  "stem": "Which of the following is unlikely to increase cost inflation in the short term?",
+  "options": {
+   "A": "an increase in the price of oil",
+   "B": "anincrease in electricity prices",
+   "C": "anincrease in the value of transfer payments",
+   "D": "anincrease in tolls for major highways Page 6 of 28 Section A 2024 VCE Economics"
+  },
+  "correct": "C",
+  "distribution": {
+   "A": 4,
+   "B": 3,
+   "C": 74,
+   "D": 19
+  },
+  "correct_pct": 74,
+  "trap": {
+   "option": "D",
+   "pct": 19,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.17",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.17"
+ },
+ {
+  "id": "2024-Q11",
+  "year": 2024,
+  "q": 11,
+  "stem": "Consider the following data for a hypothetical economy. employed persons 14,257,000 unemployed persons 595,000 labour force participation rate 67% youth unemployment rate 9% youth employed (aged 15-24) 2,197,000 Using the data, the unemployment rate for the hypothetical economy is",
+  "options": {
+   "A": "4.0%",
+   "B": "5.6% Cc. 45%",
+   "D": "3.6%"
+  },
+  "correct": "A",
+  "distribution": {
+   "A": 69,
+   "B": 7,
+   "C": 13,
+   "D": 11
+  },
+  "correct_pct": 69,
+  "trap": {
+   "option": "C",
+   "pct": 13,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": true,
+  "options_complete": false,
+  "kk": "3.2.11",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.2.11"
+ },
+ {
+  "id": "2024-Q12",
+  "year": 2024,
+  "q": 12,
+  "stem": "Aggregate supply policies are designed to",
+  "options": {
+   "A": "maximise production in an economy",
+   "B": "improve supply-side conditions so that domestic macroeconomic goals and enhanced living standards can be more easily achieved",
+   "C": "ensure aggregate supply is always exceeding aggregate demand so that there are no shortfalls of supply in the economy",
+   "D": "ensure that output is boosted in the short run to allow for the achievement of macroeconomic goals"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 5,
+   "B": 90,
+   "C": 4,
+   "D": 1
+  },
+  "correct_pct": 90,
+  "trap": {
+   "option": "A",
+   "pct": 5,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "4.2.1",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.1"
+ },
+ {
+  "id": "2024-Q13",
+  "year": 2024,
+  "q": 13,
+  "stem": "Which of the following will not cause a slowing of labour productivity in an economy?",
+  "options": {
+   "A": "decreasing overall business investment",
+   "B": "lower barriers to entry for international investors",
+   "C": "lower levels of entrepreneurship, slowing allocation of resources to productive areas",
+   "D": "lower investment in education and training"
+  },
+  "correct": "B",
+  "distribution": {
+   "A": 6,
+   "B": 85,
+   "C": 7,
+   "D": 3
+  },
+  "correct_pct": 85,
+  "trap": {
+   "option": "C",
+   "pct": 7,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": true,
+  "kk": "3.2.5",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "4.2.2"
+ },
+ {
+  "id": "2024-Q14",
+  "year": 2024,
+  "q": 14,
+  "stem": "Consider the following data for an economy over a two-year period. The prices given reflect the average for the relevant year. Which of the following shows the value of the terms of trade index in Year 2 and the terms of trade trend from Year 1 to Year 2? Terms of trade index Terms of trade trend . . 2: : = @ =",
+  "options": {},
+  "correct": "D",
+  "distribution": {
+   "A": 8,
+   "B": 5,
+   "C": 10,
+   "D": 77
+  },
+  "correct_pct": 77,
+  "trap": {
+   "option": "C",
+   "pct": 10,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "task2_why_tempting",
+  "needs_figure": false,
+  "options_complete": false,
+  "kk": "3.3.6",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.6"
+ },
+ {
+  "id": "2024-Q15",
+  "year": 2024,
+  "q": 15,
+  "stem": "3 Australia\u2019s international competitiveness will most likely improve if \u00b0 < A. Australia has a higher inflation rate compared to its trading partners. 8 B. the Australian dollar appreciates relative to our trading partners. C. there is an improvement in labour productivity. D. Australia\u2019s wage costs rise faster than productivity. End of SectionA Page 8 of",
+  "options": {},
+  "correct": "C",
+  "distribution": {
+   "A": 2,
+   "B": 11,
+   "C": 86,
+   "D": 1
+  },
+  "correct_pct": 86,
+  "trap": {
+   "option": "B",
+   "pct": 11,
+   "state_killer": false,
+   "beat_correct": false
+  },
+  "worksheet_task": "none",
+  "needs_figure": false,
+  "options_complete": false,
+  "kk": "3.3.7",
+  "currency": "Current",
+  "examiner_comment": "",
+  "teacher_note": "",
+  "tag_confidence": "H",
+  "proposed": "3.3.7"
+ }
+]
