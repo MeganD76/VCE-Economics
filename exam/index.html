@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Economics exam portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17223B;--soft:#5B6478;--paper:#E9ECF1;--card:#fff;--rule:#D2D8E0;
+--right:#1B7F5A;--trap:#A8324A;--bar:#C3C9D2;--warn:#B6801F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 16px/1.55 'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding:26px 20px 80px}
+
+header{display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:13px;border-bottom:2px solid var(--ink);margin-bottom:24px}
+h1{font:500 19px/1.2 'IBM Plex Sans';margin:0}
+.who{font-size:14px;color:var(--soft)}
+.who b{color:var(--ink);font-weight:600}
+.who button{background:none;border:0;padding:0 0 0 9px;color:var(--soft);
+  font:400 13px 'IBM Plex Sans';text-decoration:underline;cursor:pointer}
+.who button:hover{color:var(--ink)}
+
+.card{background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:22px;margin-bottom:14px}
+.stem{font:400 19px/1.5 'IBM Plex Serif',Georgia,serif;margin:0 0 18px}
+.note{font-size:14px;color:var(--soft);margin:0 0 16px}
+
+input[type=text]{width:100%;font:400 17px 'IBM Plex Sans';color:var(--ink);
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:12px 14px}
+input[type=text]:focus{outline:2px solid var(--ink);outline-offset:0;border-color:var(--ink)}
+.go{margin-top:14px;width:100%;background:var(--ink);color:#fff;border:0;border-radius:3px;
+  padding:14px;font:500 16px 'IBM Plex Sans';cursor:pointer}
+.go:disabled{background:var(--rule);color:#8A93A3;cursor:not-allowed}
+
+.lead{font:400 17px/1.5 'IBM Plex Serif',Georgia,serif;margin:0 0 20px;color:var(--ink)}
+
+a.tool,div.tool{display:block;background:var(--card);border:1px solid var(--rule);
+  border-radius:3px;padding:18px 20px;margin-bottom:11px;text-decoration:none;color:inherit}
+a.tool{border-left:3px solid var(--ink)}
+a.tool:hover{border-color:var(--ink);box-shadow:0 1px 0 var(--rule)}
+a.tool:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+div.tool{border-left:3px solid var(--rule);opacity:.62}
+.tool h2{font:600 16px 'IBM Plex Sans';margin:0 0 5px;display:flex;
+  justify-content:space-between;align-items:baseline;gap:12px}
+.tool p{margin:0;font-size:14.5px;line-height:1.5;color:var(--soft)}
+.tag{font:500 11px 'IBM Plex Sans';letter-spacing:.06em;text-transform:uppercase;
+  color:var(--soft);border:1px solid var(--rule);border-radius:2px;
+  padding:2px 7px;white-space:nowrap}
+
+.foot{margin-top:28px;padding-top:15px;border-top:1px solid var(--rule);
+  font-size:13.5px;color:var(--soft)}
+.foot p{margin:0 0 7px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Economics exam portal</h1>
+  <div class="who" id="who"></div>
+</header>
+
+<main id="app"></main>
+
+</div>
+
+<script src="kk-data.js"></script>
+<script src="portal-data.js"></script>
+<script>
+const app = document.getElementById('app');
+const who = document.getElementById('who');
+let cw = null;
+
+/* ---- entry ---- */
+(async function () {
+  const fromUrl = new URLSearchParams(location.search).get('cw');
+  if (fromUrl && clean(fromUrl).length >= 3) {
+    cw = clean(fromUrl);
+    await Store.set(SETTINGS_CW, cw);
+    return home();
+  }
+  const saved = await Store.get(SETTINGS_CW);
+  if (saved && saved.length >= 3) { cw = saved; return home(); }
+  askCode();
+})();
+
+function askCode() {
+  who.innerHTML = '';
+  app.innerHTML = `<div class="card">
+    <p class="stem">What is your code word?</p>
+    <p class="note">Use the same one every time. It is how your work follows you from
+      one task to the next, and between home and school. It is not a password and it is
+      not your name — pick something only you would use, and write it in your booklet
+      so you do not forget it.</p>
+    <input type="text" id="cwin" autocomplete="off" autocapitalize="none"
+           spellcheck="false" placeholder="your code word">
+    <button class="go" id="cwgo" disabled>Continue</button>
+  </div>`;
+  const inp = document.getElementById('cwin');
+  const go = document.getElementById('cwgo');
+  inp.oninput = () => { go.disabled = clean(inp.value).length < 3; };
+  inp.onkeydown = e => { if (e.key === 'Enter' && !go.disabled) go.click(); };
+  go.onclick = async () => { cw = clean(inp.value); await Store.set(SETTINGS_CW, cw); home(); };
+  inp.focus();
+}
+
+/* ---- home ---- */
+function home() {
+  who.innerHTML = `<span>Code word <b>${cw}</b></span><button id="chg">change</button>`;
+  document.getElementById('chg').onclick = askCode;
+
+  const cards = TOOLS.map(t => {
+    const head = `<h2>${t.name}${t.live ? '' : '<span class="tag">not yet</span>'}</h2>
+                  <p>${t.blurb}</p>`;
+    return t.live
+      ? `<a class="tool" href="${t.file}?cw=${encodeURIComponent(cw)}">${head}</a>`
+      : `<div class="tool">${head}</div>`;
+  }).join('');
+
+  app.innerHTML = `
+    <p class="lead">Everything for the exam lives here. Work on what your plan tells you
+      to work on, not on whatever looks easiest.</p>
+    ${cards}
+    <div class="foot">
+      <p>Your work saves against your code word on this device. Use the same code word
+        everywhere so it all joins up.</p>
+      <p>Tasks marked <span class="tag">not yet</span> are still being built and will
+        appear here when they are ready.</p>
+    </div>`;
+}
+</script>
+</body>
+</html>
