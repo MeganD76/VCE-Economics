@@ -176,7 +176,7 @@ const TOOLS = [
 
   { id: 'types',  name: 'Practice tasks by question type',
     blurb: 'Filtered sets for each question type, including two part questions.',
-    file: 'practice-types.html', live: false },
+    file: 'practice.html', live: true },
 
   { id: 'mark',   name: 'Mark my answer',
     blurb: 'Photograph a written response and get a mark with feedback against the VCAA standard.',
