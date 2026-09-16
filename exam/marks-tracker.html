@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en-AU"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Where your marks went · VCE Economics</title>
+<style>
+:root{--ink:#14161C;--ink2:#3D4353;--mute:#6E7484;--line:#DEDFE6;--bg:#FBFBFC;--card:#FFF;--hi:#0F766E;--warn:#9A1B1B;--r:10px}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}.hide{display:none!important}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em}p{margin:0 0 .8em}
+.muted{color:var(--mute)}.sm{font-size:15px}
+header{border-bottom:1px solid var(--line);background:var(--card)}
+.bar{display:flex;justify-content:space-between;align-items:center;height:58px}
+.brand{font-weight:600;font-size:16px}.mk{color:var(--hi);font-weight:700;margin-right:4px}
+.who{font:13px/1 ui-monospace,Menlo,monospace;color:var(--mute)}
+nav{border-bottom:1px solid var(--line);background:var(--card)}.tabs{display:flex;gap:2px}
+.tabs button{border:0;background:none;padding:13px 16px;cursor:pointer;font-family:inherit;font-size:15px;color:var(--mute);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs button.on{color:var(--ink);border-bottom-color:var(--ink)}.tabs button:hover{color:var(--ink)}
+main{padding:36px 0 60px;min-height:60vh}footer{padding:0 0 40px;font-size:13px;color:var(--mute)}
+.eyebrow{font:12px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:14px}
+.hero h1{font-size:44px;line-height:1.08;max-width:16ch;margin-bottom:18px}
+h1.page{font-size:32px;margin-bottom:8px}
+.lede{font-size:18px;color:var(--ink2);max-width:62ch}.lede.sm{font-size:16px}
+.hero{padding:24px 0 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.start{max-width:520px}.start h2{font-size:20px;margin-bottom:6px}
+.row{display:flex;gap:10px;margin-top:14px}
+input[type=text],input[type=number],select,textarea{font-family:inherit;font-size:16px;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:#fff;width:100%}
+textarea{font:13px/1.5 ui-monospace,Menlo,monospace;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--hi);outline-offset:1px}
+button{font-family:inherit;font-size:15px;border-radius:8px;cursor:pointer}
+.primary{background:var(--ink);color:#fff;border:1px solid var(--ink);padding:10px 20px}
+.primary:hover{background:#000}.primary:disabled{background:#B9BCC6;border-color:#B9BCC6;cursor:not-allowed}
+.ghost{background:#fff;color:var(--ink2);border:1px solid var(--line);padding:10px 18px}
+.ghost:hover{border-color:var(--mute)}
+.err{color:var(--warn);font-size:14px;margin:10px 0 0}
+.restore{margin-top:18px;font-size:14px}.restore summary{cursor:pointer;color:var(--mute)}
+.restore textarea{margin:10px 0}.actions{display:flex;gap:10px;margin-top:22px}
+.sacpick{display:grid;gap:10px;margin-top:22px}
+.sacbtn{display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;text-align:left;width:100%}
+.sacbtn:hover{border-color:var(--mute)}
+.sacbtn.soon{opacity:.5;cursor:default}.sacbtn.soon:hover{border-color:var(--line)}
+#fexp a{color:var(--hi)}.sacbtn b{font-weight:600;font-size:17px}
+.sacbtn .st{font-size:13px;color:var(--mute);white-space:nowrap}.sacbtn .st.done{color:var(--hi)}
+.cond{margin:22px 0 8px;padding:18px 22px}
+.condrow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.condrow label{display:block;font-size:13px;color:var(--mute);margin-bottom:5px}
+.note{margin:14px 0 0;font-size:14px;color:var(--ink2);min-height:1.2em}
+table.qs{width:100%;border-collapse:collapse;margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.qs th{text-align:left;font:12px/1 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:400;padding:12px;border-bottom:1px solid var(--line);background:#F7F7F9}
+.qs th .muted{text-transform:none;letter-spacing:0}
+.qs td{padding:9px 12px;border-bottom:1px solid #EFEFF3;vertical-align:middle}
+.qs tr:last-child td{border-bottom:0}
+.c-q{width:78px}.c-m{width:110px}.c-c{width:250px}
+.qid{font:13px/1 ui-monospace,Menlo,monospace;color:var(--ink2)}.qs .desc{font-size:15px}
+.mkin{display:flex;align-items:center;gap:5px}
+.mkin input{width:56px;padding:6px 8px;text-align:center;font-size:15px}
+.mkin span{font-size:14px;color:var(--mute);white-space:nowrap}
+.codesel{display:flex;gap:5px}.codesel select{padding:6px 8px;font-size:14px}
+tr.lost{background:#FEFAF6}tr.lost .qid{color:#B4530E;font-weight:600}
+.predict{max-width:640px;padding-top:18px}
+.predict h1{font-size:34px;margin-bottom:14px;line-height:1.15}
+.opts{display:grid;gap:10px;margin:26px 0}
+.opt{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;width:100%}
+.opt:hover{border-color:var(--mute)}.opt.sel{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.opt b{display:block;font-weight:600;font-size:17px;margin-bottom:3px}.opt span{font-size:14px;color:var(--mute)}
+.verdict{padding:6px 0 30px;border-bottom:1px solid var(--line);margin-bottom:30px}
+.verdict h1{font-size:36px;line-height:1.1;margin-bottom:14px;max-width:20ch}
+.callout{border-left:3px solid var(--hi);padding:2px 0 2px 16px;margin:20px 0;font-size:17px;color:var(--ink2);max-width:62ch}
+.callout.miss{border-left-color:#B4530E}
+.bars{margin:26px 0 34px}
+.bar2{display:grid;grid-template-columns:190px 1fr 84px;gap:14px;align-items:center;margin-bottom:10px}
+.bar2 .lbl{font-size:15px}.bar2 .track{background:#EDEEF2;border-radius:3px;height:22px;overflow:hidden}
+.bar2 .fill{height:100%;border-radius:3px}
+.bar2 .val{font:13px/1 ui-monospace,Menlo,monospace;color:var(--ink2);text-align:right}
+h2.sec{font-size:13px;font-family:ui-monospace,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:400;margin:38px 0 16px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.pri{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;margin-bottom:12px}
+.pri .top{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.pri .code{font:12px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em;padding:5px 8px;border-radius:5px;font-weight:600}
+.pri h3{font-size:20px;margin:10px 0 8px}.pri .cost{font-size:13px;color:var(--mute);white-space:nowrap}
+.pri .rep{font-size:16px;color:var(--ink2);max-width:64ch;margin-bottom:14px}
+.pri .meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px}
+.chip{background:#F3F4F7;border-radius:5px;padding:5px 9px;color:var(--ink2)}
+.chip.task{background:#E7F3F1;color:#0B5A54;font-weight:600}
+.pri .where{font-size:14px;color:var(--mute);margin-top:12px}
+.blind{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.brow{display:flex;gap:14px;align-items:flex-start;padding:15px 18px;border-bottom:1px solid #EFEFF3}
+.brow:last-child{border-bottom:0}
+.rk{font:11px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em;padding:5px 7px;border-radius:4px;margin-top:2px;white-space:nowrap}
+.rk.high{background:#FCE9E9;color:var(--warn)}.rk.med{background:#FDF1E7;color:#B4530E}.rk.low{background:#F3F4F7;color:var(--mute)}
+.brow b{font-weight:600}.brow .why{font-size:14px;color:var(--mute);margin-top:2px;display:block}
+.brow .qs{font:12px/1.7 ui-monospace,Menlo,monospace;color:var(--ink2);margin-top:5px;display:block}
+.bankq{font:12px/1 ui-monospace,Menlo,monospace;color:var(--ink2);background:#F3F4F7;border-radius:5px;padding:5px 8px;display:inline-block;margin:3px 4px 0 0}
+#keepmodal{position:fixed;inset:0;background:rgba(20,22,28,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal{max-width:520px;width:100%}.modal h2{font-size:21px;margin-bottom:8px}.modal textarea{margin-top:10px}
+.backup{margin-top:34px}.backup textarea{margin-top:8px}
+.tstat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0}
+.tstat div{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.tstat b{display:block;font-size:30px;font-weight:600;line-height:1.1}.tstat span{font-size:13px;color:var(--mute)}
+.brief{background:#F4FAF9;border:1px solid #CBE5E1;border-radius:var(--r);padding:20px 22px;margin-bottom:12px}
+.brief h3{font-size:19px;margin-bottom:4px}.brief .n{font-size:14px;color:#0B5A54;margin-bottom:12px}
+.brief dl{margin:0;display:grid;grid-template-columns:118px 1fr;gap:6px 14px;font-size:15px}
+.brief dt{color:var(--mute);font-size:13px;padding-top:2px}.brief dd{margin:0}
+@media(max-width:760px){.wrap{padding:0 18px}.hero h1{font-size:32px}.verdict h1{font-size:27px}
+.condrow{grid-template-columns:1fr}.bar2{grid-template-columns:1fr;gap:5px}.bar2 .val{text-align:left}
+.c-t,.qs td:nth-child(2){display:none}.c-c{width:auto}
+.brief dl{grid-template-columns:1fr;gap:2px 0}.brief dt{margin-top:8px}}
+@media(prefers-reduced-motion:no-preference){.fill{transition:width .5s cubic-bezier(.2,.7,.3,1)}}
+</style>
+</head><body>
+
+<header><div class="wrap bar">
+  <div class="brand"><span class="mk">&rarr;</span> Where your marks went</div>
+  <div class="who" id="who"></div>
+</div></header>
+<nav id="nav" class="hide"><div class="wrap tabs">
+  <button data-go="enter" class="on">Enter results</button>
+  <button data-go="plan">My plan</button>
+</div></nav>
+<main class="wrap">
+
+<section id="s-start">
+  <div class="hero">
+    <p class="eyebrow">VCE Economics &middot; Units 3 &amp; 4</p>
+    <h1>Most marks aren&rsquo;t lost where you think.</h1>
+    <p class="lede">Put in what you scored on each SAC and this works out where your marks actually went &mdash; what you didn&rsquo;t know, what you misread, and what you knew but never got onto the page. Those three need completely different fixes.</p>
+  </div>
+  <div class="card start">
+    <h2>Pick a code word</h2>
+    <p class="muted">It&rsquo;s how this remembers you next time. No account, no email. Choose something you&rsquo;ll recall in a fortnight &mdash; and something a classmate wouldn&rsquo;t guess.</p>
+    <div class="row"><input id="cw" type="text" placeholder="e.g. bluewren" autocomplete="off" spellcheck="false"><button class="primary" id="go">Start</button></div>
+    <p class="err hide" id="cwerr"></p>
+    <details class="restore"><summary>I have a backup code from last time</summary>
+      <textarea id="imp" rows="3" placeholder="Paste it here"></textarea>
+      <button class="ghost" id="impgo">Restore</button></details>
+  </div>
+</section>
+
+<section id="s-enter" class="hide">
+  <h1 class="page">Enter results</h1>
+  <p class="lede sm">Marks first. Add codes only where you lost <strong>two or more marks</strong> &mdash; that&rsquo;s where the signal is, and it keeps this to ten minutes rather than an evening.</p>
+  <div class="sacpick" id="sacpick"></div>
+  <div id="sacform" class="hide">
+    <div class="cond card"><div class="condrow">
+      <div><label for="c-time">How you sat it</label><select id="c-time"><option value="full">Full time, as set</option><option value="ext">Extra time or untimed</option><option value="split">Split across sittings</option></select></div>
+      <div><label for="c-mat">Materials</label><select id="c-mat"><option value="closed">Closed book</option><option value="open">Notes available</option></select></div>
+      <div><label for="c-mark">Marked by</label><select id="c-mark"><option value="teacher">Teacher</option><option value="self">Myself</option><option value="ai">Marking tool</option></select></div>
+    </div><p class="note" id="condnote"></p></div>
+    <table class="qs"><thead><tr><th class="c-q">Question</th><th class="c-t">What it asked</th><th class="c-m">Mark</th><th class="c-c">Codes <span class="muted">(if 2+ lost)</span></th></tr></thead><tbody id="qrows"></tbody></table>
+    <div class="actions"><button class="primary" id="save">Save this SAC</button><button class="ghost" id="cancel">Back</button></div>
+  </div>
+</section>
+
+<section id="s-predict" class="hide"><div class="predict">
+  <p class="eyebrow">Before you look</p>
+  <h1>Where do you think your marks went?</h1>
+  <p class="lede">Guess first. The gap between what you expect and what actually happened is the most useful thing on the next screen &mdash; and it disappears if you peek.</p>
+  <div class="opts" id="popts"></div>
+  <button class="primary" id="pgo" disabled>Show me</button>
+</div></section>
+
+<section id="s-plan" class="hide"><div id="planbody"></div></section>
+<div id="keepmodal" class="hide"><div class="modal card">
+  <h2>Save your code before you close this</h2>
+  <p class="muted">This lives in the browser. If the computer is shared or clears its history, this string is the only way back to your work.</p>
+  <textarea id="keeptext" rows="3" readonly onclick="this.select()"></textarea>
+  <div class="actions"><button class="primary" id="keepok">I’ve saved it</button></div>
+</div></div>
+
+
+
+</main>
+<footer class="wrap"><span id="fexp"></span></footer>
+
+<script>
+const CODES = {
+  M1:{n:"Didn\u2019t know it",f:"B",mc:1,r:"You had no real basis for the choice. This one is content \u2014 go back to the key knowledge point, not to exam technique.",a:{}},
+  M2:{n:"Down to two",f:"B",mc:1,r:"You eliminated two and picked wrong between the last pair. That\u2019s near-miss knowledge, not absent knowledge. Find the pair you confused and write one sentence that separates them.",a:{}},
+  M3:{n:"Misread the question",f:"A",mc:1,r:"You knew the content and answered a different question \u2014 usually a NOT or EXCEPT, or a direction you read backwards. Underline those words before looking at the options.",a:{}},
+  M4:{n:"Calculation slip",f:"C",mc:1,r:"Right method, wrong number. Redo it slowly, then do two more of the same calculation type in one sitting.",a:{}},
+  A1:{n:"Wrong task word",f:"A",r:"Circle the task word in the stem. Write down what that word requires before re-reading your answer. Did you do that, or did you do \u201Cexplain\u201D by default?",a:{"3.1":"RP \u00a72","3.2":"AOS2 \u00a71","3.3":"INT \u00a71 task word list","4.1":"U4A1 rule 3"}},
+  A2:{n:"Half the stem",f:"A",r:"Number the parts of the question in the margin before writing. Two things asked, two things written. Tick them off as you go.",a:{"3.1":"RP \u00a74","3.2":"AOS2 \u00a71","3.3":"INT \u00a75","4.1":"U4A1 checklist"}},
+  A3:{n:"Wrong direction or scope",f:"A",r:"Underline the direction words in the stem \u2014 increase, decrease, change, trend, contractionary. Check every sentence runs that way. One reversed arrow costs the whole chain.",a:{"3.1":"RP \u00a76 shifts vs movements","3.2":"AOS2 \u00a72","3.3":"INT \u00a73","4.1":"U4A1 rule 2"}},
+  A4:{n:"Stimulus ignored",f:"A",r:"Find the data, graph or extract. Pick the one figure that most directly supports your point and write it in with its unit and period.",a:{"3.1":"RP \u00a71","3.2":"AOS2 \u00a710 DUDDS","3.3":"INT Type A rules 1\u20134","4.1":"U4A1 rule 3"}},
+  A5:{n:"Overclaimed",f:"A",r:"Find your strongest claim. Replace \u201Cwill\u201D with \u201Cis likely to\u201D and \u201Cachieves\u201D with \u201Cmoves closer to\u201D. Keep the direction, drop the certainty.",a:{"3.1":"RP \u00a76","3.2":"AOS2 \u00a712","3.3":"INT Type D step 4","4.1":"U4A1 Type 4"}},
+  A6:{n:"Outside scope",f:"A",r:"Cross out anything that doesn\u2019t serve the task word. If the answer is still correct afterwards, you\u2019ve lost nothing but time.",a:{"3.1":"RP \u00a72 scaling table","3.2":"AOS2 \u00a71","3.3":"INT \u00a71","4.1":"U4A1 Type 2 STOP THERE"}},
+  B1:{n:"Definition incomplete",f:"B",r:"Write the definition from memory, closed book. Check it. Note only the element you dropped \u2014 drill that, not the whole thing.",a:{"3.1":"RP \u00a72 step 1","3.2":"AOS2 \u00a74","3.3":"INT Type B","4.1":"U4A1 Type 5 step 1"}},
+  B2:{n:"Wrong term or factor",f:"B",r:"List every factor in that set. Check which one your evidence actually supports. If two seem to fit, the question usually points at one.",a:{"3.1":"RP \u00a76","3.2":"AOS2 \u00a711 language list","3.3":"INT Type B confusion table","4.1":"U4A1 Type 1 traps"}},
+  B3:{n:"Mechanism reversed",f:"B",r:"Draw the chain as arrows, no prose. Check each arrow points the way the theory says. Reversed arrows are almost always mid-chain, not at the ends.",a:{"3.1":"RP \u00a71 four combinations","3.2":"AOS2 \u00a75","3.3":"INT Type C","4.1":"U4A1 Type 1 chain"}},
+  B4:{n:"Half the concept",f:"B",r:"Check whether the concept has parts you left out. Two ways of financing, four channels, four PED factors. If the question said \u201Cone\u201D you\u2019re fine \u2014 if it didn\u2019t, you\u2019re short.",a:{"3.1":"RP \u00a75","3.2":"AOS2 \u00a76","3.3":"INT Type C","4.1":"U4A1 Type 6"}},
+  B5:{n:"Not study design language",f:"B",r:"Find the study design wording and use it. Keep a running list of the ones you approximate \u2014 most people repeat the same three or four.",a:{"3.1":"RP \u00a76","3.2":"AOS2 \u00a711","3.3":"INT Type B","4.1":"U4A1 Type 1 trap 4"}},
+  B6:{n:"Can\u2019t source this",f:"B",r:"If you\u2019re unsure, write the part you do know rather than filling the gap. An invented mechanism costs more than an incomplete one. Find the correct version and write it out once.",a:{}},
+  C1:{n:"Chain stops short",f:"C",r:"Write your answer as arrows only \u2014 no sentences. Count the links against the chain in your guide. The missing step is usually the second-last one.",a:{"3.1":"RP \u00a71 five-point process","3.2":"AOS2 \u00a75 chain","3.3":"INT Type C scaffold","4.1":"U4A1 Type 1 five-link chain"}},
+  C2:{n:"No landing",f:"C",r:"Add a final sentence naming the goal and its benchmark. Not \u201Cthis helps growth\u201D but \u201Cthis moves growth towards the 3\u20133.5% consistent with SSEG\u201D. Name the number.",a:{"3.1":"RP \u00a74 step 5","3.2":"AOS2 \u00a76 benchmarks","3.3":"INT Type C","4.1":"U4A1 Type 1 step 5"}},
+  C3:{n:"But how?",f:"C",r:"Find the sentence where you jumped. Insert the step between: what physically happens, to whom, and which component moves as a result.",a:{"3.1":"RP \u00a72 step 5","3.2":"AOS2 \u00a75","3.3":"INT Type C","4.1":"U4A1 Type 1 step 2"}},
+  C4:{n:"But why?",f:"C",r:"Find the claim. Add \u201Cbecause\u201D and finish the sentence. If you can\u2019t finish it, you don\u2019t have the justification yet.",a:{"3.1":"RP \u00a76","3.2":"AOS2 \u00a79","3.3":"INT Type C assertion table","4.1":"U4A1 Type 3 step 2"}},
+  C5:{n:"No data",f:"C",r:"Add one figure with its unit and period. One good number beats three vague ones. If the question gave you data, use theirs.",a:{"3.1":"RP \u00a72","3.2":"AOS2 \u00a710","3.3":"INT Type A rule 4","4.1":"U4A1 Type 2 step 1"}},
+  C6:{n:"Data not interpreted",f:"C",r:"After each figure, say what it shows. Not \u201Cunemployment is 4.4%\u201D but \u201C4.4% is above the NAIRU, indicating spare capacity\u201D.",a:{"3.1":"RP \u00a71 step 5","3.2":"AOS2 \u00a710 DUDDS","3.3":"INT Type A template","4.1":"U4A1 Type 4 step 3"}},
+  C7:{n:"No example",f:"C",r:"Name a real measure, market, policy or event. Named beats generic every time.",a:{"3.1":"RP \u00a76","3.2":"AOS2 \u00a78","3.3":"INT Type C","4.1":"U4A1 Type 6"}},
+  C8:{n:"Depth doesn\u2019t match marks",f:"C",r:"Count the marks, then count your distinct points. Roughly one per mark on short answers. Under-writing a 6-marker costs more than over-writing a 2-marker \u2014 but both cost.",a:{"3.1":"RP \u00a72 scaling table","3.2":"AOS2 \u00a71","3.3":"INT \u00a71 length guide","4.1":"U4A1 rule 1"}},
+  C9:{n:"Sequencing",f:"C",r:"List your points as a numbered sequence. Check each depends on the one before. If any two could swap without breaking the logic, the order isn\u2019t doing work.",a:{"3.1":"RP \u00a71 component order","3.2":"AOS2 \u00a79","3.3":"INT Type D","4.1":"U4A1 Type 1 worked response"}},
+  C11:{n:"Not linked to each other",f:"C",r:"You\u2019ve explained both parts correctly, then left them sitting side by side. Add the sentence that joins them: when one changes, what happens to the other, and why. Two correct halves with no join score as one.",a:{"3.1":"RP \u00a71 five-point process","3.2":"AOS2 \u00a79 relationship questions","3.3":"INT Type C","4.1":"U4A1 Type 1 chain"}},
+  C10:{n:"Can\u2019t follow this",f:"C",r:"Assessors won\u2019t reconstruct your meaning \u2014 anything they can\u2019t read scores nothing. Rewrite in short sentences, one idea each.",a:{}}
+};
+const FAMILY = {
+  A:{n:"Question comprehension",d:"The economics was fine. You answered a question that wasn\u2019t asked.",c:"#B4530E"},
+  B:{n:"Conceptual",d:"A real gap. Revise it \u2014 don\u2019t just rewrite.",c:"#6B2D7B"},
+  C:{n:"Response construction",d:"You knew it. It didn\u2019t reach the page in a markable form.",c:"#12447E"}
+};
+const KK = {
+"3.1.1":"Relative scarcity, opportunity cost, the PPF","3.1.2":"Economic efficiency \u2014 the four types","3.1.3":"Conditions for a perfectly competitive market","3.1.4":"Law of demand; income and substitution effects","3.1.5":"Demand curve \u2014 movements vs shifts","3.1.6":"Non-price factors affecting demand","3.1.7":"Law of supply; the profit motive","3.1.8":"Supply curve \u2014 movements vs shifts","3.1.9":"Non-price factors affecting supply","3.1.10":"Changes in supply and demand on equilibrium","3.1.11":"Meaning and significance of PED and PES","3.1.12":"PED factors","3.1.13":"PES factors","3.1.14":"Relative prices and resource allocation","3.1.15":"Free markets, efficiency and living standards","3.1.16":"Types of market failure","3.1.17":"Government intervention","3.1.18":"Government failure",
+"3.2.1":"Material and non-material living standards","3.2.2":"Five-sector circular flow model","3.2.3":"The business cycle","3.2.4":"Aggregate demand and its factors","3.2.5":"Aggregate supply and its factors","3.2.6":"The goal of strong and sustainable growth","3.2.7":"Measuring growth with real GDP","3.2.8":"Consequences of not achieving SSEG","3.2.9":"Full employment and the NAIRU","3.2.10":"Labour force classifications","3.2.11":"Participation, unemployment and underutilisation rates","3.2.12":"Cyclical and structural unemployment","3.2.13":"Consequences of not achieving full employment","3.2.14":"The goal of low and stable inflation","3.2.15":"Inflation, disinflation and deflation","3.2.16":"CPI; headline and underlying inflation","3.2.17":"Demand and cost inflation","3.2.18":"Consequences of not achieving low inflation","3.2.19":"AD and AS factors and goal achievement",
+"3.3.1":"Gains from international trade","3.3.2":"Balance of payments and its components","3.3.3":"Influences on the current account balance","3.3.4":"Net foreign debt and net foreign equities","3.3.5":"The exchange rate","3.3.6":"The terms of trade","3.3.7":"International competitiveness","3.3.8":"ToT, exchange rate and competitiveness on goals",
+"4.1.2":"Sources of government revenue","4.1.4":"Budget outcomes","4.1.8":"Automatic stabilisers","4.1.9":"Discretionary stabilisers","4.1.11":"Stance of budgetary policy","4.1.13":"Strengths and weaknesses of budgetary policy","4.1.14":"Role of the RBA","4.1.15":"Conventional monetary policy","4.1.16":"Unconventional monetary policy","4.1.17":"The transmission mechanism","4.1.18":"Stance of monetary policy","4.1.19":"Monetary policy over the past two years","4.1.20":"Strengths and weaknesses of monetary policy",
+"4.2.1":"Why aggregate supply policies complement demand policies","4.2.2":"How AS policies improve supply-side conditions",
+"4.2.3":"A budgetary AS policy \u2014 tax reform, training, R&D, subsidies, infrastructure","4.2.4":"Skilled immigration policy",
+"4.2.5":"Trade liberalisation","4.2.6":"A market-based environmental policy"
+};
+
+/* Question types — Megan's practice folders. A question carries its type and
+   its key knowledge, so a weak type can be reported at topic granularity:
+   "government intervention questions, specifically on government failure".
+   Questions with no matching folder stay untagged rather than being forced in. */
+const QTYPE = {
+ fivepoint:  {n:"5 point process"},
+ aud:        {n:"AUD"},
+ calc:       {n:"Calculations"},
+ define:     {n:"Definitions"},
+ trends:     {n:"Describe trends"},
+ difference: {n:"Difference"},
+ elasticity: {n:"Elasticity"},
+ evaluate:   {n:"Evaluate"},
+ factors:    {n:"Factors"},
+ govint:     {n:"Government intervention"},
+ impact:     {n:"Impact"},
+ refdata:    {n:"Refer to data"},
+ relationship:{n:"Relationship"},
+ resalloc:   {n:"Resource allocation"},
+ stabiliser: {n:"Stabilisers"},
+ structural: {n:"Structural"},
+ tot:        {n:"Terms of trade"},
+ transmission:{n:"Transmission mechanism"}
+};
+
+const SKILLS={
+ calc:{n:"Calculating economic indicators",d:"Percentage change, relative price, participation and unemployment rates.",
+   w:"Worth few marks across your SACs, but it appears on the exam and carries more there."},
+ diagram:{n:"Constructing and interpreting diagrams",d:"Supply and demand, the PPF, shifts and movements.",
+   w:"Only a handful of SAC marks, but exam diagram questions are worth three to four."},
+ data:{n:"Using data sources",d:"Quoting, comparing and interpreting figures from a stimulus.",
+   w:"Every data question on the exam depends on this."}
+};
+const SACS = [
+ {id:"aos1a",n:"U3 AOS1 \u00b7 Markets and elasticity",g:"3.1",q:[
+  ["MC1",1,"Substitute price rise \u2192 market for A",["3.1.6","3.1.10"],0,0,"factors"],["MC2",1,"Relative price of apples",["3.1.14"],"calc",0,"calc"],
+  ["MC3",1,"The price mechanism",["3.1.14","3.1.15"],0,0,"resalloc"],["MC4",1,"Expansion in demand",["3.1.5"],0,0,"define"],
+  ["MC5",1,"Conditions of perfect competition",["3.1.3"],0,0,"define"],["1a",2,"A basic economic question",["3.1.1"],0,0,"define"],
+  ["1b",3,"Opportunity cost and the PPF",["3.1.1"],0,0,"define"],["2",2,"One PES factor \u2014 cotton",["3.1.11","3.1.13"],0,0,"elasticity"],
+  ["3a",1,"Factor changing the milk market",["3.1.6"],0,0,"factors"],["3b",3,"Profit motive and relative prices",["3.1.7","3.1.14"],0,0,"resalloc"],
+  ["4a",3,"Construct a supply and demand diagram",["3.1.10"],"diagram",0,0],["4b",2,"Equilibrium; left shift of supply",["3.1.9","3.1.10"],"diagram",0,"factors"],
+  ["4c",3,"Adjustment to a new equilibrium",["3.1.10"],0,0,"fivepoint"],["5",2,"Renewables \u2192 PED for coal electricity",["3.1.12"],0,0,"elasticity"]]},
+ {id:"aos1b",n:"U3 AOS1 \u00b7 Market failure and intervention",g:"3.1",q:[
+  ["MC1",1,"External costs of oil products",["3.1.16"],0,0,0],["MC2",1,"Price ceiling below equilibrium",["3.1.17","3.1.10"],0,0,"govint"],
+  ["MC3",1,"Not an example of market failure",["3.1.16"],0,0,0],["MC4",1,"Intervention and living standards",["3.1.17","3.1.15"],0,0,"govint"],
+  ["MC5",1,"School leaving age \u2192 efficiency",["3.1.2"],0,0,0],["1a",2,"Asymmetric information",["3.1.16"],0,0,0],
+  ["1b",3,"Intervention for asymmetric information",["3.1.17"],0,0,"govint"],["2a",3,"Common access resources vs public goods",["3.1.16"],0,0,"difference"],
+  ["2b",2,"Intertemporal efficiency",["3.1.16","3.1.2"],0,0,0],["3",3,"Indirect tax or subsidy for externalities",["3.1.17","3.1.16"],0,0,"govint"],
+  ["4a",1,"Diagram \u2014 \u2018No Jab, No Play\u2019",["3.1.17"],"diagram",0,0],["4b",3,"Vaccinations and legislation",["3.1.16","3.1.17"],0,0,"govint"],
+  ["5",3,"Government failure",["3.1.18"],0,0,"govint"],["6",5,"Evaluate free markets",["3.1.15"],0,0,"evaluate"]]},
+ {id:"aos2",n:"U3 AOS2 \u00b7 Domestic macroeconomic goals",g:"3.2",q:[
+  ["MC1",1,"Unemployment and GDP data",["3.2.3","3.2.7"],0,0,"refdata"],["MC2",1,"Expansion in the business cycle",["3.2.3","3.2.4"],0,0,0],
+  ["MC3",1,"Participation rate calculation",["3.2.11"],"calc",0,"calc"],["MC4",1,"Structural unemployment",["3.2.12"],0,0,"structural"],
+  ["MC5",1,"Circular flow of income",["3.2.2"],0,0,0],["1a",3,"Oil price \u2192 low and stable inflation",["3.2.5","3.2.17","3.2.14"],0,0,"impact"],
+  ["1b",3,"Headline vs underlying inflation",["3.2.16"],0,0,"difference"],["2a",4,"Participation rate \u2192 capacity and SSEG",["3.2.11","3.2.5","3.2.6"],0,0,"impact"],
+  ["2b",3,"Evaluate the unemployment rate",["3.2.11","3.2.10"],0,0,"evaluate"],["3",4,"Consumer confidence and the cycle",["3.2.3","3.2.4"],0,0,"relationship"],
+  ["4",4,"Assess SSEG and living standards",["3.2.19","3.2.6","3.2.1"],0,0,"evaluate"],["5",4,"Exchange rate \u2192 inflation",["3.2.5","3.2.19"],0,0,"aud"]]},
+ {id:"aos3",n:"U3 AOS3 \u00b7 International economics",g:"3.3",q:[
+  ["MC1",1,"Which is not a credit entry in the balance of payments",["3.3.2"],0,0,0],
+  ["MC2",1,"Calculate the current account balance",["3.3.2"],"calc",0,"calc"],
+  ["MC3",1,"Net foreign debt and liabilities \u2014 which is false",["3.3.4"],0,0,0],
+  ["MC4",1,"Dividends from foreign investment \u2014 where counted",["3.3.2"],0,0,0],
+  ["MC5",1,"What international relationships typically involve",["3.3.1","3.3.2"],0,0,0],
+  ["1a",4,"Terms of trade trend and a factor",["3.3.6"],0,0,"tot"],["1b",3,"Terms of trade \u2192 SSEG",["3.3.8"],0,0,"tot"],
+  ["2a",2,"Structural component of the CAB",["3.3.3"],"data",0,"factors"],["2b",3,"Current account and net foreign liabilities",["3.3.3","3.3.4"],"data",0,"relationship"],
+  ["3a",4,"Real TWI trend and a factor",["3.3.5"],0,0,"aud"],["3b",3,"TWI \u2192 low and stable inflation",["3.3.8","3.3.5"],0,0,"aud"],
+  ["4",4,"A competitiveness factor \u2192 full employment",["3.3.7","3.3.8"],0,0,"factors"],
+  ["5",2,"One way trade has contributed to living standards",["3.3.1"],0,0,"impact"]]},
+ {id:"mp",n:"U4 AOS1 \u00b7 Monetary policy",g:"4.1",q:[
+  ["MC1",1,"Why contractionary policy promotes low inflation",["4.1.18","4.1.17"],0,0,"transmission"],
+  ["MC2",1,"Not an objective of monetary policy",["4.1.14"],0,0,0],
+  ["MC3",1,"Effect of loosening monetary policy",["4.1.15","4.1.18"],0,0,"transmission"],
+  ["MC4",1,"The medium-term policy focus",["4.1.14"],0,0,0],
+  ["MC5",1,"Events prompting a more restrictive stance",["4.1.18","4.1.19"],0,0,"factors"],
+  ["MC6",1,"What impairs an expansionary stance",["4.1.20"],0,0,0],
+  ["1a",4,"Two indicators influencing the setting",["4.1.19"],0,0,"trends"],["1b",2,"Cash rate \u2192 interest rates",["4.1.15"],0,0,"transmission"],
+  ["2",5,"Two transmission mechanisms \u2192 SSEG",["4.1.17","4.1.18"],0,0,"transmission"],["3",3,"Contractionary policy and full employment",["4.1.18","4.1.20"],0,0,"impact"],
+  ["4",2,"An unconventional tool",["4.1.16"],0,0,0],["5",8,"Analyse effectiveness and living standards",["4.1.19","4.1.20"],0,0,"evaluate"]]}
+,
+ {id:"bp",n:"U4 AOS1 \u00b7 Budgetary policy",g:"4.1",q:[
+  ["MC1",1,"Government current expenditure (G1)",["4.1.3"],0,0,0],
+  ["MC2",1,"Crowding out of the external sector",["4.1.6"],0,0,0],
+  ["MC3",1,"The structural component of the budget",["4.1.9"],0,0,"stabiliser"],
+  ["MC4",1,"Net debt versus gross debt",["4.1.7"],0,0,0],
+  ["MC5",1,"A source of non-tax revenue",["4.1.2"],0,0,0],
+  ["MC6",1,"Which tax is regressive",["4.1.2"],0,0,0],
+  ["1a",3,"Two parameters \u2192 the estimated budget outcome",["4.1.4","4.1.2"],"data",0,"refdata"],
+  ["1b",3,"Estimated versus actual budget outcome",["4.1.4"],0,0,"difference"],
+  ["2a",4,"Discretionary and automatic stabilisers \u2192 the outcome",["4.1.8","4.1.9","4.1.10"],0,0,"stabiliser"],
+  ["2b",4,"Financing by borrowing \u2192 public debt; RBA or investors",["4.1.6","4.1.7"],0,0,0],
+  ["3",4,"Stance of the 2026\u201327 Budget \u2192 low and stable inflation",["4.1.11","4.1.12"],"data",0,"impact"],
+  ["4",6,"One strength and one weakness \u2192 SSEG, full employment, living standards",["4.1.13","4.1.12"],0,0,"evaluate"]]},
+ {id:"as",n:"U4 AOS2 \u00b7 Aggregate supply policies",g:"4.2",soon:1,q:[
+  ["MC1",1,"Which policy affects AS differently",["4.2.2"],0,0,"factors"],
+  ["MC2",1,"Immigration policy \u2014 least correct",["4.2.4"],0,0,0],
+  ["MC3",1,"AS policies compared with AD policies",["4.2.1"],0,0,"difference"],
+  ["MC4",1,"AS policies \u2192 full employment",["4.2.2"],0,0,"impact"],
+  ["MC5",1,"Why AS policies are justified",["4.2.1"],0,0,0],
+  ["MC6",1,"NOT a likely outcome of AS policies",["4.2.2"],0,0,0],
+  ["MC7",1,"Productivity up, wages unchanged \u2192 unit labour costs",["4.2.2"],0,0,"impact"],
+  ["MC8",1,"A high carbon price in the short term",["4.2.6"],0,0,"impact"],
+  ["MC9",1,"Reducing structural unemployment over time",["4.2.3"],0,0,"structural"],
+  ["MC10",1,"A limitation of income tax reform",["4.2.3"],0,0,0],
+  ["1a",2,"Productivity, resources or costs \u2192 competitiveness",["4.2.2"],0,0,"impact"],
+  ["1b",3,"Higher growth without inflationary pressure",["4.2.1"],0,0,"impact"],
+  ["2a",4,"One tax reform \u2192 full employment",["4.2.3"],0,0,"impact"],
+  ["2b",6,"Market-based environmental policy \u2014 short and long term",["4.2.6"],0,0,"impact"],
+  ["3",5,"Skilled migration \u2192 low inflation",["4.2.4"],0,0,"impact"],
+  ["P2-1a",4,"Part 2 \u00b7 Trade liberalisation \u2192 allocation of resources and growth",["4.2.5"],"data",0,"resalloc"],
+  ["P2-1b",3,"Part 2 \u00b7 Short-term and long-term effects on living standards",["4.2.5"],"data",0,"impact"],
+  ["P2-1c",3,"Part 2 \u00b7 Higher tariffs \u2192 aggregate supply and competitiveness",["4.2.5","4.2.2"],"data",0,"impact"]]}
+];
+
+/* VCAA exams. Section B only — multiple choice lives in the practice tool,
+   which holds option-level distributions and serves questions individually.
+   Sixth field on each question is the state average, % of marks earned. */
+const EXAMS = [
+ {id:"v2025",n:"VCAA 2025 \u00b7 Section B",g:"exam",exam:1,q:[
+  ["1a",2,"Characteristics of public goods",["3.1.16"],0,70,0],
+  ["1b",3,"Direct provision addressing market failure",["3.1.17"],0,47,"govint"],
+  ["2a",3,"Non-price factors in the coffee market",["3.1.6","3.1.9"],0,67,"factors"],
+  ["2b",3,"Why elasticity of supply changes over time",["3.1.13"],0,43,"elasticity"],
+  ["3a",2,"Meaning of strong and sustainable growth",["3.2.6"],0,75,"define"],
+  ["3b",3,"Why imports are removed from the AD equation",["3.2.4"],0,57,0],
+  ["3c",3,"Climate conditions and cost inflation",["3.2.17","3.2.5"],0,73,"impact"],
+  ["3d",6,"Evaluate full employment \u2192 living standards",["3.2.19","3.2.9","3.2.1"],0,55,"evaluate"],
+  ["4a",2,"Meaning of the terms of trade",["3.3.6"],0,65,"tot"],
+  ["4b",2,"Factor accounting for the ToT change",["3.3.6"],0,50,"tot"],
+  ["4c",3,"ToT movement \u2192 low and stable inflation",["3.3.8"],0,43,"tot"],
+  ["4d",5,"Tariffs and resource allocation",["3.3.1","3.1.14"],0,48,"resalloc"],
+  ["5a",2,"A weakness of monetary policy \u2192 SSEG",["4.1.20"],0,60,"evaluate"],
+  ["5b",5,"MP stance \u2192 AD, full employment, living standards",["4.1.19"],0,60,"impact"],
+  ["6a",2,"Factor reducing the budget deficit",["4.1.2","4.1.3","4.1.4"],0,45,"factors"],
+  ["6b",4,"Discretionary stabiliser \u2192 AD \u2192 SSEG",["4.1.9"],0,62,"stabiliser"],
+  ["6c",6,"Strengths and weaknesses of BOTH policies",["4.1.13","4.1.20"],0,38,"evaluate"],
+  ["7a",5,"Skilled migration \u2192 AS \u2192 low inflation",["4.2.4"],0,58,"impact"],
+  ["7b",4,"Market-based environmental policy",["4.2.6"],0,62,"impact"]]},
+ {id:"v2024",n:"VCAA 2024 \u00b7 Section B",g:"exam",exam:1,q:[
+  ["1",3,"Opportunity cost and relative scarcity",["3.1.1"],0,70,"define"],
+  ["2a",4,"D&S diagram \u2014 migration shifting supply",["3.1.9"],"diagram",70,0],
+  ["2b",3,"Population growth shifting demand",["3.1.6"],0,63,"factors"],
+  ["2c",4,"Skilled migration as an AS policy",["4.2.4"],0,70,"impact"],
+  ["3a",2,"Trend in long-term unemployment",["3.2.10"],0,90,"trends"],
+  ["3b",3,"Hidden versus long-term unemployment",["3.2.10"],0,43,"difference"],
+  ["3c",3,"A consequence of not achieving full employment",["3.2.13"],0,67,"impact"],
+  ["4a",2,"Meaning of the NAIRU",["3.2.9"],0,65,"define"],
+  ["4b",2,"A contemporary AS factor \u2192 inflation",["3.2.5","3.2.17"],0,65,"factors"],
+  ["4c",5,"MP stance and one transmission mechanism",["4.1.17","4.1.18"],0,58,"transmission"],
+  ["4d",6,"Applied judgement \u2014 unemployment and inflation",["3.2.19"],0,57,"evaluate"],
+  ["5a",2,"Structural factor decreasing the current account",["3.3.3"],0,35,"factors"],
+  ["5b",2,"Two balance of payments transactions",["3.3.2"],0,35,0],
+  ["5c",2,"Factor affecting demand or supply of the AUD",["3.3.5"],0,70,"aud"],
+  ["5d",4,"Trade liberalisation \u2192 SSEG",["3.3.1"],0,57,"impact"],
+  ["6a",3,"Budget stance and its effect on AD",["4.1.11"],0,60,"impact"],
+  ["6b",4,"One automatic stabiliser \u2192 budget outcome",["4.1.8"],0,55,"stabiliser"],
+  ["6c",2,"Financing a deficit or using a surplus",["4.1.6"],0,65,0],
+  ["6d",4,"A strength of BOTH policies \u2192 AD \u2192 SSEG",["4.1.13","4.1.20"],0,50,"evaluate"],
+  ["6e",5,"One AS policy \u2192 AS factor \u2192 goal",["4.2.2"],0,66,"impact"]]},
+ {id:"v2023",n:"VCAA 2023 \u00b7 Section B",g:"exam",exam:1,q:[
+  ["1a",2,"Business cycle stage from data",["3.2.3"],0,70,"refdata"],
+  ["1b",4,"One AD and one AS factor \u2192 growth",["3.2.4","3.2.5"],0,60,"factors"],
+  ["1c",4,"Strong and sustainable growth applied",["3.2.6"],0,62,"define"],
+  ["1d",2,"Headline and underlying inflation",["3.2.16"],0,55,"difference"],
+  ["2a",4,"Falling tariffs \u2192 implications",["3.3.1"],0,57,"impact"],
+  ["2b",2,"Factor behind the falling AUD",["3.3.5"],0,55,"aud"],
+  ["2c",4,"Depreciation effects",["3.3.5","3.3.8"],0,55,"aud"],
+  ["3a",3,"Budget deficit trend",["4.1.4","4.1.5"],0,60,"trends"],
+  ["3b",6,"Unemployment AND inflation \u2192 policy",["3.2.19"],0,45,"evaluate"],
+  ["3c",4,"Discretionary stabiliser from the Budget",["4.1.9"],0,55,"stabiliser"],
+  ["3d",3,"A weakness of budgetary policy",["4.1.13"],0,57,"evaluate"],
+  ["4a",4,"Two non-price factors \u2192 house prices",["3.1.6"],0,60,"factors"],
+  ["4b",4,"Non-price supply factor \u2192 left shift",["3.1.9","3.1.10"],"diagram",48,"fivepoint"],
+  ["4c",3,"Market failure in the scenario",["3.1.16"],0,50,0],
+  ["4d",4,"Asset prices and wealth channel",["4.1.17"],0,45,"transmission"],
+  ["5a",3,"Non-inflationary economic growth",["3.2.6","3.2.14"],0,43,"define"],
+  ["5b",4,"Skilled immigration, productivity, competitiveness",["4.2.4"],0,62,"impact"],
+  ["5c",5,"Environmental policy \u2192 intertemporal efficiency",["4.2.6","3.1.2"],0,58,"impact"]]}
+];
+
+const BLIND = [
+ {kk:"3.3.1",risk:"high",why:"Examined all three years. State never above 57%.",qs:"2024 Q5d \u00b7 2023 Q2a \u00b7 2022 Q3d"},
+ {kk:"3.3.2",risk:"high",why:"2024 Q5b averaged 35% \u2014 equal worst question in three years.",qs:"2024 Q5b"},
+ {kk:"3.2.13",risk:"med",why:"Examined 2024 at 67%. Manageable, but untested here.",qs:"2024 Q3c"},
+ {kk:"3.2.9",risk:"med",why:"Examined 2024 at 65%.",qs:"2024 Q4a"},
+ {kk:"3.2.18",risk:"med",why:"Not examined since 2022, when the state averaged 35%.",qs:"2022 Q1d"},
+ {kk:"3.1.3",risk:"low",why:"Last examined 2020, handled well at 80%.",qs:"2020 Q4a"},
+ {kk:"3.2.8",risk:"low",why:"Not directly examined 2023\u201325.",qs:"\u2014"},
+ {kk:"3.2.15",risk:"low",why:"Not examined 2023\u201325.",qs:"\u2014"},
+ {kk:"3.1.4",risk:"low",why:"Assessed indirectly through non-price factors.",qs:"\u2014"},
+ {kk:"3.1.8",risk:"low",why:"Assessed indirectly through non-price factors.",qs:"\u2014"},
+ {kk:"4.1.1",risk:"low",why:"Why AD policies are needed \u2014 not directly examined 2023\u201325.",qs:"\u2014"},
+ {kk:"4.1.14",risk:"low",why:"Not directly examined 2023\u201325.",qs:"\u2014"}
+];
+const BANK = {
+"3.1.2":[["2020","3a",4,53],["2022","4d",3,47]],"3.1.6":[["2024","2a",4,70],["2024","2b",3,63],["2023","4a",4,60]],
+"3.1.9":[["2023","4b",4,48],["2024","2a",4,70]],"3.1.10":[["2023","4b",4,48]],"3.1.13":[["2025","2b",3,43]],
+"3.1.14":[["2020","4b",5,58],["2022","4c",6,57]],"3.1.15":[["2020","4c",4,60]],
+"3.1.16":[["2023","4c",3,50],["2022","4b",3,47],["2020","4d",6,58]],
+"3.1.17":[["2022","4c",6,57],["2022","4d",3,47],["2025","1b",3,47]],
+"3.2.4":[["2023","1b",4,60],["2022","1c",4,63]],"3.2.5":[["2023","1b",4,60],["2024","4b",2,65]],
+"3.2.6":[["2023","1c",4,62],["2023","5a",3,43]],"3.2.10":[["2024","3b",3,43]],"3.2.11":[["2024","3a",2,90]],
+"3.2.16":[["2023","1d",2,55]],"3.2.17":[["2022","1b",3,60]],
+"3.2.19":[["2024","4d",6,57],["2023","3b",6,45],["2022","1c",4,63]],
+"3.3.1":[["2024","5d",4,57],["2023","2a",4,57],["2022","3d",4,63]],"3.3.3":[["2024","5a",2,35]],
+"3.3.5":[["2024","5c",2,70],["2023","2b",2,55],["2022","1f",4,48]],"3.3.6":[["2025","4b",2,50]],
+"3.3.8":[["2023","2c",4,55],["2022","1f",4,48],["2020","3c",6,62]],
+"4.1.8":[["2024","6b",4,55],["2022","2b",4,50]],"4.1.9":[["2023","3c",4,55],["2022","2c",4,50],["2020","2c",6,62]],
+"4.1.11":[["2024","6a",3,60]],"4.1.13":[["2024","6d",4,50],["2023","3d",3,57],["2022","2d",4,48]],
+"4.1.15":[["2020","1a",4,58]],"4.1.17":[["2024","4c",5,58],["2023","4d",4,45],["2022","1f",4,48]],
+"4.1.18":[["2022","1e",4,65]],"4.1.20":[["2024","6d",4,50],["2025","5a",2,60]]
+};
+const TASKS = {
+ M1:{id:"T-B1",n:"Blank page",t:"5 minutes",d:"Write what the key knowledge point says from memory, nothing in front of you. Check. Note only what was missing."},
+ M2:{id:"T-B2",n:"Confusion pairs",t:"10 minutes",d:"Name the two options you were stuck between. Write one sentence that separates them, then a sentence using each correctly."},
+ M3:{id:"T-A3",n:"Arrow check",t:"5 minutes",d:"Take ten multiple choice stems. Underline every NOT, EXCEPT, LEAST and direction word before reading any options."},
+ M4:{id:"T-M4",n:"Calculation run",t:"10 minutes",d:"Redo the calculation slowly, writing each step. Then do two more of the same type back to back."},
+ C1:{id:"T-C1",n:"Skeleton drill",t:"90 seconds",d:"Write the chain as arrows only \u2014 no sentences. Count your links against the guide. Repeat daily for a week."},
+ C2:{id:"T-C2",n:"Landing drill",t:"5 minutes",d:"Take three answers. Write only the final sentence for each: the goal, its benchmark, the direction of movement."},
+ C3:{id:"T-C3",n:"Insert the middle",t:"10 minutes",d:"Find where you jumped from cause to effect. Write the missing sentence. Then find the same jump in two other answers."},
+ C4:{id:"T-C4",n:"Because test",t:"10 minutes",d:"Read sentence by sentence. Every claim gets \u201Cbecause\u201D added and finished. The ones you can\u2019t finish are where the marks went."},
+ C5:{id:"T-C5",n:"Stimulus insert",t:"5 minutes",d:"Take a question with data you ignored. Add one figure, with unit and period, to the point it supports."},
+ C6:{id:"T-C6",n:"So-what pass",t:"5 minutes",d:"Find every figure in your answer. After each, add what it shows relative to a benchmark or trend."},
+ C7:{id:"T-C7",n:"Name it",t:"5 minutes",d:"Replace every generic reference with a specific one. \u201CA government policy\u201D becomes the actual policy."},
+ C8:{id:"T-C8",n:"Mark match",t:"5 minutes",d:"Count marks, count your distinct points, compare. Do it for five answers and your pattern shows."},
+ C9:{id:"T-C9",n:"Reorder",t:"10 minutes",d:"Number your points. Rewrite in dependency order. Check nothing forward-references."},
+ C11:{id:"T-C11",n:"Join the halves",t:"5 minutes",d:"Find the two things you described separately. Write one sentence that starts \u201Cas X rises\u2026\u201D and finishes with what happens to Y and why. That sentence is the mark."},
+ C10:{id:"T-C10",n:"Rewrite short",t:"10 minutes",d:"Rewrite an unclear answer in sentences of fifteen words or fewer, one idea each. Read it aloud."},
+ B1:{id:"T-B1",n:"Blank page",t:"5 minutes",d:"Write the definition from memory with nothing in front of you. Check. Note only the missing element. Repeat in two days, then five."},
+ B2:{id:"T-B2",n:"Confusion pairs",t:"10 minutes",d:"Take a pair you mix up. Write one sentence that distinguishes them, then a sentence using each correctly."},
+ B3:{id:"T-C1",n:"Skeleton drill",t:"90 seconds",d:"Write the chain as arrows only. Check each arrow points the way the theory says."},
+ B4:{id:"T-B4",n:"Component list",t:"5 minutes",d:"List all parts of the concept from memory \u2014 four channels, four types of market failure. Check for gaps."},
+ B5:{id:"T-B5",n:"Term swap",t:"5 minutes",d:"Find where you approximated. Write the study design term next to it. Keep a running list."},
+ B6:{id:"T-B1",n:"Blank page",t:"5 minutes",d:"Write the correct version of the concept from memory, then check it."},
+ A1:{id:"T-A1",n:"Task word sort",t:"10 minutes",d:"Take ten past questions. For each write only the task word and the shape it demands. Don\u2019t answer them."},
+ A2:{id:"T-A2",n:"Two-part audit",t:"10 minutes",d:"Take ten past questions. Number the parts of each. Don\u2019t answer them. Every question below 45% statewide 2023\u201325 asked for two things."},
+ A3:{id:"T-A3",n:"Arrow check",t:"5 minutes",d:"Underline every direction word in the stem. Check every sentence of your answer runs the same way."},
+ A4:{id:"T-C5",n:"Stimulus insert",t:"5 minutes",d:"Take a question with data you ignored. Add one figure with unit and period."},
+ A5:{id:"T-A5",n:"Hedge audit",t:"5 minutes",d:"Find your strongest claims. Rewrite each to keep the direction and drop the certainty."},
+ A6:{id:"T-A6",n:"Scope prune",t:"10 minutes",d:"Take a long answer. Cross out everything that doesn\u2019t serve the task word. Check it still scores the same."}
+};
+
+/* ============ storage: artifact API, then localStorage, then memory ============ */
+const MEM = {};
+const Store = {
+  async get(k){
+    try{ if(window.storage){ const r=await window.storage.get(k); return r?r.value:null; } }catch(e){}
+    try{ return localStorage.getItem(k); }catch(e){}
+    return MEM[k]||null;
+  },
+  async set(k,v){
+    try{ if(window.storage){ await window.storage.set(k,v); return; } }catch(e){}
+    try{ localStorage.setItem(k,v); return; }catch(e){}
+    MEM[k]=v;
+  }
+};
+
+let S = null;
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const KEY = cw => "econ2026:"+cw;
+const on = (sel,ev,fn)=>{const el=$(sel); if(el) el.addEventListener(ev,fn);};
+
+const ALL = () => SACS.concat(typeof EXAMS!=="undefined"?EXAMS:[]);
+
+function blank(cw){ return {v:1, cw, e:{}, pred:null, seen:false}; }
+
+/* The portal sets the code word once and passes it on. Honour it and skip
+   the start screen, so this reads as a tool inside the portal, not a second
+   sign-in. Opened directly, it still asks. */
+async function fromPortal(){
+  let cw="";
+  try{ cw=(new URLSearchParams(location.search).get("cw")||"").trim().toLowerCase().replace(/\s+/g,""); }catch(e){}
+  if(cw.length<3) return false;
+  const raw = await Store.get(KEY(cw));
+  S = raw ? JSON.parse(raw) : blank(cw);
+  if(!S.e) S.e={};              // record may have been created by another tool
+  begin();
+  return true;
+}
+
+/* ============ nav ============ */
+function show(id){
+  ["start","enter","predict","plan","teacher"].forEach(k=>{const el=$("#s-"+k); if(el) el.classList.add("hide");});
+  const t=$("#s-"+id); if(t) t.classList.remove("hide");
+  $$("#nav button").forEach(b=>b.classList.toggle("on", b.dataset.go===id));
+  try{window.scrollTo(0,0);}catch(e){}
+}
+$$("#nav button").forEach(b=>b.onclick=()=>{
+  const g=b.dataset.go;
+  if(g==="plan"){ openPlan(); } else show(g);
+});
+
+/* ============ start ============ */
+on("#go","click", async ()=>{
+  const cw = $("#cw").value.trim().toLowerCase().replace(/\s+/g,"");
+  if(cw.length<3){ $("#cwerr").textContent="Use at least three characters."; $("#cwerr").classList.remove("hide"); return; }
+  const raw = await Store.get(KEY(cw));
+  S = raw ? JSON.parse(raw) : blank(cw);
+  begin();
+});
+on("#cw","keydown",e=>{ if(e.key==="Enter") $("#go").click(); });
+
+on("#impgo","click", ()=>{
+  try{
+    const t=$("#imp").value.trim().replace(/^ECON1:/,"");
+    const o=JSON.parse(decodeURIComponent(escape(atob(t))));
+    if(!o.cw) throw 0;
+    S=o; save(); begin();
+  }catch(e){ $("#cwerr").textContent="That backup code didn\u2019t read. Check you copied all of it."; $("#cwerr").classList.remove("hide"); }
+});
+
+function begin(){
+  $("#who").textContent = S.cw;
+  const nv=$("#nav"); if(nv) nv.classList.remove("hide");
+  renderPick(); show("enter"); footer();
+}
+/* Branches this tool owns. Everything else in the record belongs to another
+   portal tool and must survive our write. */
+const MINE = ["v","cw","e","pred","seen","seenAt","kept","plan"];
+
+async function save(){
+  try{
+    const raw = await Store.get(KEY(S.cw));
+    if(raw){
+      const cur = JSON.parse(raw);
+      Object.keys(cur).forEach(k=>{ if(MINE.indexOf(k)===-1) S[k]=cur[k]; });
+    }
+  }catch(e){}
+  await Store.set(KEY(S.cw), JSON.stringify(S));
+  footer();
+}
+
+/* ============ enter ============ */
+function renderPick(){
+  const card = s=>{
+    if(s.soon) return `<button class="sacbtn soon" disabled>
+      <span><b>${s.n}</b></span><span class="st">Not marked yet</span></button>`;
+    const e=S.e[s.id];
+    const tot=s.q.reduce((a,q)=>a+q[1],0);
+    const st = e ? `${Object.values(e.q).reduce((a,x)=>a+x.got,0)} / ${tot}` : `${s.q.length} questions \u00b7 ${tot} marks`;
+    return `<button class="sacbtn" data-sac="${s.id}">
+      <span><b>${s.n}</b></span>
+      <span class="st ${e?"done":""}">${e?"\u2713 "+st:st}</span></button>`;
+  };
+  const ex = typeof EXAMS!=="undefined" ? EXAMS : [];
+  $("#sacpick").innerHTML =
+      `<h2 class="sec" style="margin-top:6px">Your SACs</h2>` + SACS.map(card).join("")
+    + (ex.length ? `<h2 class="sec">Practice exams</h2>
+        <p class="lede sm" style="margin:-6px 0 14px">Section B only \u2014 multiple choice is in the practice tool.
+        Every question here carries the state average, so you can see whether a low mark is your gap or the whole state\u2019s.</p>`
+        + ex.map(card).join("") : "");
+  $$(".sacbtn[data-sac]").forEach(b=>b.onclick=()=>openSac(b.dataset.sac));
+  $("#sacform").classList.add("hide");
+  $("#sacpick").classList.remove("hide");
+}
+
+let CUR=null;
+function openSac(id){
+  CUR = ALL().find(s=>s.id===id);
+  const e = S.e[id];
+  $("#c-time").value = e?e.cond.time:"full";
+  $("#c-mat").value  = e?e.cond.mat:"closed";
+  $("#c-mark").value = e?e.cond.mark:"teacher";
+  condNote();
+
+  const mk = f => Object.keys(CODES).filter(f).map(c=>`<option value="${c}">${c} \u00b7 ${CODES[c].n}</option>`).join("");
+  const optsMC = mk(c=>CODES[c].mc), optsSA = mk(c=>!CODES[c].mc);
+  $("#qrows").innerHTML = CUR.q.map(q=>{
+    const v = e && e.q[q[0]] ? e.q[q[0]] : null;
+    const isMC = /^MC/.test(q[0]);
+    const opts = isMC ? optsMC : optsSA;
+    return `<tr data-q="${q[0]}" data-max="${q[1]}" data-mc="${isMC?1:0}">
+      <td><span class="qid">${q[0]}</span></td>
+      <td class="desc">${q[2]}</td>
+      <td><span class="mkin"><input type="number" min="0" max="${q[1]}" step="1" inputmode="decimal" aria-label="Mark out of ${q[1]} for question ${q[0]}" value="${v?v.got:""}"><span>/ ${q[1]}</span></span></td>
+      <td><span class="codesel">
+        <select class="c1"><option value="">\u2014</option>${opts}</select>
+        ${isMC?"":`<select class="c2"><option value="">\u2014</option>${opts}</select>`}
+      </span></td></tr>`;
+  }).join("");
+
+  $$("#qrows tr").forEach(tr=>{
+    const q=tr.dataset.q, v = e && e.q[q] ? e.q[q] : null;
+    const c2=tr.querySelector(".c2");
+    if(v){ tr.querySelector(".c1").value=v.codes[0]||""; if(c2) c2.value=v.codes[1]||""; }
+    const inp=tr.querySelector("input");
+    const mark=()=>{
+      const mx=Number(tr.dataset.max);
+      let n=parseFloat(inp.value);
+      if(!isNaN(n)){
+        n=Math.round(n);
+        if(n>mx) n=mx; if(n<0) n=0;
+        if(String(n)!==inp.value) inp.value=n;
+      }
+      const lost = mx - (parseFloat(inp.value)||0);
+      const need = tr.dataset.mc==="1" ? 1 : 2;
+      tr.classList.toggle("lost", inp.value!=="" && lost>=need);
+    };
+    inp.addEventListener("input",mark); mark();
+  });
+
+  $("#sacpick").classList.add("hide");
+  $("#sacform").classList.remove("hide");
+}
+["#c-time","#c-mat","#c-mark"].forEach(sel=>on(sel,"change",condNote));
+function condNote(){
+  const t=$("#c-time").value, m=$("#c-mat").value;
+  let n=[];
+  if(m==="open") n.push("With notes available, definition slips say less about what you know \u2014 but an incomplete chain still counts in full.");
+  if(t!=="full") n.push("Without full timing, anything about running short or thin detail won\u2019t be counted.");
+  if(!n.length) n.push("Full conditions \u2014 everything here counts.");
+  $("#condnote").textContent = n.join(" ");
+}
+
+on("#cancel","click", renderPick);
+on("#save","click", ()=>{
+  const q={};
+  $$("#qrows tr").forEach(tr=>{
+    const val=tr.querySelector("input").value;
+    if(val==="") return;
+    const c2e=tr.querySelector(".c2");
+    const codes=[tr.querySelector(".c1").value, c2e?c2e.value:""].filter(Boolean);
+    q[tr.dataset.q]={got:parseFloat(val), max:Number(tr.dataset.max), codes:[...new Set(codes)]};
+  });
+  if(!Object.keys(q).length){ renderPick(); return; }
+  S.e[CUR.id]={cond:{time:$("#c-time").value,mat:$("#c-mat").value,mark:$("#c-mark").value}, q};
+  save(); renderPick();
+  if(!S.kept){ const m=$("#keepmodal"); if(m){ $("#keeptext").value=exp(); m.classList.remove("hide"); } }
+});
+
+const keepBtn=$("#keepok");
+if(keepBtn) keepBtn.onclick=()=>{ S.kept=true; save(); $("#keepmodal").classList.add("hide"); };
+
+/* ============ analysis ============ */
+function analyse(){
+  const fam={A:0,B:0,C:0}, byCode={}, byKK={}, kkSeen={}, bySkill={}, byQT={};
+  let lost=0, avail=0, got=0, coded=0, uncoded=0;
+  const isKnow = c => CODES[c] && CODES[c].f==="B";
+
+  const vsState=[];
+  ALL().forEach(sac=>{
+    const e=S.e[sac.id]; if(!e) return;
+    const open = e.cond.mat==="open", untimed = e.cond.time!=="full";
+    sac.q.forEach(qd=>{
+      const v=e.q[qd[0]]; if(!v) return;
+      avail+=v.max; got+=v.got;
+      if(qd[6]){ const t=byQT[qd[6]]=byQT[qd[6]]||{lost:0,avail:0,n:0,kk:{}}; t.avail+=v.max; t.n++; }
+      const L=v.max-v.got; if(L<=0) return;
+      lost+=L;
+      if(qd[4]) bySkill[qd[4]]=(bySkill[qd[4]]||0)+L;
+      if(qd[6]){ const t=byQT[qd[6]]=byQT[qd[6]]||{lost:0,avail:0,n:0,kk:{}};
+        t.lost+=L; qd[3].forEach(k=>t.kk[k]=(t.kk[k]||0)+L/qd[3].length); }
+      if(!v.codes.length){ uncoded+=L; return; }
+      coded+=L;
+      // only a knowledge-family code makes a loss evidence about the topic
+      if(v.codes.some(isKnow)){
+        const share = L * v.codes.filter(isKnow).length / v.codes.length;
+        qd[3].forEach(k=>{ kkSeen[k]=(kkSeen[k]||0)+1; byKK[k]=(byKK[k]||0)+share/qd[3].length; });
+      }
+      if(v.codes.includes("M4")) bySkill.calc=(bySkill.calc||0)+L;
+      // exam questions carry a state benchmark, so a mark can be read against it
+      if(sac.exam && typeof qd[5]==="number" && e.cond.time==="full" && e.cond.mat==="closed"){
+        const mine=Math.round(v.got/v.max*100), gap=mine-qd[5];
+        if(gap<=-15) vsState.push({q:qd[0],d:qd[2],n:sac.n,mine,st:qd[5],gap,L});
+      }
+      const w = v.codes.length===1 ? [1] : [0.6,0.4];
+      v.codes.forEach((c,i)=>{
+        const f=CODES[c].f;
+        // conditions gate which evidence is trustworthy
+        if(open && f==="B" && !CODES[c].mc) return;
+        if(untimed && (c==="C8"||c==="C1")) return;
+        const m=L*w[i];
+        fam[f]+=m; byCode[c]=(byCode[c]||0)+m;
+      });
+    });
+  });
+
+  const top = Object.entries(byCode).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  const kk = Object.entries(byKK).sort((a,b)=>b[1]-a[1]).slice(0,4)
+              .map(([k,m])=>[k,m,kkSeen[k]]);
+  // --- practice rows written by other portal tools (contract Part 5) ---
+  const pr = Array.isArray(S.pr) ? S.pr : [];
+  const DAY = 86400000;
+  /* These mirror the practice scheduler's interval table exactly, so both tools
+     reach the same verdict from the same rows. Change only alongside it.
+       missed once        -> returns in 6 days
+       missed twice+      -> returns in 3 days
+       first correct after a miss -> confirms in 12 days
+       second correct     -> recovered, stops being served */
+  const RET_ONE = 6*DAY, RET_MANY = 3*DAY, CONFIRM = 12*DAY;
+
+  // group attempts per question, then decide whether each gap is still open
+  const byQ = {};
+  pr.forEach(r=>{ if(!r||!r.kk) return;
+    const k=(r.t||"?")+"|"+(r.set||"?")+"|"+r.q;
+    (byQ[k]=byQ[k]||[]).push(r); });
+
+  const prByKK = {};
+  let confWrong=0, luckyRight=0, miscal=0, closed=0, hidden=0, attempts=0;
+
+  /* mc rows carry ok:true/false; practice rows carry marks and got. */
+  const missed  = r => r.ok===false || (typeof r.got==="number" && typeof r.marks==="number" && r.got < r.marks);
+  const correct = r => r.ok===true  || (typeof r.got==="number" && typeof r.marks==="number" && r.got >= r.marks);
+  /* both row types may carry a second, lower-ranked code */
+  const codesOf = r => [r.code, r.code2].filter(Boolean);
+  const isKnowRow = c => c==="M1" || c==="M2" || (CODES[c] && CODES[c].f==="B");
+
+  Object.values(byQ).forEach(rows=>{
+    rows.sort((a,b)=>(a.ts||0)-(b.ts||0));
+    attempts += rows.length;
+    rows.forEach(r=>{
+      const m=missed(r);
+      if(m && r.conf==="high") confWrong++;
+      if(m && r.conf==="low" && codesOf(r).indexOf("M2")>-1) miscal++;
+      if(correct(r) && r.conf==="low") luckyRight++;
+    });
+    const misses = rows.filter(missed);
+    const last = misses[misses.length-1];
+    const b = prByKK[rows[0].kk] = prByKK[rows[0].kk] || {n:0, wrong:0, know:0};
+    b.n++;
+    if(!last) return;                       // never missed
+    // recovered: correct at the scheduled return, then correct again at the
+    // confirmation. The return interval shortens once a question has been
+    // missed more than once.
+    const gap  = misses.length>=2 ? RET_MANY : RET_ONE;
+    const after = rows.filter(r=>(r.ts||0)>(last.ts||0) && correct(r));
+    const qual  = after.find(r=>(r.ts||0)-(last.ts||0) >= gap);
+    if(qual && after.some(r=>(r.ts||0)-(qual.ts||0) >= CONFIRM)){ closed++; return; }
+    b.wrong++;
+    // primary code weighted 0.6 and secondary 0.4; a single code takes full weight
+    const cs=codesOf(last);
+    cs.forEach((c,i)=>{ if(isKnowRow(c)) b.know += cs.length===1 ? 1 : (i===0?0.6:0.4); });
+    if(typeof last.st==="number" && last.st>=75) hidden++;
+  });
+
+  const prTopics = Object.entries(prByKK)
+      .filter(([,b])=>b.n>=3 && b.know>=1.6)
+      .sort((a,b)=>b[1].know-a[1].know).slice(0,3);
+
+  vsState.sort((a,b)=>(a.gap*a.L)-(b.gap*b.L));
+  const done = SACS.filter(s=>S.e[s.id]).length;
+  const skills = Object.entries(bySkill).sort((a,b)=>b[1]-a[1]);
+  // question shapes: rank by the share of marks lost, not the raw total,
+  // so a shape worth few marks can still surface
+  // 4+ marks of exposure is enough to report a shape. Zero-loss shapes stay in:
+  // the comparison between shapes is the whole point of the view.
+  const shapes = Object.entries(byQT)
+      .filter(([,t])=>t.avail>=4)
+      .map(([k,t])=>[k, t.lost, t.avail, Math.round(t.lost/t.avail*100), t.kk])
+      .sort((a,b)=>b[3]-a[3]);
+  return {fam,byCode,top,kk,lost,avail,got,coded,uncoded,done,skills,
+          shapes, vsState, pr:attempts, prTopics, confWrong, luckyRight, miscal, closed, hidden};
+}
+
+/* ============ predict ============ */
+function openPlan(){
+  if(!Object.keys(S.e).length){
+    $("#planbody").innerHTML = `<div class="verdict">
+      <p class="eyebrow">Nothing entered yet</p>
+      <h1>Your plan appears once you\u2019ve entered a SAC</h1>
+      <p class="lede">Go to <strong>Enter results</strong>, pick a SAC and put in your marks. One is enough to see something \u2014 the picture sharpens as you add more.</p>
+      <div class="actions"><button class="primary" id="goenter">Enter a SAC</button></div></div>`;
+    show("plan");
+    const g=$("#goenter"); if(g) g.onclick=()=>show("enter");
+    return;
+  }
+  const n=Object.keys(S.e).length;
+  if(!S.seen || (S.seenAt && n >= S.seenAt+2)){ renderPredict(); show("predict"); }
+  else { renderPlan(); show("plan"); }
+}
+function renderPredict(){
+  $("#popts").innerHTML = ["A","B","C"].map(f=>
+    `<button class="opt" data-f="${f}"><b>${FAMILY[f].n}</b><span>${FAMILY[f].d}</span></button>`).join("");
+  $$(".opt").forEach(b=>b.onclick=()=>{
+    $$(".opt").forEach(x=>x.classList.remove("sel"));
+    b.classList.add("sel"); S.pred=b.dataset.f; $("#pgo").disabled=false;
+  });
+  $("#pgo").disabled=true;
+}
+on("#pgo","click", ()=>{ S.seen=true; S.seenAt=Object.keys(S.e).length; save(); renderPlan(); show("plan"); });
+
+/* ============ plan ============ */
+function renderPlan(){
+  const a=analyse();
+  const order=["C","A","B"].sort((x,y)=>a.fam[y]-a.fam[x]);
+  const lead=order[0];
+  const pct=f=>a.coded?Math.round(a.fam[f]/Object.values(a.fam).reduce((s,v)=>s+v,0)*100)||0:0;
+
+  let h=`<div class="verdict">
+    <p class="eyebrow">${a.done} of ${SACS.length} SACs entered</p>
+    <h1>Where your ${fmt(a.lost)} lost marks went</h1>`;
+
+  if(a.coded>0){
+    h+=`<p class="lede">Of the marks you coded, most went to <strong>${FAMILY[lead].n.toLowerCase()}</strong>. ${FAMILY[lead].d}</p>`;
+    if(S.pred && S.pred!==lead){
+      h+=`<div class="callout miss">You expected <strong>${FAMILY[S.pred].n.toLowerCase()}</strong>. It was ${FAMILY[lead].n.toLowerCase()}.
+        That gap matters: revising for the wrong one is how a term disappears.</div>`;
+    } else if(S.pred===lead){
+      h+=`<div class="callout">You called it. Knowing your own pattern is worth more than any list this page can give you \u2014 trust it when you plan.</div>`;
+    }
+  } else {
+    h+=`<p class="lede">You haven\u2019t added any codes yet. Marks alone show <em>where</em> you lost them, not <em>why</em> \u2014 add codes on the questions where you dropped two or more and this gets far sharper.</p>`;
+  }
+  h+=`</div>`;
+
+  if(a.coded>0){
+    h+=`<div class="bars">`+["C","A","B"].map(f=>
+      `<div class="bar2"><span class="lbl">${FAMILY[f].n}</span>
+       <span class="track"><span class="fill" style="width:${pct(f)}%;background:${FAMILY[f].c}"></span></span>
+       <span class="val">${fmt(a.fam[f])} marks</span></div>`).join("")+`</div>`;
+  }
+
+  if(a.top.length){
+    h+=`<h2 class="sec">Do these three first</h2>`;
+    a.top.forEach(([c,m])=>{
+      const C=CODES[c], g=guideFor(c);
+      const t=TASKS[c];
+      h+=`<div class="pri">
+        <div class="top">
+          <span class="code" style="background:${FAMILY[C.f].c}18;color:${FAMILY[C.f].c}">${c}</span>
+          <span class="cost">${fmt(m)} marks</span></div>
+        <h3>${C.n}</h3>
+        <p class="rep">${C.r}</p>
+        <div class="meta"><span class="chip task">${t.id} \u00b7 ${t.n} \u00b7 ${t.t}</span><span class="chip">${t.d}</span></div>
+        ${g?`<p class="where">Guide: ${g}</p>`:``}
+      </div>`;
+    });
+  }
+
+  if(a.kk.length){
+    h+=`<h2 class="sec">Topics the marks point to</h2>
+      <p class="lede sm">Only losses you coded as a knowledge gap count here. A misread or a slipped calculation on a topic isn\u2019t evidence you don\u2019t know it.</p>
+      <div class="blind">`;
+    a.kk.forEach(([k,m,n])=>{
+      const b=(BANK[k]||[]).map(q=>`<span class="bankq">${q[0]} Q${q[1]} \u00b7 state ${q[3]}%</span>`).join("");
+      const conf = n>=2 ? `${n} questions` : `one question only \u2014 treat as a hint, not a verdict`;
+      h+=`<div class="brow"><span class="rk ${n>=2?"med":"low"}">${fmt(m)}</span>
+        <span><b>${bookletCode(k)} \u2014 ${KK[k]||""}</b><span class="why">${conf}</span>
+        ${b?`<span class="qs">${b}</span>`:`<span class="why">No past question indexed for this point.</span>`}</span></div>`;
+    });
+    h+=`</div>`;
+  } else if(a.coded>0){
+    h+=`<h2 class="sec">Topics the marks point to</h2>
+      <p class="lede sm">Nothing here \u2014 and that\u2019s a finding, not a gap. None of your losses were coded as a knowledge problem, so there\u2019s no topic to re-read. Your work is in how answers are built, not in what you know.</p>`;
+  }
+
+  if(a.skills.length){
+    h+=`<h2 class="sec">Skills, not topics</h2>
+      <p class="lede sm">These are worth little across your SACs and more on the exam, so mark-loss ranking hides them.</p><div class="blind">`;
+    a.skills.forEach(([k,m])=>{
+      const S2=SKILLS[k]; if(!S2) return;
+      h+=`<div class="brow"><span class="rk med">${fmt(m)}</span>
+        <span><b>${S2.n}</b><span class="why">${S2.d} ${S2.w}</span></span></div>`;
+    });
+    h+=`</div>`;
+  }
+
+  if(a.shapes.length>=2 && a.shapes[0][1]>0){
+    const worst=a.shapes[0], best=a.shapes[a.shapes.length-1];
+    h+=`<h2 class="sec">Question types</h2>
+      <p class="lede sm">Where your marks go by question type. Only the types you have practice sets for \u2014 the rest of your marks are covered by the topics above.</p>`;
+    h+=`<div class="bars">`+a.shapes.slice(0,6).map(([k,lost,avail,pct])=>{
+      const Q=QTYPE[k]||{n:k};
+      return `<div class="bar2"><span class="lbl">${Q.n}</span>
+        <span class="track"><span class="fill" style="width:${pct}%;background:${pct>=worst[3]?"#B4530E":"#5A6070"}"></span></span>
+        <span class="val">${fmt(lost)}/${avail}</span></div>`;
+    }).join("")+`</div>`;
+    if(worst[3] >= best[3]+20){
+      const Q=QTYPE[worst[0]]||{n:worst[0]};
+      const inside=Object.entries(worst[4]||{}).sort((a,b)=>b[1]-a[1]).slice(0,2)
+                    .map(([k])=>KK[k]?KK[k].toLowerCase():k);
+      h+=`<div class="callout miss"><strong>${Q.n}</strong> questions cost you more than any other type \u2014 ${worst[3]}% of those marks, against ${best[3]}% on ${(QTYPE[best[0]]||{n:best[0]}).n.toLowerCase()}.`
+        + (inside.length?` Most of it on ${inside.join(" and ")}.`:"")
+        + ` Work the <strong>${Q.n}</strong> question set rather than revising those topics separately.</div>`;
+    }
+  }
+
+  if(a.vsState.length){
+    h+=`<h2 class="sec">Below what the state managed</h2>
+      <p class="lede sm">Exam questions where you scored well under the state average. A low mark on a question everyone found hard isn\u2019t a gap \u2014 these are.</p><div class="blind">`;
+    a.vsState.slice(0,5).forEach(v=>{
+      h+=`<div class="brow"><span class="rk high">${v.gap}</span>
+        <span><b>${v.n.replace(" \u00b7 Section B","")} Q${v.q} \u2014 ${v.d}</b>
+        <span class="why">You ${v.mine}% \u00b7 state ${v.st}%</span></span></div>`;
+    });
+    h+=`</div>`;
+  }
+
+  if(a.pr>0){
+    h+=`<h2 class="sec">From your practice questions</h2>`;
+    const bits=[];
+    if(a.confWrong) bits.push(`<div class="brow"><span class="rk high">${a.confWrong}</span>
+      <span><b>Confident, and wrong</b><span class="why">You were sure and it was incorrect. That\u2019s a misconception rather than a gap \u2014 the most expensive kind, because nothing tells you to go back and check it.</span></span></div>`);
+    if(a.luckyRight) bits.push(`<div class="brow"><span class="rk med">${a.luckyRight}</span>
+      <span><b>Right, but guessing</b><span class="why">Correct with no real basis. It scored, but it won\u2019t score reliably. Re-test these rather than counting them as known.</span></span></div>`);
+    if(a.hidden) bits.push(`<div class="brow"><span class="rk high">${a.hidden}</span>
+      <span><b>Missed what the state didn\u2019t</b><span class="why">Still open on questions at least three-quarters of the state answered correctly. These are the gaps a decent overall mark hides.</span></span></div>`);
+    if(a.miscal>=3) bits.push(`<div class="brow"><span class="rk med">${a.miscal}</span>
+      <span><b>Worth noticing</b><span class="why">You said you were guessing, then recorded that you\u2019d narrowed it to two. Worth deciding which is true \u2014 it changes what the practice is telling you.</span></span></div>`);
+    if(a.closed) bits.push(`<div class="brow"><span class="rk low">${a.closed}</span>
+      <span><b>Closed</b><span class="why">Missed once, then answered correctly twice with a gap in between. Those are done \u2014 don\u2019t spend more time on them.</span></span></div>`);
+    h += bits.length ? `<div class="blind">${bits.join("")}</div>`
+       : `<p class="lede sm">${a.pr} questions answered. Nothing stands out yet \u2014 keep going and topic patterns appear after a few more sessions.</p>`;
+
+    if(a.prTopics.length){
+      h+=`<p class="lede sm" style="margin-top:20px">Topics your practice points to:</p><div class="blind">`;
+      a.prTopics.forEach(([k,b])=>{
+        h+=`<div class="brow"><span class="rk med">${b.wrong}/${b.n}</span>
+          <span><b>${bookletCode(k)} \u2014 ${KK[k]||""}</b>
+          <span class="why">${fmt(b.know)} of these were knowledge gaps rather than misreads.</span></span></div>`;
+      });
+      h+=`</div>`;
+    }
+  }
+
+  if(a.uncoded>0){
+    h+=`<p class="lede sm" style="margin-top:26px;color:#6E7484">${fmt(a.uncoded)} of your lost marks have no code yet, so they aren\u2019t counted above. Add codes to the questions where you dropped the most and this sharpens.</p>`;
+  }
+
+  h+=`<h2 class="sec">Never tested \u2014 so no data either way</h2>
+   <p class="lede sm">Your SACs didn\u2019t cover these. That isn\u2019t a pass. Ranked by how often the exam asks and how badly the state does.</p>
+   <div class="blind">`;
+  BLIND.filter(b=>b.risk!=="low").forEach(b=>{
+    h+=`<div class="brow"><span class="rk ${b.risk}">${b.risk==="high"?"HIGH":"MEDIUM"}</span>
+      <span><b>${bookletCode(b.kk)} \u2014 ${KK[b.kk]}</b><span class="why">${b.why}</span>
+      ${b.qs!=="\u2014"?`<span class="qs">${b.qs}</span>`:``}</span></div>`;
+  });
+  h+=`</div>`;
+
+  h+=`<div class="backup"><h2 class="sec">Backup code</h2>
+    <p class="lede sm">Copy this somewhere safe. It restores everything if this browser forgets you \u2014 and it\u2019s what you hand your teacher.</p>
+    <textarea rows="3" readonly onclick="this.select()">${exp()}</textarea></div>`;
+
+  $("#planbody").innerHTML=h;
+  S.plan = {ts: Date.now(), items: planItems(a)};
+  save();
+}
+function guideFor(c){
+  const g=CODES[c].a; if(!g||!Object.keys(g).length) return "";
+  const used=[...new Set(SACS.filter(s=>S.e[s.id]).map(s=>s.g))];
+  return used.map(u=>g[u]).filter(Boolean).join("  \u00b7  ");
+}
+
+/* Students hold the 2026 booklet, which numbers U4 AOS1 in teaching order
+   (monetary first). Study design order is canonical internally; convert only
+   for display. Delete this when the 2027 booklet is reprinted in SD order. */
+
+/* The practice tool reads this to mark the folders a student’s plan points at.
+   Up to three items; kk ids are study design order, never booklet order. */
+function planItems(a){
+  const items=[];
+  if(a.shapes.length>=2 && a.shapes[0][1]>0){
+    const w=a.shapes[0];
+    const kk=Object.entries(w[4]||{}).sort((x,y)=>y[1]-x[1]).slice(0,2).map(e=>e[0]);
+    items.push(kk.length ? {qt:w[0], kk} : {qt:w[0]});
+  }
+  if(a.kk.length) items.push({kk:a.kk.slice(0,3).map(r=>r[0])});
+  const hi=BLIND.filter(b=>b.risk==="high").map(b=>b.kk);
+  if(items.length<3 && hi.length) items.push({kk:hi.slice(0,2)});
+  return items.slice(0,3);
+}
+
+function bookletCode(kk){
+  const m = /^4\.1\.(\d+)$/.exec(kk);
+  if(!m) return kk;
+  const n = +m[1];
+  if(n>=2 && n<=13)  return "4.1."+(n+7);
+  if(n>=14 && n<=20) return "4.1."+(n-12);
+  return kk;
+}
+function fmt(n){ return Math.round(n*10)/10; }
+function exp(){ return "ECON1:"+btoa(unescape(encodeURIComponent(JSON.stringify(S)))); }
+function footer(){
+  const f=$("#fexp"); if(!f) return;
+  if(!S){ f.textContent=""; return; }
+  f.innerHTML = `Signed in as <strong>${S.cw}</strong> \u00b7 `
+    + `<a href="#" id="showbk">show my backup code</a>`;
+  const a=$("#showbk");
+  if(a) a.onclick=(ev)=>{
+    ev.preventDefault();
+    const m=$("#keepmodal");
+    if(m){ $("#keeptext").value=exp(); m.classList.remove("hide"); }
+  };
+}
+
+/* ============ teacher ============ */
+on("#tgo","click", ()=>{
+  const rows=$("#tin").value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
+  const kids=[];
+  rows.forEach(r=>{ try{ kids.push(JSON.parse(decodeURIComponent(escape(atob(r.replace(/^ECON1:/,"")))))); }catch(e){} });
+  if(!kids.length){ $("#tout").innerHTML=`<p class="err">No readable codes. Each student\u2019s code goes on its own line.</p>`; return; }
+
+  const codeN={}, codeM={}, byQ={}, fam={A:0,B:0,C:0};
+  let lost=0;
+  kids.forEach(k=>{
+    SACS.forEach(sac=>{
+      const e=k.e&&k.e[sac.id]; if(!e) return;
+      sac.q.forEach(qd=>{
+        const v=e.q[qd[0]]; if(!v) return;
+        const L=v.max-v.got; if(L<=0) return; lost+=L;
+        v.codes.forEach((c,i)=>{
+          const w=v.codes.length===1?1:(i?0.4:0.6);
+          codeN[c]=(codeN[c]||0)+1; codeM[c]=(codeM[c]||0)+L*w; fam[CODES[c].f]+=L*w;
+          const key=sac.id+"|"+qd[0]+"|"+qd[2];
+          byQ[key]=byQ[key]||{}; byQ[key][c]=(byQ[key][c]||0)+1;
+        });
+      });
+    });
+  });
+
+  const top=Object.entries(codeM).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  let h=`<div class="tstat">
+    <div><b>${kids.length}</b><span>students</span></div>
+    <div><b>${fmt(lost)}</b><span>marks lost, all SACs</span></div>
+    <div><b>${top.length?top[0][0]:"\u2014"}</b><span>most expensive code</span></div>
+    <div><b>${Object.entries(fam).sort((a,b)=>b[1]-a[1])[0][0]}</b><span>dominant family</span></div></div>`;
+
+  h+=`<h2 class="sec">Model these, in this order</h2>`;
+  top.forEach(([c,m])=>{
+    const n=codeN[c];
+    const spread=Object.entries(byQ).filter(([,v])=>v[c]).sort((a,b)=>b[1][c]-a[1][c]).slice(0,2);
+    const conc = spread.length && spread[0][1][c] >= n*0.5;
+    h+=`<div class="brief">
+      <h3>${c} \u2014 ${CODES[c].n}</h3>
+      <p class="n">${n} occurrences \u00b7 ${fmt(m)} marks across the class</p>
+      <dl>
+        <dt>Repair</dt><dd>${CODES[c].r}</dd>
+        <dt>Anchor</dt><dd>${guideAll(c)}</dd>
+        <dt>Clustered on</dt><dd>${spread.map(([k,v])=>k.split("|")[2]+" ("+v[c]+")").join(" \u00b7 ")||"spread evenly"}</dd>
+        <dt>Reading</dt><dd>${conc?"Concentrated on one or two questions \u2014 likely a question problem, not a teaching gap.":"Spread across questions \u2014 this is a teaching gap, worth whole-class modelling."}</dd>
+        <dt>Work from</dt><dd>${bankFor(c)}</dd>
+      </dl></div>`;
+  });
+  $("#tout").innerHTML=h;
+});
+function guideAll(c){ const g=CODES[c].a; return Object.keys(g).length?Object.entries(g).map(([k,v])=>v).join("  \u00b7  "):"\u2014 no guide section"; }
+function bankFor(c){
+  const f=CODES[c].f;
+  const pool=Object.entries(BANK).flatMap(([k,v])=>v.map(q=>[k,...q])).sort((a,b)=>a[4]-b[4]).slice(0,2);
+  return pool.map(p=>`${p[1]} Q${p[2]} (state ${p[4]}%)`).join(" \u00b7 ");
+}
+
+/* boot */
+if($("#s-start")) fromPortal();
+
+</script>
+</body></html>
