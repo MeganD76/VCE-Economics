@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assessing responses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17223B;--soft:#5B6478;--paper:#E9ECF1;--card:#fff;--rule:#D2D8E0;
+--right:#1B7F5A;--trap:#A8324A;--bar:#C3C9D2;--warn:#B6801F;
+--famA:#6B4E8C;--famB:#A8324A;--famC:#1B6E7F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 16px/1.55 'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding:26px 20px 80px}
+
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding-bottom:13px;border-bottom:2px solid var(--ink);margin-bottom:24px}
+h1{font:500 19px/1.2 'IBM Plex Sans';margin:0}
+header a{font-size:14px;color:var(--soft);text-decoration:underline;white-space:nowrap}
+header a:hover{color:var(--ink)}
+
+.card{background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:22px;margin-bottom:14px}
+.stem{font:400 19px/1.5 'IBM Plex Serif',Georgia,serif;margin:0 0 18px}
+.note{font-size:14px;color:var(--soft);margin:0 0 16px}
+.lead{font:400 17px/1.5 'IBM Plex Serif',Georgia,serif;margin:0 0 20px}
+
+input[type=text]{width:100%;font:400 17px 'IBM Plex Sans';color:var(--ink);
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:12px 14px}
+input[type=text]:focus{outline:2px solid var(--ink);outline-offset:0;border-color:var(--ink)}
+.go{margin-top:14px;width:100%;background:var(--ink);color:#fff;border:0;border-radius:3px;
+  padding:14px;font:500 16px 'IBM Plex Sans';cursor:pointer}
+.go:disabled{background:var(--rule);color:#8A93A3;cursor:not-allowed}
+.go.ghost{background:none;color:var(--soft);border:1px solid var(--rule)}
+.go.ghost:hover{color:var(--ink);border-color:var(--ink)}
+
+/* ---- progress ---- */
+.prog{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  font-size:13.5px;color:var(--soft);margin-bottom:12px}
+.prog b{color:var(--ink);font-weight:600}
+.track{height:3px;background:var(--bar);border-radius:2px;margin-bottom:20px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--ink);transition:width .3s}
+
+/* ---- question ---- */
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  margin-bottom:12px;flex-wrap:wrap}
+.tag{font:500 11px 'IBM Plex Sans';letter-spacing:.06em;text-transform:uppercase;
+  color:var(--soft);border:1px solid var(--rule);border-radius:2px;padding:2px 7px;white-space:nowrap}
+.tag.mk{color:var(--ink);border-color:var(--ink)}
+.stim{font:400 13.5px/1.6 'IBM Plex Sans';background:var(--paper);border:1px solid var(--rule);
+  border-radius:2px;padding:11px 13px;margin:0 0 16px;white-space:pre-wrap;color:var(--ink);
+  overflow-x:auto}
+.resp{font:400 16.5px/1.62 'IBM Plex Serif',Georgia,serif;background:var(--paper);
+  border-left:3px solid var(--bar);border-radius:0 2px 2px 0;padding:16px 18px;
+  margin:0;white-space:pre-wrap}
+
+/* ---- step labels ---- */
+.step{font:600 12px 'IBM Plex Sans';letter-spacing:.09em;text-transform:uppercase;
+  color:var(--soft);margin:0 0 4px;display:flex;align-items:baseline;gap:9px}
+.step i{font-style:normal;width:19px;height:19px;border-radius:50%;background:var(--ink);
+  color:#fff;font-size:11px;display:inline-flex;align-items:center;justify-content:center;
+  letter-spacing:0;flex:none}
+.stepnote{font-size:13.5px;color:var(--soft);margin:0 0 14px;padding-left:28px}
+
+/* ---- criteria ---- */
+.crit{list-style:none;margin:0;padding:0}
+.crit li{border-top:1px solid var(--rule)}
+.crit li:last-child{border-bottom:1px solid var(--rule)}
+.crit label{display:flex;gap:12px;align-items:flex-start;padding:11px 2px;cursor:pointer}
+.crit input{margin:2px 0 0;width:18px;height:18px;flex:none;accent-color:var(--ink)}
+.crit b{font-weight:500;font-size:15px;display:block}
+.crit span{font-size:13.5px;color:var(--soft);display:block;margin-top:1px}
+.crit li.was-met{background:#F2F8F5}
+.crit li.was-miss{background:#FBF4F5}
+.verdict{font:500 12px 'IBM Plex Sans';padding:2px 7px;border-radius:2px;white-space:nowrap;
+  align-self:center;flex:none}
+.verdict.hit{background:#DCEFE6;color:var(--right)}
+.verdict.no{background:#F6DFE3;color:var(--trap)}
+
+/* ---- mark picker ---- */
+.marks{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px}
+.marks button{font:500 17px 'IBM Plex Sans';min-width:48px;height:48px;padding:0 4px;
+  border:1px solid var(--rule);background:var(--card);color:var(--ink);
+  border-radius:3px;cursor:pointer}
+.marks button:hover{border-color:var(--ink)}
+.marks button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.marks button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* ---- codes ---- */
+.fam{margin-bottom:14px}
+.famhead{font:600 13px 'IBM Plex Sans';margin:0 0 3px;display:flex;align-items:baseline;gap:8px}
+.famhead em{font-style:normal;font-weight:400;font-size:13px;color:var(--soft)}
+.famA .famhead{color:var(--famA)} .famB .famhead{color:var(--famB)} .famC .famhead{color:var(--famC)}
+.codes{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.codes button{font:400 13.5px 'IBM Plex Sans';padding:7px 10px;border:1px solid var(--rule);
+  background:var(--card);color:var(--ink);border-radius:3px;cursor:pointer;text-align:left}
+.codes button b{font-weight:600;margin-right:5px}
+.codes button:hover{border-color:var(--ink)}
+.codes button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.famA .codes button[aria-pressed=true]{background:var(--famA);border-color:var(--famA);color:#fff}
+.famB .codes button[aria-pressed=true]{background:var(--famB);border-color:var(--famB);color:#fff}
+.famC .codes button[aria-pressed=true]{background:var(--famC);border-color:var(--famC);color:#fff}
+.picked{font-size:13.5px;color:var(--soft);margin:12px 0 0;min-height:1.3em}
+.picked b{color:var(--ink)}
+
+details.conf{margin:12px 0 0;font-size:13.5px}
+details.conf summary{cursor:pointer;color:var(--soft);text-decoration:underline}
+details.conf summary:hover{color:var(--ink)}
+details.conf div{margin-top:9px;color:var(--soft);line-height:1.6;
+  border-left:2px solid var(--rule);padding-left:12px}
+details.conf b{color:var(--ink)}
+
+/* ---- reveal ---- */
+.rev{border-left:3px solid var(--ink)}
+.scoreline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:16px}
+.big{font:500 30px/1 'IBM Plex Sans'}
+.big span{font-size:16px;color:var(--soft)}
+.gap{font:500 15px 'IBM Plex Sans';padding:4px 10px;border-radius:3px}
+.gap.ok{background:#DCEFE6;color:var(--right)}
+.gap.near{background:#FAF0DC;color:var(--warn)}
+.gap.off{background:#F6DFE3;color:var(--trap)}
+.yours{font-size:14px;color:var(--soft)}
+.revrow{margin-bottom:16px}
+.revrow h3{font:600 13px 'IBM Plex Sans';letter-spacing:.07em;text-transform:uppercase;
+  color:var(--soft);margin:0 0 7px}
+.revrow p{margin:0;font-size:15px;line-height:1.6}
+.why{font:400 16px/1.62 'IBM Plex Serif',Georgia,serif;margin:0}
+.codeline{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:8px}
+.pill{font:500 13px 'IBM Plex Sans';padding:4px 9px;border-radius:3px;color:#fff}
+.pill.A{background:var(--famA)} .pill.B{background:var(--famB)} .pill.C{background:var(--famC)}
+.pill.ghost{background:none;border:1px solid var(--rule);color:var(--soft)}
+
+/* ---- rewrite ---- */
+.rw{border-left:3px solid var(--warn);background:#FEFBF4}
+.rw h3{font:600 13px 'IBM Plex Sans';letter-spacing:.07em;text-transform:uppercase;
+  color:var(--warn);margin:0 0 8px}
+.rw .keep{font:400 15.5px/1.6 'IBM Plex Serif',Georgia,serif;background:var(--card);
+  border:1px solid var(--rule);border-radius:2px;padding:12px 14px;margin:0 0 12px}
+.rw textarea{width:100%;min-height:92px;font:400 15.5px/1.6 'IBM Plex Serif',Georgia,serif;
+  padding:12px 14px;border:1px solid var(--rule);border-radius:3px;background:var(--card);
+  color:var(--ink);resize:vertical}
+.rw textarea:focus{outline:2px solid var(--ink);outline-offset:-1px;border-color:var(--ink)}
+.model{font:400 15.5px/1.6 'IBM Plex Serif',Georgia,serif;background:var(--card);
+  border:1px dashed var(--rule);border-radius:2px;padding:12px 14px;margin:12px 0 0}
+
+/* ---- summary ---- */
+.stat{border-left:3px solid var(--ink);margin-bottom:14px}
+.stat .big{margin-bottom:6px}
+.missrow{display:flex;gap:12px;align-items:baseline;padding:11px 0;border-top:1px solid var(--rule)}
+.missrow .pill{flex:none}
+.missrow div{flex:1}
+.missrow b{font-weight:500;display:block;font-size:15px}
+.missrow span{font-size:13.5px;color:var(--soft)}
+.rate{font:500 14px 'IBM Plex Sans';color:var(--soft);white-space:nowrap}
+
+.foot{margin-top:28px;padding-top:15px;border-top:1px solid var(--rule);
+  font-size:13.5px;color:var(--soft)}
+.foot p{margin:0 0 7px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Assessing responses</h1>
+  <a href="#" id="portal">Portal</a>
+</header>
+
+<main id="app"></main>
+
+</div>
+
+<script src="kk-data.js"></script>
+<script src="portal-data.js"></script>
+<script src="assess-data.js"></script>
+<script>
+/* =====================================================================
+   Assessing responses — students mark someone else's answer.
+
+   Writes to S.as only. Never to S.pr: the tracker reads S.pr as evidence
+   of what a student knows, and an assessment attempt is not an attempt
+   at the question.
+   ===================================================================== */
+
+const app = document.getElementById('app');
+let cw = null;
+let queue = [];
+let at = 0;
+let sessionRows = [];     // this sitting, for the summary
+let rewritesUsed = 0;     // cap the rewrite at one per sitting
+
+const CODES = {
+  A1:'wrong task word', A2:'half the stem', A3:'wrong direction or scope',
+  A4:'stimulus ignored', A5:'overclaimed', A6:'outside scope',
+  B1:'definition incomplete', B2:'wrong term or factor', B3:'mechanism reversed',
+  B4:'half the concept', B5:'not study design language', B6:"can't source this",
+  C1:'chain stops short', C2:'no landing', C3:'but how?', C4:'but why?',
+  C5:'no data', C6:'data not interpreted', C7:'no example',
+  C8:"depth doesn't match marks", C9:'sequencing', C10:"can't follow this",
+  C11:'not linked to each other'
+};
+const FAM_NAME = { A:'Question comprehension', B:'Conceptual', C:'Response construction' };
+const FAM_NOTE = {
+  A:'The economics was fine — they answered a question that was not asked.',
+  B:'A real gap in what they know.',
+  C:'They knew it; it did not reach the page in a markable form.'
+};
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shortAos = code => { const [u, a] = code.split('.'); return `U${u} AOS${a}`; };
+
+/* ---- entry ---------------------------------------------------------- */
+(async function () {
+  const fromUrl = new URLSearchParams(location.search).get('cw');
+  if (fromUrl && clean(fromUrl).length >= 3) {
+    cw = clean(fromUrl);
+    await Store.set(SETTINGS_CW, cw);
+    return start();
+  }
+  const saved = await Store.get(SETTINGS_CW);
+  if (saved && saved.length >= 3) { cw = saved; return start(); }
+  askCode();
+})();
+
+function askCode() {
+  app.innerHTML = `<div class="card">
+    <p class="stem">What is your code word?</p>
+    <p class="note">The same one you use everywhere else in the portal. It is how your work
+      follows you from one task to the next.</p>
+    <input type="text" id="cwin" autocomplete="off" autocapitalize="none"
+           spellcheck="false" placeholder="your code word">
+    <button class="go" id="cwgo" disabled>Continue</button>
+  </div>`;
+  const inp = document.getElementById('cwin'), go = document.getElementById('cwgo');
+  inp.oninput = () => { go.disabled = clean(inp.value).length < 3; };
+  inp.onkeydown = e => { if (e.key === 'Enter' && !go.disabled) go.click(); };
+  go.onclick = async () => { cw = clean(inp.value); await Store.set(SETTINGS_CW, cw); start(); };
+  inp.focus();
+}
+
+/* Resume where they left off. Each answer is written to S.as the moment its
+   reveal is shown, so "done" is derived from storage rather than a separate
+   progress key — nothing to get out of step. src + q identifies an item;
+   `id` is not stored, so do not key on it. */
+async function start(fresh) {
+  document.getElementById('portal').href = 'index.html?cw=' + encodeURIComponent(cw);
+  at = 0; sessionRows = []; rewritesUsed = 0;
+
+  let done = new Set();
+  try {
+    const S = await Record.load(cw);
+    (S.as || []).forEach(r => done.add(r.src + '|' + r.q));
+  } catch (e) {}
+
+  const unseen = fresh ? ASSESS_ITEMS : ASSESS_ITEMS.filter(it => !done.has(it.src + '|' + it.q));
+  queue = interleave(unseen.length ? unseen : ASSESS_ITEMS);
+  intro(fresh ? 0 : done.size, unseen.length);
+}
+
+/* ---- order ----------------------------------------------------------
+   Spread the samples of one question across the set instead of running
+   them back to back. Blocked, the first reveal hands the student the
+   marking guide, and they apply it mechanically to the next two — their
+   accuracy looks better than it is and the bias number stops meaning
+   anything. Interleaved is also what builds the discrimination this tool
+   exists to train.
+
+   Draw at random weighted by how many answers a question has left, never
+   from the pool just drawn from. Weighting rather than always taking the
+   fullest pool matters: taking the fullest drains the three-sample
+   questions first and leaves the long booklet items bunched at the end,
+   so the hardest marking all lands when the student is tired.
+   --------------------------------------------------------------------- */
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function interleave(items) {
+  const groups = {};
+  items.forEach(it => {
+    const g = it.id.replace(/-[a-z]$/, '');       // ws-1-a → ws-1 ; ar-3 stays ar-3
+    (groups[g] = groups[g] || []).push(it);
+  });
+  const pools = shuffle(Object.values(groups)).map(g => shuffle(g.slice()));
+  const out = [];
+  let last = null;
+  const SRC_RUN = 3;                     // never more than 3 in a row from one source
+
+  while (pools.some(p => p.length)) {
+    const live = pools.filter(p => p.length);
+    let choices = live.filter(p => p !== last);
+    if (!choices.length) choices = live;              // only one pool left
+
+    /* if the last few all came from the same source, prefer another one —
+       otherwise the three-sample questions drain first and the long booklet
+       items all land at the end */
+    const tail = out.slice(-SRC_RUN);
+    if (tail.length === SRC_RUN && tail.every(x => x.src === tail[0].src)) {
+      const other = choices.filter(p => p[0].src !== tail[0].src);
+      if (other.length) choices = other;
+    }
+
+    /* then always the pool with the most left, so no question is still
+       holding answers when the slots run out and its samples end up adjacent */
+    const max = Math.max(...choices.map(p => p.length));
+    const top = choices.filter(p => p.length === max);
+    const pick = top[Math.floor(Math.random() * top.length)];
+
+    out.push(pick.shift());
+    last = pick;
+  }
+  return out;
+}
+
+/* ---- intro ---------------------------------------------------------- */
+function intro(doneCount, leftCount) {
+  const total = ASSESS_ITEMS.length;
+  const returning = doneCount > 0 && leftCount > 0;
+  const finished = leftCount === 0 && doneCount > 0;
+
+  app.innerHTML = `
+    <p class="lead">${returning ? 'Picking up where you left off.'
+      : finished ? 'You have marked all ' + total + ' of them.'
+      : 'You are not answering these questions. You are marking them.'}</p>
+    <div class="card">
+      ${returning ? `
+        <p class="note" style="margin-bottom:14px">You have marked <b>${doneCount}</b> of
+          ${total}. The ${leftCount} you have not seen are next — you will not be shown one
+          twice, and you can stop whenever you like and come back to the rest.</p>`
+      : finished ? `
+        <p class="note" style="margin-bottom:14px">Going again is worth doing. You will get
+          them in a different order, and the ones you misjudged the first time are the ones
+          worth meeting again.</p>`
+      : `
+        <p class="note" style="margin-bottom:14px">Each one gives you a question, the marking
+          guide, and someone else's answer. You decide what it is worth and what went wrong.
+          Then you find out what it actually scored.</p>
+        <p class="note" style="margin-bottom:14px">This is the skill every other task in the
+          portal depends on. When you mark your own practice, you are only as accurate as your
+          ability to tell a 3-mark answer from a 5-mark one. Marking a stranger's work is a much
+          easier place to learn that than marking your own.</p>
+        <p class="note" style="margin-bottom:14px">Do as many as you want in one go. It saves
+          after each one, so you can stop any time and pick up where you left off.</p>`}
+      <p class="note" style="margin-bottom:0">The answers are real, from students who sat
+        these questions before you. Names have been removed.</p>
+    </div>
+    <button class="go" id="begin">${finished ? 'Go through them again'
+      : returning ? 'Carry on — ' + leftCount + ' left'
+      : 'Start — ' + total + ' answers'}</button>
+    ${doneCount > 0 ? `<button class="go ghost" id="sofar" style="margin-top:10px">See how you went so far</button>` : ''}`;
+
+  document.getElementById('begin').onclick = () => render();
+  const sofar = document.getElementById('sofar');
+  if (sofar) sofar.onclick = () => summary();
+}
+
+/* ---- one item ------------------------------------------------------- */
+function render() {
+  if (at >= queue.length) return summary();
+  const it = queue[at];
+  const judged = { crit: new Set(), mark: null, codes: [] };
+
+  const critHtml = it.criteria.map(c => `
+    <li data-c="${esc(c.id)}">
+      <label>
+        <input type="checkbox" value="${esc(c.id)}">
+        <span style="flex:1"><b>${esc(c.label)}</b><span>${esc(c.hint)}</span></span>
+      </label>
+    </li>`).join('');
+
+  const markBtns = Array.from({length: it.marks + 1}, (_, n) =>
+    `<button type="button" data-m="${n}" aria-pressed="false">${n}</button>`).join('');
+
+  const famHtml = ['A','B','C'].map(f => {
+    const list = Object.keys(CODES).filter(c => c[0] === f).map(c =>
+      `<button type="button" data-code="${c}" aria-pressed="false"><b>${c}</b>${esc(CODES[c])}</button>`
+    ).join('');
+    return `<div class="fam fam${f}">
+      <p class="famhead">${f} — ${FAM_NAME[f]} <em>${FAM_NOTE[f]}</em></p>
+      <div class="codes">${list}</div>
+    </div>`;
+  }).join('');
+
+  app.innerHTML = `
+    <div class="prog"><span>Answer <b>${at + 1}</b> of ${queue.length}</span>
+      <span>${esc(it.srcLabel)}</span></div>
+    <div class="track"><i style="width:${(at / queue.length) * 100}%"></i></div>
+
+    <div class="card">
+      <div class="qhead">
+        <span class="tag mk">${it.marks} marks</span>
+        <span class="tag" title="${esc(AOS[kkAos(it.kk)] || '')}">${esc(shortAos(it.kk))}</span>
+      </div>
+      <p class="stem" style="margin-bottom:${it.stimulus ? '16px' : '0'}">${esc(it.stem)}</p>
+      ${it.stimulus ? `<pre class="stim">${esc(it.stimulus)}</pre>` : ''}
+    </div>
+
+    <div class="card">
+      <p class="step"><i>1</i>The marking guide</p>
+      <p class="stepnote">Tick what this answer actually does. Tick it only if it is there
+        <em>and</em> correct — a component that is present but wrong does not earn the mark.</p>
+      <ul class="crit" id="crit">${critHtml}</ul>
+    </div>
+
+    <div class="card">
+      <p class="step"><i>2</i>The answer</p>
+      <p class="stepnote">Read it once through before you decide anything.</p>
+      <p class="resp">${esc(it.answer)}</p>
+    </div>
+
+    <div class="card">
+      <p class="step"><i>3</i>What is it worth?</p>
+      <p class="stepnote">Out of ${it.marks}. Whole marks only.</p>
+      <div class="marks" id="marks">${markBtns}</div>
+    </div>
+
+    <div class="card">
+      <p class="step"><i>4</i>What went wrong?</p>
+      <p class="stepnote">Up to two codes, in order — most important first. If the answer is
+        worth full marks, choose none.</p>
+      <div id="codewrap">${famHtml}</div>
+      <p class="picked" id="picked">Nothing chosen yet.</p>
+      <details class="conf"><summary>C3 or C11? They are easy to confuse</summary>
+        <div><b>C3 — but how?</b> is a jump inside a chain. The cause and the effect are both
+        stated, and the step in the middle is missing.<br><br>
+        <b>C11 — not linked to each other</b> is two things explained correctly and never
+        joined at all. Nothing is missing from either one; the join is missing.</div>
+      </details>
+    </div>
+
+    <button class="go" id="submit" disabled>Reveal what it scored</button>`;
+
+  const markWrap = document.getElementById('marks');
+  const picked = document.getElementById('picked');
+  const submit = document.getElementById('submit');
+
+  document.getElementById('crit').addEventListener('change', e => {
+    if (e.target.checked) judged.crit.add(e.target.value);
+    else judged.crit.delete(e.target.value);
+  });
+
+  markWrap.addEventListener('click', e => {
+    const b = e.target.closest('[data-m]'); if (!b) return;
+    judged.mark = +b.dataset.m;
+    markWrap.querySelectorAll('[data-m]').forEach(x =>
+      x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+    submit.disabled = false;
+  });
+
+  /* listen on the wrapper, not on `app` — app survives every render, so a
+     listener bound there would stack up one stale closure per item */
+  const codeWrap = document.getElementById('codewrap');
+  codeWrap.addEventListener('click', e => {
+    const b = e.target.closest('[data-code]'); if (!b) return;
+    const c = b.dataset.code, i = judged.codes.indexOf(c);
+    if (i > -1) judged.codes.splice(i, 1);
+    else { if (judged.codes.length >= 2) judged.codes.shift(); judged.codes.push(c); }
+    codeWrap.querySelectorAll('[data-code]').forEach(x => {
+      const on = judged.codes.includes(x.dataset.code);
+      x.setAttribute('aria-pressed', on ? 'true' : 'false');
+      x.querySelector('b').textContent = on
+        ? `${judged.codes.indexOf(x.dataset.code) + 1}. ${x.dataset.code}`
+        : x.dataset.code;
+    });
+    picked.innerHTML = judged.codes.length
+      ? judged.codes.map((c, i) => `<b>${i + 1}. ${c}</b> ${esc(CODES[c])}`).join(' &nbsp;·&nbsp; ')
+      : 'Nothing chosen yet.';
+  });
+
+  submit.onclick = () => reveal(it, judged);
+  window.scrollTo(0, 0);
+}
+
+/* ---- reveal --------------------------------------------------------- */
+function reveal(it, j) {
+  const diff = j.mark - it.actual;
+  const abs = Math.abs(diff);
+  const band = abs === 0 ? 'ok' : abs === 1 ? 'near' : 'off';
+
+  let verdict;
+  if (diff === 0) verdict = 'Exact';
+  else if (diff > 0) verdict = `${diff} mark${diff > 1 ? 's' : ''} generous`;
+  else verdict = `${abs} mark${abs > 1 ? 's' : ''} harsh`;
+
+  /* family first, then the exact code */
+  const famsActual = [...new Set(it.codesActual.map(c => c[0]))];
+  const famsGiven  = [...new Set(j.codes.map(c => c[0]))];
+  const famHit  = famsGiven.some(f => famsActual.includes(f));
+  const exactHit = j.codes.some(c => it.codesActual.includes(c));
+
+  let codeRead;
+  if (!it.codesActual.length && !j.codes.length) {
+    codeRead = 'Right — there was nothing to fix here. Recognising a correct answer is half the skill.';
+  } else if (!it.codesActual.length) {
+    codeRead = 'This answer earned full marks. You found a fault that was not there, which is worth noticing — marking too harshly costs you as much as marking too generously.';
+  } else if (!j.codes.length) {
+    codeRead = 'You chose no codes, but this answer did carry a fault. Something was wrong and you did not name it.';
+  } else if (exactHit) {
+    codeRead = 'You named it exactly.';
+  } else if (famHit) {
+    const f = famsGiven.find(x => famsActual.includes(x));
+    codeRead = `You saw the right kind of failure — this is a ${FAM_NAME[f].toLowerCase()} problem — but not the specific one. That is most of the insight.`;
+  } else {
+    const f = famsActual[0];
+    codeRead = `You read the failure differently. This was a ${FAM_NAME[f].toLowerCase()} problem, not a ${FAM_NAME[famsGiven[0]].toLowerCase()} one.`;
+  }
+
+  const actualPills = it.codesActual.length
+    ? it.codesActual.map(c => `<span class="pill ${c[0]}">${c} — ${esc(CODES[c])}</span>`).join('')
+    : '<span class="pill ghost">No codes — full marks</span>';
+  const yourPills = j.codes.length
+    ? j.codes.map(c => `<span class="pill ${c[0]}">${c}</span>`).join('')
+    : '<span class="pill ghost">none</span>';
+
+  const critRows = it.criteria.map(c => {
+    const was = it.criteriaMet.includes(c.id);
+    const you = j.crit.has(c.id);
+    const agree = was === you;
+    return `<li class="${was ? 'was-met' : 'was-miss'}">
+      <label style="cursor:default">
+        <span style="flex:1"><b>${esc(c.label)}</b>
+          <span>${was ? 'Present and correct' : 'Not met'}${agree ? '' : you ? ' — you ticked it' : ' — you missed it'}</span>
+        </span>
+        <span class="verdict ${agree ? 'hit' : 'no'}">${agree ? 'agreed' : 'differed'}</span>
+      </label></li>`;
+  }).join('');
+
+  /* rewrite fires on over-marking by 2+, or a missed family on a weak answer.
+     Never on under-marking — that is a different fault and a rewrite does not repair it. */
+  const weak = it.actual <= it.marks / 2;
+  const wantRewrite = it.rewrite && rewritesUsed < 1 &&
+    ((diff >= 2) || (weak && it.codesActual.length && j.codes.length && !famHit));
+
+  app.innerHTML = `
+    <div class="prog"><span>Answer <b>${at + 1}</b> of ${queue.length}</span>
+      <span>${esc(it.srcLabel)}</span></div>
+    <div class="track"><i style="width:${((at + 1) / queue.length) * 100}%"></i></div>
+
+    <div class="card rev">
+      <div class="scoreline">
+        <span class="big">${it.actual}<span> / ${it.marks}</span></span>
+        <span class="gap ${band}">${verdict}</span>
+        <span class="yours">you gave ${j.mark}</span>
+      </div>
+
+      <div class="revrow">
+        <h3>What it carried</h3>
+        <div class="codeline">${actualPills}</div>
+        <div class="codeline" style="margin-bottom:0"><span class="yours">you chose</span> ${yourPills}</div>
+      </div>
+
+      <div class="revrow">
+        <h3>Your read</h3>
+        <p>${esc(codeRead)}</p>
+      </div>
+
+      <div class="revrow" style="margin-bottom:0">
+        <h3>Why</h3>
+        <p class="why">${esc(it.why)}</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="step" style="margin-bottom:10px"><i>✓</i>Against the guide</p>
+      <ul class="crit">${critRows}</ul>
+    </div>
+
+    ${wantRewrite ? `
+    <div class="card rw">
+      <h3>${diff >= 2 ? 'You marked this ' + diff + ' marks high — so fix it' : 'You read the fault wrongly — so fix it'}</h3>
+      <p class="note">${esc(it.rewrite.ask)}</p>
+      <p class="keep">${esc(it.rewrite.keep)}</p>
+      <textarea id="rwin" placeholder="Write the missing part only. One or two sentences."></textarea>
+      <button class="go ghost" id="rwshow" style="margin-top:12px">Show me one way to finish it</button>
+      <div id="rwmodel" hidden><p class="model">${esc(it.rewrite.model)}</p></div>
+    </div>` : ''}
+
+    <button class="go" id="next">${at + 1 >= queue.length ? 'See how you went' : 'Next answer'}</button>`;
+
+  if (wantRewrite) {
+    rewritesUsed++;
+    document.getElementById('rwshow').onclick = e => {
+      document.getElementById('rwmodel').hidden = false;
+      e.target.remove();
+    };
+  }
+
+  sessionRows.push({
+    kk: it.kk, marks: it.marks, actual: it.actual, given: j.mark,
+    codesActual: it.codesActual.slice(), codesGiven: j.codes.slice()
+  });
+  saveRow(it, j);
+
+  document.getElementById('next').onclick = () => { at++; render(); };
+  window.scrollTo(0, 0);
+}
+
+/* ---- storage: S.as, read-modify-write, append only ------------------- */
+async function saveRow(it, j) {
+  try {
+    const S = await Record.load(cw);      // loads the whole record, keeps every branch
+    S.as = S.as || [];
+    S.as.push({
+      t: 'assess',
+      src: it.src,
+      q: it.q,
+      qt: it.qt,
+      kk: it.kk,                          // already study design order — do NOT run
+                                          // toStudyDesign() over it, that converts
+                                          // booklet codes and would remap 4.1.20 → 4.1.13
+      marks: it.marks,
+      actual: it.actual,
+      given: j.mark,
+      codesActual: it.codesActual.slice(),
+      codesGiven: j.codes.slice(),
+      ts: Date.now()
+    });
+    await Store.set(cw, JSON.stringify(S));
+  } catch (e) { /* never block the task on a failed write */ }
+}
+
+/* ---- summary -------------------------------------------------------- */
+async function summary() {
+  let rows = sessionRows;
+  try {
+    const S = await Record.load(cw);
+    if (S.as && S.as.length) rows = S.as;
+  } catch (e) {}
+
+  const n = rows.length;
+  if (!n) return start();                 // nothing marked yet — nothing to report on
+
+  const bias = rows.reduce((a, r) => a + (r.given - r.actual) / r.marks, 0) / n;
+  const meanMarks = rows.reduce((a, r) => a + r.marks, 0) / n;
+  const inMarks = bias * meanMarks;
+
+  let biasText;
+  const mag = Math.abs(inMarks);
+  if (mag < 0.25) {
+    biasText = `Across ${n} answer${n > 1 ? 's' : ''} you marked, you came out within a quarter
+      of a mark of the real score on average. Your marking is calibrated — which means when you
+      mark your own practice, you can trust the number you give yourself.`;
+  } else if (inMarks > 0) {
+    biasText = `Across ${n} answer${n > 1 ? 's' : ''} you marked, you gave on average
+      <b>${mag.toFixed(1)} marks more</b> than the answer earned. You are a generous marker —
+      which means when you mark your own practice, you are probably scoring yourself higher
+      than an assessor would.`;
+  } else {
+    biasText = `Across ${n} answer${n > 1 ? 's' : ''} you marked, you gave on average
+      <b>${mag.toFixed(1)} marks less</b> than the answer earned. You are a harsh marker.
+      That sounds safer than the opposite, but it is not — it means you do not yet know what
+      is enough, so you keep writing past the point where the marks stop.`;
+  }
+
+  /* which codes they fail to spot */
+  const seen = {}, caught = {};
+  rows.forEach(r => (r.codesActual || []).forEach(c => {
+    seen[c] = (seen[c] || 0) + 1;
+    if ((r.codesGiven || []).includes(c)) caught[c] = (caught[c] || 0) + 1;
+  }));
+  const misses = Object.keys(seen)
+    .map(c => ({ c, seen: seen[c], caught: caught[c] || 0 }))
+    .filter(m => m.caught < m.seen)
+    .sort((a, b) => (a.caught / a.seen) - (b.caught / b.seen) || b.seen - a.seen)
+    .slice(0, 4);
+
+  const REPAIR = {
+    C2:'Finish at the goal. Before you put your pen down, check the last sentence names the thing the question asked about.',
+    C3:'Read your own chain back and ask "how?" at every arrow. Where you cannot answer, a step is missing.',
+    C8:'Count the marks, then count your links. Four marks means four separate things.',
+    C5:'Quote one real figure. It is the cheapest mark on the paper.',
+    C6:'Do not copy the table. Use a number inside a sentence that explains something.',
+    C1:'Ask what the question wanted you to end up at, then check you got there.',
+    C10:'Write in full sentences. An assessor cannot award a link they cannot read.',
+    B1:'Name the goal and its target range, not just the goal.',
+    B2:'Check the terms: demand or quantity demanded, expansion or increase, disposable or discretionary.',
+    B3:'Draw the direction before you write it. A reversed mechanism costs everything after it.',
+    B5:'Use the study design words, not your own shorthand.',
+    A1:'Circle the task word before you start. Describe, explain, distinguish and discuss are different jobs.',
+    A3:'Check the year, the period and the direction the question named.',
+    A5:'Say what happens to the direction of change, not the final state.',
+    A6:'If the question did not ask for a definition, do not write one.'
+  };
+
+  const missHtml = misses.length ? misses.map(m => `
+    <div class="missrow">
+      <span class="pill ${m.c[0]}">${m.c}</span>
+      <div><b>${esc(CODES[m.c])}</b>
+        <span>${esc(REPAIR[m.c] || 'Look back at where this one showed up.')}</span></div>
+      <span class="rate">${m.caught}/${m.seen}</span>
+    </div>`).join('')
+    : '<p class="note" style="margin:0">You spotted every code that came up. Do another set — this one did not stretch you.</p>';
+
+  app.innerHTML = `
+    <p class="lead">How you marked.</p>
+
+    <div class="card stat">
+      <p class="big">${inMarks > 0 ? '+' : ''}${inMarks.toFixed(1)}<span> marks per answer</span></p>
+      <p class="note" style="margin:0">${biasText}</p>
+    </div>
+
+    <div class="card">
+      <p class="step" style="margin-bottom:10px"><i>·</i>Codes you rarely spot</p>
+      <p class="stepnote">A fault you cannot see in someone else's work is one you cannot see
+        in your own. The number is how often you caught it.</p>
+      ${missHtml}
+    </div>
+
+    <button class="go" id="again">Mark another set</button>
+    <button class="go ghost" id="home" style="margin-top:10px">Back to the portal</button>
+
+    <div class="foot">
+      <p>Your results save against your code word on this device, and feed the tracker.</p>
+    </div>`;
+
+  document.getElementById('again').onclick = () => start();
+  document.getElementById('home').onclick = () =>
+    location.href = 'index.html?cw=' + encodeURIComponent(cw);
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
