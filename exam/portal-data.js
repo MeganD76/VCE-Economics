@@ -178,6 +178,10 @@ const TOOLS = [
     blurb: 'Filtered sets for each question type, including two part questions.',
     file: 'practice.html', live: true },
 
+     { id: 'assess', name: 'Assessing responses',
+    blurb: 'Mark someone else\'s answer against the guide, then see what it really scored. Trains the judgement every other task here depends on.',
+    file: 'assess.html', live: true },
+   
   { id: 'mark',   name: 'Mark my answer',
     blurb: 'Photograph a written response and get a mark with feedback against the VCAA standard.',
     file: 'marking.html', live: false },
