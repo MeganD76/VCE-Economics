@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Changing Labour Market — Lesson Tasks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PALETTE — ledger / customs-manifest
+   ============================================================ */
+:root{
+  --ink:#12303A;        /* headings, body text */
+  --ink-soft:#4A6672;   /* secondary text */
+  --teal:#0E7C7B;       /* primary action, WE DO */
+  --teal-pale:#E4F1F0;
+  --amber:#B9791A;      /* hints */
+  --amber-pale:#FBF1DC;
+  --red:#B23B32;        /* common mistakes */
+  --red-pale:#FBE9E7;
+  --green:#2C6E4A;      /* cleared */
+  --green-pale:#E3F0E7;
+  --paper:#FBFAF7;
+  --card:#FFFFFF;
+  --line:#DAD6CD;
+  --line-soft:#EDEAE3;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  font-size:16px;line-height:1.55;
+  -webkit-text-size-adjust:100%;
+}
+h1,h2,h3,h4{font-family:'IBM Plex Sans Condensed','IBM Plex Sans',sans-serif;font-weight:700;line-height:1.15;margin:0}
+.mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+
+/* eyebrow label — used for every structural marker in the page */
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);
+}
+
+.wrap{max-width:820px;margin:0 auto;padding:0 20px 96px}
+
+/* ---------- top bar ---------- */
+.bar{
+  border-bottom:1px solid var(--line);background:var(--card);
+  position:sticky;top:0;z-index:20;
+}
+.bar-in{max-width:820px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px}
+.bar-title{font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:17px;letter-spacing:-.01em}
+.bar-spacer{flex:1}
+.who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-soft)}
+.linkish{
+  background:none;border:none;padding:0;font:inherit;color:var(--teal);
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;
+}
+.linkish:hover{color:var(--ink)}
+
+/* ---------- buttons ---------- */
+.btn{
+  font:inherit;font-weight:600;border:1px solid var(--ink);background:var(--ink);color:#fff;
+  padding:10px 18px;border-radius:2px;cursor:pointer;
+}
+.btn:hover{background:#0A222A;border-color:#0A222A}
+.btn:disabled{background:var(--line);border-color:var(--line);color:#8B8B84;cursor:not-allowed}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-ghost:hover{background:var(--line-soft);color:var(--ink)}
+.btn-teal{background:var(--teal);border-color:var(--teal)}
+.btn-teal:hover{background:#0B6564;border-color:#0B6564}
+.btn-sm{padding:6px 12px;font-size:14px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+
+/* ---------- name picker ---------- */
+.roll{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.roll button{
+  font:inherit;font-weight:500;padding:12px 20px;border:1px solid var(--line);
+  background:var(--card);border-radius:2px;cursor:pointer;color:var(--ink);
+}
+.roll button:hover{border-color:var(--teal);background:var(--teal-pale)}
+
+/* ---------- hub: colour accents per lesson card ---------- */
+:root{
+  --acc1:#0E7C7B; --acc1-pale:#E4F1F0;   /* teal   */
+  --acc2:#B23B32; --acc2-pale:#FBE9E7;   /* red    */
+  --acc3:#B9791A; --acc3-pale:#FBF1DC;   /* amber  */
+  --acc4:#2C6E4A; --acc4-pale:#E3F0E7;   /* green  */
+  --acc5:#5B4B8A; --acc5-pale:#EDE9F5;   /* plum   */
+  --acc6:#1E6091; --acc6-pale:#E1EEF7;   /* sky    */
+  --acc7:#A34E86; --acc7-pale:#F5E7F1;   /* orchid */
+  --acc8:#C2660E; --acc8-pale:#FBE9D8;   /* rust   */
+}
+
+/* ---------- hub: welcome banner ---------- */
+.hero{
+  margin-top:28px;border-radius:6px;padding:22px 26px;
+  background:linear-gradient(120deg,#12303A 0%,#0E7C7B 100%);
+  color:#fff;position:relative;overflow:hidden;
+}
+.hero::after{
+  content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;
+  border-radius:50%;background:rgba(255,255,255,.07);
+}
+.hero-eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,255,255,.75);
+}
+.hero-title{font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:26px;margin:6px 0 4px}
+.hero-sub{color:rgba(255,255,255,.85);font-size:14.5px;max-width:52ch;margin:0}
+.hero-stats{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap;position:relative}
+.hero-ring{
+  width:52px;height:52px;border-radius:50%;flex:none;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  background:conic-gradient(#F2C879 calc(var(--pct)*1%), rgba(255,255,255,.25) 0);
+}
+.hero-ring::before{content:"";position:absolute;inset:5px;border-radius:50%;background:#12303A}
+.hero-ring span{position:relative;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700}
+.hero-statline{font-size:14px}
+.hero-statline b{font-weight:700}
+
+/* ---------- hub: card grid ---------- */
+.card-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;
+  margin-top:24px;
+}
+.lcard{
+  position:relative;text-align:left;font:inherit;color:inherit;cursor:pointer;
+  background:var(--card);border:1px solid var(--line);border-radius:6px;
+  padding:16px 16px 14px;overflow:hidden;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.lcard:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(18,48,58,.12)}
+.lcard:active{transform:translateY(0)}
+.lcard::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--acc);
+}
+.lcard-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.lcard-num{
+  font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13px;
+  color:var(--acc);background:var(--acc-pale);border-radius:3px;padding:3px 8px;flex:none;
+}
+.lcard-title{
+  font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:17px;
+  margin:10px 0 3px;line-height:1.2;
+}
+.lcard-chap{font-size:12.5px;color:var(--ink-soft);margin-bottom:12px}
+.lcard-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.lcard-pips{display:flex;gap:4px}
+.lcard-pip{width:14px;height:4px;border-radius:1px;background:var(--line)}
+.lcard-pip.on{background:var(--acc)}
+
+.pill{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.03em;
+  padding:4px 10px;border-radius:99px;white-space:nowrap;
+}
+.pill-todo{background:var(--line-soft);color:var(--ink-soft)}
+.pill-progress{background:var(--acc3-pale);color:var(--acc3)}
+.pill-done{background:var(--acc4-pale);color:var(--acc4)}
+.pill-done::before{content:"\2713  "}
+
+/* ---------- hub: old row style (used by teacher toolbar buttons) ---------- */
+.manifest{margin-top:26px;border-top:2px solid var(--ink)}
+.mrow{
+  display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;
+  padding:16px 4px;border-bottom:1px solid var(--line-soft);
+  background:none;border-left:0;border-right:0;border-top:0;width:100%;
+  text-align:left;font:inherit;color:inherit;cursor:pointer;
+}
+.mrow:hover{background:var(--card)}
+.mrow[disabled]{cursor:default;opacity:.55}
+.mrow[disabled]:hover{background:none}
+.mnum{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-soft)}
+.mtitle{font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:19px}
+.mchap{font-size:13px;color:var(--ink-soft);margin-top:1px}
+.mcount{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-soft);white-space:nowrap}
+.mcount.full{color:var(--green);font-weight:600}
+
+/* SIGNATURE — the clearance stamp */
+.stamp{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--green);
+  border:2px solid var(--green);border-radius:3px;padding:3px 9px;
+  transform:rotate(-4deg);opacity:.9;
+}
+.stamp.land{animation:land .45s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes land{
+  from{transform:rotate(-18deg) scale(1.7);opacity:0}
+  to{transform:rotate(-4deg) scale(1);opacity:.9}
+}
+@media (prefers-reduced-motion:reduce){.stamp.land{animation:none}}
+
+/* ---------- lesson page ---------- */
+.lesson-head{padding:28px 0 6px;border-bottom:2px solid var(--ink)}
+.lesson-head h1{font-size:30px;letter-spacing:-.015em;margin-top:6px}
+.progress{
+  display:flex;align-items:center;gap:10px;margin-top:14px;padding-bottom:16px;
+  font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-soft);
+}
+.pips{display:flex;gap:5px}
+.pip{width:22px;height:5px;background:var(--line);border-radius:1px}
+.pip.on{background:var(--green)}
+
+.task{
+  background:var(--card);border:1px solid var(--line);border-radius:3px;
+  margin-top:22px;overflow:hidden;
+}
+.task-head{padding:16px 20px 0;display:flex;align-items:flex-start;gap:12px}
+.task-n{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:var(--ink-soft);
+  border:1px solid var(--line);border-radius:2px;padding:2px 7px;margin-top:2px;flex:none;
+}
+.task-n.on{background:var(--green-pale);border-color:var(--green);color:var(--green)}
+.task-title{font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:19px;flex:1}
+.task-marks{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);flex:none;margin-top:3px}
+.task-body{padding:12px 20px 20px}
+.prompt{margin:0 0 14px;font-size:16.5px}
+
+/* callout boxes — mirror the workbook's house style */
+.box{border-radius:2px;padding:12px 14px;margin:14px 0;font-size:14.5px;line-height:1.5}
+.box p{margin:0}
+.box .eyebrow{display:block;margin-bottom:5px}
+.box-hint{background:var(--amber-pale);border-left:3px solid var(--amber)}
+.box-hint .eyebrow{color:var(--amber)}
+.box-mistake{background:var(--red-pale);border-left:3px solid var(--red)}
+.box-mistake .eyebrow{color:var(--red)}
+.box-build{background:var(--teal-pale);border-left:3px solid var(--teal)}
+.box-build .eyebrow{color:var(--teal)}
+.box-build ol{margin:6px 0 0;padding-left:20px}
+.box-build li{margin-bottom:3px}
+
+/* ---------- match ---------- */
+.pairs{display:flex;flex-direction:column;gap:8px}
+.pair{display:grid;grid-template-columns:minmax(130px,34%) 1fr;gap:12px;align-items:center}
+.pair-term{font-weight:600;font-size:15px}
+select,textarea,input[type=text]{
+  font:inherit;font-size:15px;color:var(--ink);background:var(--paper);
+  border:1px solid var(--line);border-radius:2px;padding:9px 10px;width:100%;
+}
+select:focus,textarea:focus,input:focus{border-color:var(--teal);outline:none;background:#fff}
+.pair.ok select{border-color:var(--green);background:var(--green-pale)}
+.pair.no select{border-color:var(--red);background:var(--red-pale)}
+
+/* ---------- sort ---------- */
+.sorts{display:flex;flex-direction:column;gap:9px}
+.sort-row{
+  display:flex;gap:12px;align-items:center;justify-content:space-between;
+  padding:10px 12px;border:1px solid var(--line-soft);border-radius:2px;background:var(--paper);
+  flex-wrap:wrap;
+}
+.sort-row.ok{border-color:var(--green);background:var(--green-pale)}
+.sort-row.no{border-color:var(--red);background:var(--red-pale)}
+.sort-txt{flex:1;min-width:190px;font-size:15px}
+.chips{display:flex;gap:6px;flex:none}
+.chip{
+  font:inherit;font-size:13.5px;font-weight:500;padding:6px 13px;cursor:pointer;
+  border:1px solid var(--line);background:#fff;border-radius:2px;color:var(--ink-soft);
+}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* ---------- choice ---------- */
+.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:6px}
+.opt{
+  display:flex;gap:10px;align-items:flex-start;padding:10px 12px;cursor:pointer;
+  border:1px solid var(--line-soft);border-radius:2px;background:var(--paper);font-size:15px;
+}
+.opt:hover{border-color:var(--teal)}
+.opt input{margin:4px 0 0;flex:none;accent-color:var(--teal)}
+.opt.ok{border-color:var(--green);background:var(--green-pale)}
+.opt.no{border-color:var(--red);background:var(--red-pale)}
+
+/* ---------- written ---------- */
+textarea{min-height:120px;resize:vertical;line-height:1.55}
+.starters{font-size:14px;color:var(--ink-soft);margin:0 0 10px;padding-left:18px}
+.starters li{margin-bottom:2px}
+.bank{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.word{
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:4px 9px;border-radius:2px;
+  border:1px dashed var(--line);color:var(--ink-soft);
+}
+.word.used{border-style:solid;border-color:var(--teal);background:var(--teal-pale);color:var(--teal);font-weight:500}
+.meter{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px;
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-soft);flex-wrap:wrap;
+}
+.checks{margin:14px 0 0;display:flex;flex-direction:column;gap:6px}
+.checks label{display:flex;gap:9px;align-items:flex-start;font-size:14.5px;cursor:pointer}
+.checks input{margin:3px 0 0;flex:none;accent-color:var(--teal)}
+.actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.done-note{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--green);font-weight:500}
+
+/* ---------- DUDDS checker ---------- */
+.dudds{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.dcheck{
+  display:flex;align-items:center;gap:7px;font-size:13.5px;
+  border:1px solid var(--line);border-radius:2px;padding:6px 11px;background:var(--paper);
+}
+.dcheck .k{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;color:var(--ink-soft)}
+.dcheck.on{border-color:var(--green);background:var(--green-pale)}
+.dcheck.on .k{color:var(--green)}
+.chart{width:100%;border:1px solid var(--line);border-radius:2px;margin-bottom:14px;display:block}
+.data-table{border:1px solid var(--line);border-radius:3px;overflow:hidden;margin-bottom:14px;background:var(--card)}
+.dt-cap{
+  font-family:'IBM Plex Sans Condensed',sans-serif;font-weight:700;font-size:15px;
+  padding:10px 12px;background:var(--teal-pale);color:var(--teal);
+}
+.data-table table{border-collapse:collapse;width:100%;font-size:14.5px}
+.data-table th{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:500;background:var(--paper);text-align:left;padding:8px 12px;
+  border-bottom:1px solid var(--line);position:static;
+}
+.data-table td{padding:8px 12px;border-bottom:1px solid var(--line-soft);white-space:normal}
+.data-table tr:last-child td{border-bottom:none}
+.dt-num{font-family:'IBM Plex Mono',monospace;text-align:right;white-space:nowrap}
+.dt-src{font-size:12px;color:var(--ink-soft);padding:8px 12px;background:var(--paper);border-top:1px solid var(--line-soft)}
+.chart-slot{
+  border:1px dashed var(--line);border-radius:2px;padding:26px;text-align:center;
+  color:var(--ink-soft);font-size:14px;margin-bottom:14px;background:var(--paper);
+}
+
+/* ---------- two truths ---------- */
+.tt-row{display:flex;gap:10px;align-items:center;margin-bottom:9px}
+.tt-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);
+  border:1px solid var(--line);border-radius:2px;padding:6px 8px;flex:none;
+}
+.lie-pick{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap;font-size:14.5px}
+
+/* ---------- teacher ---------- */
+.grid-wrap{overflow-x:auto;margin-top:20px;border:1px solid var(--line);border-radius:3px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:9px 11px;border-bottom:1px solid var(--line-soft);text-align:left;white-space:nowrap}
+th{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:500;background:var(--paper);position:sticky;top:0;
+}
+td.cell{font-family:'IBM Plex Mono',monospace;font-size:13px;text-align:center;color:var(--ink-soft)}
+td.cell.full{background:var(--green-pale);color:var(--green);font-weight:600}
+td.cell.part{background:var(--amber-pale);color:var(--amber)}
+td.cell.low{background:var(--red-pale);color:var(--red);font-weight:600}
+.verdict{
+  display:inline-block;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;
+  width:22px;height:22px;line-height:22px;border-radius:50%;text-align:center;
+}
+.verdict.yes{background:var(--green);color:#fff}
+.verdict.no{background:var(--line);color:var(--ink-soft)}
+td.nm{font-weight:600}
+.resp{
+  border:1px solid var(--line);border-radius:3px;background:var(--card);
+  padding:16px 18px;margin-top:14px;break-inside:avoid;
+}
+.resp h4{font-size:17px}
+.resp-meta{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);margin:3px 0 10px}
+.resp-text{white-space:pre-wrap;font-size:15px;border-left:3px solid var(--teal-pale);padding-left:13px;margin:8px 0}
+.resp-none{color:var(--ink-soft);font-style:italic;font-size:14.5px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:11.5px;padding:3px 8px;border-radius:2px;background:var(--line-soft);color:var(--ink-soft)}
+.tag.on{background:var(--green-pale);color:var(--green)}
+.tag.off{background:var(--red-pale);color:var(--red)}
+.err{background:var(--red-pale);border-left:3px solid var(--red);padding:12px 14px;border-radius:2px;margin-top:16px;font-size:15px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
+.sync{
+  position:fixed;right:16px;bottom:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;
+  background:var(--ink);color:#fff;padding:7px 13px;border-radius:2px;opacity:0;
+  transition:opacity .25s;pointer-events:none;z-index:40;
+}
+.sync.show{opacity:.92}
+.sync.bad{background:var(--red)}
+
+@media (max-width:560px){
+  .pair{grid-template-columns:1fr;gap:5px}
+  .lesson-head h1{font-size:25px}
+  .mrow{grid-template-columns:38px 1fr;gap:10px}
+  .mcount{grid-column:2;margin-top:4px}
+  .card-grid{grid-template-columns:1fr}
+  .hero{padding:18px 18px}
+  .hero-title{font-size:22px}
+}
+@media print{
+  .bar,.toolbar,.sync,.no-print{display:none!important}
+  body{background:#fff}
+  .resp{break-inside:avoid;border-color:#999}
+}
+
+/* ============================================================
+   LABOUR MARKET HUB — extra task types (all auto-marked)
+   ============================================================ */
+.fb{margin-top:14px;padding:12px 14px;border-left:4px solid var(--line);background:var(--line-soft);font-size:15px}
+.fb p{margin:4px 0 0}
+.fb.ok{border-color:var(--green);background:var(--green-pale)}
+.fb.no{border-color:var(--red);background:var(--red-pale)}
+.fb .eyebrow{display:block}
+.why{font-size:14px;color:var(--ink-soft);margin:6px 0 0}
+.why b{color:var(--ink)}
+.ok-t{color:var(--green);font-weight:600}
+.no-t{color:var(--red);font-weight:600}
+
+/* quiz */
+.q{padding:14px 0;border-top:1px solid var(--line-soft)}
+.q:first-child{border-top:none;padding-top:0}
+.q-stem{font-weight:600;margin:0 0 8px}
+.q-opts{display:grid;gap:8px}
+.q-opt{font:inherit;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:2px;
+  padding:10px 12px;cursor:pointer;color:var(--ink)}
+.q-opt:hover:not([disabled]){border-color:var(--teal);background:var(--teal-pale)}
+.q-opt[disabled]{cursor:default}
+.q-opt.ok{border-color:var(--green);background:var(--green-pale)}
+.q-opt.no{border-color:var(--red);background:var(--red-pale)}
+.q-opt.dim{opacity:.55}
+
+/* sort (buttons) */
+.srow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 0;border-top:1px solid var(--line-soft)}
+.srow:first-child{border-top:none}
+.srow .s-txt{flex:1 1 260px}
+.srow .s-btns{display:flex;flex-wrap:wrap;gap:6px}
+.sbtn{font:inherit;font-size:13.5px;padding:6px 10px;border:1px solid var(--line);background:var(--card);
+  border-radius:999px;cursor:pointer;color:var(--ink)}
+.sbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.srow.ok .sbtn.on{background:var(--green);border-color:var(--green)}
+.srow.no .sbtn.on{background:var(--red);border-color:var(--red)}
+.srow .why{flex-basis:100%;margin:0}
+
+/* direction of travel */
+.scen{margin:0 0 16px;padding:12px 14px;background:var(--card);border:1px solid var(--line)}
+.scen-h{font-weight:600;margin:0 0 8px}
+.drow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:8px 0;border-top:1px dashed var(--line-soft)}
+.drow .d-name{flex:1 1 220px}
+.dbtn{font:inherit;font-size:15px;min-width:44px;padding:6px 10px;border:1px solid var(--line);background:var(--card);cursor:pointer;border-radius:2px}
+.dbtn.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.drow.ok .dbtn.on{background:var(--green);border-color:var(--green)}
+.drow.no .dbtn.on{background:var(--red);border-color:var(--red)}
+.drow .why{flex-basis:100%;margin:0}
+
+/* sequence */
+.seq-out{min-height:52px;border:1px dashed var(--line);padding:8px;display:grid;gap:6px;background:var(--card)}
+.seq-out:empty::before{content:"Tap the steps below in order";color:var(--ink-soft);font-size:14px;padding:6px}
+.seq-pool{display:grid;gap:6px;margin-top:10px}
+.seq-item{font:inherit;text-align:left;padding:9px 12px;border:1px solid var(--line);background:var(--paper);cursor:pointer;border-radius:2px;color:var(--ink)}
+.seq-item:hover{border-color:var(--teal)}
+.seq-item .n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft);margin-right:8px}
+.seq-item.ok{border-color:var(--green);background:var(--green-pale)}
+.seq-item.no{border-color:var(--red);background:var(--red-pale)}
+
+/* one word wrong */
+.spot{padding:12px 0;border-top:1px solid var(--line-soft);line-height:2.1}
+.spot:first-child{border-top:none}
+.tok{font:inherit;background:none;border:none;padding:1px 2px;margin:0;cursor:pointer;color:var(--ink);border-radius:2px}
+.tok:hover:not([disabled]){background:var(--amber-pale)}
+.tok[disabled]{cursor:default}
+.tok.no{background:var(--red-pale);text-decoration:line-through;color:var(--red)}
+.tok.ok{background:var(--green-pale);color:var(--green);font-weight:600;text-decoration:line-through}
+.fix{color:var(--green);font-weight:700;margin-left:4px}
+
+/* trim the fat */
+.exq{background:var(--card);border:1px solid var(--line);padding:12px 14px;margin:0 0 12px}
+.exq b{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:500;margin-bottom:4px}
+.trim-s{display:block;width:100%;font:inherit;text-align:left;padding:10px 12px;margin:0 0 6px;border:1px solid var(--line);
+  background:var(--card);cursor:pointer;border-radius:2px;color:var(--ink)}
+.trim-s.cut{text-decoration:line-through;color:var(--ink-soft);background:var(--line-soft)}
+.trim-s.ok{border-color:var(--green)}
+.trim-s.no{border-color:var(--red);border-width:2px}
+.trim-s .tag{margin-left:8px}
+
+/* examiner */
+.guide{margin:0;padding-left:0;list-style:none}
+.guide li{padding:6px 0;border-top:1px dashed var(--line-soft)}
+.guide label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.guide li.ok label{color:var(--green)}
+.guide li.no label{color:var(--red)}
+.student-resp{background:#FFFDF6;border:1px solid var(--line);padding:12px 14px;font-style:italic;margin:0 0 12px}
+.marks-row{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 0}
+
+/* fill + calc */
+.fill-text{line-height:2.2;background:var(--card);border:1px solid var(--line);padding:12px 14px}
+.fill-text select{display:inline-block;width:auto;padding:4px 6px;margin:0 2px;font-size:15px}
+.fill-text select.ok{border-color:var(--green);background:var(--green-pale)}
+.fill-text select.no{border-color:var(--red);background:var(--red-pale)}
+.calc-f{display:grid;grid-template-columns:1fr 150px;gap:8px 12px;align-items:center;padding:8px 0;border-top:1px solid var(--line-soft)}
+.calc-f input{width:100%}
+.calc-f.ok input{border-color:var(--green);background:var(--green-pale)}
+.calc-f.no input{border-color:var(--red);background:var(--red-pale)}
+.calc-f .why{grid-column:1/-1;margin:0}
+.unit{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-soft)}
+.stepup{display:inline-block;background:#FFC000;color:#1A1A1A;font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+  font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;margin-left:8px;vertical-align:middle}
+.score-line{font-family:'IBM Plex Mono',monospace;font-size:13px;margin-top:10px}
+.pct-bar{height:8px;background:var(--line-soft);position:relative;min-width:80px}
+.pct-bar i{position:absolute;left:0;top:0;bottom:0;background:var(--teal)}
+@media (max-width:560px){
+  .calc-f{grid-template-columns:1fr}
+}
+.progress{flex-wrap:wrap;row-gap:8px}
+</style>
+</head>
+<body>
+<div class="bar">
+  <div class="bar-in">
+    <span class="bar-title">Changing Labour Market</span>
+    <span class="eyebrow">Unit 2 · AOS 2</span>
+    <span class="bar-spacer"></span>
+    <span class="who" id="who"></span>
+  </div>
+</div>
+<div class="wrap" id="app"></div>
+<div class="sync" id="sync"></div>
+<script>
+/* ============================================================================
+   1. CONFIGURATION — MsD, edit this block only
+   ============================================================================ */
+
+// Same Cloudflare Worker as the International Trade hub.
+const WORKER_URL = "https://vce-results.megan-dyring.workers.dev";
+
+// Bump this every time you commit, and link to the page as  ...html?v=2
+// School Chromebooks cache aggressively and will otherwise serve the old file.
+const VERSION = 2;
+
+const CONNECTED = /^https:\/\//.test(WORKER_URL);
+
+// Scopes the stored records. Must be different from the trade hub ("it26")
+// and the Year 12 hubs, or results will mix.
+const HUB = "lm26";
+
+// Teacher PIN — must match the Worker's own constant.
+const PIN = "0904";
+
+// Year 11 roll. Students pick their name from this list.
+const ROLL = ["Angelyn","Bisman","Shun","Riley","Nathan","Tina","Serina","Cornelius","Solomon","Leo","Felix","Lisa"];
+
+/* ============================================================================
+   2. LESSON DATA
+
+   Every task type marks itself. Types:
+     match      pairs: [[term, meaning], ...]
+     sort       buckets: [..], items: [{text, bucket, why}]
+     quiz       qs: [{q, options:[..], answer:index, why}]   (instant feedback)
+     seq        steps: [...in the correct order]
+     calc       gen(rnd) -> {table, fields:[{label, answer, unit, working, tol}]}
+     spot       items: [{text with the *wrong* word starred, fix, why}]
+     trim       question, sentences: [{t, keep:true/false, why}]
+     examiner   question, marks, response, guide:[..], earned:[bool..], answer
+     fill       text with {{wrong|*right|wrong}} gaps
+     direction  scenarios: [{text, vars:[{name, answer:"up"|"down"|"same", why}]}]
+   Optional on any task: prompt, hint, why (shown when finished), table, stepup:true
+   ============================================================================ */
+
+const r1 = x => Math.round(x * 10) / 10;
+const r2 = x => Math.round(x * 100) / 100;
+const money = x => "$" + x.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+const LESSONS = [
+
+/* =====================================================================
+   L1 — The labour market: demand, supply and the minimum wage
+   ===================================================================== */
+{
+  id:"L1", title:"The labour market", chapter:"Lesson 1 · Demand, supply & the minimum wage",
+  intro:"Seven short tasks. Each one marks itself the moment you check it — read the feedback on anything you get wrong before you try again.",
+  tasks:[
+    { id:"t1", type:"match", title:"Match the term to its meaning",
+      pairs:[
+        ["Labour market","Where firms (buyers) and households (sellers) of labour come together"],
+        ["Derived demand","Demand for labour depends on demand for the goods and services it produces"],
+        ["Wage rate","The price of labour, usually per hour"],
+        ["Labour market equilibrium","The wage where quantity of labour demanded equals quantity supplied"],
+        ["Tight labour market","Demand for labour is greater than supply — a shortage, so wages tend to rise"],
+        ["Weak labour market","Supply of labour is greater than demand — a surplus, so unemployment rises"],
+        ["Human capital","The knowledge, skills and health that make workers productive"]
+      ],
+      why:"Firms **demand** labour and households **supply** it. Tight = shortage of workers; weak = surplus of workers."
+    },
+    { id:"t2", type:"sort", title:"Does it shift demand or supply?",
+      prompt:"Decide whether each change shifts the **demand** for labour or the **supply** of labour.",
+      buckets:["Demand for labour","Supply of labour"],
+      items:[
+        {text:"Consumers become more confident and spend more", bucket:"Demand for labour", why:"More spending → firms produce more → they need more workers. That is derived demand."},
+        {text:"Workers become more productive after training", bucket:"Demand for labour", why:"Each worker now produces more output per hour, so hiring them is worth more to firms."},
+        {text:"Net overseas migration increases", bucket:"Supply of labour", why:"More people of working age are available and willing to work."},
+        {text:"Childcare becomes cheaper for families", bucket:"Supply of labour", why:"More parents can afford to take a job, so more people offer their labour."},
+        {text:"The government cuts payroll tax for businesses", bucket:"Demand for labour", why:"Payroll tax is a non-wage labour cost. Cutting it makes each worker cheaper to employ."},
+        {text:"Robots become much cheaper than before", bucket:"Demand for labour", why:"Capital is a substitute for labour. When it gets cheaper, firms demand less labour."},
+        {text:"More baby boomers retire", bucket:"Supply of labour", why:"Retirees leave the labour force, so fewer people are offering their labour."},
+        {text:"Remote work lets people work for city firms from regional towns", bucket:"Supply of labour", why:"Technology improves geographical mobility, so more people can offer their labour to those firms."}
+      ],
+      hint:"Ask: is this about **firms wanting** workers (demand) or **people offering** to work (supply)?"
+    },
+    { id:"t3", type:"direction", title:"Direction of travel",
+      prompt:"For each scenario, decide what happens to each variable. Assume nothing else changes (ceteris paribus).",
+      scenarios:[
+        { text:"**A.** Strong growth in aggregate demand increases the demand for labour.",
+          vars:[
+            {name:"Equilibrium wage rate", answer:"up", why:"Demand shifts right → at the old wage there is a shortage → the wage is bid up."},
+            {name:"Quantity of labour employed", answer:"up", why:"Firms hire more hours of labour at the new equilibrium."}
+          ]},
+        { text:"**B.** A big rise in skilled migration increases the supply of labour.",
+          vars:[
+            {name:"Equilibrium wage rate", answer:"down", why:"Supply shifts right → a surplus at the old wage → downward pressure on wages."},
+            {name:"Quantity of labour employed", answer:"up", why:"At the lower wage, firms employ more hours of labour."}
+          ]},
+        { text:"**C.** The government sets a minimum wage **above** the equilibrium wage.",
+          vars:[
+            {name:"Quantity of labour supplied", answer:"up", why:"The higher wage attracts more people to offer their labour (movement along supply)."},
+            {name:"Quantity of labour demanded", answer:"down", why:"Labour is dearer, so firms hire fewer hours (movement along demand)."},
+            {name:"Unemployment", answer:"up", why:"Quantity supplied > quantity demanded = a surplus of labour = unemployment."}
+          ]}
+      ]
+    },
+    { id:"t4", type:"seq", title:"Sequence the chain",
+      prompt:"Consumer confidence rises. Put the chain in order, from the cause to the effect on wages.",
+      steps:[
+        "Consumer confidence rises",
+        "Households spend more — consumption (C) rises",
+        "Aggregate demand (AD) increases",
+        "Firms increase production to meet demand",
+        "The derived demand for labour rises",
+        "The demand curve for labour shifts right",
+        "The wage rate and employment rise"
+      ],
+      why:"Every labour market chain goes through **AD → production → derived demand for labour**. Skipping the middle links is the most common way to lose marks."
+    },
+    { id:"t5", type:"quiz", title:"Minimum wage & productivity",
+      qs:[
+        { q:"The minimum wage is set **above** the equilibrium wage. What happens?",
+          options:["A surplus of labour — unemployment","A shortage of labour","No effect at all","The market wage falls"],
+          answer:0, why:"Above equilibrium, more people want to work (Qs rises) but firms want fewer hours (Qd falls). Qs − Qd is unemployment." },
+        { q:"A minimum wage set **below** the equilibrium wage will…",
+          options:["have no effect","cause unemployment","cause a shortage of workers","push the wage down"],
+          answer:0, why:"The market already pays more than the floor, so the floor does not bind. A price floor only matters if it sits above equilibrium." },
+        { q:"From 1 July 2026, the national minimum wage is…",
+          options:["$26.44 an hour","$24.95 an hour","$33.05 an hour","$29.45 an hour"],
+          answer:0, why:"The Fair Work Commission lifted it 6%, from $24.95 to $26.44 ($1,004.90 a week). $33.05 is the casual rate with the 25% loading." },
+        { q:"Labour productivity rises across the economy. The most likely effect on the demand for labour is…",
+          options:["It rises, because each worker produces more and is worth more to firms","It falls, because fewer workers are needed","No change, because productivity only affects supply","It rises, because more people want to work"],
+          answer:0, why:"Higher productivity lowers unit labour costs and raises the value of each hour worked, so firms demand more labour. (In one firm it can mean fewer workers are needed — but across the economy higher productivity supports demand and wages.)" },
+        { q:"Why is the demand for labour called a **derived** demand?",
+          options:["It depends on the demand for the goods and services labour produces","It is derived from the supply of labour","It is set by the government","It depends on the number of unemployed people"],
+          answer:0, why:"Firms do not want workers for their own sake — they want them to produce goods and services that consumers are buying." }
+      ]
+    },
+    { id:"t6", type:"spot", title:"One word wrong",
+      prompt:"Each sentence has **one** word that makes it wrong. Tap it. Your first tap counts.",
+      items:[
+        { text:"When the supply of labour is greater than the demand for labour, the labour market is *tight*.", fix:"weak", why:"Supply > demand is a **surplus** of labour — a weak (loose) labour market with rising unemployment." },
+        { text:"The demand for labour is a derived demand because it depends on the demand for *capital*.", fix:"goods and services", why:"It depends on demand for the **goods and services** labour produces." },
+        { text:"An increase in labour productivity will usually *decrease* the demand for labour.", fix:"increase", why:"More productive workers are worth more to firms, so demand for labour rises." },
+        { text:"A minimum wage set above equilibrium creates a *shortage* of labour.", fix:"surplus", why:"Quantity supplied exceeds quantity demanded — a **surplus**, which is unemployment." },
+        { text:"A rise in the wage rate causes a *shift* of the supply curve for labour.", fix:"movement along", why:"A change in the price (wage) moves us **along** the curve. Other factors shift it." }
+      ]
+    },
+    { id:"t7", type:"quiz", title:"Two truths and a lie",
+      qs:[
+        { q:"Which statement is the **lie**?",
+          options:[
+            "The Fair Work Commission sets the national minimum wage each year.",
+            "A casual on the minimum wage earns $33.05 an hour because of the 25% loading.",
+            "A higher minimum wage always reduces unemployment because low-paid workers spend more."
+          ],
+          answer:2, why:"Extra spending by low-paid workers does lift AD, but if the minimum wage is set well above equilibrium it can **reduce** the hours firms want to hire. It is never “always”." }
+      ]
+    }
+  ]
+},
+
+/* =====================================================================
+   L2 — Key labour market indicators
+   ===================================================================== */
+{
+  id:"L2", title:"Measuring the labour market", chapter:"Lesson 2 · Key labour market indicators",
+  intro:"The calculation task uses **different numbers for every student**, so you can’t copy — but you can compare your working.",
+  tasks:[
+    { id:"t1", type:"match", title:"Match the ABS term to its meaning",
+      pairs:[
+        ["Working-age population","Everyone aged 15 and over"],
+        ["Labour force","The employed plus the unemployed"],
+        ["Employed","Worked at least 1 hour for pay in the survey week"],
+        ["Unemployed","Did not work at all, actively looked for work in the past 4 weeks and could start"],
+        ["Underemployed","Has a job, but wants and is available for more hours"],
+        ["Hidden unemployed","Wants to work but has stopped looking, so is not in the labour force"],
+        ["Participation rate","The labour force as a % of the working-age population"]
+      ],
+      why:"The unemployed must **not** have worked at all — even 1 hour of paid work makes you employed (and maybe underemployed)."
+    },
+    { id:"t2", type:"sort", title:"Classify each person",
+      prompt:"Choose the **most specific** category for each person. Remember: the underemployed are still **employed** (and in the labour force) \u2014 they just want more hours.",
+      buckets:["Employed","Underemployed","Unemployed","Not in the labour force"],
+      items:[
+        {text:"Sophie lost her retail job last month and applied for three jobs this week", bucket:"Unemployed", why:"Not working at all, actively looking and available to start."},
+        {text:"Liam works 2 hours a week at the family bakery but wants full-time work", bucket:"Underemployed", why:"He works at least 1 hour, so he is employed \u2014 but he wants and is available for more hours, so he is **underemployed**."},
+        {text:"Amira has finished uni and is actively looking for her first job", bucket:"Unemployed", why:"Not working, actively looking and available to start."},
+        {text:"Jacob stopped looking for work three months ago after repeated rejections", bucket:"Not in the labour force", why:"He is not actively looking, so he is not counted as unemployed. He is **hidden unemployed**."},
+        {text:"Nina works 38 hours a week as a nurse and is happy with her hours", bucket:"Employed", why:"Full-time work and not wanting more hours \u2014 employed, not underemployed."},
+        {text:"John is a full-time uni student who works at Coles every Saturday and doesn\u2019t want more shifts", bucket:"Employed", why:"He does paid work each week and doesn\u2019t want more hours, so he is employed (not underemployed)."},
+        {text:"Joe, 45, has retired and does not want a job", bucket:"Not in the labour force", why:"Neither working nor looking."},
+        {text:"Angela works one paid day a week in a deli while she looks for full-time work", bucket:"Underemployed", why:"She is employed, but wants and is available for more hours \u2014 **underemployed**. Looking for more work does **not** make her unemployed."},
+        {text:"Matt is a stay-at-home dad and is not looking for work", bucket:"Not in the labour force", why:"Unpaid caring work is not counted as employment, and he is not looking."}
+      ],
+      hint:"Work through it in order: Did they do **any** paid work (1 hour+)? \u2192 employed. If so, do they want more hours? \u2192 underemployed. No work but actively looking? \u2192 unemployed. Neither? \u2192 not in the labour force."
+    },
+    { id:"t3", type:"calc", title:"Calculate the key indicators",
+      prompt:"Use the data for **your** economy. Give rates to **1 decimal place**. Enter numbers only (no % sign needed).",
+      gen: function(rnd){
+        const pk = (a,b) => r1(a + rnd() * (b - a));
+        const ft = pk(8.0, 10.0), pt = pk(3.0, 4.2), u = pk(0.4, 0.8), ue = pk(0.5, 1.0), nilf = pk(5.5, 7.0);
+        const lf = r1(ft + pt + u), wap = r1(lf + nilf);
+        const pr = lf / wap * 100, ur = u / lf * 100, uer = ue / lf * 100;
+        return {
+          table:{ caption:"Your economy (millions of people)", head:["Category","Millions"],
+            rows:[["Employed full-time", ft.toFixed(1)],["Employed part-time", pt.toFixed(1)],["Unemployed", u.toFixed(1)],
+                  ["Underemployed (already counted in part-time)", ue.toFixed(1)],["Not in the labour force", nilf.toFixed(1)]] },
+          fields:[
+            {label:"Labour force", unit:"millions", answer:lf, working:`Employed + unemployed = ${ft.toFixed(1)} + ${pt.toFixed(1)} + ${u.toFixed(1)} = **${lf.toFixed(1)}m**. The underemployed are already inside part-time, so don’t add them again.`},
+            {label:"Working-age population", unit:"millions", answer:wap, working:`Labour force + not in the labour force = ${lf.toFixed(1)} + ${nilf.toFixed(1)} = **${wap.toFixed(1)}m**`},
+            {label:"Participation rate", unit:"%", answer:r1(pr), tol:0.11, working:`Labour force ÷ working-age population × 100 = ${lf.toFixed(1)} ÷ ${wap.toFixed(1)} × 100 = **${pr.toFixed(1)}%**`},
+            {label:"Unemployment rate", unit:"%", answer:r1(ur), tol:0.11, working:`Unemployed ÷ **labour force** × 100 = ${u.toFixed(1)} ÷ ${lf.toFixed(1)} × 100 = **${ur.toFixed(1)}%** (not ÷ population!)`},
+            {label:"Underemployment rate", unit:"%", answer:r1(uer), tol:0.11, working:`Underemployed ÷ labour force × 100 = ${ue.toFixed(1)} ÷ ${lf.toFixed(1)} × 100 = **${uer.toFixed(1)}%**`},
+            {label:"Underutilisation rate", unit:"%", answer:r1(ur + uer), tol:0.16, working:`Unemployment rate + underemployment rate = ${ur.toFixed(1)} + ${uer.toFixed(1)} = **${(ur + uer).toFixed(1)}%**`}
+          ]
+        };
+      },
+      hint:"Every **rate** except participation is divided by the **labour force**, not the population."
+    },
+    { id:"t4", type:"fill", title:"Describe the trend (DUDDS)",
+      prompt:"Complete the description of Australia’s unemployment trend using the data. Choose the option that earns the mark in each gap.",
+      table:{ caption:"Australia’s unemployment rate (seasonally adjusted)", head:["Month","Unemployment rate"],
+        rows:[["June 2020 (COVID peak)","7.4%"],["January 2023","3.5%"],["June 2026","4.4%"]],
+        source:"ABS Labour Force, via CPAP Economics Update 4, August 2026" },
+      text:"Between {{June 2020|*January 2023|June 2026}} and June 2026, Australia’s unemployment rate {{*rose|fell|stayed the same}} from {{*3.5%|7.4%|4.4%}} to {{*4.4%|3.5%|6.5%}}, an increase of {{*0.9 percentage points|0.9 per cent|9 percentage points}}. This suggests the labour market has {{*eased (become less tight)|become tighter|collapsed}}.",
+      why:"DUDDS = **Direction, Unit, Data, Dates, Significance**. Rates change by **percentage points**: 3.5% → 4.4% is +0.9 percentage points, not “0.9%”. (As a per cent change it is about +26% — but the mark is for percentage points.) Rising unemployment means spare capacity is growing, so the market is less tight."
+    },
+    { id:"t5", type:"direction", title:"What happens to the statistics?",
+      scenarios:[
+        { text:"**A.** 100,000 hidden unemployed people start actively looking for work, but none find a job yet.",
+          vars:[
+            {name:"Labour force", answer:"up", why:"They are now actively looking, so they join the labour force as unemployed."},
+            {name:"Unemployment rate", answer:"up", why:"Unemployed rises by more (proportionally) than the labour force."},
+            {name:"Participation rate", answer:"up", why:"Labour force rises while working-age population is unchanged."},
+            {name:"Number employed", answer:"same", why:"Nobody has found a job yet."}
+          ]},
+        { text:"**B.** Discouraged unemployed workers give up and stop looking for work.",
+          vars:[
+            {name:"Unemployment rate", answer:"down", why:"They leave the labour force, so the unemployment rate falls — even though nobody got a job. This is why the unemployment rate can **understate** spare capacity."},
+            {name:"Participation rate", answer:"down", why:"The labour force shrinks."}
+          ]},
+        { text:"**C.** A full-time worker has her hours cut from 38 to 20 a week. She wants more hours.",
+          vars:[
+            {name:"Unemployment rate", answer:"same", why:"She still has a job, so she is still employed."},
+            {name:"Underemployment rate", answer:"up", why:"She is employed but wants more hours — now underemployed."},
+            {name:"Underutilisation rate", answer:"up", why:"Underutilisation = unemployment rate + underemployment rate."}
+          ]}
+      ]
+    },
+    { id:"t6", type:"examiner", title:"Examiner for a day",
+      question:"Country A has an unemployment rate of 14.3% and an underutilisation rate of 28.6%. Identify whether Country A’s labour market is ‘weak’ or ‘tight’. Justify your answer.",
+      marks:3,
+      response:"Country A’s labour market is weak because the unemployment rate is 14.3%, which is very high.",
+      guide:[
+        "Identifies the labour market as **weak** (1 mark)",
+        "Uses the data — unemployment and/or underutilisation rate (1 mark)",
+        "Explains that the **supply of labour is greater than the demand for labour** (a surplus) (1 mark)"
+      ],
+      earned:[true, true, false], answer:2,
+      why:"The answer identifies ‘weak’ and uses data, but never explains **why** high unemployment means weak: supply of labour exceeds demand. That link is worth a whole mark."
+    },
+    { id:"t7", type:"quiz", title:"Exit ticket",
+      qs:[
+        { q:"Employed 9 million, unemployed 1 million, people aged 15+ 15 million. The labour force is…",
+          options:["10 million","9 million","15 million","Cannot be calculated"], answer:0,
+          why:"Labour force = employed + unemployed = 9 + 1 = 10 million." },
+        { q:"Using the same data, if the underemployment rate is 7.0%, the underutilisation rate is closest to…",
+          options:["17%","7%","10%","20%"], answer:0,
+          why:"Unemployment rate = 1 ÷ 10 × 100 = 10%. Underutilisation = 10% + 7% = 17%." },
+        { q:"Which person is in the labour force?",
+          options:["Sarah, who works part-time at IGA and is looking for full-time work","Jim, a retiree on the age pension","Ella, who looks after her children full-time","Jack, who is taking a year-long career break"], answer:0,
+          why:"Sarah is employed (and underemployed). The others are neither working nor looking." },
+        { q:"Hidden unemployment means the official unemployment rate…",
+          options:["understates the true amount of spare labour","overstates the true amount of spare labour","is exactly right","includes the underemployed"], answer:0,
+          why:"The hidden unemployed want work but aren’t counted, so the true level of unused labour is higher than the unemployment rate shows." }
+      ]
+    }
+  ]
+},
+
+/* =====================================================================
+   L3 — Causes and types of unemployment
+   ===================================================================== */
+{
+  id:"L3", title:"Causes & types of unemployment", chapter:"Lesson 3 · Cyclical, structural & natural unemployment",
+  tasks:[
+    { id:"t1", type:"sort", title:"What type of unemployment?",
+      buckets:["Cyclical","Structural","Frictional","Seasonal","Hardcore"],
+      items:[
+        {text:"Arman finished a short IT contract and is applying for similar jobs. He expects to find one soon.", bucket:"Frictional", why:"Between jobs, with skills that are in demand."},
+        {text:"Jayleen lost her checkout job to self-checkout machines and has no formal qualifications.", bucket:"Structural", why:"Technology changed the job; her skills no longer match what employers want."},
+        {text:"Joseph was laid off by a builder that slowed down as interest rates rose and housing demand fell.", bucket:"Cyclical", why:"Caused by falling demand (AD) in a downturn, not by his skills."},
+        {text:"Diana picks fruit in summer but is out of work every winter.", bucket:"Seasonal", why:"The job only exists at certain times of year."},
+        {text:"Sam has been out of work for years due to drug addiction and unreliable past behaviour.", bucket:"Hardcore", why:"Personal characteristics make it very hard to get or keep a job."},
+        {text:"Nils was a coal-plant technician and lost his job when the plant closed as energy shifted to renewables.", bucket:"Structural", why:"A change in the structure of the economy; he needs retraining."},
+        {text:"Isaac lost his café job when locals cut back spending due to high inflation and mortgage repayments.", bucket:"Cyclical", why:"Lower consumer spending (C) → lower AD → less derived demand for labour."},
+        {text:"Jasmine resigned to move interstate and is applying for similar childcare jobs.", bucket:"Frictional", why:"Temporarily between jobs by choice."},
+        {text:"Zac drove taxis but can’t find work since rideshare apps took over, and he hasn’t retrained.", bucket:"Structural", why:"Technology and changing consumer tastes made his skills less wanted."}
+      ],
+      hint:"Ask: is the cause **weak spending** (cyclical), **a skills mismatch** (structural), **between jobs** (frictional), **time of year** (seasonal) or **personal circumstances** (hardcore)?"
+    },
+    { id:"t2", type:"seq", title:"Sequence the chain: interest rates → unemployment",
+      prompt:"The RBA raises interest rates. Put the chain in order.",
+      steps:[
+        "The RBA raises the cash rate",
+        "Borrowing becomes more expensive",
+        "Households and firms spend less — C and I fall",
+        "Aggregate demand falls",
+        "Firms cut production",
+        "The derived demand for labour falls",
+        "Cyclical unemployment rises"
+      ],
+      why:"Cyclical unemployment always comes back to **AD**. Name the component of AD that changes (C, I, G or X−M), then carry it through production to the derived demand for labour."
+    },
+    { id:"t3", type:"quiz", title:"Full employment & the NAIRU",
+      qs:[
+        { q:"Full employment means…",
+          options:["there is no cyclical unemployment — only natural unemployment remains","everyone who wants a job has one","the unemployment rate is 0%","there is no structural unemployment"], answer:0,
+          why:"Even at full employment there is frictional, structural and seasonal (natural) unemployment." },
+        { q:"The RBA’s current estimate of the NAIRU is about…",
+          options:["4.5%","2.5%","7.5%","0%"], answer:0,
+          why:"The RBA estimates it at about 4.5% (Governor Bullock said 4.6% in February 2026). It is an estimate and it changes over time." },
+        { q:"Which of these is **not** part of natural unemployment?",
+          options:["Cyclical","Frictional","Structural","Seasonal"], answer:0,
+          why:"Cyclical unemployment is caused by a lack of AD. Natural unemployment exists even when AD is strong." },
+        { q:"Why is structural unemployment more likely to be long-term than frictional unemployment?",
+          options:["The worker’s skills no longer match available jobs, so they need retraining","It only lasts until the next season","It disappears when the economy grows","Structural unemployment only affects young people"], answer:0,
+          why:"A frictionally unemployed person has wanted skills and just needs time. A structurally unemployed person needs new skills first." },
+        { q:"**(Year 12 step-up)** If unemployment falls well below the NAIRU, the most likely result is…",
+          options:["inflation starts to rise","deflation","structural unemployment rises","the NAIRU falls to zero"], answer:0,
+          why:"Firms compete for scarce workers → wages rise faster → costs and prices rise. That is the “non-accelerating inflation” part of NAIRU." }
+      ]
+    },
+    { id:"t4", type:"spot", title:"One word wrong",
+      prompt:"Tap the one word in each sentence that makes it wrong.",
+      items:[
+        { text:"Cyclical unemployment is caused by a *rise* in aggregate demand.", fix:"fall", why:"A **fall** in AD reduces production and the derived demand for labour." },
+        { text:"Workers replaced by self-checkouts who lack the skills for other jobs are *frictionally* unemployed.", fix:"structurally", why:"A skills mismatch caused by technology is **structural** unemployment." },
+        { text:"Full employment means the unemployment rate is *zero*.", fix:"at the NAIRU (about 4.5%)", why:"Full employment still includes natural unemployment." },
+        { text:"A ski instructor who is out of work over summer is *cyclically* unemployed.", fix:"seasonally", why:"Out of work because of the time of year = **seasonal**." },
+        { text:"Structural unemployment is usually *short-term* because workers quickly find similar jobs.", fix:"long-term", why:"Structurally unemployed workers often need retraining, so it tends to be **long-term** (12 months+)." }
+      ]
+    },
+    { id:"t5", type:"quiz", title:"Myth busters: AI & jobs",
+      prompt:"Is each statement a **myth** or a **fact**?",
+      qs:[
+        { q:"“AI will only destroy jobs.”", options:["Myth","Fact"], answer:0,
+          why:"AI replaces some routine tasks but also **creates** jobs (data analysts, cyber security, AI trainers) and lifts the productivity of workers who use it." },
+        { q:"“Workers doing routine tasks who can’t retrain are most at risk of structural unemployment from AI.”", options:["Myth","Fact"], answer:1,
+          why:"The risk is a skills mismatch — which is exactly what structural unemployment is." },
+        { q:"“In a downturn, firms always sack workers straight away.”", options:["Myth","Fact"], answer:0,
+          why:"Many firms cut **hours** first to keep trained staff, so underemployment often rises before unemployment does." },
+        { q:"“Some frictional unemployment is a sign of a healthy labour market.”", options:["Myth","Fact"], answer:1,
+          why:"People moving to better-matched jobs is normal and useful. It is part of natural unemployment." }
+      ]
+    },
+    { id:"t6", type:"trim", title:"Trim the fat",
+      question:"Distinguish between cyclical unemployment and structural unemployment. (2 marks)",
+      sentences:[
+        { t:"Cyclical unemployment is caused by a fall in aggregate demand during a contraction in the business cycle, which reduces the derived demand for labour.", keep:true, why:"Defines cyclical with its cause — 1 mark." },
+        { t:"Unemployment is bad for the economy and for people.", keep:false, why:"True, but it answers a different question. No marks." },
+        { t:"Structural unemployment is caused by a mismatch between the skills workers have and the skills employers need, often because of technological change.", keep:true, why:"Defines structural with its cause — 1 mark." },
+        { t:"Structural unemployment is when people are unemployed because of the structure.", keep:false, why:"Circular — it uses the word to define itself." },
+        { t:"Unlike cyclical unemployment, structural unemployment can persist even when the economy is growing strongly.", keep:true, why:"“Distinguish” wants the **difference** made explicit. This sentence does it." },
+        { t:"There are also other types of unemployment, like seasonal and frictional.", keep:false, why:"Not asked. Extra types waste time and earn nothing." }
+      ]
+    },
+    { id:"t7", type:"quiz", title:"Two truths and a lie",
+      qs:[
+        { q:"Which statement is the **lie**?",
+          options:[
+            "Hugh, a new graduate looking for his first job, is frictionally unemployed.",
+            "Structural unemployment is best reduced by stimulating aggregate demand.",
+            "The RBA estimates the NAIRU at around 4.5%."
+          ],
+          answer:1, why:"Boosting AD creates jobs, but not jobs that match the structurally unemployed person’s skills. Structural unemployment needs **supply-side** policy such as retraining." }
+      ]
+    }
+  ]
+},
+
+/* =====================================================================
+   L4 — Consequences of unemployment & perspectives
+   ===================================================================== */
+{
+  id:"L4", title:"Consequences & perspectives", chapter:"Lesson 4 · Who is affected, and how?",
+  tasks:[
+    { id:"t1", type:"sort", title:"Material or non-material?",
+      prompt:"A worker has been unemployed for a year. Sort each effect.",
+      buckets:["Material living standards","Non-material living standards"],
+      items:[
+        {text:"Can’t keep up with rent", bucket:"Material living standards", why:"Access to goods and services (housing)."},
+        {text:"Higher stress and anxiety", bucket:"Non-material living standards", why:"Mental health is part of quality of life."},
+        {text:"Less money for food and transport", bucket:"Material living standards", why:"Access to goods and services."},
+        {text:"Loss of self-esteem and sense of purpose", bucket:"Non-material living standards", why:"Work gives meaning and achievement."},
+        {text:"Fewer social connections from work", bucket:"Non-material living standards", why:"Social connection is non-material."},
+        {text:"Has to sell the family car to cover the bills", bucket:"Material living standards", why:"Less access to goods (and transport) because income has fallen."},
+        {text:"More conflict at home", bucket:"Non-material living standards", why:"Family relationships and wellbeing are non-material."}
+      ],
+      hint:"**Material** = access to goods and services. **Non-material** = quality of life (health, relationships, stress, purpose)."
+    },
+    { id:"t2", type:"sort", title:"When unemployment is high — who feels it?",
+      buckets:["Households","Business","Government"],
+      items:[
+        {text:"Income tax revenue falls", bucket:"Government", why:"Fewer people earning = less income tax."},
+        {text:"Sales and profits fall", bucket:"Business", why:"Households spend less."},
+        {text:"Spending on JobSeeker rises", bucket:"Government", why:"More transfer payments to the unemployed."},
+        {text:"Lost income and lost skills", bucket:"Households", why:"The direct cost to unemployed workers."},
+        {text:"More applicants for every vacancy", bucket:"Business", why:"A possible **benefit** to firms: easier recruiting, less wage pressure."},
+        {text:"Workers who still have jobs have less bargaining power", bucket:"Households", why:"Fear of job loss → slower wage growth."},
+        {text:"The budget moves towards deficit", bucket:"Government", why:"Revenue falls while spending rises."},
+        {text:"New equipment and expansion plans are put on hold", bucket:"Business", why:"Firms delay investment when they expect weak sales."}
+      ]
+    },
+    { id:"t3", type:"direction", title:"Two very different labour markets",
+      scenarios:[
+        { text:"**A.** A recession pushes unemployment up sharply.",
+          vars:[
+            {name:"Government tax revenue", answer:"down", why:"Less income earned and less spending taxed."},
+            {name:"Government spending on JobSeeker", answer:"up", why:"More people qualify for unemployment payments."},
+            {name:"Wage growth", answer:"down", why:"Surplus of labour → workers have less bargaining power."},
+            {name:"Income inequality", answer:"up", why:"Job losses hit low-skilled, low-income workers hardest."}
+          ]},
+        { text:"**B.** The labour market is very tight — firms can’t fill vacancies.",
+          vars:[
+            {name:"Wage growth", answer:"up", why:"Firms compete for scarce workers."},
+            {name:"Job vacancies", answer:"up", why:"Demand for labour exceeds supply."},
+            {name:"Pressure on prices (inflation)", answer:"up", why:"Higher wage costs are passed on to consumers."},
+            {name:"Government spending on JobSeeker", answer:"down", why:"Fewer people unemployed."}
+          ]}
+      ]
+    },
+    { id:"t4", type:"examiner", title:"Examiner for a day",
+      question:"Explain the impact of high unemployment rates on material and non-material living standards.",
+      marks:4,
+      response:"High unemployment means people lose their income, so they can’t buy as many goods and services, which lowers their material living standards. It also makes people sad.",
+      guide:[
+        "Shows what **material** living standards are (access to goods and services) (1 mark)",
+        "Links unemployment → lower income → less access to goods and services (1 mark)",
+        "Shows what **non-material** living standards are (quality of life, e.g. health, wellbeing) (1 mark)",
+        "Links unemployment to a specific non-material effect, e.g. financial stress → poorer mental health (1 mark)"
+      ],
+      earned:[true, true, false, false], answer:2,
+      why:"The material half is complete. “It also makes people sad” never says what non-material living standards are and doesn’t explain **how** unemployment causes the effect. Half the question is missing, so 2 out of 4."
+    },
+    { id:"t5", type:"quiz", title:"Not everyone is affected the same way",
+      qs:[
+        { q:"Youth unemployment in Australia is usually…",
+          options:["about double the overall unemployment rate","about the same as the overall rate","lower than the overall rate","not measured by the ABS"], answer:0,
+          why:"Young people have less experience, so they are often first out and last hired." },
+        { q:"Why are some skilled migrants underemployed?",
+          options:["Their overseas qualifications are not always recognised","They are not allowed to work","They are counted as hidden unemployed","They all work in seasonal jobs"], answer:0,
+          why:"If qualifications aren’t recognised, they may work in lower-skilled jobs or fewer hours than they want. The 2026-27 Budget funded faster skills assessments for this reason." },
+        { q:"What is most likely to happen to someone who is unemployed for a long time?",
+          options:["Their skills and confidence erode, and they may stop looking — becoming hidden unemployed","They become frictionally unemployed","Their chances of being hired rise over time","They automatically move into seasonal work"], answer:0,
+          why:"Long-term unemployment makes it harder to get back in, which is why it is so damaging to living standards." }
+      ]
+    },
+    { id:"t6", type:"seq", title:"Sequence the chain: a factory closes",
+      prompt:"A large factory in a regional town closes. Put the ripple effect in order.",
+      steps:[
+        "The factory closes and 500 workers lose their jobs",
+        "Their incomes fall",
+        "They spend less at local shops and businesses",
+        "Local businesses’ sales fall",
+        "Local businesses cut staff and hours",
+        "Unemployment in the town rises further"
+      ],
+      why:"This is the **negative multiplier effect**: one loss of income becomes someone else’s loss of income. It explains why unemployment spreads beyond the first job losses."
+    },
+    { id:"t7", type:"quiz", title:"Two truths and a lie",
+      qs:[
+        { q:"Which statement is the **lie**?",
+          options:[
+            "In a tight labour market, workers have more bargaining power.",
+            "A tight labour market always makes consumers better off.",
+            "When unemployment falls, government spending on JobSeeker falls."
+          ],
+          answer:1, why:"Consumers are also workers, but when firms pass on higher wage costs, **prices rise** and inflation can eat into real incomes. Perspectives can clash." }
+      ]
+    }
+  ]
+},
+
+/* =====================================================================
+   L5 — The changing labour market
+   ===================================================================== */
+{
+  id:"L5", title:"The changing labour market", chapter:"Lesson 5 · Casuals, unions, technology, ageing & migration",
+  tasks:[
+    { id:"t1", type:"calc", title:"Casual loading — do the maths",
+      prompt:"Use 2026 rates: national minimum wage **$26.44 an hour**, casual loading **25%**. Give dollar answers to the cent (numbers only).",
+      gen: function(rnd){
+        const h = 10 + Math.floor(rnd() * 21);
+        const base = 26.44, cas = r2(base * 1.25);
+        const pw = r2(base * h), cw = r2(cas * h);
+        return {
+          table:{ caption:"Your worker", head:["Item","Value"], rows:[["Hours worked per week", String(h)],["Minimum wage (permanent)", "$26.44"],["Casual loading", "25%"]] },
+          fields:[
+            {label:"Casual hourly rate", unit:"$", answer:cas, tol:0.011, working:`$26.44 × 1.25 = **${money(cas)}**`},
+            {label:`Permanent weekly pay (${h} hours)`, unit:"$", answer:pw, tol:0.02, working:`$26.44 × ${h} = **${money(pw)}**`},
+            {label:`Casual weekly pay (${h} hours)`, unit:"$", answer:cw, tol:0.02, working:`${money(cas)} × ${h} = **${money(cw)}**`},
+            {label:"Extra the casual earns each week", unit:"$", answer:r2(cw - pw), tol:0.03, working:`${money(cw)} − ${money(pw)} = **${money(r2(cw - pw))}**`}
+          ]
+        };
+      },
+      why:"The loading **replaces** paid annual leave, sick leave and redundancy pay, and compensates for having no guaranteed hours. Is it enough? That depends on whose perspective you take."
+    },
+    { id:"t2", type:"fill", title:"Describe the trend (DUDDS): union membership",
+      prompt:"Complete the description.",
+      table:{ caption:"Trade union members, % of employees", head:["Year","Membership"], rows:[["1992","41.1%"],["2022","12.5%"]], source:"ABS, Trade union membership, August 2022" },
+      text:"Between {{*1992|2002|2012}} and {{*2022|1992|2012}}, trade union membership in Australia {{*fell|rose|stayed steady}} from {{*41.1%|12.5%|25%}} of employees to {{*12.5%|41.1%|20%}}, a fall of {{*28.6 percentage points|28.6 per cent|12.5 percentage points}}. This means workers have {{*less|more|the same}} collective bargaining power.",
+      why:"Use the right unit: a change in a percentage is measured in **percentage points**. Then give the significance — fewer union members means less collective bargaining power."
+    },
+    { id:"t3", type:"sort", title:"Unions: cause or effect?",
+      prompt:"Is each one a **cause** of falling union membership, or an **effect** of it?",
+      buckets:["Cause","Effect"],
+      items:[
+        {text:"Growth in casual and part-time work", bucket:"Cause", why:"Casual and part-time workers are less likely to join unions."},
+        {text:"Decline of manufacturing", bucket:"Cause", why:"Manufacturing was traditionally heavily unionised."},
+        {text:"Compulsory union membership was made illegal", bucket:"Cause", why:"A law change removed automatic membership."},
+        {text:"Growth of service industries", bucket:"Cause", why:"Service jobs have always had lower union membership."},
+        {text:"Workers have less bargaining power", bucket:"Effect", why:"Fewer members = less collective strength in wage negotiations."},
+        {text:"Slower wage growth for some workers", bucket:"Effect", why:"Weaker bargaining can mean smaller pay rises."},
+        {text:"Fewer industrial disputes and strikes", bucket:"Effect", why:"Less union organising means fewer days lost to disputes."}
+      ]
+    },
+    { id:"t4", type:"direction", title:"Ageing, technology & the labour market",
+      scenarios:[
+        { text:"**A.** Australia’s population keeps ageing (2023 Intergenerational Report).",
+          vars:[
+            {name:"Participation rate", answer:"down", why:"A larger share of people aged 65+ are retired."},
+            {name:"Government spending on health, aged care and pensions", answer:"up", why:"About 40% of projected spending growth over 40 years is due to ageing."},
+            {name:"Demand for aged-care and health workers", answer:"up", why:"An older population needs more care."},
+            {name:"Working-age people per person aged 65+", answer:"down", why:"People 65+ per 100 working-age rises from about 30 (2032) to 38 (2062)."}
+          ]},
+        { text:"**B.** Firms rapidly adopt AI for routine office tasks.",
+          vars:[
+            {name:"Demand for routine admin and data-entry workers", answer:"down", why:"AI substitutes for these tasks."},
+            {name:"Demand for data analysts and cyber-security workers", answer:"up", why:"New technology creates new jobs."},
+            {name:"Labour productivity", answer:"up", why:"Workers using AI produce more per hour."},
+            {name:"Structural unemployment (in the short run)", answer:"up", why:"Displaced workers’ skills don’t match the new jobs until they retrain."}
+          ]}
+      ]
+    },
+    { id:"t5", type:"quiz", title:"Migration in 2026",
+      qs:[
+        { q:"The 2026-27 permanent Migration Program planning level is…",
+          options:["185,000 places","160,000 places","100,000 places","400,000 places"], answer:0,
+          why:"185,000 places, plus humanitarian. It is set each year to match labour market conditions." },
+        { q:"About what share of the program is the skill stream?",
+          options:["68%","30%","10%","95%"], answer:0,
+          why:"About 68% (132,240 places) — back to its pre-pandemic share." },
+        { q:"How does skilled migration affect aggregate supply?",
+          options:["It increases the quantity and quality of labour, so AS rises","It only increases AD","It reduces AS because migrants need jobs","It has no effect on AS"], answer:0,
+          why:"More workers (quantity) who are already trained in skills in shortage (quality) → greater productive capacity." },
+        { q:"Why does skilled migration help with an ageing population?",
+          options:["Skilled migrants are younger and have higher participation rates","Migrants cannot retire in Australia","It lowers the birth rate","It raises the retirement age"], answer:0,
+          why:"Younger workers who participate help offset the fall in the working-age share of the population." },
+        { q:"The “de-skilling” argument against skilled migration says…",
+          options:["firms may import trained workers instead of training local workers","migrants lose their skills after arriving","skilled migration lowers productivity","migrants are not allowed to use their skills"], answer:0,
+          why:"If firms rely on imported skills, fewer Australians get trained — a concern from the **workers’** perspective." }
+      ]
+    },
+    { id:"t6", type:"sort", title:"Skilled migration: benefit or concern?",
+      buckets:["Benefit","Concern"],
+      items:[
+        {text:"Fills skills shortages quickly", bucket:"Benefit", why:"Migrants arrive job-ready in shortage occupations."},
+        {text:"More demand for housing pushes up rents", bucket:"Concern", why:"A community perspective — population growth adds to housing demand."},
+        {text:"Australia doesn’t pay for their education and training", bucket:"Benefit", why:"Migrants arrive fully trained."},
+        {text:"Firms may train fewer local workers", bucket:"Concern", why:"The de-skilling argument."},
+        {text:"More taxpayers to help fund an ageing population", bucket:"Benefit", why:"A government perspective."},
+        {text:"Source countries lose skilled workers", bucket:"Concern", why:"An international perspective — “brain drain”."},
+        {text:"Eases skills shortages that hold back production", bucket:"Benefit", why:"More skilled workers lets firms fill vacancies and expand output \u2014 more productive capacity (AS)."}
+      ]
+    },
+    { id:"t7", type:"quiz", title:"Two truths and a lie",
+      qs:[
+        { q:"Which statement is the **lie**?",
+          options:[
+            "Gig workers, such as rideshare drivers, are usually classed as independent contractors.",
+            "Casual workers receive paid sick leave.",
+            "Female labour force participation has risen over recent decades, helped by childcare and paid parental leave policies."
+          ],
+          answer:1, why:"Casuals get **no** paid sick or annual leave — that is what the 25% loading is meant to make up for." }
+      ]
+    }
+  ]
+},
+
+/* =====================================================================
+   L6 — Government labour market policies
+   ===================================================================== */
+{
+  id:"L6", title:"Government policy responses", chapter:"Lesson 6 · AD policy, AS policy, wages & UBI",
+  tasks:[
+    { id:"t1", type:"match", title:"Match the policy to what it targets",
+      pairs:[
+        ["The RBA lowers the cash rate","Cyclical unemployment — boosts AD"],
+        ["Free TAFE in skills-shortage areas","Structural unemployment — retraining"],
+        ["Workforce Australia","Frictional unemployment — matching job seekers to jobs"],
+        ["Skilled migration program","Labour shortages — more skilled workers"],
+        ["Annual Wage Review","Fairness for the lowest-paid workers"],
+        ["Indigenous Skills and Employment Program","Closing the employment gap for First Nations Australians"],
+        ["Childcare subsidies","Higher participation of parents"]
+      ],
+      why:"Choose the policy that fits the **cause**: AD policy for cyclical, supply-side (AS) policy for structural."
+    },
+    { id:"t2", type:"sort", title:"AD policy or AS policy?",
+      buckets:["AD (demand-side) policy","AS (supply-side) policy"],
+      items:[
+        {text:"The RBA cuts the cash rate", bucket:"AD (demand-side) policy", why:"Cheaper borrowing → C and I rise → AD rises."},
+        {text:"The government cuts income tax to boost spending in a downturn", bucket:"AD (demand-side) policy", why:"More disposable income → more consumption → AD rises."},
+        {text:"A one-off cash payment to households", bucket:"AD (demand-side) policy", why:"A quick boost to spending (C)."},
+        {text:"Free TAFE courses", bucket:"AS (supply-side) policy", why:"Improves the quality of labour and reduces skills mismatch."},
+        {text:"Faster skills recognition for migrant tradies", bucket:"AS (supply-side) policy", why:"Gets skilled workers into jobs that match their skills sooner."},
+        {text:"Childcare subsidies to lift participation", bucket:"AS (supply-side) policy", why:"Increases the quantity of labour available."},
+        {text:"Retraining workers whose jobs were replaced by AI", bucket:"AS (supply-side) policy", why:"Targets structural unemployment."}
+      ]
+    },
+    { id:"t3", type:"seq", title:"Sequence the chain: monetary policy",
+      prompt:"Unemployment is rising in a downturn. Put the policy response in order.",
+      steps:[
+        "The RBA lowers the cash rate",
+        "Borrowing becomes cheaper",
+        "Consumption and investment rise",
+        "Aggregate demand increases",
+        "Firms increase production",
+        "The derived demand for labour rises",
+        "Cyclical unemployment falls"
+      ],
+      why:"This is the chain the SAC wants for “recommend an AD policy”. Every link must be there, and it must finish at **unemployment**."
+    },
+    { id:"t4", type:"examiner", title:"Examiner for a day",
+      question:"Recommend **one** aggregate demand policy that could be used to reduce the level of unemployment. Justify your answer.",
+      marks:3,
+      response:"The government should spend more on training so that workers get the skills employers need. This will reduce unemployment.",
+      guide:[
+        "Recommends an **aggregate demand** policy (monetary policy or budgetary stimulus) (1 mark)",
+        "Explains how the policy increases aggregate demand (1 mark)",
+        "Links higher AD to production and the derived demand for labour, reducing unemployment (1 mark)"
+      ],
+      earned:[false, false, false], answer:0,
+      why:"Training is a **supply-side (AS)** policy. It targets structural unemployment, not a lack of AD. Because the recommendation is the wrong type, none of the justification can be rewarded. Read the policy type in the question first."
+    },
+    { id:"t5", type:"quiz", title:"The Annual Wage Review 2026",
+      qs:[
+        { q:"Who sets the national minimum wage?",
+          options:["The Fair Work Commission","The RBA","The Treasurer","The ACTU"], answer:0,
+          why:"The Fair Work Commission, in its Annual Wage Review. Unions (ACTU) and employer groups make submissions to it." },
+        { q:"From 1 July 2026…",
+          options:["the minimum wage rose 6% and award wages rose 4.75%","both rose 3.5%","the minimum wage fell","award wages rose 6% and the minimum wage rose 4.75%"], answer:0,
+          why:"National minimum wage +6% to $26.44 an hour; award wages +4.75%, covering about 2.8 million workers." },
+        { q:"A higher minimum wage improves **equity** because…",
+          options:["it raises the incomes of the lowest-paid, reducing income inequality","it makes firms more efficient","it lowers prices","it reduces the budget deficit"], answer:0,
+          why:"Equity is about fairness in the distribution of income." },
+        { q:"A higher minimum wage might reduce **efficiency** because…",
+          options:["if it sits above equilibrium, firms hire fewer hours, especially of low-skilled workers","it increases productivity","it lowers labour costs","it creates a shortage of workers"], answer:0,
+          why:"This is the efficiency–equity trade-off from the slides." },
+        { q:"**(Year 12 step-up)** A minimum wage set too far above equilibrium can be an example of…",
+          options:["government failure","market failure","a budget surplus","frictional unemployment"], answer:0,
+          why:"Government failure: intervention that leads to a **less** efficient allocation of resources than before." }
+      ]
+    },
+    { id:"t6", type:"trim", title:"Trim the fat: UBI",
+      question:"Evaluate a universal basic income (UBI) as a response to AI-driven structural unemployment. (4 marks)",
+      sentences:[
+        { t:"A UBI is a regular payment from the government to every adult, whether or not they work, with no conditions.", keep:true, why:"Defines the policy — needed before you can evaluate it." },
+        { t:"A UBI would give workers who lose their jobs to AI an income safety net while they retrain for new jobs.", keep:true, why:"A benefit, linked to the problem in the question." },
+        { t:"UBI is a really good idea and lots of people like it.", keep:false, why:"Opinion with no economics. No marks." },
+        { t:"However, a UBI would be very costly, needing higher taxes or larger budget deficits.", keep:true, why:"A cost — “evaluate” needs both sides." },
+        { t:"It may also reduce the incentive to work, lowering participation and aggregate supply.", keep:true, why:"A second, economic limitation." },
+        { t:"Finland is a country in northern Europe.", keep:false, why:"Irrelevant. The Finnish trial is useful evidence — the country’s location is not." },
+        { t:"On balance, retraining targets structural unemployment more directly, so a UBI on its own is a weaker response.", keep:true, why:"“Evaluate” needs a judgement. This is it." }
+      ]
+    },
+    { id:"t7", type:"quiz", title:"Two truths and a lie",
+      qs:[
+        { q:"Which statement is the **lie**?",
+          options:[
+            "Australia currently has a universal basic income.",
+            "JobSeeker is means-tested and has mutual obligations such as job searching.",
+            "Stimulating AD is the right response to cyclical unemployment."
+          ],
+          answer:0, why:"Australia does **not** have a UBI. Our welfare is targeted — payments go to people who meet conditions." }
+      ]
+    }
+  ]
+}
+];
+
+/* ============================================================================
+   3. ENGINE — no need to edit below here
+   Every task type is marked by the page itself. Nothing waits for a teacher.
+   ============================================================================ */
+
+const KEY = "labour-" + HUB;
+// Must match the Worker's safe() EXACTLY (same rule as the trade hub).
+const slugify = s => String(s).trim().toLowerCase().replace(/[^a-z0-9_]+/g,"_").slice(0,60);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const nl2br = s => esc(s).replace(/\n/g,"<br>");
+// **bold** support inside content strings
+const rich = s => nl2br(s).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+const stamp = () => {
+  const d = new Date(), p = n => String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+};
+const lessonById = id => LESSONS.find(l => l.id === id);
+const taskById = (l, tid) => l.tasks.find(t => t.id === tid);
+const liveLessons = () => LESSONS.filter(l => !l.draft);
+
+/* ---- seeded randomness: stable for one student, different between students ---- */
+function hashStr(s){ let h = 2166136261; for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h,16777619); } return h>>>0; }
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function seededShuffle(arr, seed){
+  const rnd = mulberry32(hashStr(seed)); const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+/* shuffle that never returns the authored order (so nothing is pre-solved) */
+function shuffleNotSame(arr, seed){
+  for(let k=0;k<10;k++){ const s = seededShuffle(arr, seed+":"+k); if(s.some((x,i)=>x!==arr[i])) return s; }
+  return arr.slice().reverse();
+}
+const taskSeed = (lid, tid) => lid + ":" + tid + ":" + (S && S.slug ? S.slug : "anon");
+
+function rollClashes(){
+  const seen = {}, bad = [];
+  ROLL.forEach(n => { const k = slugify(n); if(seen[k]) bad.push([seen[k], n, k]); else seen[k] = n; });
+  return bad;
+}
+
+let S = load();
+let view = { page: S.name ? "hub" : "name", lesson:null, teacher:{ data:null, lesson:null, error:null } };
+
+function load(){
+  try{ const raw = localStorage.getItem(KEY); if(raw){ const p = JSON.parse(raw); p.work = p.work || {}; return p; } }catch(e){}
+  return { name:null, slug:null, work:{} };
+}
+function save(){ if(S.__isPreview) return; try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function work(lid, tid){
+  S.work[lid] = S.work[lid] || {};
+  S.work[lid][tid] = S.work[lid][tid] || {};
+  return S.work[lid][tid];
+}
+function taskDone(lid, tid){ return !!(S.work[lid] && S.work[lid][tid] && S.work[lid][tid].done); }
+function lessonDone(l){ return l.tasks.filter(t => taskDone(l.id, t.id)).length; }
+
+let toastT = null;
+function toast(msg, bad){
+  const el = document.getElementById("sync");
+  el.textContent = msg; el.className = "sync show" + (bad ? " bad" : "");
+  clearTimeout(toastT); toastT = setTimeout(() => { el.className = "sync"; }, bad ? 5000 : 1800);
+}
+
+/* ---- scoring: the first attempt is the number that means something ---- */
+function recordAttempt(w, correct, total){
+  w.attempts = (w.attempts || 0) + 1;
+  if(w.attempts === 1) w.first = { correct, total };
+  w.latest = { correct, total };
+}
+function finishIfPerfect(l, t, w){
+  if(w.latest && w.latest.correct === w.latest.total){ w.done = true; w.solved = true; if(!w.at) w.at = stamp(); }
+  save(); sync(l.id); rerender(l.id, t.id);
+}
+function reveal(lid, tid){
+  const l = lessonById(lid), t = taskById(l, tid), w = work(lid, tid);
+  w.revealed = true; w.done = true; if(!w.at) w.at = stamp();
+  save(); sync(lid); rerender(lid, tid);
+}
+function retry(lid, tid){
+  const w = work(lid, tid); w.checked = false; save(); rerender(lid, tid);
+}
+
+/* ---- sync: always POST the COMPLETE lesson record, never a delta ---- */
+function sync(lid){
+  if(S.__isPreview) return;
+  const l = lessonById(lid); if(!l) return;
+  const tasks = {}, auto = {};
+  l.tasks.forEach(t => {
+    const w = (S.work[lid] || {})[t.id] || {};
+    tasks[t.id] = !!w.done;
+    if(w.first){
+      auto[t.id] = { title:t.title, type:t.type, firstCorrect:w.first.correct, firstTotal:w.first.total,
+                     attempts:w.attempts||0, solved:!!w.solved, revealed:!!w.revealed, at:w.at||"" };
+    }
+  });
+  const done = l.tasks.filter(t => tasks[t.id]).length;
+  const ids = Object.keys(auto);
+  const firstCorrect = ids.reduce((s,id) => s + auto[id].firstCorrect, 0);
+  const firstTotal = ids.reduce((s,id) => s + auto[id].firstTotal, 0);
+  if(!CONNECTED){ toast("Saved on this device"); return; }
+  fetch(WORKER_URL, {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      name:S.name, slug:S.slug, hub:HUB, lesson:lid, written:{}, auto,
+      progress:{ done, total:l.tasks.length, complete: done === l.tasks.length, tasks,
+                 firstCorrect, firstTotal, autoTasks:l.tasks.length, writtenTasks:0, writtenSubmitted:0, updated:stamp() }
+    })
+  }).then(r => { if(!r.ok) throw new Error(r.status); toast("Saved"); })
+    .catch(() => toast("Saved on this device only — no connection", true));
+}
+
+/* ============================================================================
+   4. RENDER
+   ============================================================================ */
+function render(){
+  const who = document.getElementById("who");
+  who.innerHTML = S.name
+    ? `<span>${esc(S.name)}</span> <button class="linkish" onclick="switchUser()">Not you?</button>`
+    : `<button class="linkish" onclick="goTeacher()">Teacher</button>`;
+  const app = document.getElementById("app");
+  if(view.page === "name") app.innerHTML = viewName();
+  else if(view.page === "hub") app.innerHTML = viewHub();
+  else if(view.page === "lesson") app.innerHTML = viewLesson(view.lesson);
+  else if(view.page === "teacher") app.innerHTML = viewTeacher();
+  window.scrollTo(0,0);
+}
+function rerender(lid, tid){
+  const l = lessonById(lid); const i = l.tasks.findIndex(t => t.id === tid);
+  const el = document.getElementById("task-" + lid + "-" + tid);
+  if(el){ el.outerHTML = renderTask(l, l.tasks[i], i); }
+  const pr = document.getElementById("lesson-progress");
+  if(pr) pr.outerHTML = progressLine(l);
+}
+
+function viewName(){
+  const bad = rollClashes();
+  return `
+  <div style="padding:56px 0 0">
+    ${bad.length ? `<div class="err"><b>Two names on the roll share a storage key.</b>${bad.map(b => `<br>“${esc(b[0])}” and “${esc(b[1])}” both save as <span class="mono">${esc(b[2])}</span>.`).join("")}</div>` : ``}
+    <span class="eyebrow">Lesson tasks</span>
+    <h1 style="font-size:38px;letter-spacing:-.02em;margin:8px 0 10px">Who are you?</h1>
+    <p style="color:var(--ink-soft);max-width:46ch;margin:0">Tap your name. You will only be asked once on this device.</p>
+    <div class="roll">${ROLL.map((n,i) => `<button onclick="pick(${i})">${esc(n)}</button>`).join("")}</div>
+    <p style="margin-top:36px">
+      <button class="linkish" onclick="goTeacher()">Teacher view</button> &nbsp;·&nbsp;
+      <button class="linkish" onclick="previewLessons()">Preview lessons — nothing is saved</button>
+    </p>
+  </div>`;
+}
+function pick(i){ const n = ROLL[i]; S.name = n; S.slug = slugify(n); save(); view.page = "hub"; render(); }
+function switchUser(){
+  if(S.__isPreview){ S = load(); view.page = S.name ? "hub" : "name"; render(); return; }
+  // A different student on a shared device must not inherit the last student's answers.
+  // Their work is already on the Worker, so clearing the device copy loses nothing.
+  S = { name:null, slug:null, work:{} }; save(); view.page = "name"; render();
+}
+function previewLessons(){ S = { name:"Preview (teacher)", slug:"__preview__", work:{}, __isPreview:true }; view.page = "hub"; render(); }
+
+function viewHub(){
+  const live = liveLessons();
+  const totalTasks = live.reduce((s,l) => s + l.tasks.length, 0);
+  const doneTasks = live.reduce((s,l) => s + lessonDone(l), 0);
+  const finished = live.filter(l => lessonDone(l) === l.tasks.length && l.tasks.length).length;
+  const pct = totalTasks ? Math.round((doneTasks/totalTasks)*100) : 0;
+  const accents = ["acc1","acc2","acc3","acc4","acc5","acc6","acc7","acc8"];
+  return `
+  <div style="padding:28px 0 0">
+    ${S.__isPreview ? `<div class="box box-hint" style="margin-top:0"><span class="eyebrow">Preview mode</span>
+      <p>Nothing you click here is saved or sent anywhere. <button class="linkish" onclick="switchUser()">Exit preview</button></p></div>` : ``}
+    <span class="eyebrow">Unit 2 · Area of Study 2</span>
+    <div class="hero" style="--pct:${pct}">
+      <span class="hero-eyebrow">The changing labour market</span>
+      <div class="hero-title">${S.name ? `Welcome back, ${esc(S.name)}` : "Lesson tasks"}</div>
+      <p class="hero-sub">Do each lesson’s tasks after class. Every task marks itself and explains the answer — read the feedback, it is the point.</p>
+      <div class="hero-stats">
+        <div class="hero-ring"><span>${pct}%</span></div>
+        <div>
+          <div class="hero-statline"><b>${finished}</b> of <b>${live.length}</b> lessons cleared</div>
+          <div class="hero-statline" style="opacity:.85">${doneTasks} of ${totalTasks} tasks done${CONNECTED ? `` : ` · saving on this device only`}</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-grid">
+      ${live.map((l,i) => {
+        const d = lessonDone(l), tot = l.tasks.length, full = d === tot && tot > 0;
+        const acc = accents[i % accents.length];
+        return `<button class="lcard" style="--acc:var(--${acc});--acc-pale:var(--${acc}-pale)" onclick="openLesson('${l.id}')">
+          <div class="lcard-top"><span class="lcard-num">${String(i+1).padStart(2,"0")}</span>
+            <span class="pill ${full ? "pill-done" : (d ? "pill-progress" : "pill-todo")}">${full ? "Cleared" : (d ? `${d} / ${tot} in progress` : "Not started")}</span></div>
+          <div class="lcard-title">${esc(l.title)}</div>
+          <div class="lcard-chap">${esc(l.chapter)}</div>
+          <div class="lcard-foot"><span class="lcard-pips">${l.tasks.map(t => `<span class="lcard-pip ${taskDone(l.id,t.id)?"on":""}"></span>`).join("")}</span></div>
+        </button>`;
+      }).join("")}
+    </div>
+  </div>`;
+}
+function openLesson(id){
+  view.page = "lesson"; view.lesson = id; render();
+  if(CONNECTED && S.work[id] && Object.keys(S.work[id]).length) sync(id);
+}
+function goHub(){ view.page = "hub"; render(); }
+
+function progressLine(l){
+  const d = lessonDone(l), tot = l.tasks.length;
+  return `<div class="progress" id="lesson-progress">
+    <span class="pips">${l.tasks.map(t => `<span class="pip ${taskDone(l.id,t.id)?"on":""}"></span>`).join("")}</span>
+    <span>${d} of ${tot} tasks done</span>${d===tot ? `<span class="stamp land" style="margin-left:6px">Cleared</span>` : ``}</div>`;
+}
+function viewLesson(id){
+  const l = lessonById(id);
+  return `
+  <div class="lesson-head">
+    <button class="linkish" onclick="goHub()">← All lessons</button>
+    <span class="eyebrow" style="display:block;margin-top:14px">${esc(l.chapter)}</span>
+    <h1>${esc(l.title)}</h1>
+    ${progressLine(l)}
+  </div>
+  ${l.intro ? box("hint","Before you start", l.intro) : ``}
+  ${l.tasks.map((t,i) => renderTask(l, t, i)).join("")}
+  <div style="margin-top:32px"><button class="btn btn-ghost" onclick="goHub()">Back to all lessons</button></div>`;
+}
+function box(kind, label, text){ return `<div class="box box-${kind}"><span class="eyebrow">${label}</span><p>${rich(text)}</p></div>`; }
+
+function taskShell(l, t, i, body){
+  const on = taskDone(l.id, t.id);
+  return `
+  <section class="task" id="task-${l.id}-${t.id}">
+    <div class="task-head">
+      <span class="task-n ${on?"on":""}">${on ? "✓" : i+1}</span>
+      <span class="task-title">${esc(t.title)}${t.stepup ? `<span class="stepup">Year 12 step-up</span>` : ``}</span>
+      ${t.kind ? `<span class="task-marks">${esc(t.kind)}</span>` : ``}
+    </div>
+    <div class="task-body">
+      ${t.prompt ? `<p class="prompt">${rich(t.prompt)}</p>` : ``}
+      ${t.table ? dataTable(t.table) : ``}
+      ${t.hint ? box("hint","Economist’s hint", t.hint) : ``}
+      ${body}
+    </div>
+  </section>`;
+}
+function dataTable(tb){
+  return `<div class="data-table">${tb.caption ? `<div class="dt-cap">${esc(tb.caption)}</div>` : ``}
+    <table><thead><tr>${tb.head.map(h => `<th>${esc(h)}</th>`).join("")}</tr></thead>
+    <tbody>${tb.rows.map(r => `<tr>${r.map((c,j) => `<td class="${j?"dt-num":""}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>
+    ${tb.source ? `<div class="dt-src">${esc(tb.source)}</div>` : ``}</div>`;
+}
+
+/* Shared footer for every check-style task */
+function checkFooter(l, t, w, total, label){
+  if(w.done){
+    const f = w.first ? `First try: ${w.first.correct}/${w.first.total}` : "";
+    return `<div class="fb ok"><span class="eyebrow">${w.revealed ? "Answers shown" : "Task complete"}</span>
+      ${t.why ? `<p>${rich(t.why)}</p>` : ``}<div class="score-line">${f}</div></div>`;
+  }
+  if(w.checked){
+    const c = w.latest ? w.latest.correct : 0;
+    return `<div class="fb no"><span class="eyebrow">${c} of ${total} correct</span>
+      <p>The ones marked red are wrong. Read the feedback, then fix them and check again.</p>
+      <div class="actions"><button class="btn" onclick="retry('${l.id}','${t.id}')">Try again</button>
+      ${w.attempts >= 2 ? `<button class="btn btn-ghost" onclick="reveal('${l.id}','${t.id}')">Show me the answers</button>` : ``}</div></div>`;
+  }
+  return `<div class="actions"><button class="btn" onclick="checkTask('${l.id}','${t.id}')">${label || "Check my answers"}</button></div>`;
+}
+const showMarks = w => w.checked || w.done;
+
+function renderTask(l, t, i){
+  const R = { match:renderMatch, sort:renderSort, quiz:renderQuiz, seq:renderSeq, calc:renderCalc,
+              spot:renderSpot, trim:renderTrim, examiner:renderExaminer, fill:renderFill, direction:renderDirection };
+  return R[t.type] ? taskShell(l, t, i, R[t.type](l, t)) : "";
+}
+function checkTask(lid, tid){
+  const l = lessonById(lid), t = taskById(l, tid), w = work(lid, tid);
+  const C = { match:checkMatch, sort:checkSort, seq:checkSeq, calc:checkCalc, trim:checkTrim,
+              examiner:checkExaminer, fill:checkFill, direction:checkDirection };
+  const res = C[t.type](l, t, w);
+  if(res.incomplete){ toast(res.incomplete, true); return; }
+  w.checked = true; recordAttempt(w, res.correct, res.total); finishIfPerfect(l, t, w);
+}
+
+/* ---- MATCH: term -> definition dropdowns ---- */
+function renderMatch(l, t){
+  const w = work(l.id, t.id); w.picks = w.picks || {};
+  const defs = seededShuffle(t.pairs.map(p => p[1]), taskSeed(l.id,t.id));
+  const marked = showMarks(w);
+  return `<div class="pairs">${t.pairs.map((p, k) => {
+    const v = w.revealed ? p[1] : (w.picks[k] || "");
+    const cls = marked ? (v === p[1] ? "ok" : "no") : "";
+    return `<div class="pair ${cls}"><span class="pair-term">${esc(p[0])}</span>
+      <select ${w.done || w.checked ? "disabled" : ""} onchange="setPick('${l.id}','${t.id}',${k},this.value)">
+        <option value="">Choose…</option>${defs.map(d => `<option ${d===v?"selected":""} value="${esc(d)}">${esc(d)}</option>`).join("")}
+      </select></div>`;
+  }).join("")}</div>${checkFooter(l, t, w, t.pairs.length)}`;
+}
+function setPick(lid, tid, k, v){ const w = work(lid, tid); w.picks = w.picks || {}; w.picks[k] = v; save(); }
+function checkMatch(l, t, w){
+  if(t.pairs.some((p,k) => !(w.picks||{})[k])) return { incomplete:"Choose a meaning for every term first." };
+  return { correct: t.pairs.filter((p,k) => w.picks[k] === p[1]).length, total: t.pairs.length };
+}
+
+/* ---- SORT: put each item in a bucket ---- */
+function renderSort(l, t){
+  const w = work(l.id, t.id); w.picks = w.picks || {};
+  const order = seededShuffle(t.items.map((_, k) => k), taskSeed(l.id,t.id));
+  const marked = showMarks(w);
+  return `<div class="sorts">${order.map(k => {
+    const it = t.items[k]; const v = w.revealed ? it.bucket : w.picks[k];
+    const cls = marked ? (v === it.bucket ? "ok" : "no") : "";
+    return `<div class="srow ${cls}"><span class="s-txt">${rich(it.text)}</span>
+      <span class="s-btns">${t.buckets.map((b, bi) => `<button class="sbtn ${v===b?"on":""}" ${w.done||w.checked?"disabled":""}
+        onclick="sortPick('${l.id}','${t.id}',${k},${bi})">${esc(b)}</button>`).join("")}</span>
+      ${marked && it.why ? `<p class="why">${v===it.bucket ? `<span class="ok-t">✓</span>` : `<span class="no-t">✗</span>`} ${rich(it.why)}</p>` : ``}
+    </div>`;
+  }).join("")}</div>${checkFooter(l, t, w, t.items.length)}`;
+}
+function sortPick(lid, tid, k, bi){
+  const l = lessonById(lid), t = taskById(l, tid), w = work(lid, tid);
+  w.picks = w.picks || {}; w.picks[k] = t.buckets[bi]; save(); rerender(lid, tid);
+}
+function checkSort(l, t, w){
+  if(t.items.some((_,k) => !(w.picks||{})[k])) return { incomplete:"Sort every item first." };
+  return { correct: t.items.filter((it,k) => w.picks[k] === it.bucket).length, total: t.items.length };
+}
+
+/* ---- QUIZ: instant feedback per question (first click counts) ---- */
+function renderQuiz(l, t){
+  const w = work(l.id, t.id); w.ans = w.ans || {};
+  return `<div>${t.qs.map((q, qi) => {
+    const idx = q.options.map((_, k) => k);
+    const order = q.options.length <= 2 ? idx : seededShuffle(idx, taskSeed(l.id,t.id)+":"+qi);
+    const a = w.ans[qi];
+    return `<div class="q"><p class="q-stem">${t.qs.length > 1 ? `${qi+1}. ` : ``}${rich(q.q)}</p>
+      <div class="q-opts">${order.map(k => {
+        let cls = "";
+        if(a !== undefined){ cls = k === q.answer ? "ok" : (k === a ? "no" : "dim"); }
+        return `<button class="q-opt ${cls}" ${a!==undefined?"disabled":""} onclick="quizPick('${l.id}','${t.id}',${qi},${k})">${rich(q.options[k])}</button>`;
+      }).join("")}</div>
+      ${a !== undefined ? `<div class="fb ${a===q.answer?"ok":"no"}"><span class="eyebrow">${a===q.answer?"Correct":"Not quite — the green one is right"}</span><p>${rich(q.why)}</p></div>` : ``}
+    </div>`;
+  }).join("")}
+  ${w.done ? `<div class="score-line">Score: ${w.first.correct}/${w.first.total}</div>` : ``}</div>`;
+}
+function quizPick(lid, tid, qi, k){
+  const l = lessonById(lid), t = taskById(l, tid), w = work(lid, tid); w.ans = w.ans || {};
+  if(w.ans[qi] !== undefined) return;
+  w.ans[qi] = k;
+  if(Object.keys(w.ans).length === t.qs.length){
+    const c = t.qs.filter((q, i) => w.ans[i] === q.answer).length;
+    w.attempts = 1; w.first = { correct:c, total:t.qs.length }; w.latest = w.first;
+    w.done = true; w.solved = c === t.qs.length; w.at = stamp(); sync(lid);
+  }
+  save(); rerender(lid, tid);
+}
+
+/* ---- SEQ: tap steps into the right order ---- */
+function renderSeq(l, t){
+  const w = work(l.id, t.id); w.order = w.order || [];
+  const pool = shuffleNotSame(t.steps.map((_, k) => k), taskSeed(l.id,t.id)).filter(k => w.order.indexOf(k) === -1);
+  const marked = showMarks(w);
+  const shown = w.revealed ? t.steps.map((_,k) => k) : w.order;
+  return `<div class="seq-out">${shown.map((k, pos) => {
+      const cls = marked ? (k === pos ? "ok" : "no") : "";
+      return `<button class="seq-item ${cls}" ${w.done||w.checked?"disabled":""} onclick="seqRemove('${l.id}','${t.id}',${pos})"><span class="n">${pos+1}</span>${rich(t.steps[k])}</button>`;
+    }).join("")}</div>
+    ${w.done || w.checked ? `` : `<div class="seq-pool">${pool.map(k => `<button class="seq-item" onclick="seqAdd('${l.id}','${t.id}',${k})">${rich(t.steps[k])}</button>`).join("")}</div>
+    ${w.order.length ? `<p class="why">Tap a step in the box to send it back.</p>` : ``}`}
+    ${checkFooter(l, t, w, t.steps.length)}`;
+}
+function seqAdd(lid, tid, k){ const w = work(lid, tid); w.order = w.order || []; w.order.push(k); save(); rerender(lid, tid); }
+function seqRemove(lid, tid, pos){ const w = work(lid, tid); w.order.splice(pos, 1); save(); rerender(lid, tid); }
+function checkSeq(l, t, w){
+  if((w.order||[]).length !== t.steps.length) return { incomplete:"Put every step in the chain first." };
+  return { correct: w.order.filter((k, pos) => k === pos).length, total: t.steps.length };
+}
+
+/* ---- CALC: numbers generated per student ---- */
+function calcData(l, t){ return t.gen(mulberry32(hashStr(taskSeed(l.id, t.id)))); }
+function renderCalc(l, t){
+  const w = work(l.id, t.id); w.vals = w.vals || {};
+  const d = calcData(l, t); const marked = showMarks(w);
+  return `${dataTable(d.table)}
+    <div>${d.fields.map((f, k) => {
+      const v = w.revealed ? String(f.answer) : (w.vals[k] || "");
+      const ok = marked && calcOk(v, f);
+      return `<div class="calc-f ${marked ? (ok ? "ok" : "no") : ""}">
+        <label for="c-${l.id}-${t.id}-${k}">${rich(f.label)} <span class="unit">${esc(f.unit||"")}</span></label>
+        <input type="text" inputmode="decimal" id="c-${l.id}-${t.id}-${k}" value="${esc(v)}" ${w.done||w.checked?"disabled":""}
+          oninput="calcIn('${l.id}','${t.id}',${k},this.value)">
+        ${marked ? `<p class="why">${ok ? `<span class="ok-t">✓</span>` : `<span class="no-t">✗</span>`} ${rich(f.working)}</p>` : ``}
+      </div>`;
+    }).join("")}</div>
+    ${t.note ? `<p class="why">${rich(t.note)}</p>` : ``}
+    ${checkFooter(l, t, w, d.fields.length)}`;
+}
+function calcIn(lid, tid, k, v){ const w = work(lid, tid); w.vals = w.vals || {}; w.vals[k] = v; save(); }
+function calcOk(v, f){
+  const n = parseFloat(String(v).replace(/[$,%\s]/g,"").replace(/m$/i,""));
+  if(isNaN(n)) return false;
+  return Math.abs(n - f.answer) <= (f.tol !== undefined ? f.tol : 0.051);
+}
+function checkCalc(l, t, w){
+  const d = calcData(l, t);
+  if(d.fields.some((f,k) => !String((w.vals||{})[k]||"").trim())) return { incomplete:"Fill in every answer first." };
+  return { correct: d.fields.filter((f,k) => calcOk(w.vals[k], f)).length, total: d.fields.length };
+}
+
+/* ---- SPOT: one word wrong (first click on each sentence counts) ---- */
+function spotTokens(text){ return text.split(/(\s+)/); }
+function renderSpot(l, t){
+  const w = work(l.id, t.id); w.clicks = w.clicks || {};
+  return `<div>${t.items.map((it, ii) => {
+    const clicks = w.clicks[ii] || []; const toks = spotTokens(it.text);
+    const wrongIdx = toks.findIndex(x => /^\*.+\*[.,;:!?]?$/.test(x));
+    const found = clicks.indexOf(wrongIdx) > -1 || (w.revealed);
+    const giveUp = !found && clicks.length >= 3;
+    return `<div class="spot">${toks.map((tok, ti) => {
+      if(/^\s+$/.test(tok)) return tok;
+      const clean = tok.replace(/\*/g,"");
+      const isWrong = ti === wrongIdx;
+      let cls = "";
+      if(clicks.indexOf(ti) > -1) cls = isWrong ? "ok" : "no";
+      if(isWrong && (found || giveUp)) cls = "ok";
+      return `<button class="tok ${cls}" ${found||giveUp?"disabled":""} onclick="spotClick('${l.id}','${t.id}',${ii},${ti})">${esc(clean)}</button>${isWrong && (found||giveUp) ? `<span class="fix">→ ${esc(it.fix)}</span>` : ``}`;
+    }).join("")}
+    ${found || giveUp ? `<div class="fb ${clicks[0]===wrongIdx?"ok":"no"}"><span class="eyebrow">${clicks[0]===wrongIdx?"Spotted first time":"The wrong word is shown in green"}</span><p>${rich(it.why)}</p></div>` : ``}
+    </div>`;
+  }).join("")}
+  ${w.done ? `<div class="score-line">First try: ${w.first.correct}/${w.first.total}</div>` : ``}</div>`;
+}
+function spotClick(lid, tid, ii, ti){
+  const l = lessonById(lid), t = taskById(l, tid), w = work(lid, tid); w.clicks = w.clicks || {};
+  const c = w.clicks[ii] = w.clicks[ii] || [];
+  if(c.indexOf(ti) === -1) c.push(ti);
+  const resolved = t.items.every((it, k) => {
+    const toks = spotTokens(it.text); const wi = toks.findIndex(x => /^\*.+\*[.,;:!?]?$/.test(x));
+    const cl = w.clicks[k] || []; return cl.indexOf(wi) > -1 || cl.length >= 3;
+  });
+  if(resolved){
+    const correct = t.items.filter((it, k) => {
+      const toks = spotTokens(it.text); const wi = toks.findIndex(x => /^\*.+\*[.,;:!?]?$/.test(x));
+      return (w.clicks[k] || [])[0] === wi;
+    }).length;
+    w.attempts = 1; w.first = { correct, total:t.items.length }; w.latest = w.first;
+    w.done = true; w.solved = correct === t.items.length; w.at = stamp(); sync(lid);
+  }
+  save(); rerender(lid, tid);
+}
+
+/* ---- TRIM: cut the sentences that earn no marks ---- */
+function renderTrim(l, t){
+  const w = work(l.id, t.id); w.cut = w.cut || {};
+  const marked = showMarks(w);
+  return `<div class="exq"><b>Question</b>${rich(t.question)}</div>
+    <p class="why" style="margin:0 0 8px">Tap a sentence to cut it. Keep only the sentences that earn marks.</p>
+    ${t.sentences.map((s, k) => {
+      const cut = w.revealed ? !s.keep : !!w.cut[k];
+      const right = cut === !s.keep;
+      return `<button class="trim-s ${cut?"cut":""} ${marked ? (right?"ok":"no") : ""}" ${w.done||w.checked?"disabled":""} onclick="trimToggle('${l.id}','${t.id}',${k})">${rich(s.t)}</button>
+        ${marked ? `<p class="why" style="margin:-2px 0 10px">${right ? `<span class="ok-t">✓</span>` : `<span class="no-t">✗</span>`} <b>${s.keep ? "Keep" : "Cut"}:</b> ${rich(s.why)}</p>` : ``}`;
+    }).join("")}
+    ${checkFooter(l, t, w, t.sentences.length)}`;
+}
+function trimToggle(lid, tid, k){ const w = work(lid, tid); w.cut = w.cut || {}; w.cut[k] = !w.cut[k]; save(); rerender(lid, tid); }
+function checkTrim(l, t, w){
+  return { correct: t.sentences.filter((s,k) => (!!(w.cut||{})[k]) === !s.keep).length, total: t.sentences.length };
+}
+
+/* ---- EXAMINER: tick what the answer earns, then give the mark ---- */
+function renderExaminer(l, t){
+  const w = work(l.id, t.id); w.crit = w.crit || {};
+  const marked = showMarks(w);
+  const mark = w.revealed ? t.answer : w.mark;
+  return `<div class="exq"><b>Question · ${t.marks} marks</b>${rich(t.question)}</div>
+    <span class="eyebrow">Student response</span>
+    <div class="student-resp">${rich(t.response)}</div>
+    <span class="eyebrow">Marking guide — tick each point the response earns</span>
+    <ul class="guide">${t.guide.map((g, k) => {
+      const on = w.revealed ? t.earned[k] : !!w.crit[k];
+      return `<li class="${marked ? (on === t.earned[k] ? "ok" : "no") : ""}"><label>
+        <input type="checkbox" ${on?"checked":""} ${w.done||w.checked?"disabled":""} onchange="examCrit('${l.id}','${t.id}',${k},this.checked)">
+        <span>${rich(g)}</span></label></li>`;
+    }).join("")}</ul>
+    <span class="eyebrow" style="display:block;margin-top:12px">Your mark</span>
+    <div class="marks-row">${Array.from({length:t.marks+1},(_,m) => `<button class="dbtn ${mark===m?"on":""}" ${w.done||w.checked?"disabled":""}
+       onclick="examMark('${l.id}','${t.id}',${m})">${m}</button>`).join("")}
+       ${marked ? `<span class="${mark===t.answer?"ok-t":"no-t"}" style="align-self:center">${mark===t.answer?"✓ Right mark":"✗ Not the right mark"}</span>` : ``}</div>
+    ${checkFooter(l, t, w, t.guide.length + 1, "Submit my marking")}`;
+}
+function examCrit(lid, tid, k, v){ const w = work(lid, tid); w.crit = w.crit || {}; w.crit[k] = v; save(); }
+function examMark(lid, tid, m){ const w = work(lid, tid); w.mark = m; save(); rerender(lid, tid); }
+function checkExaminer(l, t, w){
+  if(w.mark === undefined) return { incomplete:"Choose a mark first." };
+  const c = t.guide.filter((g,k) => (!!(w.crit||{})[k]) === t.earned[k]).length + (w.mark === t.answer ? 1 : 0);
+  return { correct:c, total:t.guide.length + 1 };
+}
+
+/* ---- FILL: dropdown gaps in a paragraph ({{wrong|*right|wrong}}) ---- */
+function fillParts(text){
+  const parts = []; const re = /\{\{(.+?)\}\}/g; let last = 0, m;
+  while((m = re.exec(text))){ parts.push(text.slice(last, m.index)); parts.push(m[1].split("|")); last = re.lastIndex; }
+  parts.push(text.slice(last)); return parts;
+}
+function renderFill(l, t){
+  const w = work(l.id, t.id); w.picks = w.picks || {};
+  const marked = showMarks(w); let g = -1;
+  const html = fillParts(t.text).map(p => {
+    if(typeof p === "string") return rich(p);
+    g++; const opts = p.map(o => o.replace(/^\*/,"")); const right = opts[p.findIndex(o => o.startsWith("*"))];
+    const shuffled = seededShuffle(opts, taskSeed(l.id,t.id)+":"+g);
+    const v = w.revealed ? right : (w.picks[g] || "");
+    return `<select class="${marked ? (v===right?"ok":"no") : ""}" ${w.done||w.checked?"disabled":""} onchange="setPick('${l.id}','${t.id}',${g},this.value)">
+      <option value="">…</option>${shuffled.map(o => `<option ${o===v?"selected":""} value="${esc(o)}">${esc(o)}</option>`).join("")}</select>`;
+  }).join("");
+  return `<div class="fill-text">${html}</div>${checkFooter(l, t, w, g+1)}`;
+}
+function checkFill(l, t, w){
+  const gaps = fillParts(t.text).filter(p => typeof p !== "string");
+  if(gaps.some((p,k) => !(w.picks||{})[k])) return { incomplete:"Fill every gap first." };
+  return { correct: gaps.filter((p,k) => w.picks[k] === p.find(o => o.startsWith("*")).slice(1)).length, total: gaps.length };
+}
+
+/* ---- DIRECTION: up / down / no change for each variable ---- */
+const DIRS = [["up","↑"],["down","↓"],["same","–"]];
+function renderDirection(l, t){
+  const w = work(l.id, t.id); w.picks = w.picks || {};
+  const marked = showMarks(w); let n = 0;
+  const html = t.scenarios.map((sc, si) => `<div class="scen"><p class="scen-h">${rich(sc.text)}</p>
+    ${sc.vars.map((v, vi) => {
+      const key = si + "_" + vi; n++;
+      const val = w.revealed ? v.answer : w.picks[key];
+      return `<div class="drow ${marked ? (val===v.answer?"ok":"no") : ""}"><span class="d-name">${rich(v.name)}</span>
+        <span>${DIRS.map(d => `<button class="dbtn ${val===d[0]?"on":""}" title="${d[0]}" ${w.done||w.checked?"disabled":""}
+          onclick="dirPick('${l.id}','${t.id}','${key}','${d[0]}')">${d[1]}</button>`).join(" ")}</span>
+        ${marked && v.why ? `<p class="why">${val===v.answer ? `<span class="ok-t">✓</span>` : `<span class="no-t">✗</span>`} ${rich(v.why)}</p>` : ``}</div>`;
+    }).join("")}</div>`).join("");
+  return `<p class="why" style="margin:0 0 10px">↑ rises &nbsp; ↓ falls &nbsp; – no change</p>${html}${checkFooter(l, t, w, n)}`;
+}
+function dirPick(lid, tid, key, d){ const w = work(lid, tid); w.picks = w.picks || {}; w.picks[key] = d; save(); rerender(lid, tid); }
+function checkDirection(l, t, w){
+  let c = 0, n = 0, missing = false;
+  t.scenarios.forEach((sc, si) => sc.vars.forEach((v, vi) => { n++; const p = (w.picks||{})[si+"_"+vi]; if(!p) missing = true; if(p === v.answer) c++; }));
+  if(missing) return { incomplete:"Choose a direction for every row first." };
+  return { correct:c, total:n };
+}
+
+/* ============================================================================
+   5. TEACHER VIEW
+   ============================================================================ */
+function goTeacher(){ view.page = "teacher"; view.teacher = { data:null, lesson:null, error:null }; render(); }
+function backToStudent(){ view.page = S.name ? "hub" : "name"; render(); }
+function viewTeacher(){
+  const T = view.teacher;
+  if(!T.data){
+    return `<div style="padding:52px 0 0">
+      <span class="eyebrow">Teacher</span>
+      <h1 style="font-size:32px;margin:8px 0 16px">Class results</h1>
+      <div style="display:flex;gap:10px;max-width:340px">
+        <input type="text" id="pin" placeholder="PIN" inputmode="numeric" style="flex:1" onkeydown="if(event.key==='Enter')loadResults()">
+        <button class="btn" onclick="loadResults()">Open</button>
+      </div>
+      ${T.error ? `<div class="err">${esc(T.error)}</div>` : ``}
+      <p style="margin-top:28px"><button class="linkish" onclick="backToStudent()">Back to student view</button>
+        &nbsp;·&nbsp; <button class="linkish" onclick="previewLessons()">Preview lessons</button>
+        &nbsp;·&nbsp; <button class="linkish" onclick="clearDevice()">Clear this device</button></p>
+    </div>`;
+  }
+  return T.lesson ? teacherLesson(T.lesson) : teacherOverview();
+}
+function loadResults(){
+  const el = document.getElementById("pin"); const pin = el ? el.value.trim() : "";
+  if(pin !== PIN){ view.teacher.error = "That PIN is not right. Try again."; render(); return; }
+  if(!CONNECTED){ view.teacher.error = "No Worker URL is set at the top of the file."; render(); return; }
+  view.teacher.error = null;
+  fetch(`${WORKER_URL}?hub=${encodeURIComponent(HUB)}&pin=${encodeURIComponent(pin)}`)
+    .then(r => r.json())
+    .then(j => {
+      if(j && j.error){ view.teacher.error = "The Worker rejected the request: " + j.error; render(); return; }
+      view.teacher.data = groupResults(j.results || []); render();
+    })
+    .catch(() => { view.teacher.error = "Could not reach the Worker. Check WORKER_URL at the top of the file."; render(); });
+}
+function groupResults(rows){
+  const by = {};
+  rows.forEach(r => {
+    const slug = r.slug || slugify(r.name || ""); if(!slug) return;
+    by[slug] = by[slug] || { slug, name:r.name || slug, lessons:{} };
+    const lid = r.lesson; if(!lid) return;
+    const prev = by[slug].lessons[lid];
+    const size = JSON.stringify(r.auto || {}).length + ((r.progress && r.progress.done) || 0) * 1000;
+    if(!prev || size > prev.__size) by[slug].lessons[lid] = Object.assign({ __size:size }, r);
+  });
+  const roll = ROLL.map(slugify);
+  return { onRoll: ROLL.map(n => by[slugify(n)] || { slug:slugify(n), name:n, lessons:{} }),
+           offRoll: Object.values(by).filter(s => roll.indexOf(s.slug) === -1) };
+}
+const pctCls = p => p === null ? "" : (p >= 80 ? "full" : (p >= 50 ? "part" : "low"));
+function studentLesson(s, l){
+  const p = (s.lessons[l.id] || {}).progress;
+  return { done: p ? p.done||0 : 0, fc: p ? p.firstCorrect||0 : 0, ft: p ? p.firstTotal||0 : 0 };
+}
+function teacherOverview(){
+  const { onRoll, offRoll } = view.teacher.data; const live = liveLessons();
+  const grand = live.reduce((s,l) => s + l.tasks.length, 0);
+  const rows = onRoll.map(s => {
+    let done = 0, fc = 0, ft = 0;
+    live.forEach(l => { const x = studentLesson(s, l); done += x.done; fc += x.fc; ft += x.ft; });
+    return { s, done, fc, ft, pct: ft ? Math.round(fc/ft*100) : null };
+  });
+  return `<div style="padding:44px 0 0">
+    <span class="eyebrow">Teacher · hub ${esc(HUB)}</span>
+    <h1 style="font-size:32px;margin:8px 0 4px">Class overview</h1>
+    <p style="color:var(--ink-soft);margin:0;max-width:64ch">Each cell shows tasks done and first-try accuracy for that lesson.
+      Every task marks itself; students can retry until correct, so the <b>first try</b> is the figure that shows understanding.
+      Tap a lesson to see which tasks the class found hardest.</p>
+    <div class="grid-wrap"><table>
+      <thead><tr><th>Student</th>${live.map(l => `<th style="text-align:center;cursor:pointer" onclick="openTeacherLesson('${l.id}')">${esc(l.id)}</th>`).join("")}
+        <th style="text-align:center">Tasks</th><th style="text-align:center">First try</th><th></th></tr></thead>
+      <tbody>${rows.map(r => `<tr><td class="nm">${esc(r.s.name)}</td>
+        ${live.map(l => { const x = studentLesson(r.s, l); const tot = l.tasks.length; const p = x.ft ? Math.round(x.fc/x.ft*100) : null;
+          return `<td class="cell ${x.done===0?"":(x.done>=tot?"full":"part")}">${x.done}/${tot}${p!==null?`<br><span style="opacity:.7;font-size:11.5px">${p}%</span>`:``}</td>`; }).join("")}
+        <td class="cell"><b>${r.done}</b>/${grand}</td>
+        <td class="cell ${pctCls(r.pct)}">${r.pct===null?"—":r.pct+"%"}</td>
+        <td class="cell"><button class="linkish" style="font-size:12px" onclick="deleteStudent(${ROLL.indexOf(r.s.name)})">clear</button></td></tr>`).join("")}</tbody>
+    </table></div>
+    <div class="toolbar">${live.map(l => `<button class="btn btn-ghost btn-sm" onclick="openTeacherLesson('${l.id}')">${esc(l.id)} · ${esc(l.title)}</button>`).join("")}</div>
+    <div class="toolbar"><button class="btn btn-ghost btn-sm" onclick="exportCSV()">Download CSV</button>
+      <button class="btn btn-ghost btn-sm" onclick="backToStudent()">Back to student view</button></div>
+    ${offRoll.length ? `<h3 style="margin-top:34px;font-size:19px">Records not on the roll</h3>
+      ${offRoll.map(s => `<div class="resp"><b>${esc(s.name)}</b> <span class="mono" style="color:var(--ink-soft)">${esc(s.slug)}</span></div>`).join("")}` : ``}
+  </div>`;
+}
+function openTeacherLesson(id){ view.teacher.lesson = id; render(); }
+function teacherLesson(lid){
+  const l = lessonById(lid); const { onRoll } = view.teacher.data;
+  const stats = l.tasks.map(t => {
+    let c = 0, n = 0, att = 0, who = 0, rev = 0;
+    onRoll.forEach(s => { const a = ((s.lessons[lid] || {}).auto || {})[t.id]; if(a){ c += a.firstCorrect; n += a.firstTotal; att += a.attempts; who++; if(a.revealed) rev++; } });
+    return { t, pct: n ? Math.round(c/n*100) : null, who, rev };
+  });
+  return `<div style="padding:36px 0 0">
+    <button class="linkish no-print" onclick="view.teacher.lesson=null;render()">← Class overview</button>
+    <span class="eyebrow" style="display:block;margin-top:14px">${esc(l.chapter)}</span>
+    <h1 style="font-size:30px;margin:6px 0 12px">${esc(l.id)} · ${esc(l.title)}</h1>
+    <h3 style="font-size:18px;margin:18px 0 6px">Where the class went wrong</h3>
+    <p style="color:var(--ink-soft);font-size:14.5px;margin:0 0 8px">Class first-try accuracy for each task, lowest first. These are the ones to reteach or open the next lesson with.</p>
+    <div class="grid-wrap"><table><thead><tr><th>Task</th><th>Type</th><th style="text-align:center">Students</th><th style="text-align:center">First try</th><th style="text-align:center">Needed answers shown</th></tr></thead>
+      <tbody>${stats.slice().sort((a,b) => (a.pct===null?101:a.pct) - (b.pct===null?101:b.pct)).map(x => `<tr>
+        <td>${esc(x.t.title)}</td><td class="mono" style="font-size:12px">${esc(x.t.type)}</td><td class="cell">${x.who}</td>
+        <td class="cell ${pctCls(x.pct)}">${x.pct===null?"—":x.pct+"%"}</td><td class="cell">${x.rev}</td></tr>`).join("")}</tbody></table></div>
+    <h3 style="font-size:18px;margin:26px 0 6px">Student by student</h3>
+    <div class="grid-wrap"><table><thead><tr><th>Student</th>${l.tasks.map((t,i) => `<th style="text-align:center" title="${esc(t.title)}">T${i+1}</th>`).join("")}<th style="text-align:center">Updated</th></tr></thead>
+      <tbody>${onRoll.map(s => { const rec = s.lessons[lid] || {}; const au = rec.auto || {};
+        return `<tr><td class="nm">${esc(s.name)}</td>${l.tasks.map(t => { const a = au[t.id];
+          if(!a) return `<td class="cell">—</td>`;
+          const p = Math.round(a.firstCorrect/a.firstTotal*100);
+          return `<td class="cell ${pctCls(p)}" title="${esc(t.title)}: ${a.attempts} attempt(s)${a.revealed?", answers shown":""}">${a.firstCorrect}/${a.firstTotal}${a.revealed?"*":""}</td>`; }).join("")}
+          <td class="cell mono" style="font-size:11.5px">${esc((rec.progress && rec.progress.updated) || "")}</td></tr>`; }).join("")}</tbody></table></div>
+    <p style="color:var(--ink-soft);font-size:13px">Cells show first-try score. * = the student asked to see the answers.
+      ${l.tasks.map((t,i) => `T${i+1} ${esc(t.title)}`).join(" · ")}</p>
+  </div>`;
+}
+function deleteStudent(i){
+  const name = ROLL[i]; if(name === undefined) return;
+  if(!confirm(`Delete every ${HUB} record for ${name}? This cannot be undone.`)) return;
+  fetch(`${WORKER_URL}?pin=${encodeURIComponent(PIN)}&hub=${encodeURIComponent(HUB)}&name=${encodeURIComponent(name)}`, { method:"DELETE" })
+    .then(() => { view.teacher.data = null; toast("Deleted — enter the PIN again to refresh"); render(); })
+    .catch(() => toast("Delete failed", true));
+}
+function exportCSV(){
+  const { onRoll } = view.teacher.data; const live = liveLessons(); const rows = [];
+  rows.push(["Student","Lesson","Task","Type","First try correct","Of","Attempts","Answers shown","Completed at"]);
+  onRoll.forEach(s => live.forEach(l => l.tasks.forEach(t => {
+    const a = ((s.lessons[l.id] || {}).auto || {})[t.id];
+    rows.push([s.name, l.id, t.title, t.type, a ? a.firstCorrect : "", a ? a.firstTotal : "", a ? a.attempts : "", a && a.revealed ? "yes" : "", a ? a.at : ""]);
+  })));
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type:"text/csv" }));
+  a.download = `labour-market-${HUB}-${stamp().slice(0,10)}.csv`; a.click();
+}
+function clearDevice(){
+  if(!confirm("Clear the saved name and all answers on this computer? Work already sent is not affected.")) return;
+  try{ localStorage.removeItem(KEY); }catch(e){}
+  S = { name:null, slug:null, work:{} }; view = { page:"name", lesson:null, teacher:{ data:null, lesson:null, error:null } }; render();
+}
+
+Object.assign(window, { pick, switchUser, previewLessons, openLesson, goHub, goTeacher, backToStudent, loadResults, clearDevice,
+  checkTask, retry, reveal, setPick, sortPick, quizPick, seqAdd, seqRemove, calcIn, spotClick, trimToggle, examCrit, examMark, dirPick,
+  openTeacherLesson, exportCSV, deleteStudent, view, render });
+
+render();
+
+</script>
+</body>
+</html>
