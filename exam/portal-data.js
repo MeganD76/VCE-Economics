@@ -172,7 +172,7 @@ const TOOLS = [
 
   { id: 'data',   name: 'Check my data',
     blurb: 'Test yourself on the figures in your current data workbook. Hide the numbers and see what sticks.',
-    file: 'data-check.html', live: false },
+    file: 'data-check.html', live: true },
 
   { id: 'types',  name: 'Practice tasks by question type',
     blurb: 'Filtered sets for each question type, including two part questions.',
@@ -184,7 +184,7 @@ const TOOLS = [
    
   { id: 'mark',   name: 'Mark my answer',
     blurb: 'Photograph a written response and get a mark with feedback against the VCAA standard.',
-    file: 'marking.html', live: false },
+    file: 'marking.html', live: true },
 
   { id: 'exams',  name: 'Exams and tracker',
     blurb: 'Practice exams, and a record of what you sat, under what conditions, and what to work on.',
