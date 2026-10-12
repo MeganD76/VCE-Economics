@@ -163,7 +163,7 @@ const FAMILIES = {
 
 const TOOLS = [
   { id: 'marks',  name: 'Where your marks went',
-    blurb: 'Enter your SAC results and see where your marks actually went — and what to do about it.',
+    blurb: 'Enter your SAC results and your practice exam results (VCAA, CPAP and NEAP), then see where your marks actually went — and what to work on next.',
     file: 'marks-tracker.html', live: true },
 
   { id: 'mc',     name: 'Multiple choice practice',
@@ -184,11 +184,7 @@ const TOOLS = [
    
   { id: 'mark',   name: 'Mark my answer',
     blurb: 'Photograph a written response and get a mark with feedback against the VCAA standard.',
-    file: 'marking.html', live: true },
-
-  { id: 'exams',  name: 'Exams and tracker',
-    blurb: 'Practice exams, and a record of what you sat, under what conditions, and what to work on.',
-    file: 'exams.html', live: false }
+    file: 'marking.html', live: true }
 ];
 
 /* ---------------------------------------------------------------------
