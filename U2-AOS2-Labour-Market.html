@@ -519,7 +519,7 @@ const WORKER_URL = "https://vce-results.megan-dyring.workers.dev";
 
 // Bump this every time you commit, and link to the page as  ...html?v=2
 // School Chromebooks cache aggressively and will otherwise serve the old file.
-const VERSION = 2;
+const VERSION = 4;
 
 const CONNECTED = /^https:\/\//.test(WORKER_URL);
 
@@ -627,7 +627,7 @@ const LESSONS = [
     { id:"t5", type:"quiz", title:"Minimum wage & productivity",
       qs:[
         { q:"The minimum wage is set **above** the equilibrium wage. What happens?",
-          options:["A surplus of labour — unemployment","A shortage of labour","No effect at all","The market wage falls"],
+          options:["A surplus of labour — unemployment","A shortage of labour — firms can’t fill jobs","No effect, because the floor doesn’t bind","The market wage falls back to equilibrium"],
           answer:0, why:"Above equilibrium, more people want to work (Qs rises) but firms want fewer hours (Qd falls). Qs − Qd is unemployment." },
         { q:"A minimum wage set **below** the equilibrium wage will…",
           options:["have no effect","cause unemployment","cause a shortage of workers","push the wage down"],
@@ -636,10 +636,10 @@ const LESSONS = [
           options:["$26.44 an hour","$24.95 an hour","$33.05 an hour","$29.45 an hour"],
           answer:0, why:"The Fair Work Commission lifted it 6%, from $24.95 to $26.44 ($1,004.90 a week). $33.05 is the casual rate with the 25% loading." },
         { q:"Labour productivity rises across the economy. The most likely effect on the demand for labour is…",
-          options:["It rises, because each worker produces more and is worth more to firms","It falls, because fewer workers are needed","No change, because productivity only affects supply","It rises, because more people want to work"],
+          options:["It rises, because each worker produces more and is worth more to firms","It falls, because firms need fewer workers to produce the same output","No change, because productivity only affects the supply of labour","It rises, because more people become willing and able to work"],
           answer:0, why:"Higher productivity lowers unit labour costs and raises the value of each hour worked, so firms demand more labour. (In one firm it can mean fewer workers are needed — but across the economy higher productivity supports demand and wages.)" },
         { q:"Why is the demand for labour called a **derived** demand?",
-          options:["It depends on the demand for the goods and services labour produces","It is derived from the supply of labour","It is set by the government","It depends on the number of unemployed people"],
+          options:["It depends on the demand for the goods and services labour produces","It is derived from the supply of labour available in the economy","It is set by the government through the Fair Work Commission","It depends on the number of unemployed people looking for work"],
           answer:0, why:"Firms do not want workers for their own sake — they want them to produce goods and services that consumers are buying." }
       ]
     },
@@ -657,8 +657,8 @@ const LESSONS = [
       qs:[
         { q:"Which statement is the **lie**?",
           options:[
-            "The Fair Work Commission sets the national minimum wage each year.",
-            "A casual on the minimum wage earns $33.05 an hour because of the 25% loading.",
+            "The Fair Work Commission sets the national minimum wage each year in its Annual Wage Review.",
+            "A casual on the minimum wage earns $33.05 an hour because of the 25% casual loading.",
             "A higher minimum wage always reduces unemployment because low-paid workers spend more."
           ],
           answer:2, why:"Extra spending by low-paid workers does lift AD, but if the minimum wage is set well above equilibrium it can **reduce** the hours firms want to hire. It is never “always”." }
@@ -776,10 +776,10 @@ const LESSONS = [
           options:["17%","7%","10%","20%"], answer:0,
           why:"Unemployment rate = 1 ÷ 10 × 100 = 10%. Underutilisation = 10% + 7% = 17%." },
         { q:"Which person is in the labour force?",
-          options:["Sarah, who works part-time at IGA and is looking for full-time work","Jim, a retiree on the age pension","Ella, who looks after her children full-time","Jack, who is taking a year-long career break"], answer:0,
+          options:["Sarah, who works part-time at IGA and is looking for full-time work","Jim, a retiree who lives on the age pension and doesn’t want a job","Ella, who looks after her young children full-time at home","Jack, who is taking a year-long career break to travel overseas"], answer:0,
           why:"Sarah is employed (and underemployed). The others are neither working nor looking." },
         { q:"Hidden unemployment means the official unemployment rate…",
-          options:["understates the true amount of spare labour","overstates the true amount of spare labour","is exactly right","includes the underemployed"], answer:0,
+          options:["understates the true amount of spare labour","overstates the amount of spare labour in the economy","measures spare labour exactly","includes the underemployed in its count"], answer:0,
           why:"The hidden unemployed want work but aren’t counted, so the true level of unused labour is higher than the unemployment rate shows." }
       ]
     }
@@ -823,7 +823,7 @@ const LESSONS = [
     { id:"t3", type:"quiz", title:"Full employment & the NAIRU",
       qs:[
         { q:"Full employment means…",
-          options:["there is no cyclical unemployment — only natural unemployment remains","everyone who wants a job has one","the unemployment rate is 0%","there is no structural unemployment"], answer:0,
+          options:["there is no cyclical unemployment — only natural unemployment remains","everyone who wants a job has one, so nobody is unemployed at all","the unemployment rate has fallen all the way to 0%","there is no structural unemployment left in the economy"], answer:0,
           why:"Even at full employment there is frictional, structural and seasonal (natural) unemployment." },
         { q:"The RBA’s current estimate of the NAIRU is about…",
           options:["4.5%","2.5%","7.5%","0%"], answer:0,
@@ -832,7 +832,7 @@ const LESSONS = [
           options:["Cyclical","Frictional","Structural","Seasonal"], answer:0,
           why:"Cyclical unemployment is caused by a lack of AD. Natural unemployment exists even when AD is strong." },
         { q:"Why is structural unemployment more likely to be long-term than frictional unemployment?",
-          options:["The worker’s skills no longer match available jobs, so they need retraining","It only lasts until the next season","It disappears when the economy grows","Structural unemployment only affects young people"], answer:0,
+          options:["Their skills no longer match the jobs available, so they must retrain","It only lasts until the next season starts and the work comes back","It disappears as soon as the economy grows and AD rises again","It mainly affects young people looking for their very first job"], answer:0,
           why:"A frictionally unemployed person has wanted skills and just needs time. A structurally unemployed person needs new skills first." },
         { q:"**(Year 12 step-up)** If unemployment falls well below the NAIRU, the most likely result is…",
           options:["inflation starts to rise","deflation","structural unemployment rises","the NAIRU falls to zero"], answer:0,
@@ -846,7 +846,7 @@ const LESSONS = [
         { text:"Workers replaced by self-checkouts who lack the skills for other jobs are *frictionally* unemployed.", fix:"structurally", why:"A skills mismatch caused by technology is **structural** unemployment." },
         { text:"Full employment means the unemployment rate is *zero*.", fix:"at the NAIRU (about 4.5%)", why:"Full employment still includes natural unemployment." },
         { text:"A ski instructor who is out of work over summer is *cyclically* unemployed.", fix:"seasonally", why:"Out of work because of the time of year = **seasonal**." },
-        { text:"Structural unemployment is usually *short-term* because workers quickly find similar jobs.", fix:"long-term", why:"Structurally unemployed workers often need retraining, so it tends to be **long-term** (12 months+)." }
+        { text:"Structural unemployment is usually *short-term* because the jobs workers trained for no longer exist and they need to retrain.", fix:"long-term", why:"The old jobs have gone and retraining takes time, so structural unemployment tends to be **long-term** (12 months or more). Frictional unemployment is the short-term one – people moving between jobs." }
       ]
     },
     { id:"t5", type:"quiz", title:"Myth busters: AI & jobs",
@@ -954,13 +954,13 @@ const LESSONS = [
     { id:"t5", type:"quiz", title:"Not everyone is affected the same way",
       qs:[
         { q:"Youth unemployment in Australia is usually…",
-          options:["about double the overall unemployment rate","about the same as the overall rate","lower than the overall rate","not measured by the ABS"], answer:0,
+          options:["about double the overall unemployment rate","about the same as the overall unemployment rate","lower than the overall unemployment rate","not measured separately by the ABS"], answer:0,
           why:"Young people have less experience, so they are often first out and last hired." },
         { q:"Why are some skilled migrants underemployed?",
-          options:["Their overseas qualifications are not always recognised","They are not allowed to work","They are counted as hidden unemployed","They all work in seasonal jobs"], answer:0,
+          options:["Their overseas qualifications are not always recognised","Skilled visas only allow part-time work in Australia","They are counted as hidden unemployed by the ABS","They mostly choose seasonal jobs in regional areas"], answer:0,
           why:"If qualifications aren’t recognised, they may work in lower-skilled jobs or fewer hours than they want. The 2026-27 Budget funded faster skills assessments for this reason." },
         { q:"What is most likely to happen to someone who is unemployed for a long time?",
-          options:["Their skills and confidence erode, and they may stop looking — becoming hidden unemployed","They become frictionally unemployed","Their chances of being hired rise over time","They automatically move into seasonal work"], answer:0,
+          options:["Their skills and confidence erode and they may stop looking (hidden unemployed)","They become frictionally unemployed, because they are between jobs for a while","Their chances of being hired rise over time as employers see they are available","They automatically move into seasonal work until a permanent job comes up"], answer:0,
           why:"Long-term unemployment makes it harder to get back in, which is why it is so damaging to living standards." }
       ]
     },
@@ -1040,7 +1040,7 @@ const LESSONS = [
             {name:"Participation rate", answer:"down", why:"A larger share of people aged 65+ are retired."},
             {name:"Government spending on health, aged care and pensions", answer:"up", why:"About 40% of projected spending growth over 40 years is due to ageing."},
             {name:"Demand for aged-care and health workers", answer:"up", why:"An older population needs more care."},
-            {name:"Working-age people per person aged 65+", answer:"down", why:"People 65+ per 100 working-age rises from about 30 (2032) to 38 (2062)."}
+            {name:"People aged 65+ for every 100 working-age people", answer:"up", why:"The 2023 Intergenerational Report projects this rises to over 30 by 2032 and over 38 by 2062 — fewer workers supporting each retiree."}
           ]},
         { text:"**B.** Firms rapidly adopt AI for routine office tasks.",
           vars:[
@@ -1060,13 +1060,13 @@ const LESSONS = [
           options:["68%","30%","10%","95%"], answer:0,
           why:"About 68% (132,240 places) — back to its pre-pandemic share." },
         { q:"How does skilled migration affect aggregate supply?",
-          options:["It increases the quantity and quality of labour, so AS rises","It only increases AD","It reduces AS because migrants need jobs","It has no effect on AS"], answer:0,
+          options:["It increases the quantity and quality of labour, so AS rises","It only increases AD, because migrants spend money when they arrive","It reduces AS, because migrants take jobs from local workers","It has no effect on AS, because migrants only fill existing jobs"], answer:0,
           why:"More workers (quantity) who are already trained in skills in shortage (quality) → greater productive capacity." },
         { q:"Why does skilled migration help with an ageing population?",
-          options:["Skilled migrants are younger and have higher participation rates","Migrants cannot retire in Australia","It lowers the birth rate","It raises the retirement age"], answer:0,
+          options:["Skilled migrants are younger and have higher participation rates","Migrants are not allowed to retire in Australia until they are 70","It lowers the birth rate, so fewer children need to be supported","It raises the retirement age for all workers in Australia"], answer:0,
           why:"Younger workers who participate help offset the fall in the working-age share of the population." },
         { q:"The “de-skilling” argument against skilled migration says…",
-          options:["firms may import trained workers instead of training local workers","migrants lose their skills after arriving","skilled migration lowers productivity","migrants are not allowed to use their skills"], answer:0,
+          options:["firms may import trained workers instead of training local workers","migrants are paid less than local workers with the same skills","skilled migration lowers productivity because migrants need training","migrants are not allowed to use their skills in their first year"], answer:0,
           why:"If firms rely on imported skills, fewer Australians get trained — a concern from the **workers’** perspective." }
       ]
     },
@@ -1154,16 +1154,16 @@ const LESSONS = [
     { id:"t5", type:"quiz", title:"The Annual Wage Review 2026",
       qs:[
         { q:"Who sets the national minimum wage?",
-          options:["The Fair Work Commission","The RBA","The Treasurer","The ACTU"], answer:0,
+          options:["The Fair Work Commission","The Reserve Bank (RBA)","The Federal Treasurer","The ACTU (unions)"], answer:0,
           why:"The Fair Work Commission, in its Annual Wage Review. Unions (ACTU) and employer groups make submissions to it." },
         { q:"From 1 July 2026…",
           options:["the minimum wage rose 6% and award wages rose 4.75%","both rose 3.5%","the minimum wage fell","award wages rose 6% and the minimum wage rose 4.75%"], answer:0,
           why:"National minimum wage +6% to $26.44 an hour; award wages +4.75%, covering about 2.8 million workers." },
         { q:"A higher minimum wage improves **equity** because…",
-          options:["it raises the incomes of the lowest-paid, reducing income inequality","it makes firms more efficient","it lowers prices","it reduces the budget deficit"], answer:0,
+          options:["it raises the incomes of the lowest-paid, reducing inequality","it makes firms more efficient by forcing them to cut waste","it lowers prices because workers spend more in the economy","it means fewer people need welfare, so the budget improves"], answer:0,
           why:"Equity is about fairness in the distribution of income." },
         { q:"A higher minimum wage might reduce **efficiency** because…",
-          options:["if it sits above equilibrium, firms hire fewer hours, especially of low-skilled workers","it increases productivity","it lowers labour costs","it creates a shortage of workers"], answer:0,
+          options:["above equilibrium, firms hire fewer hours, especially of low-skilled workers","it increases productivity, because better-paid workers work harder","it lowers labour costs, so firms produce more with the same workers","it creates a shortage of workers, because fewer people want to work"], answer:0,
           why:"This is the efficiency–equity trade-off from the slides." },
         { q:"**(Year 12 step-up)** A minimum wage set too far above equilibrium can be an example of…",
           options:["government failure","market failure","a budget surplus","frictional unemployment"], answer:0,
