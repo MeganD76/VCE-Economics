@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Check my data</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17223B;--soft:#5B6478;--paper:#E9ECF1;--card:#fff;--rule:#D2D8E0;
+--right:#1B7F5A;--trap:#A8324A;--bar:#C3C9D2;--warn:#B6801F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 16px/1.55 'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding:26px 20px 80px}
+
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding-bottom:13px;border-bottom:2px solid var(--ink);margin-bottom:24px}
+h1{font:500 19px/1.2 'IBM Plex Sans';margin:0}
+header a{font-size:14px;color:var(--soft);text-decoration:underline;white-space:nowrap}
+header a:hover{color:var(--ink)}
+
+.card{background:var(--card);border:1px solid var(--rule);border-radius:3px;
+  padding:22px;margin-bottom:14px}
+.stem{font:400 19px/1.5 'IBM Plex Serif',Georgia,serif;margin:0 0 6px}
+.note{font-size:14px;color:var(--soft);margin:0 0 16px}
+.lead{font:400 17px/1.5 'IBM Plex Serif',Georgia,serif;margin:0 0 20px}
+
+input[type=text]{width:100%;font:400 17px 'IBM Plex Sans';color:var(--ink);
+  background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:12px 14px}
+input[type=text]:focus{outline:2px solid var(--ink);outline-offset:0;border-color:var(--ink)}
+.go{margin-top:14px;width:100%;background:var(--ink);color:#fff;border:0;border-radius:3px;
+  padding:14px;font:500 16px 'IBM Plex Sans';cursor:pointer}
+.go:disabled{background:var(--rule);color:#8A93A3;cursor:not-allowed}
+.go.ghost{background:none;color:var(--soft);border:1px solid var(--rule)}
+.go.ghost:hover{color:var(--ink);border-color:var(--ink)}
+
+.prog{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  font-size:13.5px;color:var(--soft);margin-bottom:12px}
+.prog b{color:var(--ink);font-weight:600}
+.track{height:3px;background:var(--bar);border-radius:2px;margin-bottom:20px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--ink);transition:width .3s}
+
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  margin-bottom:12px;flex-wrap:wrap}
+.tag{font:500 11px 'IBM Plex Sans';letter-spacing:.06em;text-transform:uppercase;
+  color:var(--soft);border:1px solid var(--rule);border-radius:2px;padding:2px 7px;white-space:nowrap}
+.tag.chk{color:var(--warn);border-color:var(--warn)}
+
+.step{font:600 12px 'IBM Plex Sans';letter-spacing:.09em;text-transform:uppercase;
+  color:var(--soft);margin:20px 0 8px}
+
+.numrow{display:flex;align-items:center;gap:10px}
+.numrow input{flex:1;font:500 22px 'IBM Plex Sans';text-align:right}
+.numrow span{font:500 16px 'IBM Plex Sans';color:var(--soft);min-width:72px}
+
+.opts{display:flex;gap:7px;flex-wrap:wrap}
+.opts button{font:500 15px 'IBM Plex Sans';padding:10px 14px;border:1px solid var(--rule);
+  background:var(--card);color:var(--ink);border-radius:3px;cursor:pointer}
+.opts button:hover{border-color:var(--ink)}
+.opts button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.opts button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+.skip{background:none;border:0;padding:0;margin-top:10px;font:400 13.5px 'IBM Plex Sans';
+  color:var(--soft);text-decoration:underline;cursor:pointer}
+
+.rev{border-left:3px solid var(--ink)}
+.scoreline{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:14px}
+.big{font:500 30px/1 'IBM Plex Sans'}
+.big span{font-size:16px;color:var(--soft)}
+.gap{font:500 14px 'IBM Plex Sans';padding:4px 10px;border-radius:3px}
+.gap.ok{background:#DCEFE6;color:var(--right)}
+.gap.near{background:#FAF0DC;color:var(--warn)}
+.gap.off{background:#F6DFE3;color:var(--trap)}
+.revline{font-size:15px;margin:0 0 8px}
+.revline b{font-weight:600}
+.why{font:400 16px/1.6 'IBM Plex Serif',Georgia,serif;margin:12px 0 0}
+.src{font-size:13px;color:var(--soft);margin:12px 0 0}
+
+/* study table */
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.grp{font:600 12px 'IBM Plex Sans';letter-spacing:.09em;text-transform:uppercase;
+  color:var(--soft);margin:18px 0 4px}
+.grp:first-child{margin-top:0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:10px 0;border-top:1px solid var(--rule)}
+.row div{flex:1}
+.row b{font-weight:500;font-size:15px;display:block}
+.row small{font-size:13px;color:var(--soft)}
+.fig{font:500 17px 'IBM Plex Sans';width:124px;flex:none;text-align:right;background:none;
+  border:1px solid transparent;border-radius:3px;padding:6px 8px;color:var(--ink);cursor:pointer}
+.fig.hid{background:var(--paper);border-color:var(--rule);color:transparent;position:relative}
+.fig.hid::after{content:'tap to show';position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font:400 12.5px 'IBM Plex Sans';color:var(--soft)}
+.fig small{display:block;font-size:12px;color:var(--soft);font-weight:400}
+.fig.hid small{color:transparent}
+
+.stat{border-left:3px solid var(--ink)}
+.missrow{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--rule)}
+.missrow div{flex:1}
+.missrow b{font-weight:500;display:block;font-size:15px}
+.missrow span{font-size:13.5px;color:var(--soft)}
+.rate{font:500 14px 'IBM Plex Sans';color:var(--soft);white-space:nowrap}
+
+.foot{margin-top:28px;padding-top:15px;border-top:1px solid var(--rule);
+  font-size:13.5px;color:var(--soft)}
+.foot p{margin:0 0 7px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Check my data</h1>
+  <a href="index.html" id="portal">Portal</a>
+</header>
+
+<main id="app"></main>
+
+<div class="foot">
+  <p id="asof"></p>
+  <p>Figures marked <b>being checked</b> may change once your teacher confirms them against your workbook.</p>
+</div>
+
+</div>
+
+<script src="kk-data.js"></script>
+<script src="portal-data.js"></script>
+<script src="data-check-data.js"></script>
+<script>
+/* =====================================================================
+   Check my data — recall the current figures.
+
+   Writes to S.dc only, never S.pr: knowing a figure is not an attempt at
+   a key knowledge question, so it must not move the tracker's evidence.
+   History is keyed on id + period, so a new release starts each figure
+   fresh. Uses the portal's shared retrieval schedule (dueIn / isDue).
+   ===================================================================== */
+
+const app = document.getElementById('app');
+let cw = null, queue = [], at = 0, sessionRows = [];
+let ans = {};
+
+const esc = t => String(t).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const key = it => it.id + '|' + it.period;
+const fmt = (v, it) => {
+  if (v === null || v === undefined) return '—';
+  const dp = Math.max(0, (String(it.value).split('.')[1] || '').length, it.unit === '%' || it.unit === '% of GDP' ? 1 : 0);
+  return Number(v).toFixed(it.tol === 0 ? 2 : dp);
+};
+const shown = it => `${fmt(it.value, it)} ${it.unit}`.replace(' %', '%');
+const DIRS = { up:'Rose', down:'Fell', same:'No change' };
+
+document.getElementById('asof').textContent =
+  `Figures as at ${DATA_ASOF}. Source: ${DATA_SOURCE}.`;
+
+/* ---- entry ---------------------------------------------------------- */
+(async function () {
+  const fromUrl = new URLSearchParams(location.search).get('cw');
+  if (fromUrl && clean(fromUrl).length >= 3) {
+    cw = clean(fromUrl); await Store.set(SETTINGS_CW, cw); return home();
+  }
+  const saved = await Store.get(SETTINGS_CW);
+  if (saved && saved.length >= 3) { cw = saved; return home(); }
+  askCode();
+})();
+
+function askCode() {
+  app.innerHTML = `<div class="card">
+    <p class="stem">What is your code word?</p>
+    <p class="note">The same one you use everywhere else in the portal.</p>
+    <input type="text" id="cwin" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="your code word">
+    <button class="go" id="cwgo" disabled>Continue</button>
+  </div>`;
+  const inp = document.getElementById('cwin'), go = document.getElementById('cwgo');
+  inp.oninput = () => { go.disabled = clean(inp.value).length < 3; };
+  inp.onkeydown = e => { if (e.key === 'Enter' && !go.disabled) go.click(); };
+  go.onclick = async () => { cw = clean(inp.value); await Store.set(SETTINGS_CW, cw); home(); };
+  inp.focus();
+}
+
+/* ---- history -------------------------------------------------------- */
+async function history() {
+  const S = await Record.load(cw);
+  const h = {};
+  (S.dc || []).forEach(r => { (h[r.k] = h[r.k] || []).push(r); });
+  return h;
+}
+
+/* ---- home ----------------------------------------------------------- */
+async function home() {
+  document.getElementById('portal').href = 'index.html?cw=' + encodeURIComponent(cw);
+  const h = await history();
+  const unseen = DATA_ITEMS.filter(it => !h[key(it)]);
+  const due    = DATA_ITEMS.filter(it => h[key(it)] && isDue(h[key(it)]));
+  const solid  = DATA_ITEMS.filter(it => h[key(it)] && dueIn(h[key(it)]) === null && h[key(it)].slice(-1)[0].ok);
+
+  const first = !Object.keys(h).length;
+  const todo = due.length + unseen.length;
+
+  app.innerHTML = `<div class="card">
+    <p class="lead">${first
+      ? `Your data workbook has the figures. This checks which ones have actually stuck. Each one: type the figure, say which way it moved, then see the real number.`
+      : `${solid.length} of ${DATA_ITEMS.length} figures are solid. ${due.length ? `${due.length} you missed are due back today.` : 'Nothing you missed is due back yet.'}`}</p>
+    <p class="note">Close is fine: within ${'0.1'} of a percentage figure counts as right. In the exam, the right direction and a sensible level matter more than the decimal.</p>
+    <button class="go" id="quiz" ${todo ? '' : 'disabled'}>${todo
+      ? `Check ${Math.min(todo, 10)} figure${Math.min(todo,10) === 1 ? '' : 's'}`
+      : 'All caught up for today'}</button>
+    <button class="go ghost" id="all">Test me on every figure</button>
+    <button class="go ghost" id="study">Study the figures</button>
+  </div>`;
+
+  document.getElementById('quiz').onclick = () => begin([...due, ...unseen].slice(0, 10));
+  document.getElementById('all').onclick  = () => begin(shuffle([...DATA_ITEMS]));
+  document.getElementById('study').onclick = study;
+}
+
+function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+/* ---- study table ---------------------------------------------------- */
+function study() {
+  let hidden = false;
+  const groups = [...new Set(DATA_ITEMS.map(i => i.group))];
+  const draw = () => {
+    app.innerHTML = `<div class="card">
+      <div class="tools">
+        <button class="go" id="hide" style="width:auto;margin:0;padding:10px 16px">${hidden ? 'Show all numbers' : 'Hide the numbers'}</button>
+        <button class="go ghost" id="back" style="width:auto;margin:0;padding:10px 16px">Back</button>
+      </div>
+      <p class="note">${hidden ? 'Say each figure out loud, then tap to check.' : 'Read them through, then hide them and test yourself.'}</p>
+      ${groups.map(g => `<p class="grp">${esc(g)}</p>` + DATA_ITEMS.filter(i => i.group === g).map(it => `
+        <div class="row"><div><b>${esc(it.label)}</b><small>${esc(it.period)}${it.check ? ' · being checked' : ''}</small></div>
+        <button class="fig ${hidden ? 'hid' : ''}">${esc(shown(it))}${it.dir ? `<small>${DIRS[it.dir].toLowerCase()} from ${esc(fmt(it.prev, it))}</small>` : ''}</button></div>`).join('')).join('')}
+    </div>`;
+    document.getElementById('hide').onclick = () => { hidden = !hidden; draw(); };
+    document.getElementById('back').onclick = home;
+    app.querySelectorAll('.fig').forEach(b => b.onclick = () => b.classList.toggle('hid'));
+  };
+  draw();
+}
+
+/* ---- quiz ----------------------------------------------------------- */
+function begin(items) { queue = items; at = 0; sessionRows = []; ask(); }
+
+function ask() {
+  if (at >= queue.length) return summary();
+  const it = queue[at];
+  ans = { num:'', dir:null, conf:null };
+  app.innerHTML = `
+    <div class="prog"><span><b>${at + 1}</b> of ${queue.length}</span><span>${esc(it.group)}</span></div>
+    <div class="track"><i style="width:${at / queue.length * 100}%"></i></div>
+    <div class="card">
+      <div class="qhead"><span class="tag">${esc(it.period)}</span>${it.check ? '<span class="tag chk">being checked</span>' : ''}</div>
+      <p class="stem">${esc(it.label)}</p>
+      <p class="step">What was it?</p>
+      <div class="numrow"><input type="text" id="num" inputmode="decimal" autocomplete="off" placeholder="?"><span>${esc(it.unit)}</span></div>
+      <button class="skip" id="dunno">I don't know this one</button>
+      ${it.dir ? `<p class="step">Since the release before, did it…</p>
+      <div class="opts" id="dir">${Object.entries(DIRS).map(([k, v]) => `<button data-v="${k}" aria-pressed="false">${v}</button>`).join('')}</div>` : ''}
+      <p class="step">How sure are you?</p>
+      <div class="opts" id="conf">${[['sure','Sure'],['think','Think so'],['guess','Guessing']].map(([k, v]) => `<button data-v="${k}" aria-pressed="false">${v}</button>`).join('')}</div>
+      <button class="go" id="check" disabled>Check</button>
+    </div>`;
+
+  const num = document.getElementById('num'), go = document.getElementById('check');
+  const ready = () => { go.disabled = !(ans.num !== '' && ans.conf && (!it.dir || ans.dir)); };
+  num.oninput = () => { ans.num = num.value.replace(/[^0-9.\-−]/g, '').replace('−', '-'); ready(); };
+  num.onkeydown = e => { if (e.key === 'Enter' && !go.disabled) go.click(); };
+  const pick = (id, f) => { const box = document.getElementById(id); if (!box) return;
+    box.querySelectorAll('button').forEach(b => b.onclick = () => {
+      box.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+      b.setAttribute('aria-pressed', 'true'); ans[f] = b.dataset.v; ready(); }); };
+  pick('dir', 'dir'); pick('conf', 'conf');
+  document.getElementById('dunno').onclick = () => { ans.num = 'x'; ans.conf = 'guess'; ans.dir = ans.dir || 'x'; reveal(); };
+  go.onclick = reveal;
+  num.focus();
+}
+
+async function reveal() {
+  const it = queue[at];
+  const n = parseFloat(ans.num);
+  const known = !isNaN(n);
+  const diff = known ? Math.abs(n - it.value) : Infinity;
+  const numOk = diff <= it.tol + 1e-9;
+  const near = !numOk && diff <= Math.max(it.tol * 4, Math.abs(it.value) * 0.15);
+  const dirOk = !it.dir || ans.dir === it.dir;
+  // Wrong sign on a deficit is a real miss even if the size is right.
+  const ok = numOk && dirOk;
+
+  const row = { t:'data', k:key(it), id:it.id, kk:it.kk, ok, num: known ? n : null,
+                numOk, dirOk, conf:ans.conf, ts:Date.now() };
+  try {
+    const S = await Record.load(cw);           // read-modify-write, own branch only
+    S.dc = S.dc || []; S.dc.push(row);
+    await Store.set(cw, JSON.stringify(S));
+  } catch (e) {}
+  sessionRows.push({ it, row });
+
+  const verdict = ok ? ['ok', 'Got it'] : numOk ? ['near', 'Right figure, wrong direction']
+                : near ? ['near', 'Close, not quite'] : ['off', known ? 'Not this time' : 'One to learn'];
+  const sureWrong = !ok && ans.conf === 'sure';
+
+  app.innerHTML = `
+    <div class="prog"><span><b>${at + 1}</b> of ${queue.length}</span><span>${esc(it.group)}</span></div>
+    <div class="track"><i style="width:${(at + 1) / queue.length * 100}%"></i></div>
+    <div class="card rev">
+      <p class="stem" style="margin-bottom:14px">${esc(it.label)}</p>
+      <div class="scoreline"><span class="big">${esc(fmt(it.value, it))} <span>${esc(it.unit)}</span></span>
+        <span class="gap ${verdict[0]}">${verdict[1]}</span></div>
+      <p class="revline">You said <b>${known ? esc(shown({...it, value:n})) : 'not sure'}</b>${it.dir
+        ? `, and that it <b>${ans.dir && DIRS[ans.dir] ? DIRS[ans.dir].toLowerCase() : '—'}</b>. It actually <b>${DIRS[it.dir].toLowerCase()}</b>${it.prev !== null ? ` from ${esc(fmt(it.prev, it))}` : ''}.` : '.'}</p>
+      ${sureWrong ? `<p class="revline" style="color:var(--trap)">You were sure about this one. Those are the ones that cost marks, because you won't think to check them.</p>` : ''}
+      <p class="why">${esc(it.note)}</p>
+      <p class="src">${esc(it.period)}${it.check ? ' · being checked against your workbook' : ''}</p>
+      <button class="go" id="next">${at + 1 < queue.length ? 'Next figure' : 'See how I went'}</button>
+    </div>`;
+  document.getElementById('next').onclick = () => { at++; ask(); };
+  document.getElementById('next').focus();
+}
+
+/* ---- summary -------------------------------------------------------- */
+async function summary() {
+  const right = sessionRows.filter(r => r.row.ok).length;
+  const missed = sessionRows.filter(r => !r.row.ok);
+  const sureMiss = missed.filter(r => r.row.conf === 'sure').length;
+  const h = await history();
+  const days = it => { const g = dueIn(h[key(it)] || []); return g ? Math.round(g / DAY) : null; };
+
+  app.innerHTML = `<div class="card stat">
+      <p class="big">${right} <span>of ${sessionRows.length} right</span></p>
+      <p class="note">${sureMiss ? `${sureMiss} you were sure about were wrong. Start with those.` :
+        missed.length ? 'The ones you missed will come back on their own.' : 'Every one stuck. They won\'t come back unless the figures change.'}</p>
+    </div>
+    ${missed.length ? `<div class="card"><p class="step" style="margin-top:0">Coming back</p>
+      ${missed.map(({ it, row }) => `<div class="missrow"><div><b>${esc(it.label)}</b>
+        <span>${esc(shown(it))}${it.dir ? `, ${DIRS[it.dir].toLowerCase()}` : ''}</span></div>
+        <span class="rate">in ${days(it) || 6} days</span></div>`).join('')}
+    </div>` : ''}
+    <button class="go" id="home">Done</button>`;
+  document.getElementById('home').onclick = home;
+}
+</script>
+</body>
+</html>
