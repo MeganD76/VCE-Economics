@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mark my answer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17223B;--soft:#5B6478;--paper:#E9ECF1;--card:#fff;--rule:#D2D8E0;
+--right:#1B7F5A;--trap:#A8324A;--bar:#C3C9D2;--warn:#B6801F;
+--famA:#6B4E8C;--famB:#A8324A;--famC:#1B6E7F}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 16px/1.55 'IBM Plex Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:660px;margin:0 auto;padding:26px 20px 80px}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding-bottom:13px;border-bottom:2px solid var(--ink);margin-bottom:24px}
+h1{font:500 19px/1.2 'IBM Plex Sans';margin:0}
+header a{font-size:14px;color:var(--soft);text-decoration:underline;white-space:nowrap}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:22px;margin-bottom:14px}
+.stem{font:400 19px/1.5 'IBM Plex Serif',Georgia,serif;margin:0 0 14px}
+.note{font-size:14px;color:var(--soft);margin:0 0 16px}
+.lead{font:400 17px/1.5 'IBM Plex Serif',Georgia,serif;margin:0 0 18px}
+input[type=text]{width:100%;font:400 17px 'IBM Plex Sans';color:var(--ink);background:var(--card);
+  border:1px solid var(--rule);border-radius:3px;padding:12px 14px}
+input[type=text]:focus{outline:2px solid var(--ink);border-color:var(--ink)}
+.go{margin-top:14px;width:100%;background:var(--ink);color:#fff;border:0;border-radius:3px;
+  padding:14px;font:500 16px 'IBM Plex Sans';cursor:pointer}
+.go:disabled{background:var(--rule);color:#8A93A3;cursor:not-allowed}
+.go.ghost{background:none;color:var(--soft);border:1px solid var(--rule)}
+.go.ghost:hover{color:var(--ink);border-color:var(--ink)}
+.back{background:none;border:0;padding:0;margin:0 0 14px;font:400 14px 'IBM Plex Sans';
+  color:var(--soft);text-decoration:underline;cursor:pointer}
+.tag{font:500 11px 'IBM Plex Sans';letter-spacing:.06em;text-transform:uppercase;color:var(--soft);
+  border:1px solid var(--rule);border-radius:2px;padding:2px 7px;white-space:nowrap}
+.tag.mk{color:var(--ink);border-color:var(--ink)}
+.qhead{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.step{font:600 12px 'IBM Plex Sans';letter-spacing:.09em;text-transform:uppercase;color:var(--soft);margin:22px 0 8px}
+
+.list button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;
+  text-align:left;background:none;border:0;border-top:1px solid var(--rule);padding:12px 2px;
+  font:400 15px/1.45 'IBM Plex Sans';color:var(--ink);cursor:pointer}
+.list button:last-child{border-bottom:1px solid var(--rule)}
+.list button:hover{background:var(--paper)}
+.list small{color:var(--soft);white-space:nowrap;font-size:13px}
+.list .done{color:var(--right)}
+
+.stim{font-size:14px;line-height:1.6;background:var(--paper);border:1px solid var(--rule);
+  border-radius:2px;padding:12px 14px;margin:0 0 16px;overflow-x:auto}
+.stim p{margin:0 0 8px}.stim p:last-child{margin:0}
+.stim svg{max-width:100%;height:auto;display:block}
+.stim table{border-collapse:collapse;font-size:13px}.stim td,.stim th{border:1px solid var(--rule);padding:4px 7px}
+.stim figure{margin:0}.stim figcaption,.stimhead{font-weight:600}
+
+.photos{display:flex;gap:8px;flex-wrap:wrap}
+.thumb{position:relative;width:96px;height:120px;border:1px solid var(--rule);border-radius:3px;overflow:hidden;background:var(--paper)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb button{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;
+  background:rgba(23,34,59,.8);color:#fff;font-size:14px;line-height:1;cursor:pointer}
+.thumb b{position:absolute;bottom:4px;left:6px;font:600 12px 'IBM Plex Sans';color:#fff;text-shadow:0 0 3px #000}
+.add{width:96px;height:120px;border:1px dashed var(--soft);border-radius:3px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;color:var(--soft);font-size:13px;cursor:pointer;text-align:center}
+.add span{font-size:26px;line-height:1}
+.add input{display:none}
+
+.opts{display:flex;gap:7px;flex-wrap:wrap}
+.opts button{font:500 15px 'IBM Plex Sans';min-width:46px;padding:10px 13px;border:1px solid var(--rule);
+  background:var(--card);color:var(--ink);border-radius:3px;cursor:pointer}
+.opts button:hover{border-color:var(--ink)}
+.opts button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.opts button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.skip{background:none;border:0;padding:0;margin-top:10px;font:400 13.5px 'IBM Plex Sans';color:var(--soft);text-decoration:underline;cursor:pointer}
+
+.wait{text-align:center;padding:40px 22px}
+.spin{width:34px;height:34px;border:3px solid var(--rule);border-top-color:var(--ink);border-radius:50%;
+  margin:0 auto 16px;animation:s 1s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+.err{border-left:3px solid var(--trap)}
+
+.rev{border-left:3px solid var(--ink)}
+.scoreline{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;padding-bottom:14px;
+  border-bottom:1px solid var(--rule);margin-bottom:16px}
+.big{font:500 34px/1 'IBM Plex Sans'}.big span{font-size:17px;color:var(--soft)}
+.gap{font:500 14px 'IBM Plex Sans';padding:4px 10px;border-radius:3px}
+.gap.ok{background:#DCEFE6;color:var(--right)}.gap.near{background:#FAF0DC;color:var(--warn)}.gap.off{background:#F6DFE3;color:var(--trap)}
+.crit{list-style:none;margin:0;padding:0}
+.crit li{display:flex;gap:10px;align-items:flex-start;padding:10px 2px;border-top:1px solid var(--rule)}
+.crit li:last-child{border-bottom:1px solid var(--rule)}
+.crit .v{font:500 12px 'IBM Plex Sans';padding:2px 7px;border-radius:2px;flex:none;margin-top:2px}
+.crit .v.hit{background:#DCEFE6;color:var(--right)}.crit .v.no{background:#F6DFE3;color:var(--trap)}
+.crit b{font-weight:500;font-size:15px;display:block}.crit span{font-size:13.5px;color:var(--soft)}
+.codeline{display:flex;gap:10px;align-items:baseline;padding:9px 0}
+.pill{font:500 13px 'IBM Plex Sans';padding:4px 9px;border-radius:3px;color:#fff;flex:none}
+.pill.A{background:var(--famA)}.pill.B{background:var(--famB)}.pill.C{background:var(--famC)}
+.codeline div{font-size:14.5px}.codeline b{font-weight:600}
+.fb{font:400 16.5px/1.62 'IBM Plex Serif',Georgia,serif;color:var(--trap);margin:0 0 10px}
+.ns{font-size:15px;background:#FEFBF4;border-left:3px solid var(--warn);padding:10px 13px;margin:0}
+details{margin-top:14px;font-size:14.5px}
+details summary{cursor:pointer;color:var(--soft);text-decoration:underline}
+details > div{margin-top:10px;border-left:2px solid var(--rule);padding-left:12px}
+.trans{font:400 15px/1.6 'IBM Plex Serif',Georgia,serif;white-space:pre-wrap}
+.model{font:italic 400 15.5px/1.6 'IBM Plex Serif',Georgia,serif}.model p{margin:0 0 8px}
+.foot{margin-top:28px;padding-top:15px;border-top:1px solid var(--rule);font-size:13.5px;color:var(--soft)}
+.foot p{margin:0 0 7px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Mark my answer</h1><a href="index.html" id="portal">Portal</a></header>
+<main id="app"></main>
+<div class="foot">
+  <p>Your photos go to an AI marker and are not kept. The mark is a guide: it's trained on the VCAA standard and your teacher's marking rules, but it can misread handwriting. Check "What I read" if a mark looks wrong.</p>
+</div>
+</div>
+
+<script src="kk-data.js"></script>
+<script src="portal-data.js"></script>
+<script>
+/* =====================================================================
+   Mark my answer — photo of a handwritten response → mark + feedback.
+
+   Questions come from practice.html (its first <script> is pure data),
+   so there is one bank to maintain. Writes ONE practice row per marked
+   attempt to S.pr, tagged t:'mark', with cond.mark = 'ai'.
+
+   Calls Megan's existing Marker Worker, a plain proxy to the Anthropic
+   API. The Worker caps a request at 512 KB, so photos are compressed to
+   fit before sending. The prompt is built here, not in the Worker.
+
+   Links:  marking.html?k=<app key>        (only needed once the Worker's
+                                             REQUIRE_KEY is switched on)
+           marking.html?q=<question id>    (deep link to one question)
+           marking.html?mode=class         (prediction can't be skipped)
+   ===================================================================== */
+
+const WORKER_URL = 'https://vce-marker.megan-dyring.workers.dev';
+const MODEL = 'claude-sonnet-5-5';
+const BODY_LIMIT = 500 * 1024;        // Worker rejects anything over 512 KB
+const KEY_SETTING = '@mk';
+
+const app = document.getElementById('app');
+const params = new URLSearchParams(location.search);
+const CLASS_MODE = params.get('mode') === 'class';
+let cw = null, classKey = null, BANKDATA = null;
+let cur = null, photos = [], pred = null, cond = { time:'untimed', mat:'closed' };
+
+const CODE_NAMES = {
+  A1:'Wrong task word',A2:'Half the stem',A3:'Wrong direction or scope',A4:'Stimulus ignored',A5:'Overclaimed',A6:'Outside scope',
+  B1:'Definition incomplete',B2:'Wrong term or factor',B3:'Mechanism reversed',B4:'Half the concept',B5:'Not study design language',B6:'Can’t source this',
+  C1:'Chain stops short',C2:'No landing',C3:'But how?',C4:'But why?',C5:'No data',C6:'Data not interpreted',C7:'No example',
+  C8:'Depth doesn’t match marks',C9:'Sequencing',C10:'Can’t follow this'
+};
+const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const strip = html => { const d = document.createElement('div'); d.innerHTML = html || ''; return d.textContent.replace(/\s+\n/g, '\n').replace(/[ \t]+/g, ' ').trim(); };
+
+/* ---- marking prompt ------------------------------------------------ */
+const CODES = `A — Reading the question (knew it, answered a different question)
+A1 Wrong task word · A2 Half the stem (a two-part question with one part missing) · A3 Wrong direction or scope · A4 Stimulus ignored · A5 Overclaimed · A6 Outside scope
+B — Knowing the content (the economics itself is missing or wrong)
+B1 Definition incomplete · B2 Wrong term or factor · B3 Mechanism reversed · B4 Half the concept · B5 Not study design language · B6 Can't source this
+C — Building the answer (knew it, the answer didn't show it)
+C1 Chain stops short · C2 No landing (never links back to what the question asked) · C3 But how? · C4 But why? · C5 No data · C6 Data not interpreted · C7 No example · C8 Depth doesn't match marks · C9 Sequencing · C10 Can't follow this`;
+
+const SYSTEM = `You are marking a Year 12 VCE Economics student's handwritten exam response, as Megan, their teacher, would mark it against the VCAA standard.
+
+How to mark
+- Read the photo(s) carefully. Transcribe exactly what is written, including crossings-out ignored. If a word is unreadable write [?]. Never improve the student's wording in the transcription.
+- Mark against the marking guide given. Whole marks only: never award half marks. The mark can't exceed the marks available.
+- Award a criterion if the student's answer shows it, in any wording. Accept any economically correct alternative the sample answer doesn't mention (another valid factor, example or policy), as VCAA would.
+- Use the sample answer as a guide to the standard, not as the only acceptable answer.
+- Current data: accept any accurate, recent Australian figure. Don't penalise figures that differ a little from the reference data because of a newer release.
+- If the photos aren't a response to this question, or are mostly unreadable, set legible to false and award 0.
+
+Megan's content rules (apply them)
+- Interest rates affect both aggregate demand and aggregate supply; in a general exam answer the student should lead with AD.
+- Income terms: tax changes disposable income; interest rates change discretionary income; inflation changes purchasing power. "Inflation reduces discretionary income" is an error unless linked to higher prices of necessities.
+- If data is provided, students are expected to use it even when not told to. For a 2-mark data use, a conditional sentence using the trend is enough.
+- Definitions should be tailored to the question's context.
+- A consequence of not achieving a goal must say whether the indicator is too high or too low.
+- Price elasticity of supply is the responsiveness of quantity supplied to a change in price (price changes first).
+- Two-part questions: if one part is missing, the criteria for it are not met, and A2 is usually the top code.
+
+Codes (choose at most two, most important first; none if full marks)
+${CODES}
+The most common real problem is construction (C codes), but only choose a code the answer actually shows. Choose A2 whenever a part of the question was not answered.
+
+Feedback
+- Write as Megan, speaking directly to the student ("you", "I"), warm and plain. Never "the student should".
+- feedback: 2–4 sentences. Name what earned marks, then the single most useful fix.
+- next_step: one concrete sentence they can act on in their next attempt (e.g. a sentence frame to add).
+- Australian spelling.`;
+
+const TOOL = {
+  name: 'record_mark',
+  description: 'Record the mark and feedback for this response.',
+  input_schema: {
+    type: 'object',
+    properties: {
+      legible:       { type: 'boolean', description: 'false if the photos are not a readable response to this question' },
+      transcription: { type: 'string' },
+      criteria: { type: 'array', items: { type: 'object', properties: {
+                    i:   { type: 'integer', description: 'index of the criterion, from 0' },
+                    met: { type: 'boolean' },
+                    why: { type: 'string', description: 'one short sentence, to the student' } },
+                  required: ['i', 'met', 'why'] } },
+      mark:  { type: 'integer' },
+      codes: { type: 'array', maxItems: 2, items: { type: 'object', properties: {
+                 code: { type: 'string', pattern: '^(A[1-6]|B[1-6]|C(10|[1-9]))$' },
+                 why:  { type: 'string', description: 'where in their answer, one sentence, to the student' } },
+               required: ['code', 'why'] } },
+      feedback:  { type: 'string' },
+      next_step: { type: 'string' }
+    },
+    required: ['legible', 'transcription', 'criteria', 'mark', 'codes', 'feedback', 'next_step']
+  }
+};
+
+
+/* ---- entry ---------------------------------------------------------- */
+(async function () {
+  const k = params.get('k');
+  if (k) await Store.set(KEY_SETTING, k);
+  classKey = k || await Store.get(KEY_SETTING);
+
+  const fromUrl = params.get('cw');
+  if (fromUrl && clean(fromUrl).length >= 3) { cw = clean(fromUrl); await Store.set(SETTINGS_CW, cw); }
+  else { const s = await Store.get(SETTINGS_CW); if (s && s.length >= 3) cw = s; }
+  if (!cw) return askCode();
+  boot();
+})();
+
+function askCode() {
+  app.innerHTML = `<div class="card"><p class="stem">What is your code word?</p>
+    <p class="note">The same one you use everywhere else in the portal.</p>
+    <input type="text" id="cwin" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="your code word">
+    <button class="go" id="cwgo" disabled>Continue</button></div>`;
+  const inp = document.getElementById('cwin'), go = document.getElementById('cwgo');
+  inp.oninput = () => { go.disabled = clean(inp.value).length < 3; };
+  inp.onkeydown = e => { if (e.key === 'Enter' && !go.disabled) go.click(); };
+  go.onclick = async () => { cw = clean(inp.value); await Store.set(SETTINGS_CW, cw); boot(); };
+  inp.focus();
+}
+
+async function boot() {
+  document.getElementById('portal').href = 'index.html?cw=' + encodeURIComponent(cw);
+  app.innerHTML = `<div class="card wait"><div class="spin"></div><p class="note">Loading the questions…</p></div>`;
+  try { BANKDATA = await loadBank(); }
+  catch (e) {
+    app.innerHTML = `<div class="card err"><p class="lead">The questions didn't load.</p><p class="note">Refresh the page. If it keeps happening, tell your teacher.</p></div>`;
+    return;
+  }
+  const qid = params.get('q');
+  const direct = qid && BANKDATA.BANK.find(b => b.q === qid);
+  direct ? question(direct) : types();
+}
+
+/* practice.html's first <script> holds only data constants. */
+async function loadBank() {
+  const r = await fetch('practice.html', { cache: 'no-cache' });
+  const html = await r.text();
+  const m = html.match(/<script>([\s\S]*?)<\/script>/);
+  const d = new Function(m[1] + ';return {SET_ID,TYPES,STIM,BANK,CURRENT:typeof CURRENT!=="undefined"?CURRENT:{}};')();
+  if (!d.BANK || !d.BANK.length) throw new Error('empty bank');
+  return d;
+}
+
+async function markedSet() {
+  const rows = await Record.rows(cw, 'mark');
+  const best = {};
+  rows.forEach(r => { best[r.q] = Math.max(best[r.q] ?? -1, r.got); });
+  return best;
+}
+
+/* ---- pick a question ------------------------------------------------ */
+async function types() {
+  const { TYPES, BANK } = BANKDATA;
+  const best = await markedSet();
+  const withQs = TYPES.filter(t => BANK.some(b => b.qt === t.qt));
+  app.innerHTML = `<div class="card">
+      <p class="lead">Pick a question, write your answer on paper as you would in the exam, then photograph it.</p>
+      <div class="list">${withQs.map(t => {
+        const qs = BANK.filter(b => b.qt === t.qt), done = qs.filter(b => b.q in best).length;
+        return `<button data-qt="${t.qt}"><span>${esc(t.name)}</span><small class="${done ? 'done' : ''}">${done ? done + ' of ' : ''}${qs.length}</small></button>`;
+      }).join('')}</div></div>`;
+  app.querySelectorAll('[data-qt]').forEach(b => b.onclick = () => qlist(b.dataset.qt));
+}
+
+async function qlist(qt) {
+  const { TYPES, BANK } = BANKDATA;
+  const t = TYPES.find(x => x.qt === qt), best = await markedSet();
+  const qs = BANK.filter(b => b.qt === qt);
+  app.innerHTML = `<button class="back" id="bk">All question types</button>
+    <div class="card"><p class="stem" style="margin-bottom:4px">${esc(t.name)}</p><p class="note">${esc(t.d || '')}</p>
+    <div class="list">${qs.map(b => `<button data-q="${b.q}"><span>${esc(strip(b.stem).slice(0, 110))}${strip(b.stem).length > 110 ? '…' : ''}</span>
+      <small class="${b.q in best ? 'done' : ''}">${b.q in best ? best[b.q] + '/' : ''}${b.marks} mark${b.marks > 1 ? 's' : ''}</small></button>`).join('')}</div></div>`;
+  document.getElementById('bk').onclick = types;
+  app.querySelectorAll('[data-q]').forEach(b => b.onclick = () => question(BANK.find(x => x.q === b.dataset.q)));
+}
+
+/* ---- the question, photos, prediction ------------------------------- */
+function question(b) {
+  cur = b; photos = []; pred = null;
+  const stim = b.stim && BANKDATA.STIM[b.stim];
+  app.innerHTML = `<button class="back" id="bk">Back to the list</button>
+    <div class="card">
+      <div class="qhead"><span class="tag mk">${b.marks} mark${b.marks > 1 ? 's' : ''}</span>${b.two ? '<span class="tag">two part</span>' : ''}</div>
+      ${stim ? `<div class="stim">${stim}</div>` : ''}
+      <p class="stem">${b.stem}</p>
+
+      <p class="step">1 · Photograph your answer</p>
+      <p class="note">Flat, in good light, the whole answer in frame. Up to three photos if it runs over a page.</p>
+      <div class="photos" id="ph"></div>
+
+      <p class="step">2 · How did you write it?</p>
+      <div class="opts" id="time"><button data-v="timed" aria-pressed="false">Timed</button><button data-v="untimed" aria-pressed="true">Not timed</button></div>
+      <div class="opts" id="mat" style="margin-top:8px"><button data-v="closed" aria-pressed="true">No notes</button><button data-v="open" aria-pressed="false">Used notes</button></div>
+
+      <p class="step">3 · What mark do you think you got?</p>
+      <p class="note">Decide before you see it. The gap between your guess and the real mark is the useful part.</p>
+      <div class="opts" id="pred">${Array.from({ length: b.marks + 1 }, (_, i) => `<button data-v="${i}" aria-pressed="false">${i}</button>`).join('')}</div>
+      ${CLASS_MODE ? '' : '<button class="skip" id="nopred">Skip this time</button>'}
+
+      <button class="go" id="mark" disabled>Mark my answer</button>
+    </div>`;
+  document.getElementById('bk').onclick = () => qlist(b.qt);
+  drawPhotos();
+  const pick = (id, f) => { const box = document.getElementById(id);
+    box.querySelectorAll('button').forEach(x => x.onclick = () => {
+      box.querySelectorAll('button').forEach(y => y.setAttribute('aria-pressed', 'false'));
+      x.setAttribute('aria-pressed', 'true'); f(x.dataset.v); ready(); }); };
+  pick('time', v => cond.time = v); pick('mat', v => cond.mat = v); pick('pred', v => pred = +v);
+  const np = document.getElementById('nopred');
+  if (np) np.onclick = () => { pred = 'skip'; document.querySelectorAll('#pred button').forEach(y => y.setAttribute('aria-pressed', 'false')); np.textContent = 'Skipped'; ready(); };
+  document.getElementById('mark').onclick = send;
+}
+
+function ready() { document.getElementById('mark').disabled = !(photos.length && pred !== null); }
+
+function drawPhotos() {
+  const box = document.getElementById('ph');
+  box.innerHTML = photos.map((p, i) => `<div class="thumb"><img src="${p.prev}" alt="Photo ${i + 1}"><b>${i + 1}</b><button data-i="${i}" aria-label="Remove photo ${i + 1}">×</button></div>`).join('')
+    + (photos.length < 3 ? `<label class="add"><span>+</span>${photos.length ? 'Next page' : 'Take photo'}<input type="file" accept="image/*" capture="environment" id="file"></label>` : '');
+  box.querySelectorAll('[data-i]').forEach(x => x.onclick = () => { photos.splice(+x.dataset.i, 1); drawPhotos(); ready(); });
+  const f = document.getElementById('file');
+  if (f) f.onchange = async () => { if (f.files[0]) { photos.push(await shrink(f.files[0])); drawPhotos(); ready(); } };
+}
+
+/* Keep the decoded photo; compress only when sending, to fit the budget. */
+function shrink(file) {
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => res({ img, prev: encode(img, 300, 0.7, true) });
+    img.onerror = rej; img.src = url;
+  });
+}
+function encode(img, edge, q, asUrl) {
+  const s = Math.min(1, edge / Math.max(img.width, img.height));
+  const c = document.createElement('canvas');
+  c.width = Math.round(img.width * s); c.height = Math.round(img.height * s);
+  const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+  g.drawImage(img, 0, 0, c.width, c.height);
+  const d = c.toDataURL('image/jpeg', q);
+  return asUrl ? d : d.split(',')[1];
+}
+/* Step down size and quality until all photos fit under the Worker's cap.
+   Handwriting stays readable to about 1000px on the long edge. */
+function fitPhotos(textBytes) {
+  const budget = BODY_LIMIT - textBytes - 4000;
+  for (const [edge, q] of [[1600, .8], [1400, .72], [1200, .68], [1000, .62], [900, .55]]) {
+    const out = photos.map(p => encode(p.img, edge, q));
+    if (out.reduce((n, d) => n + d.length, 0) <= budget) return out;
+  }
+  return null;
+}
+
+/* ---- send ----------------------------------------------------------- */
+async function send() {
+  const b = cur;
+  const crit = b.crit || [];
+  const pts = !crit.length && b.points ? 'Marking points:\n- ' + b.points.map(strip).join('\n- ') + '\n' : '';
+  const data = (b.now || []).map(k => BANKDATA.CURRENT[k]).filter(Boolean)
+    .map(d => `${strip(d.l)}: ${strip(d.v)}${d.n ? ' (' + strip(d.n) + ')' : ''}`).join('\n');
+  const q = {
+    marks: b.marks, kk: b.kk, stem: strip(b.stem),
+    stimulus: b.stim ? strip(BANKDATA.STIM[b.stim]) : '',
+    crit: crit.map(c => ({ t: strip(c.t), m: c.m })),
+    model: strip(b.model), alt: strip(b.alt || ''),
+    report: pts + strip(b.report || '') + (b.tips ? '\n' + [].concat(b.tips).map(strip).join('\n') : ''),
+    data
+  };
+  const text = promptFor(q, photos.length);
+  const req = { model: MODEL, max_tokens: 2000, system: SYSTEM, tools: [TOOL],
+                tool_choice: { type: 'tool', name: 'record_mark' },
+                messages: [{ role: 'user', content: [] }] };
+  const imgs = fitPhotos(new Blob([JSON.stringify(req) + text]).size);
+  if (!imgs) return failed(b, 'Those photos are too big to send together. Try two photos instead of three, or retake them closer.');
+  req.messages[0].content = [
+    ...imgs.map(d => ({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: d } })),
+    { type: 'text', text }
+  ];
+
+  app.innerHTML = `<div class="card wait"><div class="spin"></div><p class="lead" style="margin:0 0 6px">Marking your answer…</p><p class="note">This takes about 20 seconds.</p></div>`;
+  let out;
+  try {
+    const headers = { 'Content-Type': 'application/json' };
+    if (classKey) headers['x-app-key'] = classKey;
+    const r = await fetch(WORKER_URL, { method: 'POST', headers, body: JSON.stringify(req) });
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(r.status === 429 || r.status === 529 ? 'The marker is busy. Try again in a minute.'
+      : r.status === 401 ? 'The marker needs the class link. Open this page from the link your teacher gave you.'
+      : 'The marker had a problem. Try again, or tell your teacher.');
+    const use = (data.content || []).find(c => c.type === 'tool_use');
+    if (!use) throw new Error('The marker did not return a mark. Try again.');
+    out = use.input;
+    out.mark = Math.max(0, Math.min(b.marks, parseInt(out.mark, 10) || 0));   // whole marks, in range
+    out.codes = (out.codes || []).filter(c => CODE_NAMES[c.code]).slice(0, 2);
+    if (out.mark === b.marks) out.codes = [];
+    out.criteria = out.criteria || [];
+  } catch (e) {
+    return failed(b, e.message || 'Check your internet connection and try again.');
+  }
+  if (out.legible) await save(b, out);
+  result(b, out);
+}
+
+function failed(b, msg) {
+  app.innerHTML = `<div class="card err"><p class="lead">That didn't work.</p><p class="note">${esc(msg)}</p>
+    <button class="go" id="again">Try again</button><button class="go ghost" id="bk">Back to the question</button></div>`;
+  document.getElementById('again').onclick = send;
+  document.getElementById('bk').onclick = () => { const keep = photos, p = pred; question(b); photos = keep; pred = p; drawPhotos(); ready(); };
+}
+
+function promptFor(q, n) {
+  const marks = q.marks;
+  const crit = q.crit.map((c, i) => `${i}. ${c.t} (${c.m || 1} mark${c.m > 1 ? 's' : ''})`).join('\n');
+  return `QUESTION (${marks} mark${marks > 1 ? 's' : ''}, key knowledge ${q.kk})
+${q.stimulus ? 'Stimulus:\n' + q.stimulus + '\n\n' : ''}${q.stem}
+
+MARKING GUIDE
+${crit || '(No itemised criteria. Mark holistically to the sample answer, one mark per distinct correct point made, up to the marks available.)'}
+
+SAMPLE ANSWER
+${q.model}
+${q.alt ? '\nANOTHER ACCEPTABLE ANSWER\n' + q.alt : ''}${q.report ? '\nEXAMINER / TEACHER NOTES\n' + q.report : ''}${q.data ? '\nREFERENCE DATA (recent)\n' + q.data : ''}
+
+The student's response is in the photo${n > 1 ? 's, in order' : ''}. Mark it with record_mark.`;
+}
+
+async function save(b, out) {
+  /* Same shape as practice.html's rows (got/marks, code/code2), so the
+     tracker reads them with no changes. No `ok`: partial marks are a miss. */
+  const row = { t:'mark', set: BANKDATA.SET_ID, q: b.q, kk: b.kk,
+    got: out.mark, marks: b.marks,
+    pred: typeof pred === 'number' ? pred : null,
+    code: (out.codes[0] || {}).code || null, code2: (out.codes[1] || {}).code || null,
+    cond: { time: cond.time, mat: cond.mat, mark: 'ai' }, ts: Date.now() };
+  try { await Record.push(cw, [row]); } catch (e) {}
+}
+
+/* ---- result --------------------------------------------------------- */
+function result(b, out) {
+  if (!out.legible) {
+    app.innerHTML = `<div class="card err"><p class="lead">I couldn't read that as an answer to this question.</p>
+      <p class="note">Retake the photo flat and in good light, with the whole answer in frame. Nothing was saved.</p>
+      ${out.transcription ? `<details><summary>What I could read</summary><div class="trans">${esc(out.transcription)}</div></details>` : ''}
+      <button class="go" id="bk">Back to the question</button></div>`;
+    document.getElementById('bk').onclick = () => question(b);
+    return;
+  }
+  const crit = b.crit || [];
+  let gapHtml = '';
+  if (typeof pred === 'number') {
+    const g = pred - out.mark;
+    gapHtml = g === 0 ? `<span class="gap ok">You called it</span>`
+      : `<span class="gap ${Math.abs(g) === 1 ? 'near' : 'off'}">You said ${pred}${g > 0 ? ', ' + g + ' too high' : ', ' + -g + ' too low'}</span>`;
+  }
+  const overshoot = typeof pred === 'number' && pred - out.mark >= 2;
+
+  app.innerHTML = `<div class="card rev">
+      <p class="stem" style="font-size:16.5px">${b.stem}</p>
+      <div class="scoreline"><span class="big">${out.mark} <span>/ ${b.marks}</span></span>${gapHtml}</div>
+      ${overshoot ? `<p class="note" style="color:var(--trap)">You thought this was worth ${pred - out.mark} more than it was. Look at which criteria you missed: those are the ones you thought you'd covered.</p>` : ''}
+
+      ${crit.length ? `<p class="step" style="margin-top:0">The marking guide</p><ul class="crit">${crit.map((c, i) => {
+        const r = (out.criteria || []).find(x => x.i === i) || { met:false, why:'' };
+        return `<li><span class="v ${r.met ? 'hit' : 'no'}">${r.met ? 'Yes' : 'Not yet'}</span><div><b>${esc(strip(c.t))}</b><span>${esc(r.why)}</span></div></li>`;
+      }).join('')}</ul>` : ''}
+
+      ${out.codes.length ? `<p class="step">What cost you marks</p>${out.codes.map(c => `
+        <div class="codeline"><span class="pill ${c.code[0]}">${esc(c.code)}</span><div><b>${esc(CODE_NAMES[c.code] || '')}</b> · ${esc(c.why)}</div></div>`).join('')}` : ''}
+
+      <p class="step">From me</p>
+      <p class="fb">${esc(out.feedback)}</p>
+      <p class="ns"><b>Next time:</b> ${esc(out.next_step)}</p>
+
+      <details><summary>What I read</summary><div><p class="trans">${esc(out.transcription)}</p>
+        <p class="note">If I misread your writing, the mark may be off. Retake the photo, or show your teacher.</p></div></details>
+      <details><summary>Sample answer</summary><div class="model">${b.model}${b.alt ? `<p style="font-style:normal;font-weight:600;margin-top:12px">${esc(b.altLabel || 'Another possible response')}</p>${b.alt}` : ''}</div></details>
+
+      <button class="go" id="redo">Rewrite it and mark again</button>
+      <button class="go ghost" id="more">Another question</button>
+    </div>`;
+  document.getElementById('redo').onclick = () => question(b);
+  document.getElementById('more').onclick = () => qlist(b.qt);
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
