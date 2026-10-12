@@ -334,11 +334,26 @@ const SACS = [
   ["P2-1c",3,"Part 2 \u00b7 Higher tariffs \u2192 aggregate supply and competitiveness",["4.2.5","4.2.2"],"data",0,"impact"]]}
 ];
 
-/* VCAA exams. Section B only — multiple choice lives in the practice tool,
-   which holds option-level distributions and serves questions individually.
-   Sixth field on each question is the state average, % of marks earned. */
+/* Practice exams, whole paper: Section A (MC1–MC15, 1 mark each) then Section B.
+   Sixth field is the state average, % of marks earned (null = none, e.g. trials).
+   VCAA 2024 MC1 was invalidated by VCAA, so that paper's Section A is out of 14. */
 const EXAMS = [
- {id:"v2025",n:"VCAA 2025 \u00b7 Section B",g:"exam",exam:1,q:[
+ {id:"v2025",n:"VCAA 2025",g:"exam",exam:1,q:[
+  ["MC1",1,"What economics is about",["3.1.1"],0,92,0],
+  ["MC2",1,"Meaning of allocative efficiency",["3.1.2"],0,79,0],
+  ["MC3",1,"What makes demand more price elastic",["3.1.12"],0,75,0],
+  ["MC4",1,"Cause of a price change \u2014 diagram",["3.1.6","3.1.10"],"diagram",64,0],
+  ["MC5",1,"Unemployment rate from labour data",["3.2.11"],"calc",68,0],
+  ["MC6",1,"Which is not an AS factor",["3.2.5"],0,65,0],
+  ["MC7",1,"Meaning of a regressive tax",["4.1.2"],0,77,0],
+  ["MC8",1,"An automatic stabiliser",["4.1.8"],0,80,0],
+  ["MC9",1,"Tighter monetary and budgetary policy together",["4.1.18","4.1.11"],0,63,0],
+  ["MC10",1,"Raising AD near full capacity",["3.2.4"],0,52,0],
+  ["MC11",1,"Cause of an AUD appreciation",["3.3.5"],0,80,0],
+  ["MC12",1,"Speculators and the exchange rate",["3.3.5"],0,76,0],
+  ["MC13",1,"Meaning of net foreign debt",["3.3.4"],0,93,0],
+  ["MC14",1,"Terms of trade calculation",["3.3.6"],"calc",43,0],
+  ["MC15",1,"Tariff cut \u2192 import prices and quantity",["3.3.1"],0,90,0],
   ["1a",2,"Characteristics of public goods",["3.1.16"],0,70,0],
   ["1b",3,"Direct provision addressing market failure",["3.1.17"],0,47,"govint"],
   ["2a",3,"Non-price factors in the coffee market",["3.1.6","3.1.9"],0,67,"factors"],
@@ -358,7 +373,21 @@ const EXAMS = [
   ["6c",6,"Strengths and weaknesses of BOTH policies",["4.1.13","4.1.20"],0,38,"evaluate"],
   ["7a",5,"Skilled migration \u2192 AS \u2192 low inflation",["4.2.4"],0,58,"impact"],
   ["7b",4,"Market-based environmental policy",["4.2.6"],0,62,"impact"]]},
- {id:"v2024",n:"VCAA 2024 \u00b7 Section B",g:"exam",exam:1,q:[
+ {id:"v2024",n:"VCAA 2024",g:"exam",exam:1,q:[
+  ["MC2",1,"PPF and opportunity cost",["3.1.1"],0,65,0],
+  ["MC3",1,"What shifts demand to the right",["3.1.6"],0,55,0],
+  ["MC4",1,"What increases aggregate demand",["3.2.4"],0,96,0],
+  ["MC5",1,"Relative price of milk",["3.1.14"],"calc",56,0],
+  ["MC6",1,"Features of an expansion",["3.2.3"],0,90,0],
+  ["MC7",1,"Inflation rate from CPI data",["3.2.16"],"calc",64,0],
+  ["MC8",1,"Supply falls with inelastic demand",["3.1.11","3.1.10"],0,80,0],
+  ["MC9",1,"Effect of a price ceiling \u2014 diagram",["3.1.17"],"diagram",66,0],
+  ["MC10",1,"What doesn\u2019t raise cost inflation",["3.2.17"],0,74,0],
+  ["MC11",1,"Unemployment rate calculation",["3.2.11"],"calc",69,0],
+  ["MC12",1,"Purpose of AS policies",["4.2.1"],0,90,0],
+  ["MC13",1,"What doesn\u2019t slow labour productivity",["3.2.5"],0,85,0],
+  ["MC14",1,"Terms of trade index and trend",["3.3.6"],"calc",77,0],
+  ["MC15",1,"What improves international competitiveness",["3.3.7"],0,86,0],
   ["1",3,"Opportunity cost and relative scarcity",["3.1.1"],0,70,"define"],
   ["2a",4,"D&S diagram \u2014 migration shifting supply",["3.1.9"],"diagram",70,0],
   ["2b",3,"Population growth shifting demand",["3.1.6"],0,63,"factors"],
@@ -379,7 +408,22 @@ const EXAMS = [
   ["6c",2,"Financing a deficit or using a surplus",["4.1.6"],0,65,0],
   ["6d",4,"A strength of BOTH policies \u2192 AD \u2192 SSEG",["4.1.13","4.1.20"],0,50,"evaluate"],
   ["6e",5,"One AS policy \u2192 AS factor \u2192 goal",["4.2.2"],0,66,"impact"]]},
- {id:"v2023",n:"VCAA 2023 \u00b7 Section B",g:"exam",exam:1,q:[
+ {id:"v2023",n:"VCAA 2023",g:"exam",exam:1,q:[
+  ["MC1",1,"Opportunity cost calculation",["3.1.1"],"calc",98,0],
+  ["MC2",1,"What high inflation doesn\u2019t cause",["3.2.18"],0,47,0],
+  ["MC3",1,"Government current expenditure",["4.1.3"],0,40,0],
+  ["MC4",1,"Not a strength of monetary policy",["4.1.20"],0,68,0],
+  ["MC5",1,"What doesn\u2019t reduce aggregate supply",["3.2.5"],0,23,0],
+  ["MC6",1,"Underutilisation rate calculation",["3.2.11"],"calc",43,0],
+  ["MC7",1,"Dividends from overseas in the BoP",["3.3.2"],0,47,0],
+  ["MC8",1,"What doesn\u2019t cause cyclical unemployment",["3.2.12","4.1.17"],0,45,0],
+  ["MC9",1,"An automatic stabiliser",["4.1.8"],0,78,0],
+  ["MC10",1,"What raises PES for avocados",["3.1.13"],0,70,0],
+  ["MC11",1,"Cyclical factor in the current account",["3.3.3"],0,45,0],
+  ["MC12",1,"What worsens the terms of trade",["3.3.6"],0,51,0],
+  ["MC13",1,"PPF and opportunity cost",["3.1.1"],"diagram",62,0],
+  ["MC14",1,"Not an outcome of productivity growth",["3.2.5"],0,83,0],
+  ["MC15",1,"Common access resources",["3.1.16"],0,71,0],
   ["1a",2,"Business cycle stage from data",["3.2.3"],0,70,"refdata"],
   ["1b",4,"One AD and one AS factor \u2192 growth",["3.2.4","3.2.5"],0,60,"factors"],
   ["1c",4,"Strong and sustainable growth applied",["3.2.6"],0,62,"define"],
@@ -397,7 +441,113 @@ const EXAMS = [
   ["4d",4,"Asset prices and wealth channel",["4.1.17"],0,45,"transmission"],
   ["5a",3,"Non-inflationary economic growth",["3.2.6","3.2.14"],0,43,"define"],
   ["5b",4,"Skilled immigration, productivity, competitiveness",["4.2.4"],0,62,"impact"],
-  ["5c",5,"Environmental policy \u2192 intertemporal efficiency",["4.2.6","3.1.2"],0,58,"impact"]]}
+  ["5c",5,"Environmental policy \u2192 intertemporal efficiency",["4.2.6","3.1.2"],0,58,"impact"]]},
+/* Commercial trials. No state average (null), so they never feed the
+   "vs the state" comparison. Totals all 65, matching VCAA Section B. */
+ {id:"cpap25a",n:"CPAP 2025 Exam A",g:"exam",exam:1,src:"commercial",q:[
+  ["MC1",1,"What shifts demand for bread left",["3.1.6"],0,null,0],
+  ["MC2",1,"Disposable income vs purchasing power",["3.2.18"],0,null,0],
+  ["MC3",1,"Not retaliating with tariffs",["4.2.5"],0,null,0],
+  ["MC4",1,"Headline vs underlying inflation",["3.2.16"],0,null,0],
+  ["MC5",1,"Rent ceilings and the rental market",["3.1.17"],0,null,0],
+  ["MC6",1,"Intervention that didn\u2019t hurt efficiency",["3.1.18"],0,null,0],
+  ["MC7",1,"Relative price of iron ore",["3.1.14"],"calc",null,0],
+  ["MC8",1,"Terms of trade and resource flows",["3.3.6","3.1.14"],0,null,0],
+  ["MC9",1,"AS factor reducing capacity",["3.2.5"],0,null,0],
+  ["MC10",1,"Balance of payments and ToT from data",["3.3.2","3.3.6"],"calc",null,0],
+  ["MC11",1,"Product with the highest PED",["3.1.12"],0,null,0],
+  ["MC12",1,"Income and substitution effects",["3.1.4"],0,null,0],
+  ["MC13",1,"Meaning of productivity",["3.2.5"],0,null,0],
+  ["MC14",1,"Income tax cut \u2014 direct or indirect, progressive?",["4.1.2"],0,null,0],
+  ["MC15",1,"Rising unemployment \u2192 inflation, budget, living standards",["3.2.13","4.1.8"],0,null,0],
+  ["1a",2,"Trend in the underemployment rate",["3.2.10"],0,null,"trends"],
+  ["1b",3,"Hidden unemployment versus underemployment",["3.2.10"],0,null,"difference"],
+  ["1c",5,"Underemployment \u2192 price stability and monetary policy",["3.2.17","4.1.18"],0,null,"impact"],
+  ["1d",4,"Evaluate achievement of price stability",["3.2.19","3.2.14"],0,null,"evaluate"],
+  ["2a",5,"Consumer subsidy raises market price \u2014 diagram",["3.1.17","3.1.10"],"diagram",null,"fivepoint"],
+  ["2b",3,"Market adjusts to the new equilibrium",["3.1.10"],0,null,"fivepoint"],
+  ["2c",4,"Low PES and the market price",["3.1.11","3.1.13"],0,null,"elasticity"],
+  ["2d",4,"Relative prices and resource allocation",["3.1.14"],0,null,"resalloc"],
+  ["2e",4,"Why unregulated markets misallocate resources",["3.1.16"],0,null,0],
+  ["3a",3,"Factor behind the current account movement",["3.3.3"],"data",null,"refdata"],
+  ["3b",3,"Structural factor lowering the CAD",["3.3.3"],0,null,"structural"],
+  ["3c",2,"Foreign borrowing \u2192 two BoP components",["3.3.2"],0,null,0],
+  ["3d",4,"Looser monetary policy \u2192 exchange rate",["3.3.5"],0,null,"aud"],
+  ["3e",3,"How the RBA loosens monetary policy",["4.1.15"],0,null,0],
+  ["4a",6,"Growth \u2192 stance of AD policies",["4.1.11","4.1.19"],0,null,"impact"],
+  ["4b",3,"Growth \u2192 cyclical component of the budget",["4.1.8"],0,null,"stabiliser"],
+  ["4c",3,"Savings and investment vs cash flow channel",["4.1.17"],0,null,"transmission"],
+  ["4d",4,"Budgetary supply-side initiative \u2192 growth",["4.2.3"],0,null,"impact"]]},
+ {id:"cpap25b",n:"CPAP 2025 Exam B",g:"exam",exam:1,src:"commercial",q:[
+  ["MC1",1,"What decreases productive capacity",["3.2.5"],0,null,0],
+  ["MC2",1,"Cause of a business cycle movement",["3.2.3"],0,null,0],
+  ["MC3",1,"Budget and cash rate across the cycle",["3.2.3","4.1.8"],0,null,0],
+  ["MC4",1,"PPF and opportunity cost",["3.1.1"],"diagram",null,0],
+  ["MC5",1,"Skilled migration since COVID-19",["4.2.4"],0,null,0],
+  ["MC6",1,"Conditions for perfect competition",["3.1.3"],0,null,0],
+  ["MC7",1,"Least likely to be a market failure",["3.1.16"],0,null,0],
+  ["MC8",1,"Neither employed nor unemployed",["3.2.10"],0,null,0],
+  ["MC9",1,"What the RBA charter doesn\u2019t mention",["4.1.14"],0,null,0],
+  ["MC10",1,"Inflation rate from CPI data",["3.2.16"],"calc",null,0],
+  ["MC11",1,"The economy in 2024\u201325",["3.2.19"],0,null,0],
+  ["MC12",1,"What raises long-term competitiveness",["3.3.7"],0,null,0],
+  ["MC13",1,"Credit card spending and transmission channels",["4.1.17"],0,null,0],
+  ["MC14",1,"Rising unemployment \u2192 inflation and the budget",["3.2.13","4.1.8"],0,null,0],
+  ["MC15",1,"Unconventional monetary policy",["4.1.16"],0,null,0],
+  ["1a",4,"Direct versus indirect taxes, with examples",["4.1.2"],0,null,"difference"],
+  ["1b",3,"More indirect tax \u2192 less progressive system",["4.1.2"],0,null,0],
+  ["1c",4,"Lower income tax \u2192 productivity, opportunity cost",["4.2.3","3.1.1"],0,null,"impact"],
+  ["1d",5,"Indirect tax to fix a negative externality",["3.1.17","3.1.16","3.1.2"],0,null,"govint"],
+  ["1e",4,"Another market failure and direct provision",["3.1.16","3.1.17"],0,null,"govint"],
+  ["2a",2,"Trend in the terms of trade",["3.3.6"],"data",null,"trends"],
+  ["2b",3,"Slower China growth \u2192 terms of trade",["3.3.6"],0,null,"tot"],
+  ["2c",3,"Terms of trade \u2192 price stability",["3.3.8"],0,null,"tot"],
+  ["3a",3,"AUD depreciation \u2192 employment growth",["3.3.8"],"data",null,"aud"],
+  ["3b",3,"Why unemployment rose despite job growth",["3.2.11"],0,null,0],
+  ["3c",3,"Employment \u2192 cyclical component of the budget",["4.1.8"],0,null,"stabiliser"],
+  ["3d",4,"Evaluate achievement of full employment",["3.2.19","3.2.9"],0,null,"evaluate"],
+  ["3e",3,"AUD appreciation \u2192 current account",["3.3.8"],0,null,"aud"],
+  ["4a",3,"Trade barrier, liberalisation and growth",["4.2.5"],0,null,"impact"],
+  ["4b",3,"Structural budget change \u2192 growth",["4.1.9"],0,null,"stabiliser"],
+  ["4c",3,"That budget change \u2192 public debt",["4.1.7"],0,null,0],
+  ["4d",4,"Budget outcome \u2192 stance of monetary policy",["4.1.5","4.1.18"],0,null,"relationship"],
+  ["4e",4,"A weakness of BOTH policies \u2192 living standards",["4.1.13","4.1.20"],0,null,"evaluate"],
+  ["4f",4,"Market-based environmental policy",["4.2.6"],0,null,"impact"]]},
+ {id:"neap25",n:"NEAP 2025 Trial",g:"exam",exam:1,src:"commercial",q:[
+  ["MC1",1,"Meaning of a need",["3.1.1"],0,null,0],
+  ["MC2",1,"Meaning of a rise in the terms of trade",["3.3.6"],0,null,0],
+  ["MC3",1,"Allocative efficiency in public transport",["3.1.2"],0,null,0],
+  ["MC4",1,"PPF and opportunity cost",["3.1.1"],0,null,0],
+  ["MC5",1,"Capital account transactions",["3.3.2"],0,null,0],
+  ["MC6",1,"Unemployment rate calculation",["3.2.11"],"calc",null,0],
+  ["MC7",1,"Participation rate calculation",["3.2.11"],"calc",null,0],
+  ["MC8",1,"Net foreign equities",["3.3.4"],0,null,0],
+  ["MC9",1,"The RBA\u2019s charter goals",["4.1.14"],0,null,0],
+  ["MC10",1,"Carbon tax and aggregate supply",["4.2.6"],0,null,0],
+  ["MC11",1,"Frictional unemployment",["3.2.12"],0,null,0],
+  ["MC12",1,"Structural cause of the CAD",["3.3.3"],0,null,0],
+  ["MC13",1,"Disinflation vs deflation",["3.2.15"],0,null,0],
+  ["MC14",1,"AS and AD policies together",["4.2.1"],0,null,0],
+  ["MC15",1,"Automatic stabilisers in a recession",["4.1.8"],0,null,0],
+  ["1a",4,"Bird flu \u2192 egg market \u2014 diagram",["3.1.9","3.1.10"],"diagram",null,"fivepoint"],
+  ["1b",3,"PED meaning \u2014 why egg demand is inelastic",["3.1.11","3.1.12"],0,null,"elasticity"],
+  ["1c",4,"Bird flu \u2192 demand for beef",["3.1.6","3.1.10"],0,null,"factors"],
+  ["1d",3,"Negative externality and dynamic efficiency",["3.1.16","3.1.2"],0,null,0],
+  ["1e",2,"Government intervention for that failure",["3.1.17"],0,null,"govint"],
+  ["2a",2,"Factor causing a fall in the terms of trade",["3.3.6"],0,null,"tot"],
+  ["2b",6,"Falling terms of trade \u2192 price stability",["3.3.8"],0,null,"tot"],
+  ["2c",3,"Falling terms of trade \u2192 living standards",["3.3.8"],0,null,"tot"],
+  ["3a",2,"The goal of low and stable inflation",["3.2.14"],0,null,"define"],
+  ["3b",4,"Headline vs underlying \u2014 why the RBA uses underlying",["3.2.16"],0,null,"difference"],
+  ["3c",2,"Was the inflation goal achieved?",["3.2.14"],"data",null,"refdata"],
+  ["3d",2,"A benefit of low and stable inflation",["3.2.18"],0,null,"impact"],
+  ["3e",6,"Monetary policy stance and the RBA's role",["4.1.19","4.1.14"],0,null,"evaluate"],
+  ["3f",3,"Forward guidance and economic activity",["4.1.16"],0,null,0],
+  ["4a",3,"Budget stance from the deficit, and why",["4.1.11","4.1.5"],"data",null,"refdata"],
+  ["4b",5,"Budget initiative \u2192 full employment, living standards",["4.1.12","4.2.3"],0,null,"impact"],
+  ["4c",2,"A weakness of budgetary policy for full employment",["4.1.13"],0,null,"evaluate"],
+  ["5a",3,"Skilled migration \u2192 growth and capacity",["4.2.4"],0,null,"impact"],
+  ["5b",6,"Market-based environmental policy: AS, efficiency, living standards",["4.2.6"],0,null,"impact"]]}
 ];
 
 const BLIND = [
@@ -570,8 +720,8 @@ function renderPick(){
   $("#sacpick").innerHTML =
       `<h2 class="sec" style="margin-top:6px">Your SACs</h2>` + SACS.map(card).join("")
     + (ex.length ? `<h2 class="sec">Practice exams</h2>
-        <p class="lede sm" style="margin:-6px 0 14px">Section B only \u2014 multiple choice is in the practice tool.
-        Every question here carries the state average, so you can see whether a low mark is your gap or the whole state\u2019s.</p>`
+        <p class="lede sm" style="margin:-6px 0 14px">Whole papers: multiple choice first (MC1\u2013MC15), then Section B.
+        The VCAA papers carry the state average for every question, so you can see whether a low mark is your gap or the whole state\u2019s. The trial papers (CPAP, NEAP) don\u2019t have one.</p>`
         + ex.map(card).join("") : "");
   $$(".sacbtn[data-sac]").forEach(b=>b.onclick=()=>openSac(b.dataset.sac));
   $("#sacform").classList.add("hide");
@@ -683,7 +833,7 @@ function analyse(){
       }
       if(v.codes.includes("M4")) bySkill.calc=(bySkill.calc||0)+L;
       // exam questions carry a state benchmark, so a mark can be read against it
-      if(sac.exam && typeof qd[5]==="number" && e.cond.time==="full" && e.cond.mat==="closed"){
+      if(sac.exam && !/^MC/.test(qd[0]) && typeof qd[5]==="number" && e.cond.time==="full" && e.cond.mat==="closed"){
         const mine=Math.round(v.got/v.max*100), gap=mine-qd[5];
         if(gap<=-15) vsState.push({q:qd[0],d:qd[2],n:sac.n,mine,st:qd[5],gap,L});
       }
@@ -763,6 +913,7 @@ function analyse(){
 
   vsState.sort((a,b)=>(a.gap*a.L)-(b.gap*b.L));
   const done = SACS.filter(s=>S.e[s.id]).length;
+  const exDone = EXAMS.filter(s=>S.e[s.id]).length;
   const skills = Object.entries(bySkill).sort((a,b)=>b[1]-a[1]);
   // question shapes: rank by the share of marks lost, not the raw total,
   // so a shape worth few marks can still surface
@@ -772,7 +923,7 @@ function analyse(){
       .filter(([,t])=>t.avail>=4)
       .map(([k,t])=>[k, t.lost, t.avail, Math.round(t.lost/t.avail*100), t.kk])
       .sort((a,b)=>b[3]-a[3]);
-  return {fam,byCode,top,kk,lost,avail,got,coded,uncoded,done,skills,
+  return {fam,byCode,top,kk,lost,avail,got,coded,uncoded,done,exDone,skills,
           shapes, vsState, pr:attempts, prTopics, confWrong, luckyRight, miscal, closed, hidden};
 }
 
@@ -811,7 +962,7 @@ function renderPlan(){
   const pct=f=>a.coded?Math.round(a.fam[f]/Object.values(a.fam).reduce((s,v)=>s+v,0)*100)||0:0;
 
   let h=`<div class="verdict">
-    <p class="eyebrow">${a.done} of ${SACS.length} SACs entered</p>
+    <p class="eyebrow">${a.done} of ${SACS.length} SACs${a.exDone ? ` \u00b7 ${a.exDone} practice exam${a.exDone>1?'s':''}` : ''} entered</p>
     <h1>Where your ${fmt(a.lost)} lost marks went</h1>`;
 
   if(a.coded>0){
@@ -1017,7 +1168,7 @@ on("#tgo","click", ()=>{
   const codeN={}, codeM={}, byQ={}, fam={A:0,B:0,C:0};
   let lost=0;
   kids.forEach(k=>{
-    SACS.forEach(sac=>{
+    ALL().forEach(sac=>{   // SACs and practice exams
       const e=k.e&&k.e[sac.id]; if(!e) return;
       sac.q.forEach(qd=>{
         const v=e.q[qd[0]]; if(!v) return;
