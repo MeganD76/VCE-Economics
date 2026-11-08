@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blank page definitions · Year 11 Economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+<div class="wrap">
+<header id="hdr"></header>
+<main id="app"></main>
+</div>
+<script src="portal-data.js"></script>
+<script src="defs-data.js"></script>
+<script>
+const app = $('#app');
+let cw = null, hist = {}, xhist = {};
+
+(async function () {
+  cw = await mountHeader('Blank page definitions');
+  if (!cw) { app.innerHTML = `<div class="card"><p>Set your code word on the <a href="index.html">portal home page</a> first.</p></div>`; return; }
+  await refresh();
+  const s = new URLSearchParams(location.search).get('set');
+  if (s === 'due') return runDefs(dueDefs(), 'Due again');
+  if (s === 'xd') return runXD();
+  menu();
+})();
+async function refresh() { hist = historyBy(await Record.rows(cw, 'def')); xhist = historyBy(await Record.rows(cw, 'xd')); }
+const dueXD = () => XD.filter(x => xhist[x.id] && isDue(xhist[x.id], Date.now(), dueInDef));
+const dueDefs = () => DEFS.filter(d => hist[d.id] && isDue(hist[d.id], Date.now(), dueInDef));
+const status = id => { const h = hist[id]; if (!h) return 'new'; const last = h[h.length - 1]; const n = nextDue(h, dueInDef); return n === null ? (last.ok ? 'done' : 'due') : (Date.now() >= n ? 'due' : 'later'); };
+
+function menu() {
+  const due = dueDefs();
+  const groups = { aos1: [], trade: [], labour: [] };
+  DEFS.forEach(d => groups[kkArea(d.kk)].push(d));
+  const mastered = DEFS.filter(d => status(d.id) === 'done').length;
+  app.innerHTML = `
+    <p class="lead">Write the definition from memory, with nothing in front of you. Then check it and tick what you actually wrote. Anything you drop comes back in 2 days, then 5.</p>
+    ${due.length ? `<a class="tool" href="#" data-g="due"><h3>Due again <span class="tag due">${due.length}</span></h3><p>${esc(due.map(d => d.term).join(', '))}</p></a>` : ''}
+    ${Object.entries(groups).map(([g, list]) => `<a class="tool" href="#" data-g="${g}"><h3>${esc(AREAS[g])} <span class="tag">${list.filter(d => status(d.id) === 'done').length}/${list.length} secure</span></h3><p>${esc(list.map(d => d.term).join(', '))}</p></a>`).join('')}
+    <a class="tool" href="#" data-g="xd"><h3>Example or definition? ${dueXD().length ? `<span class="tag due">${dueXD().length} due</span>` : `<span class="tag">${XD.filter(x => xhist[x.id] && xhist[x.id][xhist[x.id].length - 1].ok).length}/${XD.length} sorted</span>`}</h3><p>Sort statements into Example, Not quite a definition or Full definition. This is where the second mark on a Define goes.</p></a>
+    <a class="tool" href="#" data-g="pairs"><h3>Confusion pairs</h3><p>Terms people mix up: write one sentence that separates them, then check.</p></a>
+    <p class="note">${mastered} of ${DEFS.length} definitions secure.</p>`;
+  $$('a.tool').forEach(a => a.onclick = e => { e.preventDefault(); const g = a.dataset.g;
+    if (g === 'pairs') return runPairs();
+    if (g === 'xd') return xdIntro();
+    runDefs(g === 'due' ? dueDefs() : shuffle(groups[g]), g === 'due' ? 'Due again' : AREAS[g]); });
+  window.scrollTo(0, 0);
+}
+
+function runDefs(list, title) {
+  if (!list.length) { app.innerHTML = `<div class="card"><p>Nothing due right now.</p><button class="ghost" id="m">Back</button></div>`; $('#m').onclick = menu; return; }
+  let i = 0, full = 0;
+  const show = () => {
+    const d = list[i];
+    app.innerHTML = `<p class="prog"><a href="#" id="m">← Definitions</a> · ${esc(title)} · ${i + 1} of ${list.length}</p>
+      <div class="card"><p class="stem">Define: <b>${esc(d.term)}</b></p>
+      <textarea id="ans" placeholder="Write it from memory" style="min-height:110px"></textarea>
+      <button class="go wide" id="ck">Check</button></div><div id="res"></div>`;
+    $('#m').onclick = e => { e.preventDefault(); menu(); };
+    $('#ck').onclick = () => {
+      $('#ck').classList.add('hide'); $('#ans').readOnly = true;
+      $('#res').innerHTML = `<div class="card"><h3 style="margin-top:0">A full definition</h3><p class="sample">${esc(d.model)}</p>
+        <p style="margin:12px 0 4px"><b>Tick each part you actually wrote:</b></p>
+        <div class="crit">${d.els.map((e, k) => `<label><input type="checkbox" data-k="${k}"><span>${esc(e)}</span></label>`).join('')}</div>
+        <button class="go wide" id="sv">Save</button></div>`;
+      $('#sv').onclick = async () => {
+        const got = $$('.crit input:checked').length, ok = got === d.els.length;
+        if (ok) full++;
+        const missing = d.els.filter((e, k) => !$$('.crit input')[k].checked);
+        await Record.push(cw, [{ t: 'def', q: d.id, kk: d.kk, ok, got, max: d.els.length, ts: Date.now() }]);
+        await refresh();
+        const n = nextDue(hist[d.id], dueInDef);
+        $('#sv').outerHTML = `<div class="box ${ok ? 'good' : 'warn'}" style="margin-top:12px">${ok ? 'All there.' : `Missing: <b>${esc(missing.join('; '))}</b>. Learn just that part.`}
+          ${n ? ` This one comes back ${whenText(n)}.` : ''}</div><button class="go wide" id="nx">${i + 1 < list.length ? 'Next' : 'Finish'}</button>`;
+        $('#nx').onclick = () => { i++; if (i < list.length) show(); else done(); };
+      };
+      $('#res').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    $('#ans').focus();
+  };
+  const done = () => {
+    app.innerHTML = `<div class="card"><p class="stem">${full} / ${list.length} complete</p>
+      <p>Don’t redo the missed ones now. Coming back to them in 2 days is what makes them stick.</p>
+      <button class="go" id="m">Back to definitions</button></div>`;
+    $('#m').onclick = menu;
+  };
+  show();
+}
+
+/* ---------- Example or definition? ---------- */
+const bold = t => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+
+function xdIntro() {
+  app.innerHTML = `<p class="prog"><a href="#" id="m">← Definitions</a> · Example or definition?</p>
+    <div class="card">
+      <p class="lead" style="margin-bottom:10px">On a 2-mark Define, students often lose the second mark by giving an example, or half a definition, instead of the full meaning.</p>
+      <p>You’ll see 10 statements. Decide whether each is an <b>Example</b>, <b>Not quite a definition</b> or a <b>Full definition</b>. Any you get wrong come back in 2 days, then 5.</p>
+      <p class="tip"><b>Ms Dyring:</b> ${esc(XD_TIP)}</p>
+      <button class="go wide" id="st">Start (10 statements)</button></div>`;
+  $('#m').onclick = e => { e.preventDefault(); menu(); };
+  $('#st').onclick = runXD;
+  window.scrollTo(0, 0);
+}
+
+/* 10 statements: due ones first, then about 4 Examples, 3 Not quite and 3 Full,
+   not yet seen first, and one statement per concept where possible. */
+function xdRound() {
+  const quota = { ex: 4, nq: 3, fd: 3 }, pick = [], used = new Set();
+  const add = x => { pick.push(x); used.add(x.c); quota[x.k]--; };
+  shuffle(dueXD()).forEach(x => { if (pick.length < 10 && !used.has(x.c)) add(x); });
+  const pools = [shuffle(XD.filter(x => !xhist[x.id])), shuffle(XD.filter(x => xhist[x.id]))];
+  [true, false].forEach(strict => pools.forEach(pool => pool.forEach(x => {
+    if (pick.length >= 10 || pick.includes(x)) return;
+    if (strict && (quota[x.k] <= 0 || used.has(x.c))) return;
+    add(x);
+  })));
+  return shuffle(pick);
+}
+
+function runXD() {
+  const list = xdRound(), wrong = [];
+  let i = 0, right = 0;
+  const show = () => {
+    const x = list[i];
+    app.innerHTML = `<p class="prog"><a href="#" id="m">← Definitions</a> · Example or definition? · ${i + 1} of ${list.length}</p>
+      <div class="card"><span class="tag">${esc(x.c)}</span>
+        <p class="stem" style="margin-top:10px">${esc(x.s)}</p>
+        <p style="margin:0 0 6px"><b>What is it?</b></p>
+        <div class="row" id="lab">${Object.entries(XD_LABELS).map(([k, l]) => `<span class="chip" data-k="${k}">${esc(l)}</span>`).join('')}</div>
+      </div><div id="res"></div>`;
+    $('#m').onclick = e => { e.preventDefault(); menu(); };
+    $$('#lab .chip').forEach(c => c.onclick = async () => {
+      const pickK = c.dataset.k, ok = pickK === x.k;
+      $$('#lab .chip').forEach(z => { z.onclick = null; if (z.dataset.k === x.k) z.classList.add('good'); else if (z === c) z.classList.add('bad'); });
+      if (ok) right++; else wrong.push(x);
+      await Record.push(cw, [{ t: 'xd', q: x.id, ok, pick: pickK, ts: Date.now() }]);
+      await refresh();
+      const fd = xdFull(x.c), nd = nextDue(xhist[x.id], dueInDef);
+      const why = x.k === 'nq'
+        ? `<p><b>What’s missing:</b> ${bold(x.miss)}</p><p style="margin:0 0 4px">The full definition:</p><p class="sample">${esc(fd.s)}</p>`
+        : x.k === 'ex'
+          ? `<p>This is one case, with ${/\d/.test(x.s) ? 'a number or date' : 'a particular situation'} in it. The full definition works for every case:</p><p class="sample">${esc(fd.s)}</p>`
+          : `<p>It works for every case, and it has every part a full definition of ${esc(x.c.toLowerCase())} needs.</p>`;
+      $('#res').innerHTML = `<div class="card">
+        <p class="verdict ${ok ? 'ok' : 'no'}">${ok ? 'Right.' : `It’s ${{ ex: 'an example', nq: 'not quite a definition', fd: 'a full definition' }[x.k]}.`}</p>
+        ${why}
+        ${ok ? '' : `<p class="tip"><b>Ms Dyring:</b> ${esc(XD_TIP)}</p>`}
+        ${nd ? `<p class="note">This one comes back ${whenText(nd)}.</p>` : ''}
+        <button class="go wide" id="nx">${i + 1 < list.length ? 'Next' : 'Finish'}</button></div>`;
+      $('#nx').onclick = () => { i++; if (i < list.length) show(); else done(); };
+      $('#nx').focus({ preventScroll: true });
+      $('#res').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    window.scrollTo(0, 0);
+  };
+  const done = () => {
+    const fix = wrong.filter(x => x.k !== 'fd');
+    app.innerHTML = `<div class="card"><p class="stem">${right} / ${list.length} sorted right</p>
+      ${fix.length ? `<p>Now fix the ${fix.length === 1 ? 'one' : fix.length} you got wrong that ${fix.length === 1 ? 'wasn’t a full definition' : 'weren’t full definitions'}: write the full definition and check it.</p>
+        <div class="row"><button class="go" id="fx">Fix ${fix.length === 1 ? 'it' : 'them'}</button><button class="ghost" id="m">Back to definitions</button></div>`
+      : `<p>${right === list.length ? 'Every one right.' : 'Nothing to fix: the ones you missed were full definitions.'} Anything you missed comes back in 2 days.</p>
+        <div class="row"><button class="go" id="ag">Another 10</button><button class="ghost" id="m">Back to definitions</button></div>`}</div>`;
+    $('#m').onclick = menu;
+    if ($('#fx')) $('#fx').onclick = () => runFix(fix);
+    if ($('#ag')) $('#ag').onclick = runXD;
+  };
+  show();
+}
+
+/* Fix a missed Example or Not quite statement: write the full definition, then self-check. */
+function runFix(list) {
+  let i = 0;
+  const show = () => {
+    const x = list[i], fd = xdFull(x.c), els = XD_ELS[x.c];
+    app.innerHTML = `<p class="prog"><a href="#" id="m">← Definitions</a> · Fix it · ${i + 1} of ${list.length}</p>
+      <div class="card"><p class="note" style="margin:0 0 6px">You saw: “${esc(x.s)}”</p>
+        <p class="stem">Write the full definition: <b>${esc(x.c)}</b></p>
+        <textarea id="ans" placeholder="One that works for every case" style="min-height:100px"></textarea>
+        <button class="go wide" id="ck">Check</button></div><div id="res"></div>`;
+    $('#m').onclick = e => { e.preventDefault(); menu(); };
+    $('#ck').onclick = () => {
+      $('#ck').classList.add('hide'); $('#ans').readOnly = true;
+      $('#res').innerHTML = `<div class="card"><h3 style="margin-top:0">A full definition</h3><p class="sample">${esc(fd.s)}</p>
+        <p style="margin:12px 0 4px"><b>Tick each part you actually wrote:</b></p>
+        <div class="crit">${els.map((e, k) => `<label><input type="checkbox" data-k="${k}"><span>${esc(e)}</span></label>`).join('')}</div>
+        <button class="go wide" id="sv">Done</button></div>`;
+      $('#sv').onclick = () => {
+        const boxes = $$('.crit input'), missing = els.filter((e, k) => !boxes[k].checked);
+        boxes.forEach(b => { b.disabled = true; });
+        $('#sv').outerHTML = `<div class="box ${missing.length ? 'warn' : 'good'}" style="margin-top:12px">${missing.length ? `Missing: <b>${esc(missing.join('; '))}</b>. Learn just that part.` : 'All there. That one would get both marks.'}</div>
+          <button class="go wide" id="nx">${i + 1 < list.length ? 'Next' : 'Finish'}</button>`;
+        $('#nx').onclick = () => { i++; if (i < list.length) show(); else menu(); };
+      };
+      $('#res').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    $('#ans').focus();
+  };
+  show();
+}
+
+function runPairs() {
+  const list = shuffle(PAIRS); let i = 0;
+  const show = () => {
+    const p = list[i];
+    app.innerHTML = `<p class="prog"><a href="#" id="m">← Definitions</a> · Confusion pairs · ${i + 1} of ${list.length}</p>
+      <div class="card"><p class="stem"><b>${esc(p.a)}</b> or <b>${esc(p.b)}</b>?</p>
+      <p class="note">Write one sentence that separates them. Use “whereas”.</p>
+      <textarea id="ans" style="min-height:90px"></textarea>
+      <button class="go wide" id="ck">Check</button></div><div id="res"></div>`;
+    $('#m').onclick = e => { e.preventDefault(); menu(); };
+    $('#ck').onclick = () => {
+      $('#ck').classList.add('hide');
+      $('#res').innerHTML = `<div class="card"><p class="sample">${esc(p.sep)}</p>
+        <p class="note">Did yours make the same distinction? If not, write this one out once by hand.</p>
+        <button class="go wide" id="nx">${i + 1 < list.length ? 'Next pair' : 'Finish'}</button></div>`;
+      $('#nx').onclick = () => { i++; if (i < list.length) show(); else menu(); };
+    };
+  };
+  show();
+}
+</script>
+</body>
+</html>

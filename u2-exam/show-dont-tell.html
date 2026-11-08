@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Show, don’t tell · Year 11 Economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+<div class="wrap">
+<header id="hdr"></header>
+<main id="app"></main>
+</div>
+<script src="portal-data.js"></script>
+<script src="sd-data.js"></script>
+<script>
+const app = $('#app');
+const ROUND = 5;
+let cw = null, hist = {};
+
+(async function () {
+  cw = await mountHeader('Show, don’t tell');
+  if (!cw) { app.innerHTML = `<div class="card"><p>Set your code word on the <a href="index.html">portal home page</a> first.</p></div>`; return; }
+  await refresh();
+  if (new URLSearchParams(location.search).get('set') === 'due') return run(dueItems(), 'Due again');
+  intro();
+})();
+
+async function refresh() { hist = historyBy(await Record.rows(cw, 'sd')); }
+const dueItems = () => SD_ITEMS.filter(x => hist[x.id] && isDue(hist[x.id], Date.now(), dueInDef));
+const lastOf = id => { const h = hist[id]; return h ? h[h.length - 1] : null; };
+
+/* Due items first, then ones not tried yet, then the rest (oldest attempt first). */
+function nextRound() {
+  const due = shuffle(dueItems());
+  const fresh = shuffle(SD_ITEMS.filter(x => !hist[x.id]));
+  const rest = SD_ITEMS.filter(x => hist[x.id] && !due.includes(x)).sort((a, b) => lastOf(a.id).ts - lastOf(b.id).ts);
+  return due.concat(fresh, rest).slice(0, ROUND);
+}
+
+function intro() {
+  const w = SD.find(x => x.worked);
+  const done = SD_ITEMS.filter(x => hist[x.id]).length;
+  const due = dueItems().length;
+  app.innerHTML = `
+    <p class="lead">A “telling” answer makes a correct claim but doesn’t show how or why, so it gets one mark at most. A “showing” answer is a chain: each step causes the next, right through to what the question asked about.</p>
+    <div class="card">
+      <span class="tag">Worked example</span>
+      <h3 style="margin:8px 0 6px">${esc(w.c)}</h3>
+      <p style="margin:0 0 4px"><b>Telling</b></p><p class="stim">${esc(w.tell)}</p>
+      <p style="margin:10px 0 4px"><b>Showing</b></p><p class="sample">${esc(w.show)}</p>
+      <p style="margin:10px 0 4px"><b>The links</b></p>
+      <ol style="margin:0 0 10px">${w.links.map(l => `<li>${esc(l)}</li>`).join('')}</ol>
+      <p class="tip"><b>Ms Dyring:</b> ${esc(SD_TIP)}</p>
+    </div>
+    <div class="card">
+      <p style="margin:0 0 10px">You’ll see a telling statement. Rewrite it so it shows how and why, then check it against the links. Any link you miss brings the item back in 2 days, then 5.</p>
+      <button class="go wide" id="st">Start a round (${Math.min(ROUND, SD_ITEMS.length)} items)</button>
+      ${due ? `<button class="ghost" id="du" style="width:100%;margin-top:8px">Just the ${due} due again</button>` : ''}
+      <p class="note" style="margin:10px 0 0">${done} of ${SD_ITEMS.length} tried.</p>
+    </div>`;
+  $('#st').onclick = () => run(nextRound(), 'Round');
+  if ($('#du')) $('#du').onclick = () => run(dueItems(), 'Due again');
+  window.scrollTo(0, 0);
+}
+
+function run(list, title) {
+  if (!list.length) { app.innerHTML = `<div class="card"><p>Nothing due right now.</p><button class="ghost" id="m">Back</button></div>`; $('#m').onclick = intro; return; }
+  let i = 0, got = 0, max = 0;
+  const show = () => {
+    const q = list[i];
+    const prev = lastOf(q.id);
+    app.innerHTML = `<p class="prog"><a href="#" id="m">← Show, don’t tell</a> · ${esc(title)} · ${i + 1} of ${list.length}${prev ? ` · last time ${prev.got}/${prev.max} links` : ''}</p>
+      <div class="card"><span class="tag">${esc(q.c)}</span>
+        <p style="margin:10px 0 4px"><b>Telling</b></p><p class="stim">${esc(q.tell)}</p>
+        <label for="ans" style="display:block;margin:12px 0 6px"><b>Show how and why. Each step should cause the next.</b></label>
+        <textarea id="ans" placeholder="Write your showing version" style="min-height:130px"></textarea>
+        <button class="go wide" id="rv">Reveal the model</button></div><div id="res"></div>`;
+    $('#m').onclick = e => { e.preventDefault(); intro(); };
+    $('#rv').onclick = () => {
+      $('#rv').classList.add('hide'); $('#ans').readOnly = true;
+      $('#res').innerHTML = `<div class="card"><h3 style="margin-top:0">A showing version</h3><p class="sample">${esc(q.show)}</p>
+        <p style="margin:12px 0 4px"><b>Tick each link your answer included.</b></p>
+        <p class="note" style="margin:0 0 6px">Be honest. A link counts if the idea is there, in any words.</p>
+        <div class="crit">${q.links.map((l, k) => `<label><input type="checkbox" data-k="${k}"><span>${esc(l)}</span></label>`).join('')}</div>
+        <p class="tip"><b>Ms Dyring:</b> ${esc(SD_TIP)}</p>
+        ${prev && prev.ans ? `<details style="margin:0 0 12px"><summary>What you wrote last time (${prev.got}/${prev.max} links)</summary><p style="white-space:pre-wrap;margin:8px 0 0">${esc(prev.ans)}</p></details>` : ''}
+        <button class="go wide" id="sv">Save</button></div>`;
+      $('#sv').onclick = async () => {
+        const boxes = $$('.crit input');
+        const n = boxes.filter(b => b.checked).length, ok = n === q.links.length;
+        const missing = q.links.filter((l, k) => !boxes[k].checked);
+        got += n; max += q.links.length;
+        boxes.forEach(b => { b.disabled = true; });
+        await Record.push(cw, [{ t: 'sd', q: q.id, kk: q.kk, ok, got: n, max: q.links.length, ans: ($('#ans').value || '').slice(0, 4000), ts: Date.now() }]);
+        await refresh();
+        const nd = nextDue(hist[q.id], dueInDef);
+        $('#sv').outerHTML = `<div class="box ${ok ? 'good' : 'warn'}" style="margin-top:12px">${ok ? 'Every link there. That’s a showing answer.' : `Missing: <b>${esc(missing.join('; '))}</b>. That’s the step to practise.`}
+          ${nd ? ` This one comes back ${whenText(nd)}.` : ''}</div><button class="go wide" id="nx">${i + 1 < list.length ? 'Next' : 'Finish'}</button>`;
+        $('#nx').onclick = () => { i++; if (i < list.length) show(); else done(); };
+      };
+      $('#res').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    $('#ans').focus();
+    window.scrollTo(0, 0);
+  };
+  const done = () => {
+    app.innerHTML = `<div class="card"><p class="stem">${got} / ${max} links included</p>
+      <p>Look at the links you missed. Usually it’s the middle step: what happens, to whom, and which part of AD or the labour market moves.</p>
+      <div class="row"><button class="go" id="ag">Another round</button><a class="ghost" style="text-decoration:none" href="${homeLink(cw)}">Portal home</a></div></div>`;
+    $('#ag').onclick = () => run(nextRound(), 'Round');
+  };
+  show();
+}
+</script>
+</body>
+</html>
