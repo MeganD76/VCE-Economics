@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Practice by question type · Year 11 Economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+<div class="wrap">
+<header id="hdr"></header>
+<main id="app"></main>
+</div>
+<script src="portal-data.js"></script>
+<script src="practice-data.js"></script>
+<script>
+const app = $('#app');
+let cw = null, rows = [], hist = {};
+const TYPE_ORDER = ['define', 'distinguish', 'trends', 'data', 'chain', 'twopart', 'agents', 'diagram', 'evaluate'];
+const SA_CODES = Object.keys(CODES).filter(c => !CODES[c].mc);
+
+(async function () {
+  cw = await mountHeader('Practice by question type');
+  if (!cw) { app.innerHTML = `<div class="card"><p>Set your code word on the <a href="index.html">portal home page</a> first.</p></div>`; return; }
+  await refresh();
+  const t = new URLSearchParams(location.search).get('type');
+  if (t === 'assess') return runAssess();
+  if (t === 'due') return runSet(dueList(), 'Due again');
+  if (t && QTYPES[t]) return runSet(PQ.filter(q => q.type === t), QTYPES[t]);
+  menu();
+})();
+
+async function refresh() { rows = await Record.rows(cw, 'pt'); hist = historyBy(rows); }
+const dueList = () => PQ.filter(q => hist[q.id] && isDue(hist[q.id]));
+const lastOf = id => hist[id] ? hist[id][hist[id].length - 1] : null;
+
+function menu() {
+  const due = dueList();
+  app.innerHTML = `
+    <p class="lead">Pick the question type your plan points to. Write your answer first, guess your mark, then mark it against the guide.</p>
+    ${due.length ? `<a class="tool" href="#" data-t="due"><h3>Due again <span class="tag due">${due.length}</span></h3><p>Questions you didn’t get full marks on, back on schedule.</p></a>` : ''}
+    <a class="tool" href="#" data-t="assess"><h3>Mark someone else’s answer</h3><p>Mark a student response against the guide, then see what it really scored and why. This builds the judgement self-marking depends on.</p></a>
+    <h2>By question type</h2>
+    ${TYPE_ORDER.map(t => {
+      const qs = PQ.filter(q => q.type === t), done = qs.filter(q => hist[q.id]).length;
+      return `<a class="tool" href="#" data-t="${t}"><h3>${esc(QTYPES[t])} <span class="tag">${done}/${qs.length} done</span></h3><p>${esc(qs.map(q => q.q.split(/[.?]/)[0]).slice(0, 2).join(' · '))}…</p></a>`;
+    }).join('')}`;
+  $$('a.tool').forEach(a => a.onclick = e => {
+    e.preventDefault(); const t = a.dataset.t;
+    history.replaceState(null, '', toolLink('practice.html', cw, 'type=' + t));
+    if (t === 'assess') runAssess(); else if (t === 'due') runSet(dueList(), 'Due again'); else runSet(PQ.filter(q => q.type === t), QTYPES[t]);
+  });
+  window.scrollTo(0, 0);
+}
+function backToMenu() { history.replaceState(null, '', toolLink('practice.html', cw)); menu(); }
+
+/* ---------- a set of questions ---------- */
+function runSet(list, title) {
+  if (!list.length) { app.innerHTML = `<div class="card"><p>Nothing here right now.</p><button class="ghost" id="m">Back</button></div>`; $('#m').onclick = backToMenu; return; }
+  let i = 0;
+  const show = () => question(list[i], title, i, list.length, () => { i++; if (i < list.length) show(); else finished(title); });
+  show();
+}
+function finished(title) {
+  app.innerHTML = `<div class="card"><p class="stem">That’s the end of ${esc(title.toLowerCase())}.</p>
+    <p>Anything you didn’t get full marks on will come back in a few days. Do it then, not before: the gap is what makes it stick.</p>
+    <button class="go" id="m">Back to question types</button></div>`;
+  $('#m').onclick = backToMenu;
+}
+
+function diagramSVG(id) {
+  const ax = `<line x1="40" y1="10" x2="40" y2="200" stroke="#17223B" stroke-width="2"/><line x1="40" y1="200" x2="300" y2="200" stroke="#17223B" stroke-width="2"/>
+    <text x="-14" y="105" font-size="12" text-anchor="middle" transform="rotate(-90 -14 105)">Wage rate ($)</text><text x="120" y="236" font-size="12">Quantity of labour</text>`;
+  const L = (x1, y1, x2, y2, w = 2.5, dash) => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#17223B" stroke-width="${w}" ${dash ? 'stroke-dasharray="4 3" stroke-opacity=".6"' : ''}/>`;
+  const T = (x, y, t, b) => `<text x="${x}" y="${y}" font-size="13" ${b ? 'font-weight="600"' : ''}>${t}</text>`;
+  const TW = (y, t) => `<text x="35" y="${y}" font-size="13" text-anchor="end">${t}</text>`;
+  if (id === 'dg1') return `<svg viewBox="-30 0 350 244" width="340" role="img" aria-label="Supply of labour shifts left">${ax}
+    ${L(60, 40, 280, 190)}${T(282, 194, 'D', 1)}${L(60, 180, 270, 40)}${T(272, 40, 'S1', 1)}${L(40, 160, 220, 40)}${T(222, 38, 'S2', 1)}
+    ${L(40, 110.8, 163.8, 110.8, 1, 1)}${L(163.8, 110.8, 163.8, 200, 1, 1)}${L(40, 93.9, 139.1, 93.9, 1, 1)}${L(139.1, 93.9, 139.1, 200, 1, 1)}
+    ${TW(116, 'W1')}${TW(97, 'W2')}${T(156, 216, 'Q1')}${T(128, 216, 'Q2')}</svg>`;
+  if (id === 'dg3') return `<svg viewBox="-30 0 350 244" width="340" role="img" aria-label="Demand for labour shifts right">${ax}
+    ${L(60, 40, 250, 190)}${T(252, 196, 'D1', 1)}${L(110, 40, 300, 190)}${T(296, 182, 'D2', 1)}${L(60, 190, 280, 40)}${T(282, 40, 'S', 1)}
+    ${L(40, 120.5, 162, 120.5, 1, 1)}${L(162, 120.5, 162, 200, 1, 1)}${L(40, 102.2, 188.8, 102.2, 1, 1)}${L(188.8, 102.2, 188.8, 200, 1, 1)}
+    ${TW(125, 'W1')}${TW(106, 'W2')}${T(152, 216, 'Q1')}${T(181, 216, 'Q2')}</svg>`;
+  if (id === 'dg2') return `<svg viewBox="-30 0 350 244" width="340" role="img" aria-label="Minimum wage above equilibrium">${ax}
+    ${L(60, 40, 280, 190)}${T(282, 194, 'D', 1)}${L(60, 190, 280, 40)}${T(282, 40, 'S', 1)}
+    ${L(40, 115, 170, 115, 1, 1)}${L(170, 115, 170, 200, 1, 1)}${L(40, 80, 300, 80, 1.6)}
+    ${L(119, 80, 119, 200, 1, 1)}${L(222, 80, 222, 200, 1, 1)}${TW(119, 'We')}${TW(84, 'Wm')}
+    ${T(108, 216, 'Qd')}${T(214, 216, 'Qs')}<text x="135" y="72" font-size="11.5" fill="#A8324A">unemployment</text>
+    <line x1="121" y1="76" x2="220" y2="76" stroke="#A8324A" stroke-width="1.2"/></svg>`;
+  return '';
+}
+
+function question(q, title, idx, n, next) {
+  const last = lastOf(q.id);
+  app.innerHTML = `
+    <p class="prog"><a href="#" id="m">← Question types</a> · ${esc(title)} · ${idx + 1} of ${n}${last ? ` · last time ${last.got}/${last.max}` : ''}</p>
+    <div class="card">
+      ${q.stim ? `<div class="stim">${q.stim}</div>` : ''}
+      <p class="stem">${esc(q.q)} <span class="muted" style="white-space:nowrap">(${q.marks} mark${q.marks > 1 ? 's' : ''})</span></p>
+      <p class="note">${q.draw ? 'Draw your diagram on paper first, then write your explanation here.' : 'Write your answer as you would in the exam. Aim for about one clear point per mark.'}</p>
+      <textarea id="ans" placeholder="Your answer"></textarea>
+      <div id="predbox" style="margin-top:12px">
+        <p style="margin:0 0 6px"><b>What mark do you think it gets?</b></p>
+        <div class="row" id="pred">${Array.from({ length: q.marks + 1 }, (_, k) => `<span class="chip" data-v="${k}">${k}</span>`).join('')}</div>
+      </div>
+      <button class="go wide" id="mk" disabled>Mark it</button>
+    </div>
+    <div id="res"></div>`;
+  $('#m').onclick = e => { e.preventDefault(); backToMenu(); };
+  let pred = null;
+  $$('#pred .chip').forEach(c => c.onclick = () => { $$('#pred .chip').forEach(x => x.classList.remove('on')); c.classList.add('on'); pred = +c.dataset.v; $('#mk').disabled = false; });
+  $('#mk').onclick = () => {
+    $('#mk').classList.add('hide'); $('#ans').readOnly = true;
+    $('#res').innerHTML = `<div class="card"><h3 style="margin-top:0">Marking guide</h3>
+      <p class="note">Tick each criterion your answer actually meets. Only what’s on the page counts.</p>
+      <div class="crit">${q.crit.map((c, k) => `<label><input type="checkbox" data-k="${k}"><span>${esc(c)}</span></label>`).join('')}</div>
+      <button class="go wide" id="done">Done</button></div>`;
+    $('#done').onclick = () => result(q, pred, next);
+    $('#res').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  window.scrollTo(0, 0);
+}
+
+function result(q, pred, next) {
+  const prev = lastOf(q.id);
+  const got = $$('.crit input:checked').length;
+  $$('.crit input').forEach(i => i.disabled = true); $('#done').classList.add('hide');
+  const gap = got - pred;
+  const gapLine = gap === 0 ? 'Your guess matched your mark. Good judgement.'
+    : gap < 0 ? `You guessed ${pred}, but it’s worth ${got}. You were ${-gap} too generous: that’s the gap to close, so look hard at what the criteria ask for.`
+    : `You guessed ${pred} and it’s worth ${got}. You undersold it.`;
+  const full = got === q.marks;
+  const out = document.createElement('div');
+  out.innerHTML = `<div class="card">
+    <p class="verdict ${full ? 'ok' : 'no'}">${got} / ${q.marks}</p>
+    <div class="box ${gap === 0 ? 'good' : 'warn'}">${gapLine}</div>
+    ${prev && prev.ans ? `<details style="margin:0 0 12px"><summary>What you wrote last time (${prev.got}/${prev.max})</summary><p style="white-space:pre-wrap;margin:8px 0 0">${esc(prev.ans)}</p></details>` : ''}
+    <h3>Tips</h3>${q.tips.map(t => `<p class="tip">${esc(t)}</p>`).join('')}
+    <h3>Sample answer</h3>${q.draw ? `<div style="margin:0 0 10px">${diagramSVG(q.id)}</div>` : ''}<p class="sample">${esc(q.sample)}</p>
+    ${q.alts ? `<h3>Other possible responses</h3><ul>${q.alts.map(a => `<li class="sample" style="border:0;padding:0">${esc(a)}</li>`).join('')}</ul>` : ''}
+    ${full ? '' : `<h3>Why did you lose ${q.marks - got === 1 ? 'that mark' : 'those marks'}?</h3>
+      <select id="code" style="width:100%"><option value="">Pick the reason that fits best</option>${SA_CODES.map(c => `<option value="${c}">${c} · ${esc(CODES[c].n)}: ${esc(CODE_HELP[c])}</option>`).join('')}</select>`}
+    <button class="go wide" id="nx">${full ? 'Next question' : 'Save and next'}</button>
+    <p class="note" id="nm" style="margin-top:8px"></p></div>`;
+  $('#res').appendChild(out);
+  $('#nx').onclick = async () => {
+    const code = full ? null : $('#code').value;
+    if (!full && !code) { $('#nm').textContent = 'Pick a reason first. It is what decides which drill helps.'; return; }
+    await Record.push(cw, [{ t: 'pt', q: q.id, kk: q.kk[0], type: q.type, ok: full, got, max: q.marks, pred, code, ans: ($('#ans').value || '').slice(0, 4000), ts: Date.now() }]);
+    await refresh(); next();
+  };
+  out.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ---------- mark someone else’s answer ---------- */
+async function runAssess() {
+  const done = await Record.rows(cw, 'as');
+  const seen = new Set(done.map(r => r.q));
+  const order = ASSESS_ITEMS.filter(x => !seen.has(x.id)).concat(ASSESS_ITEMS.filter(x => seen.has(x.id)));
+  let i = 0;
+  const show = () => assessOne(order[i], i, order.length, () => { i++; if (i < order.length) show(); else finished('Mark someone else’s answer'); });
+  show();
+}
+function assessOne(x, idx, n, next) {
+  const q = PQ.find(p => p.id === x.ref);
+  app.innerHTML = `
+    <p class="prog"><a href="#" id="m">← Question types</a> · Mark someone else’s answer · ${idx + 1} of ${n}</p>
+    <div class="card">
+      ${q.stim ? `<div class="stim">${q.stim}</div>` : ''}
+      <p class="stem">${esc(q.q)} <span class="muted">(${q.marks} mark${q.marks > 1 ? 's' : ''})</span></p>
+      <h3>A student wrote</h3><div class="stim" style="font-family:'IBM Plex Serif',Georgia,serif">${esc(x.resp)}</div>
+      <h3>Your marking</h3><p class="note">Tick each criterion this answer meets. Some answers here deserve full marks, so don’t go looking for faults that aren’t there.</p>
+      <div class="crit">${q.crit.map((c, k) => `<label><input type="checkbox" data-k="${k}"><span>${esc(c)}</span></label>`).join('')}</div>
+      <p style="margin:14px 0 6px"><b>If it lost marks, why?</b> <span class="muted small">(up to two)</span></p>
+      <div class="row" id="cds"><span class="chip" data-c="none">Nothing lost</span>${SA_CODES.map(c => `<span class="chip" data-c="${c}" title="${esc(CODE_HELP[c])}">${c} ${esc(CODES[c].n)}</span>`).join('')}</div>
+      <button class="go wide" id="rv">See the real mark</button>
+    </div><div id="res"></div>`;
+  $('#m').onclick = e => { e.preventDefault(); backToMenu(); };
+  const picked = new Set();
+  $$('#cds .chip').forEach(ch => ch.onclick = () => {
+    const c = ch.dataset.c;
+    if (c === 'none') { picked.clear(); $$('#cds .chip').forEach(z => z.classList.remove('on')); ch.classList.add('on'); picked.add('none'); return; }
+    picked.delete('none'); $('#cds .chip[data-c="none"]').classList.remove('on');
+    if (picked.has(c)) { picked.delete(c); ch.classList.remove('on'); }
+    else if (picked.size < 2) { picked.add(c); ch.classList.add('on'); }
+  });
+  $('#rv').onclick = async () => {
+    const mine = $$('.crit input').map(i => i.checked);
+    const myMark = mine.filter(Boolean).length, real = x.ticks.filter(Boolean).length;
+    $$('.crit label').forEach((lab, k) => {
+      lab.querySelector('input').disabled = true;
+      const agree = mine[k] === x.ticks[k];
+      lab.insertAdjacentHTML('beforeend', `<span class="tag" style="margin-left:auto;align-self:center;${agree ? 'color:var(--right);border-color:var(--right)' : 'color:var(--trap);border-color:var(--trap)'}">${x.ticks[k] ? 'met' : 'not met'}</span>`);
+    });
+    $$('#cds .chip').forEach(ch => { ch.onclick = null; const c = ch.dataset.c;
+      if (x.codes.includes(c) || (c === 'none' && !x.codes.length)) ch.classList.add('good');
+      else if (ch.classList.contains('on')) ch.classList.add('bad'); });
+    $('#rv').classList.add('hide');
+    const diff = myMark - real;
+    $('#res').innerHTML = `<div class="card">
+      <p class="verdict ${diff === 0 ? 'ok' : 'no'}">You gave it ${myMark}. It’s worth ${real} / ${q.marks}.</p>
+      ${diff > 0 ? '<div class="box warn">You were too generous. That is the most common self-marking mistake, and it hides the marks you are losing in your own work.</div>' : diff < 0 ? '<div class="box warn">You were too harsh. Don’t take marks off for things the criteria don’t ask for.</div>' : '<div class="box good">Spot on.</div>'}
+      <h3>My comment</h3><p class="tip">${esc(x.comment)}</p>
+      <button class="go wide" id="nx">Next</button></div>`;
+    await Record.push(cw, [{ t: 'as', q: x.id, kk: q.kk[0], ok: diff === 0, got: myMark, max: real, ts: Date.now() }]);
+    $('#nx').onclick = next;
+    $('#res').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

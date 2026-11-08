@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Where your marks went · Year 11 Economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+<div class="wrap">
+<header id="hdr"></header>
+<main id="app"></main>
+</div>
+<script src="portal-data.js"></script>
+<script src="tracker-data.js"></script>
+<script>
+const app = $('#app');
+let cw = null, S = null;
+
+(async function () {
+  cw = await mountHeader('Where your marks went');
+  if (!cw) { app.innerHTML = `<div class="card"><p>Set your code word on the <a href="index.html">portal home page</a> first.</p></div>`; return; }
+  S = await Record.load(cw); S.e = S.e || {};
+  const v = new URLSearchParams(location.search).get('view');
+  if (v === 'plan' && entered().length) return showPlan();
+  list();
+})();
+
+const entered = () => ASSESS.filter(a => S.e[a.id]);
+const total = a => a.q.reduce((s, q) => s + q[1], 0);
+const gotOf = a => Object.values(S.e[a.id].q).reduce((s, x) => s + (x.got || 0), 0);
+
+async function save(fn) { S = await Record.update(cw, R => { R.e = R.e || {}; fn(R); }); }
+
+/* ---------- list ---------- */
+function list() {
+  const groups = [['aos1', 'Economic activity (AOS1)'], ['trade', 'International trade'], ['labour', 'The changing labour market'], ['exam', 'Practice exam']];
+  const card = a => {
+    const e = S.e[a.id];
+    const st = e ? `${gotOf(a)} / ${total(a)}` : `${a.q.length} questions · ${total(a)} marks`;
+    return `<a class="tool" href="#" data-id="${a.id}"><h3>${esc(a.n)} ${e ? '<span class="tag">entered</span>' : ''}</h3><p>${st}</p></a>`;
+  };
+  app.innerHTML = `
+    <p class="lead">Most marks aren’t lost where you think. Enter your marks question by question, say why you lost each one, and this will show you the three things to fix first.</p>
+    ${entered().length ? `<button class="go wide" id="toplan" style="margin:0 0 18px">See my plan</button>` : ''}
+    ${groups.map(([g, n]) => `<h2>${n}</h2>` + ASSESS.filter(a => a.area === g).map(card).join('')).join('')}
+    <div class="foot"><p>You need your marked SAC or practice exam in front of you. Use my comments to choose the reason you lost each mark.</p></div>`;
+  $$('a.tool').forEach(el => el.onclick = e => { e.preventDefault(); openEntry(el.dataset.id); });
+  const tp = $('#toplan'); if (tp) tp.onclick = showPlan;
+  window.scrollTo(0, 0);
+}
+
+/* ---------- entry ---------- */
+function codeOptions(isMC) {
+  return Object.keys(CODES).filter(c => isMC ? CODES[c].mc : !CODES[c].mc)
+    .map(c => `<option value="${c}" title="${esc(CODE_HELP[c])}">${c} · ${esc(CODES[c].n)}</option>`).join('');
+}
+function openEntry(id) {
+  const a = ASSESS.find(x => x.id === id), e = S.e[id];
+  const c = (e && e.cond) || { time: 'full', mat: 'closed', mark: 'teacher' };
+  const rows = a.q.map(q => {
+    const v = e && e.q[q[0]];
+    const isMC = q[4] === 'mc';
+    return `<tr data-q="${q[0]}" data-max="${q[1]}" data-mc="${isMC ? 1 : 0}">
+      <td><b>${esc(q[0])}</b><div class="small muted">${esc(q[2])}</div></td>
+      <td><input type="number" min="0" max="${q[1]}" step="1" inputmode="numeric" value="${v ? v.got : ''}" aria-label="Marks for ${esc(q[0])}"> <span class="small muted">/ ${q[1]}</span></td>
+      <td class="codes"><select class="c1"><option value="">Why?</option>${codeOptions(isMC)}</select>
+        <select class="c2 hide" style="margin-top:6px"><option value="">Second reason (optional)</option>${codeOptions(isMC)}</select></td></tr>`;
+  }).join('');
+  app.innerHTML = `
+    <p><a href="#" id="bk">← All assessments</a></p>
+    <h2 style="margin-top:6px">${esc(a.n)}</h2>
+    <div class="card">
+      <h3 style="margin-top:0">How did you sit it?</h3>
+      <div class="row">
+        <select id="c-time"><option value="full">Full time limit</option><option value="extra">Extra time</option><option value="none">Untimed</option></select>
+        <select id="c-mat"><option value="closed">Closed book</option><option value="open">Notes allowed</option></select>
+        <select id="c-mark"><option value="teacher">Marked by Ms Dyring</option><option value="self">Marked by me</option></select>
+      </div>
+      <p class="note" id="cnote" style="margin:10px 0 0"></p>
+    </div>
+    <div class="card" style="padding:12px">
+      <p class="note">Enter the mark you got for each question. Wherever you lost a mark, pick the reason that fits best. Hover or tap a reason to see what it means. <a href="#" id="whatcodes">What do the codes mean?</a></p>
+      <div id="codehelp" class="hide"></div>
+      <table class="q"><thead><tr><th style="width:40%">Question</th><th style="width:22%">Mark</th><th>Why you lost it</th></tr></thead><tbody>${rows}</tbody></table>
+      <button class="go wide" id="sv">Save</button>
+      <p class="note" id="svmsg" style="margin-top:8px"></p>
+    </div>`;
+  $('#c-time').value = c.time; $('#c-mat').value = c.mat; $('#c-mark').value = c.mark;
+  const condNote = () => {
+    const n = [];
+    if ($('#c-time').value !== 'full') n.push('Extra time flatters your mark: the real exam is 90 minutes for 60 marks.');
+    if ($('#c-mat').value === 'open') n.push('With notes open, lost marks are more likely to be about building the answer than knowing the content.');
+    if ($('#c-mark').value === 'self') n.push('Self-marked: be strict. Only give a mark if it is actually on the page.');
+    $('#cnote').textContent = n.join(' ');
+  };
+  ['#c-time', '#c-mat', '#c-mark'].forEach(s => $(s).onchange = condNote); condNote();
+
+  $$('tbody tr').forEach(tr => {
+    const v = e && e.q[tr.dataset.q];
+    const inp = tr.querySelector('input'), c1 = tr.querySelector('.c1'), c2 = tr.querySelector('.c2');
+    if (v && v.codes) { c1.value = v.codes[0] || ''; c2.value = v.codes[1] || ''; }
+    const upd = () => {
+      const mx = +tr.dataset.max; let n = inp.value === '' ? null : Math.round(+inp.value);
+      if (n !== null) { n = Math.max(0, Math.min(mx, n)); if (+inp.value !== n) inp.value = n; }
+      const lost = n === null ? 0 : mx - n;
+      tr.querySelector('.codes').style.visibility = lost > 0 ? 'visible' : 'hidden';
+      c2.classList.toggle('hide', !(lost >= 2));
+    };
+    inp.oninput = upd; upd();
+  });
+  $('#whatcodes').onclick = ev => { ev.preventDefault(); const h = $('#codehelp'); h.classList.toggle('hide');
+    h.innerHTML = Object.keys(FAMILY).map(f => `<h3 style="color:${FAMILY[f].c}">${f} · ${FAMILY[f].n}</h3><ul class="small" style="margin:0 0 8px;padding-left:18px">` +
+      Object.keys(CODES).filter(c => CODES[c].f === f).map(c => `<li><b>${c} ${esc(CODES[c].n)}</b>: ${esc(CODE_HELP[c])}</li>`).join('') + '</ul>').join(''); };
+  $('#bk').onclick = ev => { ev.preventDefault(); list(); };
+  $('#sv').onclick = async () => {
+    const q = {}; let missing = 0, any = 0;
+    $$('tbody tr').forEach(tr => {
+      const val = tr.querySelector('input').value; if (val === '') return;
+      any++;
+      const max = +tr.dataset.max, got = Math.max(0, Math.min(max, Math.round(+val)));
+      const codes = [tr.querySelector('.c1').value, max - got >= 2 ? tr.querySelector('.c2').value : ''].filter(Boolean);
+      if (got < max && !codes.length) missing++;
+      q[tr.dataset.q] = { got, max, codes: [...new Set(codes)] };
+    });
+    if (!any) { $('#svmsg').textContent = 'Enter at least one mark first.'; return; }
+    await save(R => { R.e[id] = { q, cond: { time: $('#c-time').value, mat: $('#c-mat').value, mark: $('#c-mark').value }, ts: Date.now() }; });
+    $('#svmsg').innerHTML = missing
+      ? `Saved. ${missing} question${missing > 1 ? 's' : ''} where you lost marks ${missing > 1 ? 'have' : 'has'} no reason yet. Your plan only uses the ones with a reason.`
+      : 'Saved.';
+    setTimeout(predict, missing ? 1600 : 500);   // a fresh guess every time new marks go in
+  };
+  window.scrollTo(0, 0);
+}
+
+/* ---------- prediction ---------- */
+function predict() {
+  app.innerHTML = `<div class="card">
+    <p class="stem">Before you see it: where do you think most of your marks went?</p>
+    <p class="note">Guess first. The gap between your guess and the real answer tells you how well you can judge your own work, which is what self-marking depends on.</p>
+    ${Object.keys(FAMILY).map(f => `<button class="opt" data-f="${f}"><b>${f}</b> ${FAMILY[f].n}<div class="small muted" style="margin-left:24px">${FAMILY[f].d}</div></button>`).join('')}
+  </div>`;
+  $$('.opt').forEach(b => b.onclick = async () => { await save(R => { R.pred = b.dataset.f; }); showPlan(); });
+}
+
+/* ---------- analysis ---------- */
+function analyse() {
+  const fam = { A: 0, B: 0, C: 0 }, byCode = {}, byKK = {}, byType = {};
+  let lost = 0, avail = 0, got = 0, uncoded = 0;
+  entered().forEach(a => {
+    const e = S.e[a.id];
+    a.q.forEach(qd => {
+      const v = e.q[qd[0]]; if (!v) return;
+      avail += v.max; got += v.got;
+      const t = qd[4]; byType[t] = byType[t] || { lost: 0, avail: 0 }; byType[t].avail += v.max;
+      const L = v.max - v.got; if (L <= 0) return;
+      lost += L; byType[t].lost += L;
+      if (!v.codes || !v.codes.length) { uncoded += L; return; }
+      const w = v.codes.length === 1 ? [1] : [0.6, 0.4];
+      v.codes.forEach((c, i) => {
+        if (!CODES[c]) return;
+        const m = L * w[i];
+        byCode[c] = (byCode[c] || 0) + m;
+        fam[CODES[c].f] += m;
+        if (CODES[c].f === 'B') qd[3].forEach(k => { byKK[k] = (byKK[k] || 0) + m / qd[3].length; });
+      });
+    });
+  });
+  const top = Object.entries(byCode).sort((x, y) => y[1] - x[1]).slice(0, 3).map(x => x[0]);
+  const topics = Object.entries(byKK).sort((x, y) => y[1] - x[1]).slice(0, 3);
+  const types = Object.entries(byType).filter(([t, v]) => t !== 'mc' && v.avail >= 3)
+    .map(([t, v]) => [t, v.lost / v.avail, v]).sort((x, y) => y[1] - x[1]).slice(0, 2).filter(x => x[1] > 0);
+  return { fam, byCode, top, topics, types, lost, avail, got, uncoded };
+}
+const fmt = n => Math.round(n * 10) / 10 === Math.round(n) ? String(Math.round(n)) : (Math.round(n * 10) / 10).toString();
+
+async function showPlan() {
+  if (!entered().length) return list();
+  if (!S.pred) return predict();
+  const A = analyse();
+  const famTot = A.fam.A + A.fam.B + A.fam.C;
+  const famTop = famTot ? Object.keys(A.fam).sort((x, y) => A.fam[y] - A.fam[x])[0] : null;
+  if (A.top.length) await save(R => { R.plan = A.top; });
+
+  const bar = famTot ? `<div class="bar">${Object.keys(A.fam).map(f => `<span style="width:${A.fam[f] / famTot * 100}%;background:${FAMILY[f].c}"></span>`).join('')}</div>
+    <div class="legend">${Object.keys(A.fam).map(f => `<span><i style="background:${FAMILY[f].c}"></i>${FAMILY[f].n}: ${fmt(A.fam[f])} marks</span>`).join('')}</div>` : '';
+
+  const predLine = famTop ? (S.pred === famTop
+    ? `<div class="box good">You guessed <b>${FAMILY[S.pred].n.toLowerCase()}</b>, and you were right. You can judge your own work, which makes self-marking worth doing.</div>`
+    : `<div class="box warn">You guessed <b>${FAMILY[S.pred].n.toLowerCase()}</b>, but most of your marks went on <b>${FAMILY[famTop].n.toLowerCase()}</b>. That gap matters: if you revise the wrong thing, your mark won’t move. Use the plan below, not your instinct.</div>`) : '';
+
+  const drill = c => {
+    const T = TASKS[c]; const f = CODES[c].f;
+    let link = '';
+    if (T.go) link = `<a href="${toolLink(T.go, cw, T.extra)}">Do it here</a>`;
+    else if (T.content) {
+      const kks = A.topics.map(t => kkArea(t[0]));
+      const area = kks[0] || 'aos1';
+      link = `<a href="${CONTENT[area].href}">Practise it in ${esc(CONTENT[area].name)}</a>`;
+    }
+    return `<li><div><span class="drill">${esc(T.n)}</span> <span class="muted small">· ${esc(T.t)}</span></div>
+      <div class="small" style="color:${FAMILY[f].c}">${c} ${esc(CODES[c].n)} · cost you ${fmt(A.byCode[c])} mark${A.byCode[c] > 1 ? 's' : ''}</div>
+      <div>${esc(T.d)}</div>${link ? `<div class="small" style="margin-top:3px">${link}</div>` : ''}</li>`;
+  };
+
+  const topics = A.topics.length ? `<h2>Topics to revise</h2>
+    <p class="note">Where you lost marks because the economics itself was missing or wrong.</p>
+    <ul>${A.topics.map(([k, m]) => `<li><b>${esc(KK[k] || k)}</b> <span class="muted small">(${fmt(m)} marks)</span> · <a href="${CONTENT[kkArea(k)].href}">${esc(CONTENT[kkArea(k)].name)}</a> · <a href="${toolLink('definitions.html', cw)}">definitions</a></li>`).join('')}</ul>` : '';
+
+  const types = A.types.length ? `<h2>Question types costing you most</h2>
+    <ul>${A.types.map(([t, r, v]) => `<li><b>${esc(QTYPES[t])}</b>: you lost ${v.lost} of ${v.avail} marks (${Math.round(r * 100)}%). <a href="${toolLink('practice.html', cw, 'type=' + t)}">Practise this type</a></li>`).join('')}</ul>` : '';
+
+  app.innerHTML = `
+    <p><a href="#" id="bk">← Enter or change marks</a></p>
+    <div class="card">
+      <p class="stem" style="margin-bottom:6px">${A.got} / ${A.avail} across ${entered().length} task${entered().length > 1 ? 's' : ''}</p>
+      <p class="note">${fmt(A.lost)} marks lost. ${A.uncoded ? `<b>${fmt(A.uncoded)}</b> of them have no reason yet, so they aren’t in this plan. <a href="#" id="fix">Add reasons</a>.` : 'Every lost mark has a reason.'}</p>
+      ${bar}
+    </div>
+    ${predLine}
+    ${A.top.length ? `<h2>Do these three first</h2><ol class="plan">${A.top.map(drill).join('')}</ol>
+      <p class="note">These are the reasons that cost you the most marks. Each drill takes 10 minutes or less. Do them before anything else, then re-enter your next practice exam to see if they moved.</p>`
+      : `<div class="box warn">Add a reason to the questions where you lost marks and your plan will appear here.</div>`}
+    ${types}${topics}
+    <div class="foot"><p>Your three drills also show on the portal home page under Today.</p></div>`;
+  $('#bk').onclick = ev => { ev.preventDefault(); list(); };
+  const fx = $('#fix'); if (fx) fx.onclick = ev => { ev.preventDefault(); list(); };
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
