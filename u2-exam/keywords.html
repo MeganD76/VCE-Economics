@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Key words check · Year 11 Economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css">
+<style>
+  .kwc{display:inline-block;border:1px solid var(--rule);border-radius:16px;padding:5px 12px;font-size:14px;background:#F4F6F9}
+  .kwc.found{background:var(--right-bg);border-color:var(--right);color:var(--right)}
+  .kwc.own{background:#EAF0F8;border-color:var(--fc);color:var(--fc)}
+  .kwc.miss{background:var(--warn-bg);border-color:var(--warn);color:#7A5512}
+  .kwrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:9px 0;border-bottom:1px solid var(--rule)}
+  .kwrow:last-child{border-bottom:0}
+  .kwrow .why{font-size:14px;color:var(--soft);flex:1 1 200px}
+  mark{background:#FFE9A8;color:inherit;padding:0 1px;border-radius:2px}
+  .draft{white-space:pre-wrap;font-size:15px;margin:6px 0 0}
+  .sample ul{margin:6px 0 0;padding-left:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header id="hdr"></header>
+<main id="app"></main>
+</div>
+<script src="portal-data.js"></script>
+<script src="rtq-data.js"></script>
+<script src="kw-data.js"></script>
+<script>
+const app = $('#app');
+let cw = null, hist = {};
+
+(async function () {
+  cw = await mountHeader('Key words check');
+  if (!cw) { app.innerHTML = `<div class="card"><p>Set your code word on the <a href="index.html">portal home page</a> first.</p></div>`; return; }
+  await refresh();
+  const q = new URLSearchParams(location.search);
+  if (q.get('set') === 'due') { const d = dueItems(); return d.length ? run(d, 0) : menu(); }
+  menu();
+})();
+
+async function refresh() { hist = historyBy(await Record.rows(cw, 'kw')); }
+const lastOf = id => { const h = hist[id]; return h ? h[h.length - 1] : null; };
+const dueItems = () => KW_ITEMS.filter(x => hist[x.id] && isDue(hist[x.id], Date.now(), dueInDef));
+/* Suggested order: due first, then not tried yet in bank order, then the rest (oldest first). */
+function suggested() {
+  const due = dueItems(), fresh = KW_ITEMS.filter(x => !hist[x.id]);
+  const rest = KW_ITEMS.filter(x => hist[x.id] && !due.includes(x)).sort((a, b) => lastOf(a.id).ts - lastOf(b.id).ts);
+  return due.concat(fresh, rest);
+}
+
+function menu() {
+  const now = Date.now();
+  const tag = x => { const h = hist[x.id], l = lastOf(x.id);
+    if (!h) return '';
+    if (isDue(h, now, dueInDef)) return `<span class="tag due">due</span>`;
+    return `<span class="tag">${l.got}/${l.max}</span>`; };
+  const groups = Object.entries(KW_AREAS).map(([a, name]) => {
+    const items = KW_ITEMS.filter(x => x.area === a);
+    return `<h2>${esc(name)}</h2>${items.map(x => `<a class="tool" href="#" data-id="${x.id}"><h3 style="margin:0 0 4px">${esc(x.q)} ${tag(x)}</h3><p class="small muted" style="margin:0">${x.m} mark${x.m > 1 ? 's' : ''}</p></a>`).join('')}`;
+  }).join('');
+  const done = KW_ITEMS.filter(x => hist[x.id]).length, due = dueItems().length;
+  app.innerHTML = `
+    <div class="card">
+      <p class="lead" style="margin-bottom:10px">Read each question using the skills from the Breaking down questions sheet. Think about what the question is asking you to do, and the connections and key terms you need.</p>
+      <p>Look at the key words: they show you the terms that win or lose marks. Now write a response that flows and makes sense to you; don’t focus on the key words yet. When you’ve finished, check your response against the key words. If you’ve missed any, work out how to add them to make your answer more detailed.</p>
+      <p class="note">Any key word missing from your first draft brings the question back in 2 days, then 5. ${done} of ${KW_ITEMS.length} done${due ? `, ${due} due again` : ''}.</p>
+      <button class="go wide" id="st">${due ? `Start with the ${due} due again` : done < KW_ITEMS.length ? 'Start the next question' : 'Do another question'}</button>
+    </div>
+    ${groups}`;
+  $('#st').onclick = () => run(due ? dueItems() : suggested(), 0);
+  $$('a.tool[data-id]').forEach(a => a.onclick = e => { e.preventDefault(); run([KW_ITEMS.find(x => x.id === a.dataset.id)], 0); });
+  window.scrollTo(0, 0);
+}
+
+const sampleHTML = x => {
+  const lines = x.sample.split('\n'), bullets = lines.filter(l => l.startsWith('- '));
+  return `<div class="sample">${lines.filter(l => !l.startsWith('- ')).map(l => kwHighlight(l, x.keys)).join(' ')}${bullets.length ? `<ul>${bullets.map(l => `<li>${kwHighlight(l.slice(2), x.keys)}</li>`).join('')}</ul>` : ''}</div>`;
+};
+
+function run(list, i) {
+  const x = list[i];
+  const prev = lastOf(x.id);
+  let readOK = null, draft = '', own = new Set();
+  const more = i + 1 < list.length;
+
+  app.innerHTML = `<p class="prog"><a href="#" id="m">← Key words check</a>${list.length > 1 ? ` · ${i + 1} of ${list.length}` : ''}</p>
+    <div class="card"><span class="tag">${esc(KW_AREAS[x.area])} · ${x.m} mark${x.m > 1 ? 's' : ''}</span>
+      <p class="stem" style="margin-top:10px">${esc(x.q)}</p>
+      <div id="read">
+        <p style="margin:0 0 6px"><b>1 · Read.</b> What’s the task word? How many parts?</p>
+        <div class="row" id="w">${Object.keys(WORDS).map(w => `<span class="chip" data-w="${w}">${w}</span>`).join('')}</div>
+        <div class="row" id="p" style="margin-top:8px">${[1, 2, 3, 4].map(n => `<span class="chip" data-n="${n}">${n} part${n > 1 ? 's' : ''}</span>`).join('')}</div>
+        <button class="go wide" id="ck" disabled>Check</button>
+        <div id="readres"></div>
+      </div>
+    </div>
+    <div id="s2"></div><div id="s3"></div><div id="s4"></div>`;
+  $('#m').onclick = e => { e.preventDefault(); menu(); };
+
+  /* 1. Read */
+  const picked = new Set(); let parts = null;
+  const ready = () => { $('#ck').disabled = !(picked.size && parts); };
+  $$('#w .chip').forEach(c => c.onclick = () => { const w = c.dataset.w; picked.has(w) ? picked.delete(w) : picked.add(w); c.classList.toggle('on'); ready(); });
+  $$('#p .chip').forEach(c => c.onclick = () => { $$('#p .chip').forEach(z => z.classList.remove('on')); c.classList.add('on'); parts = +c.dataset.n; ready(); });
+  $('#ck').onclick = () => {
+    const wOK = x.w.length === picked.size && x.w.every(w => picked.has(w));
+    const okCounts = x.a || [x.p.length], pOK = okCounts.includes(parts);
+    readOK = wOK && pOK;
+    $$('#w .chip').forEach(c => { c.onclick = null; c.classList.remove('on'); if (x.w.includes(c.dataset.w)) c.classList.add('good'); else if (picked.has(c.dataset.w)) c.classList.add('bad'); });
+    $$('#p .chip').forEach(c => { c.onclick = null; c.classList.remove('on'); if (okCounts.includes(+c.dataset.n)) c.classList.add('good'); else if (+c.dataset.n === parts) c.classList.add('bad'); });
+    $('#ck').remove();
+    $('#readres').innerHTML = `<p class="verdict ${readOK ? 'ok' : 'no'}" style="margin-top:12px">${readOK ? 'Spot on.' : !wOK && !pOK ? 'Check both.' : !wOK ? 'Parts right, task word missed.' : 'Task word right, parts miscounted.'}</p>
+      <ol style="margin:0">${x.p.map(t => `<li>${esc(t)}</li>`).join('')}</ol>`;
+    write();
+  };
+
+  /* 2–3. Key words, then write */
+  function write() {
+    $('#s2').innerHTML = `<div class="card">
+      <p style="margin:0 0 8px"><b>2 · Key words</b></p>
+      <div class="row">${x.keys.map(k => `<span class="kwc">${esc(k.k)}</span>`).join('')}</div>
+      ${x.keys.some(k => k.all) ? `<p class="note" style="margin:8px 0 0">“All four components” means consumption, investment, government spending and net exports.</p>` : ''}
+      <p class="tip" style="margin:12px 0 14px"><b>Ms Dyring:</b> ${esc(KW_TIP)}</p>
+      <label for="d1" style="display:block;margin:0 0 6px"><b>3 · Write.</b> Your first draft</label>
+      <textarea id="d1" style="min-height:150px" placeholder="Write your answer"></textarea>
+      <button class="go wide" id="sc" disabled>Check my key words</button></div>`;
+    $('#d1').oninput = () => { $('#sc').disabled = $('#d1').value.trim().length < 15; };
+    $('#sc').onclick = check;
+    $('#s2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    $('#d1').focus({ preventScroll: true });
+  }
+
+  /* 4. Check the first draft */
+  function check() {
+    draft = $('#d1').value; $('#d1').readOnly = true; $('#sc').remove();
+    const rowHTML = (k, j) => {
+      if (own.has(j)) return `<div class="kwrow"><span class="kwc own">${esc(k.k)}</span><span class="why">You said it another way.</span></div>`;
+      if (kwHas(draft, k)) return `<div class="kwrow"><span class="kwc found">✓ ${esc(k.k)}</span></div>`;
+      const mp = kwMissingParts(draft, k);
+      return `<div class="kwrow"><span class="kwc miss">${esc(k.k)}</span><span class="why">${mp.length && mp.length < k.all.length ? `Missing: ${esc(mp.join(', '))}.` : 'Not found.'} Did you say it another way?</span>
+        <button class="ghost small" data-own="${j}">I said it another way</button></div>`;
+    };
+    const paint = () => {
+      $('#kwlist').innerHTML = x.keys.map(rowHTML).join('');
+      $$('#kwlist [data-own]').forEach(b => b.onclick = () => { own.add(+b.dataset.own); paint(); });
+      const n = x.keys.filter((k, j) => own.has(j) || kwHas(draft, k)).length;
+      $('#score1').textContent = `${n} of ${x.keys.length} key words in your first draft.`;
+    };
+    $('#s3').innerHTML = `<div class="card">
+      <p style="margin:0 0 4px"><b>4 · Check.</b></p>
+      <p class="note" style="margin:0 0 6px">The check looks for the words, not the economics. If you made the point in other words, say so.</p>
+      <div id="kwlist"></div>
+      <p style="margin:10px 0 0"><b id="score1"></b></p></div>`;
+    paint();
+    improve();
+  }
+
+  /* 5. Improve */
+  function improve() {
+    $('#s4').innerHTML = `<div class="card">
+      <label for="d2" style="display:block;margin:0 0 6px"><b>5 · Improve.</b> Work in anything missing so it still reads as one answer.</label>
+      <textarea id="d2" style="min-height:170px">${esc(draft)}</textarea>
+      <div class="row"><button class="ghost" id="again">Check again</button></div>
+      <p class="note" id="againres" style="margin:8px 0 0"></p>
+      <button class="go wide" id="cmp">Compare with a sample answer</button></div>`;
+    $('#again').onclick = () => {
+      const t = $('#d2').value;
+      $('#againres').innerHTML = x.keys.map(k => `${kwHas(t, k) ? '✓' : '✗'} ${esc(k.k)}`).join(' · ');
+    };
+    $('#cmp').onclick = compare;
+    $('#s3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* 6–7. Compare and result */
+  async function compare() {
+    const improved = $('#d2').value;
+    const inFirst = x.keys.map((k, j) => own.has(j) || kwHas(draft, k));
+    const got = inFirst.filter(Boolean).length, max = x.keys.length, ok = got === max;
+    const miss = x.keys.filter((k, j) => !inFirst[j]).map(k => k.k);
+    $$('#s3 [data-own]').forEach(b => b.remove());
+    await Record.push(cw, [{ t: 'kw', q: x.id, ok, got, max, miss, rd: readOK, own: [...own], ans: draft.slice(0, 4000), imp: improved.slice(0, 4000), ts: Date.now() }]);
+    await refresh();
+    const nd = nextDue(hist[x.id], dueInDef);
+    $('#s4').innerHTML = `<div class="card">
+      <p style="margin:0 0 6px"><b>6 · Compare.</b> A sample answer, with the key words marked</p>
+      ${sampleHTML(x)}
+      <details style="margin:12px 0 0" open><summary>Your first draft</summary><p class="draft">${esc(draft)}</p></details>
+      ${improved.trim() !== draft.trim() ? `<details style="margin:10px 0 0" open><summary>Your improved answer</summary><p class="draft">${esc(improved)}</p></details>` : ''}
+      ${prev && prev.ans ? `<details style="margin:10px 0 0"><summary>What you wrote last time (${prev.got}/${prev.max} key words)</summary><p class="draft">${esc(prev.ans)}</p></details>` : ''}
+    </div>
+    <div class="card">
+      <p class="stem" style="margin-bottom:10px">${got} / ${max} key words in your first draft</p>
+      <div class="box ${ok ? 'good' : 'warn'}">${ok ? 'Every key word was in your first draft.' : `Missing from your first draft: <b>${esc(miss.join('; '))}</b>.`}${nd ? ` This question comes back ${whenText(nd)}.` : ''}</div>
+      <div class="row"><button class="go" id="nx">Next question</button><button class="ghost" id="bk">All questions</button></div>
+    </div>`;
+    $('#nx').onclick = () => {
+      if (more) return run(list, i + 1);
+      const s = suggested().filter(y => y.id !== x.id);
+      s.length ? run(s, 0) : menu();
+    };
+    $('#bk').onclick = menu;
+    $('#s4').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

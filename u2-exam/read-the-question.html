@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Read the question · Year 11 Economics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="portal.css">
+</head>
+<body>
+<div class="wrap">
+<header id="hdr"></header>
+<main id="app"></main>
+</div>
+<script src="portal-data.js"></script>
+<script src="rtq-data.js"></script>
+<script>
+const app = $('#app');
+let cw = null;
+(async function () {
+  cw = await mountHeader('Read the question');
+  if (!cw) { app.innerHTML = `<div class="card"><p>Set your code word on the <a href="index.html">portal home page</a> first.</p></div>`; return; }
+  intro();
+})();
+
+function intro() {
+  app.innerHTML = `<div class="card">
+    <p class="lead" style="margin-bottom:10px">Most lost marks come from answering a different question from the one asked: the wrong task word, or only half the question.</p>
+    <p>For each question: pick the task word (or words), then count the parts. <b>Don’t answer it.</b> About two minutes each.</p>
+    <button class="go wide" id="st">Start (${RQ.length} questions)</button></div>
+    <h2>The task words</h2><div class="card">${Object.entries(WORDS).map(([w, d]) => `<p style="margin:0 0 8px"><b>${w}</b>: ${esc(d)}</p>`).join('')}</div>`;
+  $('#st').onclick = () => run(shuffle(RQ));
+}
+
+function run(list) {
+  let i = 0, score = 0;
+  const show = () => {
+    const q = list[i];
+    const picked = new Set(); let parts = null;
+    app.innerHTML = `<p class="prog"><a href="#" id="m">← Start</a> · ${i + 1} of ${list.length}</p>
+      <div class="card">${q.st ? `<p class="stim">${esc(q.st)}</p>` : ''}<p class="stem">${esc(q.s)}</p>
+        <p style="margin:0 0 6px"><b>Task word(s)</b></p>
+        <div class="row" id="w">${Object.keys(WORDS).map(w => `<span class="chip" data-w="${w}">${w}</span>`).join('')}</div>
+        <p style="margin:14px 0 6px"><b>How many separate things does it ask for?</b></p>
+        <div class="row" id="p">${[1, 2, 3, 4].map(n => `<span class="chip" data-n="${n}">${n}</span>`).join('')}</div>
+        <button class="go wide" id="ck" disabled>Check</button></div><div id="res"></div>`;
+    $('#m').onclick = e => { e.preventDefault(); intro(); };
+    const ready = () => { $('#ck').disabled = !(picked.size && parts); };
+    $$('#w .chip').forEach(c => c.onclick = () => { const w = c.dataset.w; picked.has(w) ? picked.delete(w) : picked.add(w); c.classList.toggle('on'); ready(); });
+    $$('#p .chip').forEach(c => c.onclick = () => { $$('#p .chip').forEach(z => z.classList.remove('on')); c.classList.add('on'); parts = +c.dataset.n; ready(); });
+    $('#ck').onclick = async () => {
+      const wOK = [q.w].concat(q.wa || []).some(set => set.length === picked.size && set.every(w => picked.has(w)));
+      const okCounts = q.a || [q.p.length]; const pOK = okCounts.includes(parts);
+      $$('#w .chip').forEach(c => { c.onclick = null; const w = c.dataset.w; if (q.w.includes(w) || (wOK && picked.has(w))) c.classList.add('good'); else if (picked.has(w)) c.classList.add('bad'); });
+      $$('#p .chip').forEach(c => { c.onclick = null; if (okCounts.includes(+c.dataset.n)) c.classList.add('good'); else if (+c.dataset.n === parts) c.classList.add('bad'); });
+      if (wOK && pOK) score++;
+      $('#ck').classList.add('hide');
+      $('#res').innerHTML = `<div class="card">
+        <p class="verdict ${wOK && pOK ? 'ok' : 'no'}">${wOK && pOK ? 'Spot on.' : !wOK && !pOK ? 'Check both.' : !wOK ? 'Parts right, task word missed.' : 'Task word right, parts miscounted.'}</p>
+        <p><b>The parts:</b></p><ol style="margin:0 0 10px">${q.p.map(x => `<li>${esc(x)}</li>`).join('')}</ol>
+        ${q.w.map(w => `<p class="tip"><b>${w}:</b> ${esc(WORDS[w])}</p>`).join('')}
+        ${q.n ? `<p class="box warn" style="margin:0 0 10px">${esc(q.n)}</p>` : ''}
+        <button class="go wide" id="nx">${i + 1 < list.length ? 'Next' : 'Finish'}</button></div>`;
+      await Record.push(cw, [{ t: 'rtq', q: 'r' + RQ.indexOf(q), ok: wOK && pOK, ts: Date.now() }]);
+      $('#nx').onclick = () => { i++; if (i < list.length) show(); else done(); };
+    };
+    window.scrollTo(0, 0);
+  };
+  const done = () => {
+    app.innerHTML = `<div class="card"><p class="stem">${score} / ${list.length} read perfectly</p>
+      <p>In the exam, do this in reading time: circle the task word and number the parts in the margin for every Section B question before you write a word.</p>
+      <div class="row"><button class="go" id="ag">Go again</button><a class="ghost" style="text-decoration:none" href="${homeLink(cw)}">Portal home</a></div></div>`;
+    $('#ag').onclick = () => run(shuffle(RQ));
+  };
+  show();
+}
+</script>
+</body>
+</html>
